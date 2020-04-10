@@ -6,13 +6,10 @@
 -->
 <html>
 <head>
-{% include '?trackingHeadStart' %}
 {% head %}
-{% styles %}
-{% include '?trackingHeadEnd' %}
 </head>
 <body class="is-loading">
-{% include '?trackingBodyStart' %}
+{% body %}
 
 <!-- Wrapper -->
 <div id="wrapper">
@@ -46,7 +43,6 @@
     {% include 'includes/sidebar.peb' %}
 </div>
 
-{% scripts %}
-{% include '?trackingBodyEnd' %}
+{% endbody %}
 </body>
 </html>

@@ -1,7 +1,16 @@
 {% block allComponents %}
     <!-- start:inject meta-components -->
     {% if (componentHolder is not null) and (componentHolder.get(page) is not empty) %}
-        {% for component in componentHolder.get(page) %}
+
+        {% if metaLocation == 'bodyStart' %}
+            {% set metaLocationComponents = componentHolder.getBodyStartComponents(page) %}
+        {% elseif metaLocation == 'bodyEnd' %}
+            {% set metaLocationComponents = componentHolder.getBodyEndComponents(page) %}
+        {% else %}
+            {% set metaLocationComponents = componentHolder.getHeadComponents(page) %}
+        {% endif %}
+
+        {% for component in metaLocationComponents %}
             {% if not component.hidden %}
                 {{ component.renderContent(page.context, page) | raw }}
             {% endif %}

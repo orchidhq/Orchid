@@ -21,6 +21,8 @@ import com.eden.orchid.api.theme.assets.JsPage;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,6 +38,10 @@ public abstract class OrchidComponent extends Prioritized implements
         AssetHolder,
         ModularPageListItem<ComponentHolder, OrchidComponent>,
         Renderable {
+
+    enum MetaLocation {
+        head, bodyStart, bodyEnd
+    }
 
     protected final String templateBase = "components";
     protected final String type;
@@ -83,25 +89,31 @@ public abstract class OrchidComponent extends Prioritized implements
     )
     protected boolean noWrapper;
 
+    @Option
+    @Nullable
+    private MetaLocation metaLocation;
+    private final MetaLocation defaultMetaLocation;
+
     @AllOptions
     private Map<String, Object> allData;
 
-    public OrchidComponent(String type, boolean meta, int priority) {
+    public OrchidComponent(String type, boolean meta, @Nonnull MetaLocation defaultMetaLocation, int priority) {
         super(priority);
         this.type = type;
         this.meta = meta;
+        this.defaultMetaLocation = defaultMetaLocation;
     }
 
     public OrchidComponent(String type, int priority) {
-        this(type, false, priority);
+        this(type, false, MetaLocation.head, priority);
     }
 
     public OrchidComponent(String type, boolean meta) {
-        this(type, meta, DEFAULT_PRIORITY);
+        this(type, meta, MetaLocation.head, DEFAULT_PRIORITY);
     }
 
     public OrchidComponent(String type) {
-        this(type, false, DEFAULT_PRIORITY);
+        this(type, false, MetaLocation.head, DEFAULT_PRIORITY);
     }
 
     @Override
@@ -243,6 +255,15 @@ public abstract class OrchidComponent extends Prioritized implements
 
     public void setAllData(Map<String, Object> allData) {
         this.allData = allData;
+    }
+
+    @Nullable
+    public MetaLocation getMetaLocation() {
+        return (metaLocation != null) ? metaLocation : defaultMetaLocation;
+    }
+
+    public void setMetaLocation(@Nullable MetaLocation metaLocation) {
+        this.metaLocation = metaLocation;
     }
 
 // Delombok

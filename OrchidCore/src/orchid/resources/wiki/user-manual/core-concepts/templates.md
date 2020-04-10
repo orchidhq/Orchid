@@ -20,11 +20,11 @@ When a page is rendered, Orchid will embed it within a layout. The most basic la
 <html>
 <head>
 {% head %}
-{% styles %}
 </head>
 <body>
-{% page %}
-{% scripts %}
+{% body %}
+    {% page %}
+{% endbody %}
 </body>
 </html>
 {% endverbatim %}
@@ -36,8 +36,7 @@ You are free to use any of Pebble's core features for building flexible and reus
 of its own:
 
 - `{% verbatim %}{% head %}{% endverbatim %}`: adds the standard meta and SEO tags to the HEAD of your webpage
-- `{% verbatim %}{% styles %}{% endverbatim %}`: adds stylesheets from the theme, page, and all components to this page
-- `{% verbatim %}{% scripts %}{% endverbatim %}`: adds scripts from the theme, page, and all components to this page
+- `{% verbatim %}{% body %}...{% endbody %}{% endverbatim %}`: adds stylesheets from the theme, page, and all components to this page
 - `{% verbatim %}{% page %}{% endverbatim %}`: renders the main page content and page components
 
 In addition to the above tags, Orchid offers many additional features for building layouts, such as menus, breadcrumbs, 
