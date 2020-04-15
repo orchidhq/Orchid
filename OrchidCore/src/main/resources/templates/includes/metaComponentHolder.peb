@@ -1,5 +1,5 @@
 {% block allComponents %}
-    <!-- start:inject meta-components -->
+    <!-- start:inject meta-components [{{ metaLocation }}] -->
     {% if (componentHolder is not null) and (componentHolder.get(page) is not empty) %}
 
         {% if metaLocation == 'bodyStart' %}
@@ -16,5 +16,5 @@
             {% endif %}
         {% endfor %}
     {% endif %}
-    <!-- end:inject meta-components -->
+    <!-- end:inject meta-components [{{ metaLocation }}] -->
 {% endblock %}

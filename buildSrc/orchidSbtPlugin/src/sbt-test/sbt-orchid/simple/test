@@ -18,13 +18,3 @@ $ exists target/orchid
 $ exists target/orchid/BsDoc
 $ exists target/orchid/index.html
 $ exists target/orchid/example-page/index.html
-
-
-
-
-
-
-
-
-
-
