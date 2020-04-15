@@ -9,8 +9,11 @@ import com.eden.orchid.api.options.annotations.Description
 @Description(value = "Render content into the HTML `<head>`.", name = "Head")
 class HeadTag : TemplateTag("head", Type.Simple, true)
 
-@Description(value = "Render content into the start and end of HTML `<body>`.", name = "Body")
-class BodyTag : TemplateTag("body", Type.Content, true)
+@Description(value = "Render content into the start of HTML `<body>`.", name = "Body Start")
+class BodyStartTag : TemplateTag("body", Type.Simple, true)
+
+@Description(value = "Render content into the end of HTML `<body>`.", name = "Body End")
+class BodyEndTag : TemplateTag("endbody", Type.Simple, true)
 
 @Description(value = "Render the main page components and page content.", name = "Page")
 class PageTag : TemplateTag("page", Type.Simple, true)

@@ -89,7 +89,8 @@ import com.eden.orchid.impl.themes.menus.PageSiblingsMenuItem
 import com.eden.orchid.impl.themes.menus.PageSubtreeMenuItem
 import com.eden.orchid.impl.themes.menus.SubmenuMenuItem
 import com.eden.orchid.impl.themes.tags.AccordionTag
-import com.eden.orchid.impl.themes.tags.BodyTag
+import com.eden.orchid.impl.themes.tags.BodyEndTag
+import com.eden.orchid.impl.themes.tags.BodyStartTag
 import com.eden.orchid.impl.themes.tags.BreadcrumbsTag
 import com.eden.orchid.impl.themes.tags.HeadTag
 import com.eden.orchid.impl.themes.tags.LogTag
@@ -274,7 +275,8 @@ class ImplModule(
                 LogTag::class.java,
                 BreadcrumbsTag::class.java,
                 HeadTag::class.java,
-                BodyTag::class.java,
+                BodyStartTag::class.java,
+                BodyEndTag::class.java,
                 PageTag::class.java,
 
                 ScriptsTag::class.java,
