@@ -29,34 +29,6 @@ ext.getActualVersionArray = { Project project ->
     }
 }
 
-ext.getBaseUrl = { Project project ->
-    def url = null
-    if (project.hasProperty('env') && project.property('env') == 'prod') {
-
-        if(System.getenv('CONTEXT') == "branch-deploy") {
-            // branch deploys
-            url = System.getenv('DEPLOY_PRIME_URL') // Netlify deploy preview URL
-        }
-        else if(Boolean.parseBoolean(System.getenv('PULL_REQUEST'))) {
-            // PR deploy previews
-            url = System.getenv('DEPLOY_URL') // Netlify deploy preview URL
-        }
-        else if(System.getenv('URL')) {
-            // production deploys
-            url = System.getenv('URL')
-        }
-    }
-    else {
-        url = 'http://localhost:8080' // local development URL
-    }
-
-    if(!url) {
-        url = "https://orchid.run"
-    }
-
-    return url
-}
-
 ext.getGithubToken = { Project project ->
     return project.hasProperty('github_token') ? project.property('github_token') : System.getenv('GITHUB_TOKEN')
 }

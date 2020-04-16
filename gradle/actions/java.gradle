@@ -5,3 +5,27 @@ targetCompatibility = '1.8'
 
 project.group = rootProject.group
 project.version = rootProject.version
+
+jar {
+    manifest {
+        attributes(
+                'Built-By': System.properties['user.name'],
+                'Build-Timestamp': new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date()),
+                'Build-Revision': Utils.getGitHash(project),
+                'Created-By': "Gradle ${gradle.gradleVersion}",
+                'Build-Jdk': "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
+                'Build-OS': "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}",
+                'Name': "${project.name}",
+                'Plugin-Version': "${project.version}",
+                'Bundle-License': "LGPL-3.0",
+                'Bundle-DocURL': "https://orchid.run"
+        )
+    }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+tasks.javadoc.onlyIf { false }

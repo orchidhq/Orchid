@@ -1,6 +1,5 @@
 apply from: "$actionsScript/java.gradle"
 apply from: "$actionsScript/kotlin.gradle"
-apply from: "$actionsScript/javadoc.gradle"
 apply from: "$actionsScript/publish.gradle"
 apply from: "$actionsScript/testing.gradle"
 

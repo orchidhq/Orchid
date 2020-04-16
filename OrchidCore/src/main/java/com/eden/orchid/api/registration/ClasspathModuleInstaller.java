@@ -1,9 +1,12 @@
 package com.eden.orchid.api.registration;
 
 import com.caseyjbrooks.clog.Clog;
+import com.eden.common.util.EdenUtils;
 import io.github.classgraph.ClassGraph;
+import kotlin.text.StringsKt;
 
 import java.lang.reflect.Modifier;
+import java.util.jar.Manifest;
 import java.util.stream.Stream;
 
 @IgnoreModule
@@ -24,9 +27,27 @@ public class ClasspathModuleInstaller extends OrchidModule {
                             OrchidModule provider = matchingClass.newInstance();
                             if (provider != null) {
                                 install(provider);
-                                // don't log anonymous-class modules
-                                if (!provider.getClass().getName().startsWith("com.eden.orchid.OrchidModule")) {
-                                    moduleLog.append("\n * " + provider.getClass().getName());
+
+                                Manifest manifest = provider.getModuleManifest();
+
+                                boolean isModuleNameProvided = false;
+
+                                if(manifest != null) {
+                                    String pluginName = manifest.getMainAttributes().getValue("Name");
+                                    String pluginVersion = manifest.getMainAttributes().getValue("Plugin-Version");
+
+                                    if(!EdenUtils.isEmpty(pluginName) && !EdenUtils.isEmpty(pluginVersion)) {
+                                        // Display plugin info if it is provided in the jar's manifest
+                                        isModuleNameProvided = true;
+                                        moduleLog.append("\n * " + pluginName + " " + pluginVersion);
+                                    }
+                                }
+
+                                if(!isModuleNameProvided) {
+                                    // otherwise print the module's classname, but don't log anonymous-class modules
+                                    if (!provider.getClass().getName().startsWith("com.eden.orchid.OrchidModule")) {
+                                        moduleLog.append("\n * " + provider.getClass().getName());
+                                    }
                                 }
                             }
                         }
