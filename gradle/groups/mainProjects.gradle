@@ -3,6 +3,8 @@ apply from: "$actionsScript/kotlin.gradle"
 apply from: "$actionsScript/publish.gradle"
 apply from: "$actionsScript/testing.gradle"
 
+version = rootProject.version
+
 dependencies {
     testImplementation(Libs.hamcrest_library)
     testImplementation(Libs.strikt_core)
