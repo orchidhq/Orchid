@@ -1,7 +1,10 @@
+import java.io.ByteArrayOutputStream
+
 plugins {
     java
     `kotlin-dsl`
 }
+apply(from = "../gradle/semver.gradle.kts")
 
 allprojects {
     repositories {

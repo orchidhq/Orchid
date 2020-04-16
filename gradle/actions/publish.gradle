@@ -28,8 +28,6 @@ afterEvaluate { project ->
         publications {
             OrchidPublication(MavenPublication) {
                 from project.components.java
-                artifact project.sourcesJar
-                artifact project.javadocJar
                 groupId "${project.group}"
                 artifactId "${project.name}"
                 version "${project.version}"

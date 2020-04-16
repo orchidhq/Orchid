@@ -21,6 +21,7 @@ apply plugin: 'org.ajoberstar.grgit'
 apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'de.fayard.buildSrcVersions'
 apply plugin: 'jacoco'
+apply from: "gradle/semver.gradle.kts"
 
 group = 'io.github.javaeden.orchid'
 
@@ -61,8 +62,10 @@ buildSrcVersions {
 // Deploy
 //----------------------------------------------------------------------------------------------------------------------
 
-tag {
-    message { "Bump version to ${version}" }
+task tag {
+    doLast {
+//        message { "Bump version to ${version}" }
+    }
 }
 
 task getReleaseName {

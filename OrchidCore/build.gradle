@@ -64,14 +64,3 @@ orchid {
 
 tasks.build.dependsOn orchidBuild
 tasks.orchidBuild.mustRunAfter check
-
-// Make sure Core is compiled before plugins, but javadoc run after plugins
-//----------------------------------------------------------------------------------------------------------------------
-
-static boolean otherProjectsTask(Task task, String taskName) {
-    return task.path.endsWith(":${taskName}")
-}
-
-project.parent.subprojects.each { subproject ->
-    project.tasks.orchidBuild.mustRunAfter subproject.tasks.matching { task -> otherProjectsTask(task, 'check') }
-}
