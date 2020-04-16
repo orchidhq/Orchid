@@ -9,6 +9,7 @@ import java.io.File
 import java.nio.file.Path
 
 object PluginJarResourceSource {
+    @JvmStatic
     fun create(
         pluginClass: Class<*>,
         priority: Int,

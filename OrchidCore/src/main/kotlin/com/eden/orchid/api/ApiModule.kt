@@ -46,6 +46,9 @@ import com.eden.orchid.api.options.globals.SiteGlobal
 import com.eden.orchid.api.options.globals.ThemeGlobal
 import com.eden.orchid.api.registration.IgnoreModule
 import com.eden.orchid.api.registration.OrchidModule
+import com.eden.orchid.api.resources.resourcesource.JarResourceSource
+import com.eden.orchid.api.resources.resourcesource.JarResourceSource.Companion.jarForClass
+import com.eden.orchid.api.resources.resourcesource.PluginResourceSource
 import com.eden.orchid.api.site.OrchidSite
 import com.eden.orchid.api.site.OrchidSiteBaseUrlsOptionExtractor
 import com.eden.orchid.api.site.OrchidSiteImpl
@@ -54,6 +57,7 @@ import com.eden.orchid.api.theme.permalinks.pathTypes.DataPropertyPathType
 import com.eden.orchid.api.theme.permalinks.pathTypes.TitlePathType
 import com.google.inject.Provides
 import com.google.inject.name.Named
+import java.util.HashMap
 
 @IgnoreModule
 class ApiModule : OrchidModule() {
@@ -136,26 +140,19 @@ class ApiModule : OrchidModule() {
         @Named("src") sourceDir: String,
         @Named("dest") destinationDir: String
     ): OrchidSite {
-        try {
-            return OrchidSiteImpl(
-                Class.forName("com.eden.orchid.OrchidVersion").getMethod("getVersion").invoke(null) as String,
-                version,
-                environment,
-                defaultTemplateExtension,
-                sourceDir,
-                destinationDir
-            )
-        } catch (e: Exception) {
-            return OrchidSiteImpl(
-                "",
-                version,
-                environment,
-                defaultTemplateExtension,
-                sourceDir,
-                destinationDir
-            )
-        }
+        val orchidVersion = moduleManifest
+            ?.mainAttributes
+            ?.getValue("Plugin-Version")
+            ?: ""
 
+        return OrchidSiteImpl(
+            orchidVersion,
+            version,
+            environment,
+            defaultTemplateExtension,
+            sourceDir,
+            destinationDir
+        )
     }
 
 }

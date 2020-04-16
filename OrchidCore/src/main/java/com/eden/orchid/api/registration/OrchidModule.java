@@ -2,6 +2,8 @@ package com.eden.orchid.api.registration;
 
 import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
+import com.eden.orchid.api.resources.resource.JarResource;
+import com.eden.orchid.api.resources.resourcesource.JarResourceSource;
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource;
 import com.eden.orchid.api.resources.resourcesource.PluginResourceSource;
 import com.eden.orchid.api.server.admin.AdminList;
@@ -11,11 +13,13 @@ import com.google.inject.AbstractModule;
 import com.google.inject.binder.AnnotatedBindingBuilder;
 import com.google.inject.multibindings.Multibinder;
 
+import javax.annotation.Nullable;
 import javax.inject.Provider;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.jar.Manifest;
 import java.util.stream.Collectors;
 
 import static com.eden.orchid.utilities.OrchidUtils.DEFAULT_PRIORITY;
@@ -116,9 +120,24 @@ public abstract class OrchidModule extends AbstractModule {
         if(hasResources) {
             throw new IllegalStateException(Clog.format("Resources already added to {}", this.getClass().getName()));
         }
-        addToSet(OrchidResourceSource.class, PluginJarResourceSource.INSTANCE.create(this.getClass(), priority, PluginResourceSource.INSTANCE));
+        addToSet(OrchidResourceSource.class, createResourceSource(priority));
         hasResources = true;
         resourcePriority = priority;
+    }
+
+    private OrchidResourceSource createResourceSource(int priority) {
+        return PluginJarResourceSource.create(this.getClass(), priority, PluginResourceSource.INSTANCE);
+    }
+
+    @Nullable
+    public Manifest getModuleManifest() {
+        OrchidResourceSource resourceSource = createResourceSource(DEFAULT_PRIORITY);
+        if(resourceSource instanceof JarResourceSource) {
+            return ((JarResourceSource) resourceSource).getManifest();
+        }
+        else {
+            return null;
+        }
     }
 
     public <T> AnnotatedBindingBuilder<T> _bind(Class<T> clazz) {

@@ -10,6 +10,7 @@ import org.apache.commons.io.FilenameUtils
 import java.io.IOException
 import java.util.ArrayList
 import java.util.jar.JarFile
+import java.util.jar.Manifest
 
 /**
  * An OrchidResourceSource that serves resources as entries from a JarFile. The JarFile is typically looked up as the
@@ -71,6 +72,10 @@ class JarResourceSource(
         }
 
         return entries
+    }
+
+    fun getManifest(): Manifest {
+        return jarFile.manifest
     }
 
     companion object {
