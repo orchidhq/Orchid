@@ -1,10 +1,12 @@
+apply(from = "$rootDir/gradle/groups/bundleProjects.gradle")
+
 dependencies {
-    implementation(Module.OrchidCore)
+    implementation(Modules.OrchidCore)
 
-    implementation(Module.OrchidPosts)
-    implementation(Module.OrchidPages)
-    implementation(Module.OrchidForms)
-    implementation(Module.OrchidTaxonomies)
+    implementation(Modules.OrchidPosts)
+    implementation(Modules.OrchidPages)
+    implementation(Modules.OrchidForms)
+    implementation(Modules.OrchidTaxonomies)
 
-    implementation(Projects.LanguageExtensions.all)
+    implementation(ModuleGroups.LanguageExtensions.all)
 }

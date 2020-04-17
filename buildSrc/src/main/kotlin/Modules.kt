@@ -1,0 +1,46 @@
+
+object Modules {
+    val OrchidCore = Module(":OrchidCore")
+    val OrchidTest = Module(":OrchidTest")
+
+    val OrchidAll = Module(":bundles:OrchidAll")
+    val OrchidBlog = Module(":bundles:OrchidBlog")
+    val OrchidDocs = Module(":bundles:OrchidDocs")
+    val OrchidLanguagePack = Module(":bundles:OrchidLanguagePack")
+
+    val OrchidAzure = Module(":integrations:OrchidAzure")
+    val OrchidBitbucket = Module(":integrations:OrchidBitbucket")
+    val OrchidGithub = Module(":integrations:OrchidGithub")
+    val OrchidGitlab = Module(":integrations:OrchidGitlab")
+    val OrchidNetlify = Module(":integrations:OrchidNetlify")
+
+    val OrchidAsciidoc = Module(":languageExtensions:OrchidAsciidoc")
+    val OrchidBible = Module(":languageExtensions:OrchidBible")
+    val OrchidDiagrams = Module(":languageExtensions:OrchidDiagrams")
+    val OrchidSyntaxHighlighter = Module(":languageExtensions:OrchidSyntaxHighlighter")
+    val OrchidWritersBlocks = Module(":languageExtensions:OrchidWritersBlocks")
+
+    val OrchidChangelog = Module(":plugins:OrchidChangelog")
+    val OrchidForms = Module(":plugins:OrchidForms")
+    val OrchidGroovydoc = Module(":plugins:OrchidGroovydoc")
+    val OrchidJavadoc = Module(":plugins:OrchidJavadoc")
+    val OrchidKotlindoc = Module(":plugins:OrchidKotlindoc")
+    val OrchidKSS = Module(":plugins:OrchidKSS")
+    val OrchidNetlifyCMS = Module(":plugins:OrchidNetlifyCMS")
+    val OrchidPages = Module(":plugins:OrchidPages")
+    val OrchidPluginDocs = Module(":plugins:OrchidPluginDocs")
+    val OrchidPosts = Module(":plugins:OrchidPosts")
+    val OrchidPresentations = Module(":plugins:OrchidPresentations")
+    val OrchidSearch = Module(":plugins:OrchidSearch")
+    val OrchidSnippets = Module(":plugins:OrchidSnippets")
+    val OrchidSourceDoc = Module(":plugins:OrchidSourceDoc")
+    val OrchidSwagger = Module(":plugins:OrchidSwagger")
+    val OrchidSwiftdoc = Module(":plugins:OrchidSwiftdoc")
+    val OrchidTaxonomies = Module(":plugins:OrchidTaxonomies")
+    val OrchidWiki = Module(":plugins:OrchidWiki")
+
+    val OrchidBsDoc = Module(":themes:OrchidBsDoc")
+    val OrchidCopper = Module(":themes:OrchidCopper")
+    val OrchidEditorial = Module(":themes:OrchidEditorial")
+    val OrchidFutureImperfect = Module(":themes:OrchidFutureImperfect")
+}

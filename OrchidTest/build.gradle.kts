@@ -15,7 +15,7 @@ dependencies {
     "api"(Libs.kotlin_stdlib_jdk8)
     "api"(Libs.kotlinx_html_jvm)
 
-    testImplementation(Module.OrchidPages)
+    testImplementation(Modules.OrchidPages)
     "testRuntimeOnly"(Libs.junit_jupiter_engine)
 }
 
