@@ -1,5 +1,7 @@
+apply(from = "$rootDir/gradle/groups/mainProjects.gradle")
+apply(from = "$rootDir/gradle/groups/pluginProjects.gradle")
 
 dependencies {
-    testImplementation(Module.OrchidPages)
-    testImplementation(Module.OrchidPosts)
+    testImplementation(Modules.OrchidPages)
+    testImplementation(Modules.OrchidPosts)
 }

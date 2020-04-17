@@ -1,14 +1,16 @@
+apply(from = "$rootDir/gradle/groups/bundleProjects.gradle")
+
 dependencies {
-    implementation(Module.OrchidCore)
+    implementation(Modules.OrchidCore)
 
-    implementation(Module.OrchidEditorial)
+    implementation(Modules.OrchidEditorial)
 
-    implementation(Module.OrchidPages)
-    implementation(Module.OrchidWiki)
-    implementation(Module.OrchidForms)
-    implementation(Module.OrchidChangelog)
-    implementation(Module.OrchidSearch)
+    implementation(Modules.OrchidPages)
+    implementation(Modules.OrchidWiki)
+    implementation(Modules.OrchidForms)
+    implementation(Modules.OrchidChangelog)
+    implementation(Modules.OrchidSearch)
 
-    implementation(Module.OrchidDiagrams)
-    implementation(Module.OrchidSyntaxHighlighter)
+    implementation(Modules.OrchidDiagrams)
+    implementation(Modules.OrchidSyntaxHighlighter)
 }

@@ -1,7 +1,8 @@
-apply from: "$actionsScript/java.gradle"
-apply from: "$actionsScript/kotlin.gradle"
-apply from: "$actionsScript/publish.gradle"
-apply from: "$actionsScript/testing.gradle"
+apply plugin: "idea"
+apply from: "$rootDir/gradle/actions/java.gradle"
+apply from: "$rootDir/gradle/actions/kotlin.gradle"
+apply from: "$rootDir/gradle/actions/publish.gradle"
+apply from: "$rootDir/gradle/actions/testing.gradle"
 
 version = rootProject.version
 

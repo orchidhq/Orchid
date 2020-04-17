@@ -55,3 +55,5 @@ include(
     ":themes:OrchidEditorial",
     ":themes:OrchidFutureImperfect"
 )
+
+include(":docs")

@@ -1,9 +1,13 @@
 
-// Normal module configuration
-//----------------------------------------------------------------------------------------------------------------------
+plugins {
+    id("java-library")
+}
+apply(from = "$rootDir/gradle/groups/mainProjects.gradle")
 
-apply plugin: 'java-library'
-apply plugin: 'com.eden.orchidPlugin'
+repositories {
+    jcenter()
+    maven(url = "https://kotlin.bintray.com/kotlinx")
+}
 
 dependencies {
 
@@ -46,21 +50,6 @@ dependencies {
     // server
     implementation(Libs.nanohttpd)
     implementation(Libs.nanohttpd_websocket)
-
-    // generate own documentation with Orchid
-    orchidRuntime(mainProjects)
     
-    testImplementation(project(":OrchidTest"))
+    testImplementation(Modules.OrchidTest)
 }
-
-// Orchid setup
-//----------------------------------------------------------------------------------------------------------------------
-
-orchid {
-    version = getActualVersion(project)
-    githubToken = getGithubToken(project)
-    args = ["--experimentalSourceDoc"]
-}
-
-tasks.build.dependsOn orchidBuild
-tasks.orchidBuild.mustRunAfter check
