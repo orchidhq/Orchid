@@ -118,4 +118,4 @@ These can be added from Markdown snippets with the following syntax:
        println("Running from Kotlin Playground!")
     }
     ```
-    {theme='darkula' lines='true'}
+    {theme='darcula' lines='true'}
