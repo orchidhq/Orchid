@@ -79,6 +79,7 @@ import com.eden.orchid.impl.themes.functions.RenameFunction
 import com.eden.orchid.impl.themes.functions.ResizeFunction
 import com.eden.orchid.impl.themes.functions.RotateFunction
 import com.eden.orchid.impl.themes.functions.ScaleFunction
+import com.eden.orchid.impl.themes.menus.CollectionPagesMenuItem
 import com.eden.orchid.impl.themes.menus.DividerMenuItem
 import com.eden.orchid.impl.themes.menus.GeneratorPagesMenuItem
 import com.eden.orchid.impl.themes.menus.LinkMenuItem
@@ -213,6 +214,7 @@ class ImplModule(
                 LinkMenuItem::class.java,
                 GeneratorPagesMenuItem::class.java,
                 PageMenuItem::class.java,
+                CollectionPagesMenuItem::class.java,
                 PageParentMenuItem::class.java,
                 PageSiblingsMenuItem::class.java,
                 PageChildrenMenuItem::class.java,
