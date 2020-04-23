@@ -676,7 +676,7 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
             |                       "tags": ["body"]
             |                   },
             |                   {
-            |                       "selector": "#wiki-rightbar .wiki-custom-sidebar.markdown-body",
+            |                       "selector": ".wiki-rightbar .wiki-custom-sidebar.markdown-body",
             |                       "name": "sidebar",
             |                       "tags": ["sidebar"]
             |                   }
