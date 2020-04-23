@@ -18,7 +18,6 @@ class CoreMenuItemsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>
 
     @BeforeEach
     fun setUp() {
-        enableLogging()
         resource(
             "homepage.md",
             """

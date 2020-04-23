@@ -6,7 +6,6 @@ import com.eden.orchid.pages.PagesModule
 import com.eden.orchid.posts.PostsModule
 import com.eden.orchid.sourcedoc.SourceDocModule
 import com.eden.orchid.strikt.pageWasRendered
-import com.eden.orchid.strikt.printResults
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
 import com.eden.orchid.wiki.WikiModule
