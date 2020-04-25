@@ -128,7 +128,7 @@ public class OrchidPage implements
     @Description("The importance of this page relative to the rest of the pages on your site. Should be a value " +
             "between 0 and 1."
     )
-    protected float relativePriority;
+    protected float relativePriority = .5f;
 
     // variables that control page publication
     @Option @BooleanDefault(false)
