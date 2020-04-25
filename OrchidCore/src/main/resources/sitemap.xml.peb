@@ -10,7 +10,7 @@
         {% if entry.changeFrequency is not empty -%}
         <changefreq>{{- entry.changeFrequency -}}</changefreq>
         {%- endif -%}
-        {% if entry.relativePriority != 0.0 -%}
+        {% if entry.relativePriority != 0.5 -%}
         <priority>{{- entry.relativePriority -}}</priority>
         {% endif %}
     </url>
