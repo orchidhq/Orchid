@@ -10,10 +10,8 @@
         <lastmod>{{- entry.lastModifiedDate|localDate('YYYY-MM-dd') -}}</lastmod>
         {%- if entry.changeFrequency is not empty %}
         <changefreq>{{- entry.changeFrequency -}}</changefreq>
-        {%- endif -%}
-        {%- if entry.relativePriority != 0.0 %}
-        <priority>{{- entry.relativePriority -}}</priority>
         {%- endif %}
+        <priority>{{- entry.relativePriority -}}</priority>
     </url>
     {%- endfor %}
 </urlset>
