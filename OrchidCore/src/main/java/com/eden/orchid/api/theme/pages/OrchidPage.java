@@ -11,6 +11,7 @@ import com.eden.orchid.api.options.annotations.AllOptions;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.annotations.FloatDefault;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.options.archetypes.SharedConfigArchetype;
@@ -124,11 +125,11 @@ public class OrchidPage implements
     )
     protected String changeFrequency;
 
-    @Option
+    @Option @FloatDefault(0.5f)
     @Description("The importance of this page relative to the rest of the pages on your site. Should be a value " +
             "between 0 and 1."
     )
-    protected float relativePriority = .5f;
+    protected float relativePriority;
 
     // variables that control page publication
     @Option @BooleanDefault(false)
