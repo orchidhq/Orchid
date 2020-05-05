@@ -1,5 +1,6 @@
 package com.eden.orchid.api;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
@@ -25,6 +26,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 @Singleton
 public final class OrchidContextImpl implements OrchidContext {
@@ -138,7 +140,22 @@ public final class OrchidContextImpl implements OrchidContext {
     }
 
     @Override
-    public boolean diagnose() {
-        return diagnose;
+    public void diagnosisMessage(Supplier<String> messageSupplier) {
+        if(diagnose) {
+            Clog.tag("diagnosis").e(messageSupplier.get());
+        }
+        else {
+            Clog.tag("diagnosis").w("Orchid detected potential issues with this build. Run again with the `--diagnose` flag to get more info.");
+        }
+    }
+
+    @Override
+    public void deprecationMessage(Supplier<String> messageSupplier) {
+        if(diagnose) {
+            Clog.tag("deprecation").w(messageSupplier.get());
+        }
+        else {
+            Clog.tag("diagnosis").w("Deprecated features were used in this build. Run again with the `--diagnose` flag to get more info.");
+        }
     }
 }

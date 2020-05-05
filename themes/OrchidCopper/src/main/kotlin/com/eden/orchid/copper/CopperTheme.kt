@@ -10,7 +10,7 @@ import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.menus.OrchidMenu
-import com.eden.orchid.api.theme.models.Social
+import com.eden.orchid.api.theme.models.SiteSocial
 import com.eden.orchid.impl.relations.PageRelation
 import javax.inject.Inject
 
@@ -22,7 +22,14 @@ constructor(context: OrchidContext) : Theme(context, "Copper") {
 
     @Option
     @Description("Your social media links.")
-    lateinit var social: Social
+    var social: SiteSocial? = null
+        get() {
+            context.deprecationMessage { "Accessing `theme.social` is now deprecated. It should be configured and accessed at `site.about.social` instead" }
+            return field?.takeIf { it.items.isNotEmpty() } ?: context.site.siteInfo.social
+        }
+        set(value) {
+            field = value
+        }
 
     @Option
     @Description("The primary color values for your site, specified as any valid CSS color value.")

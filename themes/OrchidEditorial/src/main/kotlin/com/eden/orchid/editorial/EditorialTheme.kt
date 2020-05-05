@@ -1,15 +1,13 @@
 package com.eden.orchid.editorial
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Archetype
-import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.theme.Theme
-import com.eden.orchid.api.theme.models.Social
+import com.eden.orchid.api.theme.models.SiteSocial
 import javax.inject.Inject
 
 @Description("A theme based on Editorial by HTML5Up, with nested navigation menus good for building wikis.",
@@ -29,7 +27,14 @@ constructor(
 
     @Option
     @Description("Your social media links.")
-    var social: Social? = null
+    var social: SiteSocial? = null
+        get() {
+            context.deprecationMessage { "Accessing `theme.social` is now deprecated. It should be configured and accessed at `site.about.social` instead" }
+            return field?.takeIf { it.items.isNotEmpty() } ?: context.site.siteInfo.social
+        }
+        set(value) {
+            field = value
+        }
 
     override fun loadAssets() {
         addCss("assets/css/editorial_main.scss")

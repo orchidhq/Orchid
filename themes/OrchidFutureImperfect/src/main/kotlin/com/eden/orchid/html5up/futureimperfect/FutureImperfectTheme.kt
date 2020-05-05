@@ -1,16 +1,14 @@
 package com.eden.orchid.html5up.futureimperfect
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Archetype
-import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.components.ComponentHolder
 import com.eden.orchid.api.theme.menus.OrchidMenu
-import com.eden.orchid.api.theme.models.Social
+import com.eden.orchid.api.theme.models.SiteSocial
 import javax.inject.Inject
 
 @Description("A theme based on Future Imperfect by HTML5Up, good for blogs.", name = "FutureImperfect")
@@ -18,12 +16,19 @@ import javax.inject.Inject
 class FutureImperfectTheme
 @Inject
 constructor(
-        context: OrchidContext
+    context: OrchidContext
 ) : Theme(context, "FutureImperfect") {
 
     @Option
     @Description("Your social media links.")
-    var social: Social? = null
+    var social: SiteSocial? = null
+        get() {
+            context.deprecationMessage { "Accessing `theme.social` is now deprecated. It should be configured and accessed at `site.about.social` instead" }
+            return field?.takeIf { it.items.isNotEmpty() } ?: context.site.siteInfo.social
+        }
+        set(value) {
+            field = value
+        }
 
     @Option
     @Description("An additional menu to show in the side drawer.")

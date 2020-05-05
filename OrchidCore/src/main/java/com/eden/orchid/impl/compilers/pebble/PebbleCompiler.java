@@ -20,6 +20,7 @@ import com.mitchellbosecke.pebble.parser.ParserImpl;
 import com.mitchellbosecke.pebble.parser.ParserOptions;
 import com.mitchellbosecke.pebble.template.PebbleTemplateImpl;
 import kotlin.NotImplementedError;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -97,16 +98,12 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
 //            compiledTemplate.evaluate(writer, data);
 //            writer.close();
 //            os.write(writer.toString().getBytes());
-        }
-        catch (PebbleException e) {
+        } catch (PebbleException e) {
             OrchidExtensionsKt.logSyntaxError(input, extension, e.getLineNumber(), 0, e.getMessage());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Clog.e("Error rendering Pebble template (see template source below)", e);
             Clog.e(input);
-            if(contextProvider.get().diagnose()) {
-                e.printStackTrace();
-            }
+            contextProvider.get().diagnosisMessage(() -> ExceptionUtils.getStackTrace(e));
         }
     }
 

@@ -1,6 +1,5 @@
 package com.eden.orchid.bsdoc
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Archetype
@@ -12,7 +11,7 @@ import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.assets.CssPage
 import com.eden.orchid.api.theme.components.ComponentHolder
-import com.eden.orchid.api.theme.models.Social
+import com.eden.orchid.api.theme.models.SiteSocial
 import org.json.JSONObject
 import javax.inject.Inject
 
@@ -46,7 +45,14 @@ constructor(
 
     @Option
     @Description("Your social media links.")
-    var social: Social? = null
+    var social: SiteSocial? = null
+        get() {
+            context.deprecationMessage { "Accessing `theme.social` is now deprecated. It should be configured and accessed at `site.about.social` instead" }
+            return field?.takeIf { it.items.isNotEmpty() } ?: context.site.siteInfo.social
+        }
+        set(value) {
+            field = value
+        }
 
     @Option
     @Description("Github project for 'Fork me on Github' ribbon")

@@ -10,10 +10,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-/**
- * This is the description of the class.
- */
-public final class Social implements OptionsHolder {
+public class Social implements OptionsHolder {
     @AllOptions
     public Map<String, Object> allOptions;
     @Option

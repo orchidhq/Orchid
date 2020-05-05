@@ -104,14 +104,14 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
                 return Clog.format("<a href=\"#{$1}\">#{$1}</a>", link);
             }
         } else {
-            if (context.diagnose()) {
-                Clog.e("Error creating anchor to [" +
-                                "collectionType={}, " +
-                                "collectionId={}, " +
-                                "itemId={}" +
-                                "] from [{}]: matching page not found",
-                        collectionType, collectionId, itemId, from);
-            }
+            context.diagnosisMessage(() ->
+                    Clog.format("Error creating anchor to [" +
+                                    "collectionType={}, " +
+                                    "collectionId={}, " +
+                                    "itemId={}" +
+                                    "] from [{}]: matching page not found",
+                            collectionType, collectionId, itemId, from)
+            );
         }
 
         if (!EdenUtils.isEmpty(title)) {

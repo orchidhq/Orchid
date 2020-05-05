@@ -5,22 +5,22 @@ site:
     siteName: Orchid
     siteDescription: Build and deploy beautiful documentation sites that grow with you
     avatar: 'assets/media/avatar.jpg'
+    social:
+      other:
+        - link: '/'
+          label: 'Home'
+          icon: 'fas fa-home'
+        - link: 'https://github.com/orchidhq/orchid'
+          label: 'Github'
+          icon: 'fab fa-github'
+        - link: 'https://twitter.com/OrchidSSG'
+          label: 'Twitter'
+          icon: 'fab fa-twitter'
+        - link: 'https://gitter.im/JavaEden/Orchid'
+          label: 'Gitter'
+          icon: 'fab fa-gitter'
 
 theme:
-  social:
-    other:
-      - link: '/'
-        label: 'Home'
-        icon: 'fas fa-home'
-      - link: 'https://github.com/orchidhq/orchid'
-        label: 'Github'
-        icon: 'fab fa-github'
-      - link: 'https://twitter.com/OrchidSSG'
-        label: 'Twitter'
-        icon: 'fab fa-twitter'
-      - link: 'https://gitter.im/JavaEden/Orchid'
-        label: 'Gitter'
-        icon: 'fab fa-gitter'
   primaryColor: '#7E80CF'
   bannerColor: '#444444'
   linkColor: '#7E80CF'

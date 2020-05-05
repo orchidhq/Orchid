@@ -5,6 +5,8 @@ import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.annotations.RelationConfig;
+import com.eden.orchid.api.theme.models.SiteSocial;
+import com.eden.orchid.api.theme.models.Social;
 import com.eden.orchid.impl.relations.AssetRelation;
 
 @Description(value = "The global information for your Orchid site.", name = "Site Info")
@@ -37,6 +39,10 @@ public final class SiteInfo implements OptionsHolder {
     @Option
     @Description("The copyright text, usually included in the site footer. Defaults to the site name.")
     private String siteCopyright;
+
+    @Option
+    @Description("Your social media links.")
+    private SiteSocial social;
 
     @Override
     public void onPostExtraction() {
@@ -91,5 +97,13 @@ public final class SiteInfo implements OptionsHolder {
 
     public void setSiteCopyright(String siteCopyright) {
         this.siteCopyright = siteCopyright;
+    }
+
+    public SiteSocial getSocial() {
+        return social;
+    }
+
+    public void setSocial(SiteSocial social) {
+        this.social = social;
     }
 }
