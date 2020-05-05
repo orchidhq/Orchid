@@ -7,23 +7,17 @@ import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.TestResults
 import strikt.api.Assertion
 
-fun OrchidIntegrationTest.swiftdocSetup(showRunnerLogs: Boolean = false) {
-    sourceDocTestSetup(
-        NewSwiftdocGenerator.type,
-        NewSwiftdocGenerator.nodeKinds,
-        NewSwiftdocGenerator.otherSourceKinds,
-        showRunnerLogs
-    )
-}
+fun OrchidIntegrationTest.swiftdocSetup(modules: List<String> = emptyList(), showRunnerLogs: Boolean = false) {
+    val type = NewSwiftdocGenerator.type
+    val nodeKinds = NewSwiftdocGenerator.nodeKinds
+    val otherSourceKinds = NewSwiftdocGenerator.otherSourceKinds
 
-fun OrchidIntegrationTest.swiftdocSetup(modules: List<String>, showRunnerLogs: Boolean = false) {
-    sourceDocTestSetup(
-        NewSwiftdocGenerator.type,
-        NewSwiftdocGenerator.nodeKinds,
-        NewSwiftdocGenerator.otherSourceKinds,
-        modules,
-        showRunnerLogs
-    )
+    if(modules.isEmpty()) {
+        singleModuleSetup(type, showRunnerLogs, nodeKinds, otherSourceKinds, null)
+    }
+    else {
+        multiModuleSetup(type, modules, showRunnerLogs, nodeKinds, otherSourceKinds)
+    }
 }
 
 fun Assertion.Builder<TestResults>.assertSwiftPages(baseDir: String = "/swiftdoc"): Assertion.Builder<TestResults> {
@@ -48,15 +42,14 @@ fun Assertion.Builder<TestResults>.assertSwiftPages(baseDirs: List<String>): Ass
 }
 
 fun Assertion.Builder<TestResults>.assertSwiftCollections(baseDirs: List<String> = emptyList()): Assertion.Builder<TestResults> {
-    return if(baseDirs.isNotEmpty()) {
+    return if (baseDirs.isNotEmpty()) {
         baseDirs.fold(this) { acc, dir ->
             acc
                 .collectionWasCreated(NewSwiftdocGenerator.GENERATOR_KEY, dir)
                 .collectionWasCreated(NewSwiftdocGenerator.GENERATOR_KEY, "$dir-classes")
                 .collectionWasCreated(NewSwiftdocGenerator.GENERATOR_KEY, "$dir-sourceFiles")
         }.collectionWasCreated(NewSwiftdocGenerator.GENERATOR_KEY, "modules")
-    }
-    else {
+    } else {
         this
             .collectionWasCreated(NewSwiftdocGenerator.GENERATOR_KEY, "modules")
             .collectionWasCreated(NewSwiftdocGenerator.GENERATOR_KEY, NewSwiftdocGenerator.GENERATOR_KEY)

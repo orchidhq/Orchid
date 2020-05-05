@@ -1,0 +1,40 @@
+
+{# Context #}
+{% if component.pageContexts is not empty %}
+In:
+<ul>
+{% for pageContext in component.pageContexts %}
+  <li>{{ anchor(title=pageContext.value, itemId=pageContext.value, collectionType=component.page.moduleType) }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{# Inheritance Hierarchy #}
+{% if component.pageParentHierarchy is not empty %}
+Inheritance Hierarchy:
+<ul>
+{% for pageParent in component.pageParentHierarchy %}
+  <li>{{ anchor(title=pageParent.value, itemId=pageParent.value, collectionType=component.page.moduleType) }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{# Direct Children #}
+{% if component.pageDirectChildren is not empty %}
+In:
+<ul>
+{% for child in component.pageDirectChildren %}
+  <li>{{ anchor(title=child.text, itemId=child.value, collectionType=component.page.moduleType) }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{# Indirect Children #}
+{% if component.pageDirectChildren is not empty %}
+In:
+<ul>
+{% for child in component.pageIndirectChildren %}
+  <li>{{ anchor(title=child.text, itemId=child.value, collectionType=component.page.moduleType) }}</li>
+{% endfor %}
+</ul>
+{% endif %}

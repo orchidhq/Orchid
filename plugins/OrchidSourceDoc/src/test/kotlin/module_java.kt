@@ -7,23 +7,17 @@ import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.TestResults
 import strikt.api.Assertion
 
-fun OrchidIntegrationTest.javadocSetup(showRunnerLogs: Boolean = false) {
-    sourceDocTestSetup(
-        NewJavadocGenerator.type,
-        NewJavadocGenerator.nodeKinds,
-        NewJavadocGenerator.otherSourceKinds,
-        showRunnerLogs
-    )
-}
+fun OrchidIntegrationTest.javadocSetup(modules: List<String> = emptyList(), showRunnerLogs: Boolean = false) {
+    val type = NewJavadocGenerator.type
+    val nodeKinds = NewJavadocGenerator.nodeKinds
+    val otherSourceKinds = NewJavadocGenerator.otherSourceKinds
 
-fun OrchidIntegrationTest.javadocSetup(modules: List<String>, showRunnerLogs: Boolean = false) {
-    sourceDocTestSetup(
-        NewJavadocGenerator.type,
-        NewJavadocGenerator.nodeKinds,
-        NewJavadocGenerator.otherSourceKinds,
-        modules,
-        showRunnerLogs
-    )
+    if(modules.isEmpty()) {
+        singleModuleSetup(type, showRunnerLogs, nodeKinds, otherSourceKinds, null)
+    }
+    else {
+        multiModuleSetup(type, modules, showRunnerLogs, nodeKinds, otherSourceKinds)
+    }
 }
 
 fun Assertion.Builder<TestResults>.assertJavaPages(baseDir: String = "/javadoc"): Assertion.Builder<TestResults> {

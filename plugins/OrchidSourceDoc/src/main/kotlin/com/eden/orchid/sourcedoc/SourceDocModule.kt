@@ -2,8 +2,10 @@ package com.eden.orchid.sourcedoc
 
 import com.eden.orchid.api.options.OrchidFlags
 import com.eden.orchid.api.registration.OrchidModule
+import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.permalinks.PermalinkPathType
+import com.eden.orchid.sourcedoc.components.SourcedocPageSimpleSummary
 import com.eden.orchid.sourcedoc.menu.SourceDocModulesMenuItemType
 import com.eden.orchid.sourcedoc.menu.SourceDocPageLinksMenuItemType
 import com.eden.orchid.sourcedoc.menu.SourceDocPagesMenuItemType
@@ -27,6 +29,9 @@ class SourceDocModule : OrchidModule() {
                 ModuleTypePathType::class,
                 ModuleGroupPathType::class,
                 SourceDocPathType::class
+            )
+            addToSet<OrchidComponent>(
+                SourcedocPageSimpleSummary::class
             )
         }
     }

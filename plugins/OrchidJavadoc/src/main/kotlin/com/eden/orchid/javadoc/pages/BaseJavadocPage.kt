@@ -18,15 +18,15 @@ abstract class BaseJavadocPage(
     fun renderCommentText(el: JavaDocElement) : String {
         val builder = StringBuilder()
 
-        for(commentComponent in el.comment) {
-            if(commentComponent.kind in listOf("see", "link")) {
-                val linkedPage = context.findPage(null, null, commentComponent.className)
+        for(richTextComponent in el.comment) {
+            if(richTextComponent.kind in listOf("see", "link")) {
+                val linkedPage = context.findPage(null, null, richTextComponent.className)
                 if(linkedPage != null) {
                     builder.append(""" <a href="${linkedPage.link}">${linkedPage.title}</a> """)
                 }
             }
             else {
-                builder.append(commentComponent.text)
+                builder.append(richTextComponent.text)
             }
         }
 

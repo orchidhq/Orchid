@@ -1,8 +1,11 @@
 package com.eden.orchid.sourcedoc.page
 
 import com.copperleaf.kodiak.common.AutoDocument
-import com.copperleaf.kodiak.common.CommentComponent.Companion.TYPE_NAME
+import com.copperleaf.kodiak.common.RichTextComponent.Companion.TYPE_NAME
 import com.copperleaf.kodiak.common.DocElement
+import com.eden.orchid.api.options.annotations.Description
+import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.theme.components.ComponentHolder
 import com.eden.orchid.utilities.OrchidUtils
 
 class SourceDocPage<T : DocElement>(
@@ -25,6 +28,16 @@ class SourceDocPage<T : DocElement>(
 ) {
 
     override val itemIds = listOf(element.id, element.name)
+
+    @Option
+    @Description(
+        "Components to inject into SourceDocPages to provide additional info or context about the element."
+    )
+    lateinit var summaryComponents: ComponentHolder
+
+    override fun getComponentHolders(): Array<ComponentHolder> {
+        return super.getComponentHolders() + summaryComponents
+    }
 
     override fun getTemplates(): List<String> {
         return listOf(

@@ -32,7 +32,10 @@
   </div>
 
 {% else %}
-  <h{{ depth }} class="sourcedoc-section section-name">{{ section.name|capitalize }}</h{{ depth }}>
+  {% if depth > 1 %}
+    <h{{ depth }} class="sourcedoc-section section-name">{{ section.name|capitalize }}</h{{ depth }}>
+  {% endif %}
+
   {% for element in section.elements %}
     <div class="sourcedoc-section section-element" id="{{ page.elementId(element) }}">
       {% if depth > 1 %}
@@ -41,6 +44,12 @@
       <p class="sourcedoc-section section-signature">
         <code>{{ __renderSignature(page, element) }}</code>
       </p>
+
+      {% if depth == 1 %}
+        {% embed 'includes/componentHolder' with {"componentHolder": page.summaryComponents} %}
+        {% endembed %}
+      {% endif %}
+
       <div class="sourcedoc-section section-comments">{{ page.renderComment(element)|compileAs('md') }}</div>
 
       {% set childrenSections = page.getSectionsData(element) %}
