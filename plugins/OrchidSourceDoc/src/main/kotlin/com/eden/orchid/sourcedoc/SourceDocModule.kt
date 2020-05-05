@@ -17,7 +17,7 @@ import com.eden.orchid.utilities.addToSet
 
 class SourceDocModule : OrchidModule() {
     override fun configure() {
-        if(OrchidFlags.getInstance().getFlagValue<Boolean?>("experimentalSourceDoc") == true) {
+        if(OrchidFlags.getInstance().getFlagValue<Boolean?>("legacySourceDoc") != true) {
             withResources(10)
             addToSet<OrchidMenuFactory>(
                 SourceDocPageLinksMenuItemType::class,

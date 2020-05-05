@@ -28,7 +28,6 @@ class SearchIndicesGeneratorTest : OrchidIntegrationTest(
     @Test
     @DisplayName("Kotlin and Java files are parsed, and pages are generated for each class and package.")
     fun test01() {
-        flag("experimentalSourceDoc", "true")
         configObject(
             "kotlindoc",
             """

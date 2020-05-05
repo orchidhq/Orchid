@@ -17,7 +17,6 @@ class NewJavadocGeneratorTest : OrchidIntegrationTest(JavadocModule(), SourceDoc
     @Test
     @DisplayName("Java files are parsed, and pages are generated for each class and package.")
     fun test01() {
-        flag("experimentalSourceDoc", "true")
         configObject(
             "javadoc",
             """

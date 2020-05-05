@@ -1,4 +1,4 @@
-package com.eden.orchid.kotlindoc
+package com.eden.orchid.groovydoc
 
 import com.eden.orchid.strikt.asHtml
 import com.eden.orchid.strikt.innerHtmlMatches
@@ -8,28 +8,34 @@ import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import kotlinx.html.a
 import kotlinx.html.li
 import kotlinx.html.ul
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 
-@DisplayName("Tests page-rendering behavior of Kotlindoc generator")
-class KotlindocMenusTest : OrchidIntegrationTest(KotlindocModule()) {
+@DisplayName("Tests page-rendering behavior of Groovydoc generator")
+class LegacyGroovydocMenusTest : OrchidIntegrationTest(GroovydocModule()) {
+
+    @BeforeEach
+    fun setUp() {
+        flag("legacySourceDoc", true)
+    }
 
     @Test
-    @DisplayName("The `kotlindocClassLinks` menu item creates anchor links to the top-level sections on a Class page")
+    @DisplayName("The `groovydocClassLinks` menu item creates anchor links to the top-level sections on a Class page")
     fun test01() {
         configObject(
-            "kotlindoc",
+            "groovydoc",
             """
             |{
-            |    "sourceDirs": "mockKotlin",
+            |    "sourceDirs": "mockGroovy",
             |    "pages": {
             |        "extraCss": [
-            |            "assets/css/orchidKotlindoc.scss"
+            |            "assets/css/orchidGroovydoc.scss"
             |        ],
             |        "menu": [
             |            {
-            |                "type": "kotlindocClassLinks"
+            |                "type": "groovydocClassLinks"
             |            }
             |        ]
             |    }
@@ -37,13 +43,13 @@ class KotlindocMenusTest : OrchidIntegrationTest(KotlindocModule()) {
             |""".trimMargin()
         )
         resource(
-            "templates/pages/kotlindocClass.peb", """
+            "templates/pages/groovydocClass.peb", """
             |{% include 'pageMenu' %}
             """.trimMargin()
         )
 
         expectThat(execute())
-            .pageWasRendered("/com/eden/orchid/mock/KotlinClass/index.html") {
+            .pageWasRendered("/com/eden/orchid/mock/GroovyClass/index.html") {
                 get { content }
                     .asHtml()
                     .select("body") {
@@ -61,20 +67,20 @@ class KotlindocMenusTest : OrchidIntegrationTest(KotlindocModule()) {
     }
 
     @Test
-    @DisplayName("The `kotlindocClassLinks` can also include all the sub-items for each section")
+    @DisplayName("The `groovydocClassLinks` can also include all the sub-items for each section")
     fun test02() {
         configObject(
-            "kotlindoc",
+            "groovydoc",
             """
             |{
-            |    "sourceDirs": "mockKotlin",
+            |    "sourceDirs": "mockGroovy",
             |    "pages": {
             |        "extraCss": [
-            |            "assets/css/orchidKotlindoc.scss"
+            |            "assets/css/orchidGroovydoc.scss"
             |        ],
             |        "menu": [
             |            {
-            |                "type": "kotlindocClassLinks",
+            |                "type": "groovydocClassLinks",
             |                "includeItems": true
             |            }
             |        ]
@@ -83,13 +89,13 @@ class KotlindocMenusTest : OrchidIntegrationTest(KotlindocModule()) {
             |""".trimMargin()
         )
         resource(
-            "templates/pages/kotlindocClass.peb", """
+            "templates/pages/groovydocClass.peb", """
             |{% include 'pageMenu' %}
             """.trimMargin()
         )
 
         expectThat(execute())
-            .pageWasRendered("/com/eden/orchid/mock/KotlinClass/index.html") {
+            .pageWasRendered("/com/eden/orchid/mock/GroovyClass/index.html") {
                 get { content }
                     .asHtml()
                     .select("body") {
@@ -100,19 +106,19 @@ class KotlindocMenusTest : OrchidIntegrationTest(KotlindocModule()) {
                                 li {
                                     +"Fields"
                                     ul {
-                                        li { a(href = "#field__var_someData__String") { +"var someData: String" } }
+                                        li { a(href = "#field__String_someData") { +"String someData" } }
                                     }
                                 }
                                 li {
                                     +"Constructors"
                                     ul {
-                                        li { a(href = "#constructor__constructor_s1__String_") { +"constructor(s1: String)" } }
+                                        li { a(href = "#constructor__GroovyClass_String_s1_") { +"GroovyClass(String s1)" } }
                                     }
                                 }
                                 li {
                                     +"Methods"
                                     ul {
-                                        li { a(href = "#method__fun_doThing_s1__String___String") { +"fun doThing(s1: String): String" } }
+                                        li { a(href = "#method__String_doThing_String_s1_") { +"String doThing(String s1)" } }
                                     }
                                 }
                             }
@@ -122,20 +128,20 @@ class KotlindocMenusTest : OrchidIntegrationTest(KotlindocModule()) {
     }
 
     @Test
-    @DisplayName("The `kotlindocClasses` menu item lists all classes")
+    @DisplayName("The `groovydocClasses` menu item lists all classes")
     fun test03() {
         configObject(
-            "kotlindoc",
+            "groovydoc",
             """
             |{
-            |    "sourceDirs": "mockKotlin",
+            |    "sourceDirs": "mockGroovy",
             |    "pages": {
             |        "extraCss": [
-            |            "assets/css/orchidKotlindoc.scss"
+            |            "assets/css/orchidGroovydoc.scss"
             |        ],
             |        "menu": [
             |            {
-            |                "type": "kotlindocClasses"
+            |                "type": "groovydocClasses"
             |            }
             |        ]
             |    }
@@ -143,13 +149,13 @@ class KotlindocMenusTest : OrchidIntegrationTest(KotlindocModule()) {
             |""".trimMargin()
         )
         resource(
-            "templates/pages/kotlindocClass.peb", """
+            "templates/pages/groovydocClass.peb", """
             |{% include 'pageMenu' %}
             """.trimMargin()
         )
 
         expectThat(execute())
-            .pageWasRendered("/com/eden/orchid/mock/KotlinClass/index.html") {
+            .pageWasRendered("/com/eden/orchid/mock/GroovyClass/index.html") {
                 get { content }
                     .asHtml()
                     .select("body") {
@@ -158,21 +164,12 @@ class KotlindocMenusTest : OrchidIntegrationTest(KotlindocModule()) {
                                 li {
                                     +"All Classes"
                                     ul {
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/CustomString") { +"CustomString" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinAnnotation") { +"KotlinAnnotation" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinClass") { +"KotlinClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinClassGenerics") { +"KotlinClassGenerics" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinClassWithCompanionObject") { +"KotlinClassWithCompanionObject" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinClassWithLibraryClasses") { +"KotlinClassWithLibraryClasses" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinEnumClass") { +"KotlinEnumClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinExceptionClass") { +"KotlinExceptionClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinInlineClass") { +"KotlinInlineClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinInterface") { +"KotlinInterface" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinObjectClass") { +"KotlinObjectClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinSealedClass1") { +"KotlinSealedClass1" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinSealedClass2") { +"KotlinSealedClass2" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinSealedClass3") { +"KotlinSealedClass3" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinSealedClasses") { +"KotlinSealedClasses" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyAnnotation") { +"GroovyAnnotation" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyClass") { +"GroovyClass" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyEnumClass") { +"GroovyEnumClass" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyExceptionClass") { +"GroovyExceptionClass" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyInterface") { +"GroovyInterface" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyTrait") { +"GroovyTrait" } }
                                     }
                                 }
                             }
@@ -182,20 +179,20 @@ class KotlindocMenusTest : OrchidIntegrationTest(KotlindocModule()) {
     }
 
     @Test
-    @DisplayName("The `kotlindocPackages` menu item lists all packages")
+    @DisplayName("The `groovydocPackages` menu item lists all packages")
     fun test04() {
         configObject(
-            "kotlindoc",
+            "groovydoc",
             """
             |{
-            |    "sourceDirs": "mockKotlin",
+            |    "sourceDirs": "mockGroovy",
             |    "pages": {
             |        "extraCss": [
-            |            "assets/css/orchidKotlindoc.scss"
+            |            "assets/css/orchidGroovydoc.scss"
             |        ],
             |        "menu": [
             |            {
-            |                "type": "kotlindocPackages"
+            |                "type": "groovydocPackages"
             |            }
             |        ]
             |    }
@@ -203,13 +200,13 @@ class KotlindocMenusTest : OrchidIntegrationTest(KotlindocModule()) {
             |""".trimMargin()
         )
         resource(
-            "templates/pages/kotlindocClass.peb", """
+            "templates/pages/groovydocClass.peb", """
             |{% include 'pageMenu' %}
             """.trimMargin()
         )
 
         expectThat(execute())
-            .pageWasRendered("/com/eden/orchid/mock/KotlinClass/index.html") {
+            .pageWasRendered("/com/eden/orchid/mock/GroovyClass/index.html") {
                 get { content }
                     .asHtml()
                     .select("body") {

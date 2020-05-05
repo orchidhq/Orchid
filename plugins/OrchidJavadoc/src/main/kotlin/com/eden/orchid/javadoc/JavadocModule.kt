@@ -15,7 +15,7 @@ import com.google.inject.Provides
 class JavadocModule : OrchidModule() {
 
     override fun configure() {
-        if(OrchidFlags.getInstance().getFlagValue<Boolean?>("experimentalSourceDoc") == true) {
+        if(OrchidFlags.getInstance().getFlagValue<Boolean?>("legacySourceDoc") != true) {
             addToSet<OrchidGenerator<*>, NewJavadocGenerator>()
         }
         else {

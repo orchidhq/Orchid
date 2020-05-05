@@ -17,10 +17,6 @@ dependencies {
 // Orchid setup
 //----------------------------------------------------------------------------------------------------------------------
 
-orchid {
-    args = listOf("--experimentalSourceDoc")
-}
-
 val build by tasks
 val check by tasks
 val orchidBuild by tasks

@@ -16,6 +16,7 @@ class LegacyJavadocGeneratorTest : OrchidIntegrationTest(JavadocModule()) {
     @Test
     @DisplayName("Java files are parsed, and pages are generated for each class and package.")
     fun test01() {
+        flag("legacySourceDoc", true)
         configObject(
             "javadoc",
             """

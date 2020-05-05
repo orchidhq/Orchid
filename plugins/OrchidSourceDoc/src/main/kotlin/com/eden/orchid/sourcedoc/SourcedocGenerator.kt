@@ -37,7 +37,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
         const val deprecationWarning = """
             This SourceDoc generator is being deprecated in favor of a new, more unified, 
             and more modular code-documentation plugin, OrchidSourceDoc. The new system 
-            can be enabled now with the `--experimentalSourceDoc` CLI flag, and the legacy 
+            is enabled by default, and the legacy system must be enabled with the `--legacySourceDoc` CLI flag. Legacy 
             generators will be removed in the next major version.
         """
     }

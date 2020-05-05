@@ -1,4 +1,4 @@
-package com.eden.orchid.javadoc
+package com.eden.orchid.kotlindoc
 
 import com.eden.orchid.strikt.asHtml
 import com.eden.orchid.strikt.innerHtmlMatches
@@ -8,32 +8,34 @@ import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import kotlinx.html.a
 import kotlinx.html.li
 import kotlinx.html.ul
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.condition.DisabledForJreRange
-import org.junit.jupiter.api.condition.JRE
 import strikt.api.expectThat
 
-@DisplayName("Tests page-rendering behavior of Javadoc generator")
-@DisabledForJreRange(min = JRE.JAVA_12)
-class JavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
+@DisplayName("Tests page-rendering behavior of Kotlindoc generator")
+class LegacyKotlindocMenusTest : OrchidIntegrationTest(KotlindocModule()) {
+
+    @BeforeEach
+    fun setUp() {
+        flag("legacySourceDoc", true)
+    }
 
     @Test
-    @DisplayName("The `javadocClassLinks` menu item creates anchor links to the top-level sections on a Class page")
+    @DisplayName("The `kotlindocClassLinks` menu item creates anchor links to the top-level sections on a Class page")
     fun test01() {
         configObject(
-            "javadoc",
+            "kotlindoc",
             """
             |{
-            |    "sourceDirs": "mockJava",
-            |    "showRunnerLogs": true,
+            |    "sourceDirs": "mockKotlin",
             |    "pages": {
             |        "extraCss": [
-            |            "assets/css/orchidJavadoc.scss"
+            |            "assets/css/orchidKotlindoc.scss"
             |        ],
             |        "menu": [
             |            {
-            |                "type": "javadocClassLinks"
+            |                "type": "kotlindocClassLinks"
             |            }
             |        ]
             |    }
@@ -41,13 +43,13 @@ class JavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
             |""".trimMargin()
         )
         resource(
-            "templates/pages/javadocClass.peb", """
+            "templates/pages/kotlindocClass.peb", """
             |{% include 'pageMenu' %}
             """.trimMargin()
         )
 
         expectThat(execute())
-            .pageWasRendered("/com/eden/orchid/mock/JavaClass/index.html") {
+            .pageWasRendered("/com/eden/orchid/mock/KotlinClass/index.html") {
                 get { content }
                     .asHtml()
                     .select("body") {
@@ -65,21 +67,20 @@ class JavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
     }
 
     @Test
-    @DisplayName("The `javadocClassLinks` can also include all the sub-items for each section")
+    @DisplayName("The `kotlindocClassLinks` can also include all the sub-items for each section")
     fun test02() {
         configObject(
-            "javadoc",
+            "kotlindoc",
             """
             |{
-            |    "sourceDirs": "mockJava",
-            |    "showRunnerLogs": true,
+            |    "sourceDirs": "mockKotlin",
             |    "pages": {
             |        "extraCss": [
-            |            "assets/css/orchidJavadoc.scss"
+            |            "assets/css/orchidKotlindoc.scss"
             |        ],
             |        "menu": [
             |            {
-            |                "type": "javadocClassLinks",
+            |                "type": "kotlindocClassLinks",
             |                "includeItems": true
             |            }
             |        ]
@@ -88,13 +89,13 @@ class JavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
             |""".trimMargin()
         )
         resource(
-            "templates/pages/javadocClass.peb", """
+            "templates/pages/kotlindocClass.peb", """
             |{% include 'pageMenu' %}
             """.trimMargin()
         )
 
         expectThat(execute())
-            .pageWasRendered("/com/eden/orchid/mock/JavaClass/index.html") {
+            .pageWasRendered("/com/eden/orchid/mock/KotlinClass/index.html") {
                 get { content }
                     .asHtml()
                     .select("body") {
@@ -105,23 +106,19 @@ class JavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
                                 li {
                                     +"Fields"
                                     ul {
-                                        li { a(href = "#field__public_String_someData") { +"public String someData" } }
+                                        li { a(href = "#field__var_someData__String") { +"var someData: String" } }
                                     }
                                 }
                                 li {
                                     +"Constructors"
                                     ul {
-                                        li { a(href = "#constructor__public_JavaClass_String_s1_") { +"public JavaClass(String s1)" } }
+                                        li { a(href = "#constructor__constructor_s1__String_") { +"constructor(s1: String)" } }
                                     }
                                 }
                                 li {
                                     +"Methods"
                                     ul {
-                                        li { a(href = "#method__public_String_doThing_String_s1_") { +"public String doThing(String s1)" } }
-                                        li { a(href = "#method__public_String_methodWithVarargs_String_strings_") { +"public String methodWithVarargs(String strings)" } }
-                                        li { a(href = "#method__public_String_methodWithStringArray_String_strings_") { +"public String methodWithStringArray(String strings)" } }
-                                        li { a(href = "#method__public_String_methodWithMultiDimensionStringArray_String_strings_") { +"public String methodWithMultiDimensionStringArray(String strings)" } }
-                                        li { a(href = "#method__public_String_methodWithMultiDimensionStringArrayWithVararg_String_strings_") { +"public String methodWithMultiDimensionStringArrayWithVararg(String strings)" } }
+                                        li { a(href = "#method__fun_doThing_s1__String___String") { +"fun doThing(s1: String): String" } }
                                     }
                                 }
                             }
@@ -131,21 +128,20 @@ class JavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
     }
 
     @Test
-    @DisplayName("The `javadocClasses` menu item lists all classes")
+    @DisplayName("The `kotlindocClasses` menu item lists all classes")
     fun test03() {
         configObject(
-            "javadoc",
+            "kotlindoc",
             """
             |{
-            |    "sourceDirs": "mockJava",
-            |    "showRunnerLogs": true,
+            |    "sourceDirs": "mockKotlin",
             |    "pages": {
             |        "extraCss": [
-            |            "assets/css/orchidJavadoc.scss"
+            |            "assets/css/orchidKotlindoc.scss"
             |        ],
             |        "menu": [
             |            {
-            |                "type": "javadocClasses"
+            |                "type": "kotlindocClasses"
             |            }
             |        ]
             |    }
@@ -153,13 +149,13 @@ class JavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
             |""".trimMargin()
         )
         resource(
-            "templates/pages/javadocClass.peb", """
+            "templates/pages/kotlindocClass.peb", """
             |{% include 'pageMenu' %}
             """.trimMargin()
         )
 
         expectThat(execute())
-            .pageWasRendered("/com/eden/orchid/mock/JavaClass/index.html") {
+            .pageWasRendered("/com/eden/orchid/mock/KotlinClass/index.html") {
                 get { content }
                     .asHtml()
                     .select("body") {
@@ -168,11 +164,21 @@ class JavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
                                 li {
                                     +"All Classes"
                                     ul {
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/JavaAnnotation") { +"JavaAnnotation" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/JavaClass") { +"JavaClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/JavaEnumClass") { +"JavaEnumClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/JavaExceptionClass") { +"JavaExceptionClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/JavaInterface") { +"JavaInterface" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/CustomString") { +"CustomString" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinAnnotation") { +"KotlinAnnotation" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinClass") { +"KotlinClass" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinClassGenerics") { +"KotlinClassGenerics" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinClassWithCompanionObject") { +"KotlinClassWithCompanionObject" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinClassWithLibraryClasses") { +"KotlinClassWithLibraryClasses" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinEnumClass") { +"KotlinEnumClass" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinExceptionClass") { +"KotlinExceptionClass" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinInlineClass") { +"KotlinInlineClass" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinInterface") { +"KotlinInterface" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinObjectClass") { +"KotlinObjectClass" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinSealedClass1") { +"KotlinSealedClass1" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinSealedClass2") { +"KotlinSealedClass2" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinSealedClass3") { +"KotlinSealedClass3" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinSealedClasses") { +"KotlinSealedClasses" } }
                                     }
                                 }
                             }
@@ -182,21 +188,20 @@ class JavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
     }
 
     @Test
-    @DisplayName("The `javadocPackages` menu item lists all packages")
+    @DisplayName("The `kotlindocPackages` menu item lists all packages")
     fun test04() {
         configObject(
-            "javadoc",
+            "kotlindoc",
             """
             |{
-            |    "sourceDirs": "mockJava",
-            |    "showRunnerLogs": true,
+            |    "sourceDirs": "mockKotlin",
             |    "pages": {
             |        "extraCss": [
-            |            "assets/css/orchidJavadoc.scss"
+            |            "assets/css/orchidKotlindoc.scss"
             |        ],
             |        "menu": [
             |            {
-            |                "type": "javadocPackages"
+            |                "type": "kotlindocPackages"
             |            }
             |        ]
             |    }
@@ -204,13 +209,13 @@ class JavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
             |""".trimMargin()
         )
         resource(
-            "templates/pages/javadocClass.peb", """
+            "templates/pages/kotlindocClass.peb", """
             |{% include 'pageMenu' %}
             """.trimMargin()
         )
 
         expectThat(execute())
-            .pageWasRendered("/com/eden/orchid/mock/JavaClass/index.html") {
+            .pageWasRendered("/com/eden/orchid/mock/KotlinClass/index.html") {
                 get { content }
                     .asHtml()
                     .select("body") {

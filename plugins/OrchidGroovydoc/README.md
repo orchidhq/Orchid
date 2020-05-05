@@ -22,8 +22,9 @@ This plugin is being deprecated in favor of a new, more unified, and more modula
 {{ anchor('OrchidSourceDoc') }}. All configuration will be defined by that plugin, and this plugin will simply provide
 Groovy language support for that plugin.
 
-The new system is currently experimental and is an opt-in feature for 0.18.x Orchid versions. It can be enabled now with 
-the `--experimentalSourceDoc` CLI flag. The legacy behavior is scheduled for removal in version 0.19.0.
+The new system is now the default, but the old system can still be used for a short while under a feature flag until the
+transition is complete. Legacy Groovydocs can be enabled with the `--legacySourceDoc` CLI flag. The legacy behavior is
+scheduled for removal in version 0.22.0.
 {% endalert %}
 
 ## Demo

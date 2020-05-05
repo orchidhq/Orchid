@@ -1,4 +1,4 @@
-package com.eden.orchid.groovydoc
+package com.eden.orchid.javadoc
 
 import com.eden.orchid.strikt.asHtml
 import com.eden.orchid.strikt.innerHtmlMatches
@@ -8,28 +8,38 @@ import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import kotlinx.html.a
 import kotlinx.html.li
 import kotlinx.html.ul
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.DisabledForJreRange
+import org.junit.jupiter.api.condition.JRE
 import strikt.api.expectThat
 
-@DisplayName("Tests page-rendering behavior of Groovydoc generator")
-class GroovydocMenusTest : OrchidIntegrationTest(GroovydocModule()) {
+@DisplayName("Tests page-rendering behavior of Javadoc generator")
+@DisabledForJreRange(min = JRE.JAVA_12)
+class LegacyJavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
+
+    @BeforeEach
+    fun setUp() {
+        flag("legacySourceDoc", true)
+    }
 
     @Test
-    @DisplayName("The `groovydocClassLinks` menu item creates anchor links to the top-level sections on a Class page")
+    @DisplayName("The `javadocClassLinks` menu item creates anchor links to the top-level sections on a Class page")
     fun test01() {
         configObject(
-            "groovydoc",
+            "javadoc",
             """
             |{
-            |    "sourceDirs": "mockGroovy",
+            |    "sourceDirs": "mockJava",
+            |    "showRunnerLogs": true,
             |    "pages": {
             |        "extraCss": [
-            |            "assets/css/orchidGroovydoc.scss"
+            |            "assets/css/orchidJavadoc.scss"
             |        ],
             |        "menu": [
             |            {
-            |                "type": "groovydocClassLinks"
+            |                "type": "javadocClassLinks"
             |            }
             |        ]
             |    }
@@ -37,13 +47,13 @@ class GroovydocMenusTest : OrchidIntegrationTest(GroovydocModule()) {
             |""".trimMargin()
         )
         resource(
-            "templates/pages/groovydocClass.peb", """
+            "templates/pages/javadocClass.peb", """
             |{% include 'pageMenu' %}
             """.trimMargin()
         )
 
         expectThat(execute())
-            .pageWasRendered("/com/eden/orchid/mock/GroovyClass/index.html") {
+            .pageWasRendered("/com/eden/orchid/mock/JavaClass/index.html") {
                 get { content }
                     .asHtml()
                     .select("body") {
@@ -61,20 +71,21 @@ class GroovydocMenusTest : OrchidIntegrationTest(GroovydocModule()) {
     }
 
     @Test
-    @DisplayName("The `groovydocClassLinks` can also include all the sub-items for each section")
+    @DisplayName("The `javadocClassLinks` can also include all the sub-items for each section")
     fun test02() {
         configObject(
-            "groovydoc",
+            "javadoc",
             """
             |{
-            |    "sourceDirs": "mockGroovy",
+            |    "sourceDirs": "mockJava",
+            |    "showRunnerLogs": true,
             |    "pages": {
             |        "extraCss": [
-            |            "assets/css/orchidGroovydoc.scss"
+            |            "assets/css/orchidJavadoc.scss"
             |        ],
             |        "menu": [
             |            {
-            |                "type": "groovydocClassLinks",
+            |                "type": "javadocClassLinks",
             |                "includeItems": true
             |            }
             |        ]
@@ -83,13 +94,13 @@ class GroovydocMenusTest : OrchidIntegrationTest(GroovydocModule()) {
             |""".trimMargin()
         )
         resource(
-            "templates/pages/groovydocClass.peb", """
+            "templates/pages/javadocClass.peb", """
             |{% include 'pageMenu' %}
             """.trimMargin()
         )
 
         expectThat(execute())
-            .pageWasRendered("/com/eden/orchid/mock/GroovyClass/index.html") {
+            .pageWasRendered("/com/eden/orchid/mock/JavaClass/index.html") {
                 get { content }
                     .asHtml()
                     .select("body") {
@@ -100,19 +111,23 @@ class GroovydocMenusTest : OrchidIntegrationTest(GroovydocModule()) {
                                 li {
                                     +"Fields"
                                     ul {
-                                        li { a(href = "#field__String_someData") { +"String someData" } }
+                                        li { a(href = "#field__public_String_someData") { +"public String someData" } }
                                     }
                                 }
                                 li {
                                     +"Constructors"
                                     ul {
-                                        li { a(href = "#constructor__GroovyClass_String_s1_") { +"GroovyClass(String s1)" } }
+                                        li { a(href = "#constructor__public_JavaClass_String_s1_") { +"public JavaClass(String s1)" } }
                                     }
                                 }
                                 li {
                                     +"Methods"
                                     ul {
-                                        li { a(href = "#method__String_doThing_String_s1_") { +"String doThing(String s1)" } }
+                                        li { a(href = "#method__public_String_doThing_String_s1_") { +"public String doThing(String s1)" } }
+                                        li { a(href = "#method__public_String_methodWithVarargs_String_strings_") { +"public String methodWithVarargs(String strings)" } }
+                                        li { a(href = "#method__public_String_methodWithStringArray_String_strings_") { +"public String methodWithStringArray(String strings)" } }
+                                        li { a(href = "#method__public_String_methodWithMultiDimensionStringArray_String_strings_") { +"public String methodWithMultiDimensionStringArray(String strings)" } }
+                                        li { a(href = "#method__public_String_methodWithMultiDimensionStringArrayWithVararg_String_strings_") { +"public String methodWithMultiDimensionStringArrayWithVararg(String strings)" } }
                                     }
                                 }
                             }
@@ -122,20 +137,21 @@ class GroovydocMenusTest : OrchidIntegrationTest(GroovydocModule()) {
     }
 
     @Test
-    @DisplayName("The `groovydocClasses` menu item lists all classes")
+    @DisplayName("The `javadocClasses` menu item lists all classes")
     fun test03() {
         configObject(
-            "groovydoc",
+            "javadoc",
             """
             |{
-            |    "sourceDirs": "mockGroovy",
+            |    "sourceDirs": "mockJava",
+            |    "showRunnerLogs": true,
             |    "pages": {
             |        "extraCss": [
-            |            "assets/css/orchidGroovydoc.scss"
+            |            "assets/css/orchidJavadoc.scss"
             |        ],
             |        "menu": [
             |            {
-            |                "type": "groovydocClasses"
+            |                "type": "javadocClasses"
             |            }
             |        ]
             |    }
@@ -143,13 +159,13 @@ class GroovydocMenusTest : OrchidIntegrationTest(GroovydocModule()) {
             |""".trimMargin()
         )
         resource(
-            "templates/pages/groovydocClass.peb", """
+            "templates/pages/javadocClass.peb", """
             |{% include 'pageMenu' %}
             """.trimMargin()
         )
 
         expectThat(execute())
-            .pageWasRendered("/com/eden/orchid/mock/GroovyClass/index.html") {
+            .pageWasRendered("/com/eden/orchid/mock/JavaClass/index.html") {
                 get { content }
                     .asHtml()
                     .select("body") {
@@ -158,12 +174,11 @@ class GroovydocMenusTest : OrchidIntegrationTest(GroovydocModule()) {
                                 li {
                                     +"All Classes"
                                     ul {
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyAnnotation") { +"GroovyAnnotation" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyClass") { +"GroovyClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyEnumClass") { +"GroovyEnumClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyExceptionClass") { +"GroovyExceptionClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyInterface") { +"GroovyInterface" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyTrait") { +"GroovyTrait" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/JavaAnnotation") { +"JavaAnnotation" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/JavaClass") { +"JavaClass" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/JavaEnumClass") { +"JavaEnumClass" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/JavaExceptionClass") { +"JavaExceptionClass" } }
+                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/JavaInterface") { +"JavaInterface" } }
                                     }
                                 }
                             }
@@ -173,20 +188,21 @@ class GroovydocMenusTest : OrchidIntegrationTest(GroovydocModule()) {
     }
 
     @Test
-    @DisplayName("The `groovydocPackages` menu item lists all packages")
+    @DisplayName("The `javadocPackages` menu item lists all packages")
     fun test04() {
         configObject(
-            "groovydoc",
+            "javadoc",
             """
             |{
-            |    "sourceDirs": "mockGroovy",
+            |    "sourceDirs": "mockJava",
+            |    "showRunnerLogs": true,
             |    "pages": {
             |        "extraCss": [
-            |            "assets/css/orchidGroovydoc.scss"
+            |            "assets/css/orchidJavadoc.scss"
             |        ],
             |        "menu": [
             |            {
-            |                "type": "groovydocPackages"
+            |                "type": "javadocPackages"
             |            }
             |        ]
             |    }
@@ -194,13 +210,13 @@ class GroovydocMenusTest : OrchidIntegrationTest(GroovydocModule()) {
             |""".trimMargin()
         )
         resource(
-            "templates/pages/groovydocClass.peb", """
+            "templates/pages/javadocClass.peb", """
             |{% include 'pageMenu' %}
             """.trimMargin()
         )
 
         expectThat(execute())
-            .pageWasRendered("/com/eden/orchid/mock/GroovyClass/index.html") {
+            .pageWasRendered("/com/eden/orchid/mock/JavaClass/index.html") {
                 get { content }
                     .asHtml()
                     .select("body") {

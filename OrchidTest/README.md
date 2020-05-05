@@ -81,7 +81,7 @@ fun test01() {
         |}
         """.trimMargin()
     )
-    flag("experimentalSourceDoc", "true")
+    flag("legacySourceDoc", "true")
     
     ...
 }
