@@ -9,6 +9,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.theme.Theme
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.menus.OrchidMenu
 import com.eden.orchid.api.theme.models.SiteSocial
 import com.eden.orchid.impl.relations.PageRelation
@@ -76,16 +77,16 @@ constructor(context: OrchidContext) : Theme(context, "Copper") {
     @Option @StringDefault("assets/svg/orchid/logo_left_dark.svg")
     lateinit var navbarLogo: String
 
-    override fun loadAssets() {
-        addCss("assets/css/bulma.scss")
-        addCss("assets/css/extraCss.scss")
-        addCss("assets/css/bulma-tooltip.css")
-        addCss("assets/css/bulma-accordion.min.css")
+    override fun loadAssets(delegate: AssetManagerDelegate) {
+        delegate.addCss("assets/css/bulma.scss")
+        delegate.addCss("assets/css/extraCss.scss")
+        delegate.addCss("assets/css/bulma-tooltip.css")
+        delegate.addCss("assets/css/bulma-accordion.min.css")
 
-        addJs("https://use.fontawesome.com/releases/v5.4.0/js/all.js").apply { isDefer = true }
-        addJs("assets/js/bulma.js")
-        addJs("assets/js/bulma-accordion.min.js")
-        addJs("assets/js/bulma-tabs.js")
+        delegate.addJs("https://use.fontawesome.com/releases/v5.4.0/js/all.js") { defer = true; this }
+        delegate.addJs("assets/js/bulma.js")
+        delegate.addJs("assets/js/bulma-accordion.min.js")
+        delegate.addJs("assets/js/bulma-tabs.js")
     }
 
     fun getLayoutConfig(layoutName: String, data: Map<String, Any>?): Any? {

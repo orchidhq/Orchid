@@ -10,6 +10,7 @@ services:
       - 'feeds'
       - 'indices'
       - 'sitemap'
+      - 'netlifyCms'
 
 kotlindoc:
   homePageOnly: true

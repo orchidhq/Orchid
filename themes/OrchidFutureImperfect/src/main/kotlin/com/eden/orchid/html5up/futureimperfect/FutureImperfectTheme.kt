@@ -6,6 +6,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.theme.Theme
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.components.ComponentHolder
 import com.eden.orchid.api.theme.menus.OrchidMenu
 import com.eden.orchid.api.theme.models.SiteSocial
@@ -38,15 +39,15 @@ constructor(
     @Description("Components to include in the sidebar on pages with non-single layouts.")
     lateinit var sidebar: ComponentHolder
 
-    override fun loadAssets() {
-        addCss("assets/css/futureImperfect_main.scss")
-        addCss("assets/css/futureImperfect_orchidCustomizations.scss")
-        addCss("assets/css/orchidSearch.scss")
+    override fun loadAssets(delegate: AssetManagerDelegate) {
+        delegate.addCss("assets/css/futureImperfect_main.scss")
+        delegate.addCss("assets/css/futureImperfect_orchidCustomizations.scss")
+        delegate.addCss("assets/css/orchidSearch.scss")
 
-        addJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js")
-        addJs("https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js")
-        addJs("assets/js/futureImperfect_util.js")
-        addJs("assets/js/futureImperfect_main.js")
+        delegate.addJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js")
+        delegate.addJs("https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js")
+        delegate.addJs("assets/js/futureImperfect_util.js")
+        delegate.addJs("assets/js/futureImperfect_main.js")
     }
 
     override fun getComponentHolders(): Array<ComponentHolder> {

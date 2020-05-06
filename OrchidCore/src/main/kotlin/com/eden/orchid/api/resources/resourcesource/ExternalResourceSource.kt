@@ -19,14 +19,9 @@ class ExternalResourceSource(
 
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
         return if (OrchidUtils.isExternal(fileName)) {
-            val ref = OrchidReference.fromUrl(context, FilenameUtils.getName(fileName), fileName)
-            val resource = ExternalResource(ref)
-
-            if(context.isProduction) {
-                resource.download = true
-            }
-
-            resource
+            ExternalResource(
+                OrchidReference.fromUrl(context, FilenameUtils.getName(fileName), fileName)
+            )
         }
         else {
             null

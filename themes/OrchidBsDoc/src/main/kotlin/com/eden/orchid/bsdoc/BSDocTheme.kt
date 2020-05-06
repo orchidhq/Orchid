@@ -9,6 +9,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.theme.Theme
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.assets.CssPage
 import com.eden.orchid.api.theme.components.ComponentHolder
 import com.eden.orchid.api.theme.models.SiteSocial
@@ -71,19 +72,19 @@ constructor(
     @Description("Components to include in the sidebar, below the page menu.")
     lateinit var sidebar: ComponentHolder
 
-    override fun loadAssets() {
-        // these assets include relative references to font files, which become invalid if the asset it downloaded locally and so need to stay as external assets even in production
-        addCss(CssPage(this, "theme", context.getResourceEntry("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css", null), "bootstrap.min", null))
-        addCss(CssPage(this, "theme", context.getResourceEntry("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", null), "font-awesome.min", null))
-        addCss("https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.min.css")
-        addCss("assets/css/bsdoc.scss")
+    override fun loadAssets(delegate: AssetManagerDelegate) {
+        // these assets include relative references to font files, which become invalid if the asset is downloaded locally and so need to stay as external assets even in production
+        delegate.addCss("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css") { download = false; this }
+        delegate.addCss("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css") { download = false; this }
+        delegate.addCss("https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.min.css")
+        delegate.addCss("assets/css/bsdoc.scss")
 
-        addJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js")
-        addJs("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js")
-        addJs("https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.min.js")
-        addJs("assets/js/bsdoc.js")
+        delegate.addJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+        delegate.addJs("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js")
+        delegate.addJs("https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.min.js")
+        delegate.addJs("assets/js/bsdoc.js")
 
-        addCss("assets/css/orchidSearch.scss")
+        delegate.addCss("assets/css/orchidSearch.scss")
     }
 
     override fun onPostExtraction() {

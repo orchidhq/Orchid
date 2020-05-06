@@ -42,7 +42,6 @@ class CollectionPagesMenuItem : OrchidMenuFactory("collectionPages") {
         context: OrchidContext,
         page: OrchidPage
     ): List<MenuItem> {
-        Clog.v("loading pages for collection: (collectionType=$collectionType, collectionId=$collectionId, itemId=$itemId, pageIndex=$pageIndex, pageSize=$pageSize)")
         val loadedPages: List<OrchidPage> = if (pageIndex > 0 && pageSize > 0) {
             context.findAll(collectionType, collectionId, itemId, pageIndex, pageSize).filterIsInstance<OrchidPage>()
         } else {

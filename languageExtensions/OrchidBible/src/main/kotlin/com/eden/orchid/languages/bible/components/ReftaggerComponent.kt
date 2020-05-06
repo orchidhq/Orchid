@@ -4,6 +4,7 @@ import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.components.OrchidComponent
 
 @Description(
@@ -73,8 +74,8 @@ class ReftaggerComponent : OrchidComponent("reftagger", true) {
     @Option
     lateinit var excludeClasses: List<String>
 
-    override fun loadAssets() {
-        addJs("assets/js/reftagger.js").apply { inlined() }
+    override fun loadAssets(delegate: AssetManagerDelegate) {
+        delegate.addJs("assets/js/reftagger.js") { inlined = true; this }
     }
 
     fun excludeTagsFormatted() = excludeTags.joinToString { "\"$it\"" }

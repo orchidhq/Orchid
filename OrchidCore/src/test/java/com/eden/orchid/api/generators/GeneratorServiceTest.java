@@ -14,11 +14,11 @@ import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.impl.relations.ThemeRelation;
 import com.eden.orchid.testhelpers.OrchidUnitTest;
 import com.eden.orchid.utilities.OrchidExtensionsKt;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.stubbing.Answer;
 
+import javax.annotation.Nonnull;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -88,8 +88,6 @@ public final class GeneratorServiceTest implements OrchidUnitTest {
         when(context.includeDrafts()).thenReturn(false);
         when(context.getEmbeddedData(anyString(), anyString())).thenReturn(new EdenPair<>("", new HashMap<>()));
 
-        when(theme.isHasRenderedAssets()).thenReturn(true);
-
         generators = new HashSet<>();
 
         mockPage1Reference = new OrchidReference(context, "page1.html");
@@ -103,7 +101,7 @@ public final class GeneratorServiceTest implements OrchidUnitTest {
         mockPage2Reference = new OrchidReference(context, "page2.html");
         mockFreeableResource = spy(new OrchidResource(mockPage2Reference) {
 
-            @NotNull
+            @Nonnull
             @Override
             public InputStream getContentStream() {
                 return OrchidExtensionsKt.asInputStream("");
@@ -225,19 +223,19 @@ public final class GeneratorServiceTest implements OrchidUnitTest {
         List<? extends OrchidPage> mockPages;
         List<? extends OrchidPage> generatedPages;
 
-        public MockGenerator(String key, OrchidGenerator.Stage stage, @NotNull List<? extends OrchidPage> mockPages) {
+        public MockGenerator(String key, OrchidGenerator.Stage stage, @Nonnull List<? extends OrchidPage> mockPages) {
             super(key, stage);
             this.mockPages = mockPages;
         }
 
-        @NotNull
+        @Nonnull
         @Override
-        public Model startIndexing(@NotNull OrchidContext context) {
+        public Model startIndexing(@Nonnull OrchidContext context) {
             return modelOf(this, ()->mockPages);
         }
 
         @Override
-        public void startGeneration(@NotNull OrchidContext context, Model model) {
+        public void startGeneration(@Nonnull OrchidContext context, Model model) {
             generatedPages = model.getAllPages();
         }
     }

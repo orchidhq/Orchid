@@ -39,7 +39,13 @@ fun String?.wrap(width: Int = 80): List<String> {
 }
 
 @Suppress(SuppressedWarnings.UNUSED_PARAMETER)
-fun String.logSyntaxError(extension: String, lineNumberNullable: Int?, lineColumn: Int?, errorMessage: String? = "") {
+fun String.logSyntaxError(
+    extension: String,
+    lineNumberNullable: Int?,
+    lineColumn: Int?,
+    errorMessage: String? = "",
+    cause: Throwable? = null
+) {
     val lineNumber = lineNumberNullable ?: 0
     val lines = this.lines()
     val linesBeforeStart = Math.max(lineNumber - 3, 0)
@@ -47,16 +53,21 @@ fun String.logSyntaxError(extension: String, lineNumberNullable: Int?, lineColum
     val linesAfterStart = lineNumber
     val linesAfterEnd = Math.min(lineNumber + 5, lines.size)
 
-    val linesBefore = lines.subList(linesBeforeStart, linesBeforeEnd)
-    val errorLine = lines.get(linesBeforeEnd)
-    val linesAfter = lines.subList(linesAfterStart, linesAfterEnd)
+    val linesBefore = "   |" + lines.subList(linesBeforeStart, linesBeforeEnd).joinToString("\n   |")
+    val errorLine = "#{\$0|fg('RED')}-->|#{\$0|reset}" + lines[linesBeforeEnd]
+    val linesAfter = "   |" + lines.subList(linesAfterStart, linesAfterEnd).joinToString("\n   |")
 
-    var templateSnippet = ".{} Syntax Error: {} (see source below)"
-    templateSnippet += "\n   |" + linesBefore.joinToString("\n   |")
-    templateSnippet += "\n#{$0|fg('RED')}-->|#{$0|reset}$errorLine"
-    templateSnippet += "\n   |" + linesAfter.joinToString("\n   |")
+    val formattedMessage = """
+        |_|   |.${extension} error
+        |_|   |    Reason: $errorMessage
+        |_|   |    Cause: ${cause?.toString() ?: "Unknown cause"}
+        |_|   |
+        |_|$linesBefore
+        |_|$errorLine
+        |_|$linesAfter
+        """.trimMargin("|_|")
 
-    Clog.tag("Syntax error").e(templateSnippet, extension.toUpperCase(), errorMessage)
+    Clog.tag("Template error").e("\n$formattedMessage")
 }
 
 // string conversions
@@ -290,8 +301,8 @@ fun findPageByServerPath(pages: Stream<OrchidPage>, path: String): OrchidPage? {
         .orElse(null)
 }
 
-fun InputStream?.readToString() : String? = this?.bufferedReader()?.use { it.readText() }
-fun String?.asInputStream() : InputStream = ByteArrayInputStream((this ?: "").toByteArray(Charsets.UTF_8))
+fun InputStream?.readToString(): String? = this?.bufferedReader()?.use { it.readText() }
+fun String?.asInputStream(): InputStream = ByteArrayInputStream((this ?: "").toByteArray(Charsets.UTF_8))
 
 fun OptionsHolder.extractOptionsFromResource(context: OrchidContext, resource: OrchidResource): Map<String, Any?> {
     val data = resource.embeddedData
@@ -300,15 +311,15 @@ fun OptionsHolder.extractOptionsFromResource(context: OrchidContext, resource: O
 }
 
 inline fun <reified U> Any?.takeIf(): U? {
-    return if(this is U) this else null
+    return if (this is U) this else null
 }
 
 inline fun <T> T.applyIf(condition: Boolean, block: T.() -> Unit): T {
-    if(condition) block()
+    if (condition) block()
     return this
 }
 
 
-fun <T> T.debugger() : T {
+fun <T> T.debugger(): T {
     return this
 }

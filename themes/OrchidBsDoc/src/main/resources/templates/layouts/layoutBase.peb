@@ -49,14 +49,14 @@
 </div>
 {% endblock %}
 
+{% endbody %}
 {% block layoutScripts %}{% endblock %}
 <script>
     $(function () {
         window.colors = ['{{ theme.primaryColor }}', '{{ theme.secondaryColor }}'];
-                  {% block setupJumbotron %}{% endblock %}
+        {% block setupJumbotron %}{% endblock %}
         buildNav();
     });
 </script>
-{% endbody %}
 </body>
 </html>

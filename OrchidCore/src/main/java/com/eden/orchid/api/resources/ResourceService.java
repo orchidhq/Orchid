@@ -26,7 +26,7 @@ public interface ResourceService extends OrchidService {
         return getService(ResourceService.class).getDatafiles(directory);
     }
 
-    default OrchidResource getResourceEntry(final String fileName, @Nullable OrchidResourceSource.Scope scopes) {
+    default @Nullable OrchidResource getResourceEntry(final String fileName, @Nullable OrchidResourceSource.Scope scopes) {
         return getService(ResourceService.class).getResourceEntry(fileName, scopes);
     }
 

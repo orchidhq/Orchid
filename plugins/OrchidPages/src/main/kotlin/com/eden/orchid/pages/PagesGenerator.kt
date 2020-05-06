@@ -67,17 +67,6 @@ class PagesGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, Sta
         return modelOf({ pages }, { collections })
     }
 
-    override fun startGeneration(context: OrchidContext, model: Model) {
-        model
-            .allPages
-            .filterIsInstance<StaticPage>()
-            .forEach {
-                context.renderPageWithTheme(it, this@PagesGenerator.theme, it.theme) { page ->
-                    context.render(page)
-                }
-            }
-    }
-
     private fun getCollections(
         allPages: List<StaticPage>
     ): List<OrchidCollection<*>> {

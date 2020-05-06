@@ -24,7 +24,7 @@ the amound of configuration needed.
 
 For production builds with Orchid that include a deployment step, run the `orchidDeploy` gradle task instead of 
 `orchidBuild`. This will run the normal build as you'd expect, but follow that build with a deploy step after the build 
-completes successfully. You can also run a deploy manually by issuing the `{{anchor('deploy', 'DeployCommand')}}` 
+completes successfully. You can also run a deploy manually by issuing the deploy 
 command from an interactive session or through the admin panel.
 
 ### Setup
@@ -104,8 +104,7 @@ services:
 
 ## Available Publishers
 
-There are several publishers available in `OrchidCore`, but more may be available in plugins, or you may 
-{{anchor('create your own', 'OrchidPublisher')}}.
+There are several publishers available in `OrchidCore`, but more may be available in plugins, or you may create your own.
 
 - {{anchor('Script', 'OrchidCore')}} - Execute arbitrary shell scripts
 - {{anchor('Netlify', 'OrchidNetlify')}} - Upload your site to Netlify

@@ -45,7 +45,7 @@ so this function will help prevent dead links.
 The first parameter is the link text to be displayed, and the rest are the normal search params. If only one parameter
 is given, it will be used as both the `itemId` _and_ the link text, making it almost trivial to make a link.
 
-This function only matches items if they are an {{anchor('OrchidPage')}}.
+This function only matches items if they are an OrchidPage.
 
 ```twig
 {% verbatim %}
@@ -61,7 +61,7 @@ Use the `link` function to render just the String URL to a matching page. This i
 directly or you need an anchor to wrap other elements. Otherwise you should use `anchor` to let Orchid render the link
 for you. 
 
-This function only matches items if they are an {{anchor('OrchidPage')}}.
+This function only matches items if they are an OrchidPage.
 
 ```twig
 {% verbatim %}
@@ -72,7 +72,7 @@ This function only matches items if they are an {{anchor('OrchidPage')}}.
 
 ### Find Function
 
-The `find` function will find a matching page and return the {{anchor('OrchidPage')}} object directly to the template.
+The `find` function will find a matching page and return the OrchidPage object directly to the template.
 
 ```twig
 {% verbatim %}
@@ -97,7 +97,7 @@ template.
 
 Use the `page` menu item to find a matching page and add it to the menu. 
 
-This menu item only matches items if they are an {{anchor('OrchidPage')}}.
+This menu item only matches items if they are an OrchidPage.
 
 ```yaml
 menu: 

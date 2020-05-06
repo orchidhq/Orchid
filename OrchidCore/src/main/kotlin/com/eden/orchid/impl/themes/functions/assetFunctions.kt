@@ -9,16 +9,19 @@ import com.eden.orchid.api.options.annotations.DoubleDefault
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.options.annotations.Validate
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.assets.AssetPage
 import com.eden.orchid.api.resources.thumbnails.Renameable
 import com.eden.orchid.api.resources.thumbnails.Resizable
 import com.eden.orchid.api.resources.thumbnails.Rotateable
 import com.eden.orchid.api.resources.thumbnails.Scalable
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
 import com.eden.orchid.impl.relations.AssetRelation
 import javax.inject.Inject
+import javax.validation.constraints.NotBlank
 
 @Description(value = "Render an asset and get its URL.", name = "Asset")
 class AssetFunction : TemplateFunction("asset", false) {
@@ -29,8 +32,17 @@ class AssetFunction : TemplateFunction("asset", false) {
 
     override fun parameters() = arrayOf(::itemId.name)
 
+    private fun createAssetManagerDelegate(context: OrchidContext, page: OrchidPage?): AssetManagerDelegate {
+        return if(page != null) {
+            AssetManagerDelegate(context, page, "page", null)
+        }
+        else {
+            AssetManagerDelegate(context, this, name, null)
+        }
+    }
+
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
-        return context.assetManager.createAsset(itemId, page, "page")
+        return context.assetManager.createAsset(createAssetManagerDelegate(context, page), itemId, null)
     }
 }
 
@@ -46,6 +58,15 @@ abstract class BaseImageManipulationFunction(name: String, isSafeString: Boolean
     @Option
     var input: Any? = null
 
+    private fun createAssetManagerDelegate(context: OrchidContext, page: OrchidPage?): AssetManagerDelegate {
+        return if(page != null) {
+            AssetManagerDelegate(context, page, "page", null)
+        }
+        else {
+            AssetManagerDelegate(context, this, name, null)
+        }
+    }
+
     protected fun getAssetPage(context: OrchidContext, page: OrchidPage?): AssetPage? {
         if (input != null) {
             val asset: AssetPage?
@@ -57,7 +78,7 @@ abstract class BaseImageManipulationFunction(name: String, isSafeString: Boolean
                 // want to manipulate the asset and render it differently
                 asset = (input as AssetRelation).load()
             } else if(input is String) {
-                asset = context.assetManager.createAsset(input?.toString(), page, "page")
+                asset = context.assetManager.createAsset(createAssetManagerDelegate(context, page), input!!.toString(), null)
             } else {
                 asset = null
             }

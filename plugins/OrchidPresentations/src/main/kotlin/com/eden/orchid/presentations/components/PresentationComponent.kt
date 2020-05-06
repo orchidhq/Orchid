@@ -4,6 +4,7 @@ import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.presentations.model.Presentation
 
@@ -29,26 +30,26 @@ class PresentationComponent : OrchidComponent("presentation") {
     @Description("The key of the Presentation to display.")
     var presentation: Presentation? = null
 
-    override fun loadAssets() {
+    override fun loadAssets(delegate: AssetManagerDelegate) {
         if (!scriptsOnly) {
-            addCss("assets/core/deck_core.scss")
-            addCss("assets/extensions/goto/deck_goto.scss")
-            addCss("assets/extensions/menu/deck_menu.scss")
-            addCss("assets/extensions/navigation/deck_navigation.scss")
-            addCss("assets/extensions/status/deck_status.scss")
-            addCss("assets/extensions/scale/deck_scale.scss")
-            addCss("assets/themes/style/$deckTheme.scss")
-            addCss("assets/themes/transition/$transitionTheme.scss")
+            delegate.addCss("assets/core/deck_core.scss")
+            delegate.addCss("assets/extensions/goto/deck_goto.scss")
+            delegate.addCss("assets/extensions/menu/deck_menu.scss")
+            delegate.addCss("assets/extensions/navigation/deck_navigation.scss")
+            delegate.addCss("assets/extensions/status/deck_status.scss")
+            delegate.addCss("assets/extensions/scale/deck_scale.scss")
+            delegate.addCss("assets/themes/style/$deckTheme.scss")
+            delegate.addCss("assets/themes/transition/$transitionTheme.scss")
         }
 
-        addJs("assets/vendor/modernizr_custom.js")
-        addJs("assets/core/deck_core.js")
-        addJs("assets/extensions/menu/deck_menu.js")
-        addJs("assets/extensions/goto/deck_goto.js")
-        addJs("assets/extensions/status/deck_status.js")
-        addJs("assets/extensions/navigation/deck_navigation.js")
-        addJs("assets/extensions/scale/deck_scale.js")
-        addJs("assets/initDeck.js")
+        delegate.addJs("assets/vendor/modernizr_custom.js")
+        delegate.addJs("assets/core/deck_core.js")
+        delegate.addJs("assets/extensions/menu/deck_menu.js")
+        delegate.addJs("assets/extensions/goto/deck_goto.js")
+        delegate.addJs("assets/extensions/status/deck_status.js")
+        delegate.addJs("assets/extensions/navigation/deck_navigation.js")
+        delegate.addJs("assets/extensions/scale/deck_scale.js")
+        delegate.addJs("assets/initDeck.js")
     }
 
 }

@@ -19,21 +19,11 @@ constructor(
 ) : OptionArchetype {
 
     override fun getOptions(target: Any, archetypeKey: String): Map<String, Any> {
-        var configOptions: Map<String, Any>? = null
-        val eventOptions: Map<String, Any>?
-
-        if (!EdenUtils.isEmpty(archetypeKey)) {
-            val contextOptions = context.query(archetypeKey)
-            if (EdenUtils.elementIsObject(contextOptions)) {
-                configOptions = (contextOptions.element as JSONObject).toMap()
-            }
-        }
-
-        val options = Orchid.Lifecycle.ArchetypeOptions(archetypeKey, target)
-        context.broadcast(options)
-        eventOptions = options.config
-
-        return EdenUtils.merge(configOptions, eventOptions)
+        return archetypeKey
+            .takeIf { it.isNotBlank() }
+            ?.let { context.query(it) }
+            ?.takeIf { EdenUtils.elementIsObject(it) }
+            ?.let { (it.element as JSONObject).toMap() }
+            ?: emptyMap()
     }
-
 }

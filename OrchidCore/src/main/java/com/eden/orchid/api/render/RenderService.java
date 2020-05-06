@@ -46,8 +46,8 @@ public interface RenderService extends OrchidService {
     }
 
     /**
-     * Renders an AssetPage. If the page represents a binary asset, it will be rendered with {@link #renderBinary(OrchidPage)},
-     * otherwise it will be rendered with {@link #renderRaw(OrchidPage)}
+     * Renders an AssetPage. If the page represents a binary asset, it will be rendered with {@link RenderMode.BINARY},
+     * otherwise it will be rendered with {@link RenderMode.RAW}
      *
      * @param asset the asset to render
      * @return if the page was not skipped, the result of {@link OrchidRenderer} indicating whether the page was successfully rendered, false otherwise

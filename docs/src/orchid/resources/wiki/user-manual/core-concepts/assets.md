@@ -92,11 +92,11 @@ template function to load an asset, and Orchid will make sure it ends up in your
 ```twig
 # Any page or template
 {% verbatim %}
-{{ 'assets/image.jpg'|asset }}
+{{ 'assets/media/pic01.jpg'|asset }}
 {% endverbatim %}
 ```
 
-![asset]({{ sampleAsset|asset }})
+![asset]({{ 'assets/media/pic01.jpg'|asset }})
 
 ### Rotate
 
@@ -105,11 +105,11 @@ Rotate an image asset. Rotation angle is expressed in degrees.
 ```twig
 # Any page or template
 {% verbatim %}
-{{ 'assets/image.jpg'|asset|rotate(90) }}
+{{ 'assets/media/pic01.jpg'|asset|rotate(90) }}
 {% endverbatim %}
 ```
 
-![rotated asset]({{ sampleAsset|asset|rotate(90) }})
+![rotated asset]({{ 'assets/media/pic01.jpg'|asset|rotate(90) }})
 
 ### Scale
 
@@ -118,11 +118,11 @@ Scale an image asset by a constant factor.
 ```twig
 # Any page or template
 {% verbatim %}
-{{ 'assets/image.jpg'|asset|scale(0.85) }}
+{{ 'assets/media/pic01.jpg'|asset|scale(0.85) }}
 {% endverbatim %}
 ```
 
-![scaled asset]({{ sampleAsset|asset|scale(0.85) }})
+![scaled asset]({{ 'assets/media/pic01.jpg'|asset|scale(0.85) }})
 
 ### Resize
 
@@ -133,15 +133,15 @@ image to exactly the specified dimensions, or crop it to a specified edge.
 ```twig
 # Any page or template
 {% verbatim %}
-{{ 'assets/image.jpg'|asset|resize(800, 600, "exact") }}
+{{ 'assets/media/pic01.jpg'|asset|resize(800, 600, "exact") }}
 {% endverbatim %}
 ```
 
-![resized asset]({{ sampleAsset|asset|resize(400, 300, "fit") }})
-![exact resized asset]({{ sampleAsset|asset|resize(400, 300, "exact") }})
-![resized cropped center-left asset]({{ sampleAsset|asset|resize(400, 300, "cl") }})
-![resized cropped center asset]({{ sampleAsset|asset|resize(400, 300, "c") }})
-![resized cropped center-right asset]({{ sampleAsset|asset|resize(400, 300, "cr") }})
+![resized asset]({{ 'assets/media/pic01.jpg'|asset|resize(400, 300, "fit") }})
+![exact resized asset]({{ 'assets/media/pic01.jpg'|asset|resize(400, 300, "exact") }})
+![resized cropped center-left asset]({{ 'assets/media/pic01.jpg'|asset|resize(400, 300, "cl") }})
+![resized cropped center asset]({{ 'assets/media/pic01.jpg'|asset|resize(400, 300, "c") }})
+![resized cropped center-right asset]({{ 'assets/media/pic01.jpg'|asset|resize(400, 300, "cr") }})
 
 ### Rename
 
@@ -153,7 +153,7 @@ resource, it will be reformatted into the target file format if it is a valid im
 ```twig
 # Any page or template
 {% verbatim %}
-{{ 'assets/image.jpg'|asset|rename("assets/media/hero.png") }}
+{{ 'assets/media/pic01.jpg'|asset|rename("assets/media/hero.png") }}
 {% endverbatim %}
 ```
 
@@ -166,13 +166,13 @@ end of the entire pipeline; intermediate assets are not created for each filter.
 ```twig
 # Any page or template
 {% verbatim %}
-{{ 'assets/image.jpg'|asset|resize(800, 600, "exact")|rotate(45)|rotate(45) }}
+{{ 'assets/media/pic01.jpg'|asset|resize(800, 600, "exact")|rotate(45)|rotate(45) }}
 {% endverbatim %}
 ```
 
-![resized asset]({{ sampleAsset|asset|resize(400, 300) }})
-![resized asset]({{ sampleAsset|asset|resize(400, 300)|rotate(45) }})
-![resized asset]({{ sampleAsset|asset|resize(400, 300)|rotate(45)|rotate(45) }})
+![resized asset]({{ 'assets/media/pic01.jpg'|asset|resize(400, 300) }})
+![resized asset]({{ 'assets/media/pic01.jpg'|asset|resize(400, 300)|rotate(45) }})
+![resized asset]({{ 'assets/media/pic01.jpg'|asset|resize(400, 300)|rotate(45)|rotate(45) }})
 
 ## Favicons
 

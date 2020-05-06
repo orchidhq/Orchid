@@ -32,7 +32,6 @@ and {{ anchor('OrchidTaxonomies') }} plugins.
 
 - Try the [example app](https://github.com/orchidhq/OrchidTutorials/tree/master/kotlin-site)
 - Run [SourcedocTest](https://github.com/orchidhq/orchid/blob/dev/plugins/OrchidSourceDoc/src/test/kotlin/SourcedocTest.kt) for demo
-- View Orchid's own {{ anchor('source docs', 'com.eden.orchid') }}
 
 ## Usage
 

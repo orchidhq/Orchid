@@ -190,7 +190,7 @@ public final class OptionsServiceImpl implements OptionsService {
     }
 
     private void addAsset(Map<String, Object> siteData, AssetPage page) {
-        siteData.put(page.getSourceKey(), page.getSource());
+        siteData.put(page.getOrigin().getSourceKey(), page.getOrigin().getSource());
         addPage(siteData, page);
     }
 

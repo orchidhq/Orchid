@@ -52,9 +52,7 @@ constructor(
      * @param pages the pages to render
      */
     open fun startGeneration(context: OrchidContext, model: T) {
-        model.allPages.forEach {
-            context.renderPageWithTheme(it, theme) { page -> context.render(page) }
-        }
+        model.allPages.forEach { context.render(it) }
     }
 
     companion object {

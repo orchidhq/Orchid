@@ -5,6 +5,7 @@ import com.copperleaf.kodiak.common.RichTextComponent.Companion.TYPE_NAME
 import com.copperleaf.kodiak.common.DocElement
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.components.ComponentHolder
 import com.eden.orchid.utilities.OrchidUtils
 
@@ -46,8 +47,8 @@ class SourceDocPage<T : DocElement>(
         )
     }
 
-    override fun loadAssets() {
-        addCss("assets/css/orchidSourceDoc.scss")
+    override fun loadAssets(delegate: AssetManagerDelegate) {
+        delegate.addCss("assets/css/orchidSourceDoc.scss")
     }
 
     fun getRootSection(): Section {

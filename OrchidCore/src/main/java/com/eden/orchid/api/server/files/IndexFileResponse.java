@@ -7,7 +7,7 @@ import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
 import com.eden.orchid.api.server.OrchidResponse;
 import com.eden.orchid.api.theme.assets.AssetHolder;
-import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate;
 import com.eden.orchid.api.theme.assets.AssetPage;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
@@ -29,7 +29,7 @@ final class IndexFileResponse {
 
     // TODO: convert this to a component
     static OrchidResponse getResponse(OrchidContext context, File targetFile, String targetPath) {
-        AssetHolder assetHolder = new AssetHolderDelegate(context, null, null);
+        AssetManagerDelegate delegate = new AssetManagerDelegate(context, context, "context", null);
 
         if (targetFile.isDirectory()) {
             Clog.i("Rendering directory index: {}", targetPath);
@@ -47,7 +47,7 @@ final class IndexFileResponse {
                         ".. (Go up)",
                         "",
                         "",
-                        assetHolder.addAsset("assets/svg/folder.svg")
+                        "assets/svg/folder.svg"
                 ));
 
                 for (File file : files) {
@@ -68,15 +68,7 @@ final class IndexFileResponse {
                         newFile.size = humanReadableByteCount(file.length(), true);
                         jsonFiles.add(newFile);
                     }
-
-                    String s = "assets/svg/" + icon + ".svg";
-
-                    AssetPage iconPage = assetHolder.addAsset(s);
-
-                    if(iconPage == null) {
-                        iconPage = assetHolder.addAsset("assets/svg/file.svg");
-                    }
-                    newFile.icon = iconPage;
+                    newFile.icon = "assets/svg/" + icon + ".svg";
                 }
 
                 jsonDirs.sort(Comparator.comparing(fileRow -> fileRow.name));
@@ -130,12 +122,12 @@ final class IndexFileResponse {
         public String name;
         public String size;
         public String date;
-        public AssetPage icon;
+        public String icon;
 
         public FileRow() {
         }
 
-        public FileRow(String url, String path, String name, String size, String date, AssetPage icon) {
+        public FileRow(String url, String path, String name, String size, String date, String icon) {
             this.url = url;
             this.path = path;
             this.name = name;

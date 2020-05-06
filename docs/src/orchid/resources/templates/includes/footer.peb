@@ -4,17 +4,17 @@
     <p>Site proudly built with <a href="https://orchid.run/">Orchid</a>.<br></p>
   </div>
   <div class="column has-text-right is-hidden-mobile">
-    <a href="https://github.com/orchidhq/orchid" style="margin-right: 10px;"><i class="fab fa-github"></i>
+    <a href="https://github.com/orchidhq/orchid" style="margin-right: 10px;"><i class="fa fab fa-github"></i>
       orchidhq/orchid</a>
-    <a href="https://twitter.com/OrchidSSG" style="margin-right: 10px;"><i class="fab fa-twitter"></i> @OrchidSSG</a>
+    <a href="https://twitter.com/OrchidSSG" style="margin-right: 10px;"><i class="fa fab fa-twitter"></i> @OrchidSSG</a>
   </div>
   <div class="column has-text-right is-hidden-tablet">
     <p>
-      <a href="https://github.com/orchidhq/orchid" style="margin-right: 10px;"><i class="fab fa-github"></i>
+      <a href="https://github.com/orchidhq/orchid" style="margin-right: 10px;"><i class="fa fab fa-github"></i>
         orchidhq/orchid</a>
     </p>
     <p>
-      <a href="https://twitter.com/OrchidSSG" style="margin-right: 10px;"><i class="fab fa-twitter"></i> @OrchidSSG</a>
+      <a href="https://twitter.com/OrchidSSG" style="margin-right: 10px;"><i class="fa fab fa-twitter"></i> @OrchidSSG</a>
     </p>
   </div>
 </div>

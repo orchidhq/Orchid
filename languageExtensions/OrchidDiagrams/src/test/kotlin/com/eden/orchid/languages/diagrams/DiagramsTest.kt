@@ -32,7 +32,7 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
                 get { content }
                     .asHtml()
                     .select("body") {
-                        innerHtmlMatches(otherSelectorToCheck = "body > div") {
+                        innerHtmlMatches(expectedSelectorToCheck = "body > div") {
                             p {
                                 +"Bob->Alice : hello"
                             }

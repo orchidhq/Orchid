@@ -59,6 +59,8 @@ theme:
   extraCss:
     - 'assets/css/plugins.scss'
     - 'assets/css/extras.scss'
+    - 'assets/css/extras.scss'
+    - 'assets/css/extras.scss'
   extraJs:
     - "assets/js/simpleFilter.js"
   metaComponents:

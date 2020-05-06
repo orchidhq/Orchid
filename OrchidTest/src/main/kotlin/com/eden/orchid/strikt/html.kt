@@ -2,6 +2,7 @@ package com.eden.orchid.strikt
 
 import com.eden.orchid.testhelpers.TestRenderer
 import com.eden.orchid.utilities.applyIf
+import kotlinx.html.BODY
 import kotlinx.html.DETAILS
 import kotlinx.html.DIV
 import kotlinx.html.HEAD
@@ -113,6 +114,16 @@ fun Assertion.Builder<TestRenderer.TestRenderedPage>.htmlBodyMatchesString(
         get { content.asHtml().select(selector).html() }.apply(matcher)
     }
 
+fun Assertion.Builder<TestRenderer.TestRenderedPage>.htmlHeadMatches(
+    selector: String = "head",
+    matcher: HEAD.() -> Unit
+): Assertion.Builder<TestRenderer.TestRenderedPage> =
+    assertBlock("HTML body matches") {
+        get { content }
+            .asHtml()
+            .headMatches(selector, matcher)
+    }
+
 /**
  * Check is the subject HTML tree is similar to another HTML tree, built with the Kotlin.HTML builder. The inner HTML
  * of the subject tree is compared against the built tree, and a CSS selector is used to select the candidate elemnts
@@ -128,7 +139,7 @@ fun Assertion.Builder<TestRenderer.TestRenderedPage>.htmlBodyMatchesString(
  */
 fun Assertion.Builder<Elements>.innerHtmlMatches(
     thisSelectorToCheck: String = "body",
-    otherSelectorToCheck: String = "body > div",
+    expectedSelectorToCheck: String = "body > div",
     matcher: DIV.() -> Unit
 ): Assertion.Builder<Elements> =
     and {
@@ -140,7 +151,7 @@ fun Assertion.Builder<Elements>.innerHtmlMatches(
             val similar = subject.hasHtmlSimilarTo(
                 expectedHtml,
                 thisSelectorToCheck = thisSelectorToCheck,
-                otherSelectorToCheck = otherSelectorToCheck
+                expectedSelectorToCheck = expectedSelectorToCheck
             )
             if (similar) pass() else fail(actual = expectedHtml)
         }
@@ -161,7 +172,7 @@ fun Assertion.Builder<Elements>.innerHtmlMatches(
  */
 fun Assertion.Builder<Elements>.outerHtmlMatches(
     thisSelectorToCheck: String = "body",
-    otherSelectorToCheck: String = "body > div",
+    expectedSelectorToCheck: String = "body > div",
     matcher: DIV.() -> Unit
 ): Assertion.Builder<Elements> =
     and {
@@ -173,7 +184,7 @@ fun Assertion.Builder<Elements>.outerHtmlMatches(
             val similar = subject.hasHtmlSimilarTo(
                 expectedHtml,
                 thisSelectorToCheck = thisSelectorToCheck,
-                otherSelectorToCheck = otherSelectorToCheck
+                expectedSelectorToCheck = expectedSelectorToCheck
             )
             if (similar) pass() else fail(actual = subject)
         }

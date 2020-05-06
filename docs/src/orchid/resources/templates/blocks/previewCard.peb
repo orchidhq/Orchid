@@ -9,10 +9,12 @@
       </div>
     {% endif %}
     <div class="card-content">
+      {% if mediaUrl is not empty %}
       <figure class="image is-3by2">
         <img src="{{ ((mediaUrl.startsWith("http") ? (mediaUrl) : (mediaUrl|asset))) }}">
         <!-- Image courtesy of unDraw (https://undraw.co/license) -->
       </figure>
+      {% endif %}
       <div class="expand"> </div>
       <h4 class="header-4 has-text-centered">{{ title }}</h4>
     </div>

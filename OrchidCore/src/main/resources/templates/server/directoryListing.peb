@@ -12,7 +12,7 @@
   <tbody>
   {% for file in (page.dirs + page.files) %}
   <tr onclick="window.location='{{ file.url }}';">
-    <td class="fileTypeIcon"><img src="{{ file.icon.link }}" alt="file icon"></td>
+    <td class="fileTypeIcon"><img src="{{ file.icon|asset }}" alt="file icon"></td>
     <td>
       <a href="{{ file.url }}"><b>{{ file.name }}</b></a>
       <br>

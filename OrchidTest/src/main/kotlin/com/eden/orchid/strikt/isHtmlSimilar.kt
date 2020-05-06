@@ -17,12 +17,12 @@ import org.jsoup.nodes.TextNode
  * This is a recursive check; each tag will check that all its sub-tags also are similar based on the same criteria
  */
 fun String.hasHtmlSimilarTo(
-    other: String,
+    expected: String,
     thisSelectorToCheck: String = "body",
-    otherSelectorToCheck: String = thisSelectorToCheck
+    expectedSelectorToCheck: String = thisSelectorToCheck
 ): Boolean {
     val doc1 = this.normalizeDoc().select(thisSelectorToCheck).flatMap { it.childNodes() }
-    val doc2 = other.normalizeDoc().select(otherSelectorToCheck).flatMap { it.childNodes() }
+    val doc2 = expected.normalizeDoc().select(expectedSelectorToCheck).flatMap { it.childNodes() }
 
     return doc1.hasHtmlSimilarTo(doc2)
 }
@@ -49,32 +49,32 @@ internal fun String.normalizeDoc(removeComments: Boolean = true): Document {
 // Evaluate trees for similarity
 //----------------------------------------------------------------------------------------------------------------------
 
-internal fun List<Node>.hasHtmlSimilarTo(other: List<Node>): Boolean {
+internal fun List<Node>.hasHtmlSimilarTo(expected: List<Node>): Boolean {
     val actualThis = this.filter { it !is TextNode || !it.isBlank }
-    val actualOther = other.filter { it !is TextNode || !it.isBlank }
+    val actualExpected = expected.filter { it !is TextNode || !it.isBlank }
 
     // both these sets are empty, so they are equal
-    if (actualThis.isEmpty() && actualOther.isEmpty()) {
+    if (actualThis.isEmpty() && actualExpected.isEmpty()) {
         return true
     }
 
     // sets have different sizes, it's easy to tell they are not equal
-    if (actualThis.size != actualOther.size) {
+    if (actualThis.size != actualExpected.size) {
         return false
     }
 
     actualThis.forEachIndexed { index, thisElement ->
-        val otherElement = actualOther[index]
+        val expectedElement = actualExpected[index]
 
         if (thisElement is TextNode) {
-            if (otherElement !is TextNode ) {
+            if (expectedElement !is TextNode ) {
                 return@hasHtmlSimilarTo false
             }
-            else if (thisElement.text().trim().trimLines() != otherElement.text().trim().trimLines()) {
+            else if (thisElement.text().trim().trimLines() != expectedElement.text().trim().trimLines()) {
                 return@hasHtmlSimilarTo false
             }
         } else if (thisElement is Element) {
-            if (otherElement !is Element || !thisElement.hasHtmlSimilarTo(otherElement)) {
+            if (expectedElement !is Element || !thisElement.hasHtmlSimilarTo(expectedElement)) {
                 return@hasHtmlSimilarTo false
             }
         }
@@ -83,72 +83,72 @@ internal fun List<Node>.hasHtmlSimilarTo(other: List<Node>): Boolean {
     return true
 }
 
-private fun Element.hasHtmlSimilarTo(other: Element): Boolean {
+private fun Element.hasHtmlSimilarTo(expected: Element): Boolean {
     // check tag name
     val tagName = { it: Element -> it.tagName() }
     val thisTagName = tagName(this)
-    val otherTagName = tagName(other)
-    if (thisTagName != otherTagName) {
+    val expectedTagName = tagName(expected)
+    if (thisTagName != expectedTagName) {
         return false
     }
 
     // check own text content
     val ownTextContent = { it: Element -> it.ownText().trim().trimLines() }
     val thisOwnTextContent = ownTextContent(this)
-    val otherOwnTextContent = ownTextContent(other)
-    if (thisOwnTextContent != otherOwnTextContent) {
+    val expectedOwnTextContent = ownTextContent(expected)
+    if (thisOwnTextContent != expectedOwnTextContent) {
         return false
     }
 
     // check classes
     val ownClasses = { it: Element -> it.classNames().sorted().distinct() }
     val thisOwnClasses = ownClasses(this)
-    val otherOwnClasses = ownClasses(other)
-    if (thisOwnClasses != otherOwnClasses) {
+    val expectedOwnClasses = ownClasses(expected)
+    if (thisOwnClasses != expectedOwnClasses) {
         return false
     }
 
     // check attributes
     val attributes = { it: Element -> it.attributes() }
     val thisAttributes = attributes(this)
-    val otherAttributes = attributes(other)
-    if (!thisAttributes.hasAttributesSimilarTo(otherAttributes)) {
+    val expectedAttributes = attributes(expected)
+    if (!thisAttributes.hasAttributesSimilarTo(expectedAttributes)) {
         return false
     }
 
     // check child notes
-    if (!this.childNodes().hasHtmlSimilarTo(other.childNodes())) {
+    if (!this.childNodes().hasHtmlSimilarTo(expected.childNodes())) {
         return false
     }
 
     return true
 }
 
-private fun Attributes.hasAttributesSimilarTo(other: Attributes): Boolean {
+private fun Attributes.hasAttributesSimilarTo(expected: Attributes): Boolean {
     // sets have different sizes, it's easy to tell they are not equal
-    if (this.size() != other.size()) {
+    if (this.size() != expected.size()) {
         return false
     }
 
-    // check all the props in `this` match those in `other`
+    // check all the props in `this` match those in `expected`
     this.forEach { thisAttribute ->
         if (thisAttribute.key != "class") {
             val actualAttributeKey = thisAttribute.key.removePrefix("data-")
 
-            val otherKeyExists = other.hasKey(actualAttributeKey) || other.hasKey("data-$actualAttributeKey")
-            val otherAttribute = if (other.hasKey(actualAttributeKey)) other.get(thisAttribute.key) else other.get("data-$actualAttributeKey")
+            val expectedKeyExists = expected.hasKey(actualAttributeKey) || expected.hasKey("data-$actualAttributeKey")
+            val expectedAttribute = if (expected.hasKey(actualAttributeKey)) expected.get(thisAttribute.key) else expected.get("data-$actualAttributeKey")
 
-            // other tag does not have a key
-            if (!otherKeyExists) {
+            // expected tag does not have a key
+            if (!expectedKeyExists) {
                 return@hasAttributesSimilarTo false
             }
             else if(thisAttribute.value.isBlank()) {
                 // likely a boolean property, sometimes it is empty string, sometimes has value same as name
-                if(!otherAttribute.isBlank() && !listOf(thisAttribute.key, "data-$actualAttributeKey").any { it == otherAttribute }) {
+                if(!expectedAttribute.isBlank() && !listOf(thisAttribute.key, "data-$actualAttributeKey").any { it == expectedAttribute }) {
                     return@hasAttributesSimilarTo false
                 }
             }
-            else if(thisAttribute.value != otherAttribute) {
+            else if(thisAttribute.value != expectedAttribute) {
                 // actual property, must match
                 return@hasAttributesSimilarTo false
             }

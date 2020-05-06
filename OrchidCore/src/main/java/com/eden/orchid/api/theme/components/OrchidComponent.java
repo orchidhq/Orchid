@@ -7,6 +7,7 @@ import com.eden.orchid.api.options.annotations.AllOptions;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.annotations.ImpliedKey;
 import com.eden.orchid.api.options.annotations.IntDefault;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.archetypes.SharedConfigArchetype;
@@ -14,12 +15,11 @@ import com.eden.orchid.api.registration.Prioritized;
 import com.eden.orchid.api.render.Renderable;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.server.annotations.ImportantModularType;
-import com.eden.orchid.api.theme.assets.AssetHolder;
-import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
-import com.eden.orchid.api.theme.assets.CssPage;
-import com.eden.orchid.api.theme.assets.JsPage;
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate;
+import com.eden.orchid.api.theme.assets.ExtraCss;
+import com.eden.orchid.api.theme.assets.ExtraJs;
+import com.eden.orchid.api.theme.assets.WithAssets;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import com.eden.orchid.utilities.OrchidUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -35,7 +35,7 @@ import static com.eden.orchid.utilities.OrchidUtils.DEFAULT_PRIORITY;
 @Archetype(value = SharedConfigArchetype.class, key = "from")
 public abstract class OrchidComponent extends Prioritized implements
         OptionsHolder,
-        AssetHolder,
+        WithAssets,
         ModularPageListItem<ComponentHolder, OrchidComponent>,
         Renderable {
 
@@ -46,8 +46,6 @@ public abstract class OrchidComponent extends Prioritized implements
     protected final String templateBase = "components";
     protected final String type;
     public final boolean meta;
-    protected AssetHolder assetHolder;
-    private boolean hasAddedAssets;
 
     protected OrchidContext context;
     protected OrchidPage page;
@@ -64,18 +62,6 @@ public abstract class OrchidComponent extends Prioritized implements
             "component earlier in the list."
     )
     protected int order;
-
-    @Option
-    @Description("Add extra CSS files to the page containing this Component, which will be compiled just like the " +
-            "rest of the site's assets."
-    )
-    protected String[] extraCss;
-
-    @Option
-    @Description("Add extra Javascript files to the page containing this Component, which will be compiled just like " +
-            "the rest of the site's assets."
-    )
-    protected String[] extraJs;
 
     @Option @BooleanDefault(false)
     @Description("When true, this component will not have a template rendered on the page. Useful for Components that" +
@@ -128,32 +114,6 @@ public abstract class OrchidComponent extends Prioritized implements
     public void initialize(OrchidContext context, OrchidPage containingPage) {
         this.context = context;
         this.page = containingPage;
-        this.assetHolder = new AssetHolderDelegate(context, this, "component");
-    }
-
-    @Override
-    public final void addAssets() {
-        if(!hasAddedAssets) {
-            loadAssets();
-            OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this, this, "component");
-            hasAddedAssets = true;
-        }
-    }
-
-    @Override
-    public final List<JsPage> getScripts() {
-        addAssets();
-        return assetHolder.getScripts();
-    }
-
-    @Override
-    public final List<CssPage> getStyles() {
-        addAssets();
-        return assetHolder.getStyles();
-    }
-
-    protected void loadAssets() {
-
     }
 
     public Object get(String key) {
@@ -189,10 +149,6 @@ public abstract class OrchidComponent extends Prioritized implements
         return this.type;
     }
 
-    public AssetHolder getAssetHolder() {
-        return this.assetHolder;
-    }
-
     public OrchidPage getPage() {
         return this.page;
     }
@@ -203,14 +159,6 @@ public abstract class OrchidComponent extends Prioritized implements
 
     public int getOrder() {
         return this.order;
-    }
-
-    public String[] getExtraCss() {
-        return this.extraCss;
-    }
-
-    public String[] getExtraJs() {
-        return this.extraJs;
     }
 
     public boolean isHidden() {
@@ -235,14 +183,6 @@ public abstract class OrchidComponent extends Prioritized implements
 
     public void setOrder(int order) {
         this.order = order;
-    }
-
-    public void setExtraCss(String[] extraCss) {
-        this.extraCss = extraCss;
-    }
-
-    public void setExtraJs(String[] extraJs) {
-        this.extraJs = extraJs;
     }
 
     public void setHidden(boolean hidden) {
@@ -276,5 +216,50 @@ public abstract class OrchidComponent extends Prioritized implements
             return resource.compileContent(this);
         }
         return "";
+    }
+
+// Assets
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Option
+    @Description("Attach extra CSS assets to this component, to be injected into its page.")
+    @ImpliedKey(typeKey = "asset")
+    private List<ExtraCss> extraCss;
+
+    @Option
+    @Description("Attach extra Javascript assets to this component, to be injected into its page.")
+    @ImpliedKey(typeKey = "asset")
+    private List<ExtraJs> extraJs;
+
+    @Nonnull
+    @Override
+    public final AssetManagerDelegate createAssetManagerDelegate(@Nonnull OrchidContext context) {
+        return new AssetManagerDelegate(context, this, "component", null);
+    }
+
+    @Nonnull
+    @Override
+    public final List<ExtraCss> getExtraCss() {
+        return extraCss;
+    }
+    public final void setExtraCss(List<ExtraCss> extraCss) {
+        this.extraCss = extraCss;
+    }
+
+    @Nonnull
+    @Override
+    public final List<ExtraJs> getExtraJs() {
+        return extraJs;
+    }
+    public final void setExtraJs(List<ExtraJs> extraJs) {
+        this.extraJs = extraJs;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void loadAssets(@Nonnull AssetManagerDelegate delegate) {
+
     }
 }

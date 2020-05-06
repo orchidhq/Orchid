@@ -6,6 +6,7 @@ import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.tasks.TaskService
 import com.eden.orchid.api.theme.assets.AssetHolder
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.pages.OrchidPage
@@ -81,16 +82,16 @@ class NetlifyCmsModel(
         return context.taskType == TaskService.TaskType.SERVE
     }
 
-    fun loadAssets(holder: AssetHolder) {
-        holder.addJs("https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js")
+    fun loadAssets(delegate: AssetManagerDelegate) {
+        delegate.addJs("https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js")
 
         if (isRunningLocally()) {
-            holder.addCss("assets/css/fs-backend.min.css")
-            holder.addJs("assets/js/fs-backend.min.js")
-            holder.addJs("inline:fs-cms-registration.js:CMS.registerBackend(\"orchid-server\", FileSystemBackendClass)")
+            delegate.addCss("assets/css/fs-backend.min.css")
+            delegate.addJs("assets/js/fs-backend.min.js")
+            delegate.addJs("inline:fs-cms-registration.js:CMS.registerBackend(\"orchid-server\", FileSystemBackendClass)")
         }
         else if (useNetlifyIdentityWidget) {
-            holder.addJs("https://identity.netlify.com/v1/netlify-identity-widget.js")
+            delegate.addJs("https://identity.netlify.com/v1/netlify-identity-widget.js")
         }
     }
 

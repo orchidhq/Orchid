@@ -93,7 +93,7 @@ class OrchidReferenceTest : OrchidUnitTest {
 
         val ref = OrchidReference(context, original, true)
 
-        Clog.getInstance().setMinPriority(Clog.Priority.VERBOSE)
+        enableLogging()
 
         expectThat(ref) {
             get { this.toString(context) }.isEqualTo(formatted)
@@ -125,7 +125,7 @@ class OrchidReferenceTest : OrchidUnitTest {
     fun testParsingExternalUrls(original: String, path: String?, fileName: String?, extension: String?, id: String?, query: String?) {
         val ref = OrchidReference.fromUrl(context, "", original)
 
-        Clog.getInstance().setMinPriority(Clog.Priority.VERBOSE)
+        enableLogging()
 
         expectThat(ref) {
             get { this.toString(context) }.isEqualTo(original)

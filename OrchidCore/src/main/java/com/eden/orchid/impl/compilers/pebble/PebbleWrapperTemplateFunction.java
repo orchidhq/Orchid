@@ -3,6 +3,7 @@ package com.eden.orchid.impl.compilers.pebble;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateFunction;
 import com.eden.orchid.api.theme.pages.OrchidPage;
+import com.mitchellbosecke.pebble.error.PebbleException;
 import com.mitchellbosecke.pebble.extension.Function;
 import com.mitchellbosecke.pebble.extension.escaper.SafeString;
 import com.mitchellbosecke.pebble.template.EvaluationContext;
@@ -32,6 +33,15 @@ public final class PebbleWrapperTemplateFunction implements Function {
 
     @Override
     public Object execute(Map<String, Object> args, PebbleTemplate self, EvaluationContext context, int lineNumber) {
+        try {
+            return doExecute(args, context);
+        }
+        catch (Exception e) {
+            throw new PebbleException(e, "Error thrown evaluating TemplateFunction '" + name + "'", lineNumber, self.getName());
+        }
+    }
+
+    private Object doExecute(Map<String, Object> args, EvaluationContext context) {
         TemplateFunction freshFunction = contextProvider.get().resolve(functionClass);
 
         Object pageVar = context.getVariable("page");

@@ -4,6 +4,7 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.utilities.OrchidUtils
 
@@ -41,37 +42,37 @@ class PrismComponent : OrchidComponent("prism", true) {
     @Description("If true, only include the Prism Javascript files, opting to build the styles yourself.")
     var scriptsOnly: Boolean = false
 
-    override fun loadAssets() {
-        addJs(OrchidUtils.normalizePath(prismSource) + "/prism.min.js")
+    override fun loadAssets(delegate: AssetManagerDelegate) {
+        delegate.addJs(OrchidUtils.normalizePath(prismSource) + "/prism.min.js")
 
         if (!scriptsOnly) {
             if (!EdenUtils.isEmpty(theme)) {
-                addCss("${OrchidUtils.normalizePath(prismSource)}/themes/prism-$theme.min.css")
+                delegate.addCss("${OrchidUtils.normalizePath(prismSource)}/themes/prism-$theme.min.css")
             }
             else if (!EdenUtils.isEmpty(githubTheme)) {
-                addCss("https://rawgit.com/PrismJS/prism-themes/master/themes/prism-$githubTheme.css")
+                delegate.addCss("https://rawgit.com/PrismJS/prism-themes/master/themes/prism-$githubTheme.css")
             }
             else {
-                addCss("${OrchidUtils.normalizePath(prismSource)}/themes/prism.min.css")
+                delegate.addCss("${OrchidUtils.normalizePath(prismSource)}/themes/prism.min.css")
             }
         }
 
         if (!EdenUtils.isEmpty(languages)) {
             for (lang in languages) {
-                addJs("${OrchidUtils.normalizePath(prismSource)}/components/prism-$lang.min.js")
+                delegate.addJs("${OrchidUtils.normalizePath(prismSource)}/components/prism-$lang.min.js")
             }
         }
 
         if (!EdenUtils.isEmpty(plugins)) {
             for (plugin in plugins) {
                 if (plugin == "copy-to-clipboard") {
-                    addJs("https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js")
+                    delegate.addJs("https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js")
                 }
-                addJs("${OrchidUtils.normalizePath(prismSource)}/plugins/$plugin/prism-$plugin.min.js")
+                delegate.addJs("${OrchidUtils.normalizePath(prismSource)}/plugins/$plugin/prism-$plugin.min.js")
 
                 if (!scriptsOnly) {
                     when (plugin) {
-                        "line-numbers", "line-highlight", "toolbar" -> addCss("${OrchidUtils.normalizePath(prismSource)}/plugins/$plugin/prism-$plugin.min.css")
+                        "line-numbers", "line-highlight", "toolbar" -> delegate.addCss("${OrchidUtils.normalizePath(prismSource)}/plugins/$plugin/prism-$plugin.min.css")
                     }
                 }
             }

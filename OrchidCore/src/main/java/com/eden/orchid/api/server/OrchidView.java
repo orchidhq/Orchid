@@ -11,12 +11,15 @@ import com.eden.orchid.api.tasks.OrchidCommand;
 import com.eden.orchid.api.tasks.OrchidTask;
 import com.eden.orchid.api.theme.AbstractTheme;
 import com.eden.orchid.api.theme.Theme;
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate;
 import com.eden.orchid.api.theme.assets.CssPage;
 import com.eden.orchid.api.theme.assets.JsPage;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
+import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
 
+import javax.annotation.Nonnull;
 import javax.inject.Provider;
 import javax.inject.Inject;
 import java.net.URLEncoder;
@@ -71,8 +74,8 @@ public final class OrchidView extends OrchidPage {
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override
-    public void loadAssets() {
-        addJs("assets/js/shadowComponents.js");
+    public void loadAssets(@Nonnull AssetManagerDelegate delegate) {
+        delegate.addJs("assets/js/shadowComponents.js");
     }
 
     @Override

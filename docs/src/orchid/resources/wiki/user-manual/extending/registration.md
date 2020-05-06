@@ -132,10 +132,10 @@ available set types from the {{ anchor('Admin Panel', 'Admin Panel') }}.
 
 Some common examples of classes that are bound through sets are:
 
-- {{ anchor('Generators', 'OrchidGenerator') }} 
-- {{ anchor('Component Types', 'OrchidComponent') }} 
-- {{ anchor('Menu Item Types', 'OrchidMenuFactory') }} 
-- {{ anchor('Template Tags', 'TemplateTag') }} 
+- Generators
+- Components
+- Menu Items
+- Template Tags
 
 ## Ignoring Modules
 

@@ -32,4 +32,9 @@ constructor(
     override fun parseStringRef(ref: String?): Map<String, Any> {
         return mapOf("key" to (ref ?: ""))
     }
+
+    override fun toString(): String {
+        val item = get()
+        return "ThemeRelation(key='$key', allData='$allData', item='$item')"
+    }
 }
