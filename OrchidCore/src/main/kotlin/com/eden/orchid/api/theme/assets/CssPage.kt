@@ -69,8 +69,17 @@ class CssPage(
         }
     }
 
+    override val shouldInline: Boolean get() {
+        return when {
+            resource is InlineResource -> true
+            resource is ExternalResource && resource.shouldDownload && inlined -> true
+            resource !is ExternalResource && inlined -> true
+            else -> false
+        }
+    }
+
     override fun renderAssetToPage(): String {
-        return if (resource is InlineResource || inlined) {
+        return if (shouldInline) {
             "<style ${renderAttrs(attrs)}>\n${resource.compileContent(this)}\n</style>"
         } else {
             """<link rel="stylesheet" type="text/css" href="${this.link}" ${renderAttrs(attrs)}/>"""

@@ -7,6 +7,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.archetypes.AssetMetadataArchetype
 import com.eden.orchid.api.render.RenderService.RenderMode
 import com.eden.orchid.api.resources.resource.ExternalResource
+import com.eden.orchid.api.resources.resource.InlineResource
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
@@ -43,6 +44,13 @@ open class AssetPage(
         // it's just a local file, apply the prefix as needed
         if (origin.prefix != null) {
             reference.path = OrchidUtils.normalizePath(origin.prefix) + "/" + reference.path
+        }
+    }
+
+    open val shouldInline: Boolean get() {
+        return when {
+            resource is InlineResource -> true
+            else -> false
         }
     }
 

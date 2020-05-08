@@ -87,8 +87,17 @@ class JsPage(
         }
     }
 
+    override val shouldInline: Boolean get() {
+        return when {
+            resource is InlineResource -> true
+            resource is ExternalResource && resource.shouldDownload && inlined -> true
+            resource !is ExternalResource && inlined -> true
+            else -> false
+        }
+    }
+
     override fun renderAssetToPage(): String? {
-        return if (resource is InlineResource || inlined) {
+        return if (shouldInline) {
             (applyStartTag()
                     + applyModuleNoModule()
                     + renderAttrs(attrs)

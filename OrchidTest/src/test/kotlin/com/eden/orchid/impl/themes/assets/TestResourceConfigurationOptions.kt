@@ -25,7 +25,7 @@ class TestResourceConfigurationOptions : OrchidIntegrationTest(
     }
 
     @Test
-    @DisplayName("Test external assets not downloaded in dev environment")
+    @DisplayName("Test jsPage with module attr")
     fun test01() {
         flag("environment", "dev")
         configObject(
@@ -40,133 +40,26 @@ class TestResourceConfigurationOptions : OrchidIntegrationTest(
             "allPages",
             """
             |{
-            |   "components": [
-            |       {"type": "pageContent", "noWrapper": false}
-            |   ],
-            |   "extraCss": [
-            |       "https://copper-leaf.github.io/test-downloadable-assets/assets/css/style.css"
-            |   ],
-            |   "extraJs": [
-            |       "https://copper-leaf.github.io/test-downloadable-assets/assets/js/scripts.js"
-            |   ]
-            |}
-            """.trimMargin()
-        )
-
-        execute()
-            .asExpected()
-            .pageWasRendered("/test/asset/page-one/index.html") {
-                htmlHeadMatches("head link[rel=stylesheet]") {
-                    link(href="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}", rel="stylesheet", type="text/css") { }
-                    link(href="http://orchid.test/${TestAssetPage.CSS}", rel="stylesheet", type="text/css") { }
-                    link(href="https://copper-leaf.github.io/test-downloadable-assets/assets/css/style.css", rel="stylesheet", type="text/css") { }
-                }
-                htmlBodyMatches {
-                    div("component component-pageContent component-order-0") {}
-                    script(src="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
-                    script(src="http://orchid.test/${TestAssetPage.JS}") { }
-                    script(src="https://copper-leaf.github.io/test-downloadable-assets/assets/js/scripts.js") { }
-                }
-            }
-            .pageWasNotRendered("/test-downloadable-assets/assets/css/style.css")
-            .pageWasNotRendered("/test-downloadable-assets/assets/js/scripts.js")
-    }
-
-    @Test
-    @DisplayName("Test external assets are downloaded in prod environment")
-    fun test02() {
-        flag("environment", "prod")
-        configObject(
-            "site",
-            """
-            |{
-            |   "theme": "${TestAssetTheme.KEY}"
-            |}
-            """.trimMargin()
-        )
-        configObject(
-            "allPages",
-            """
-            |{
-            |   "components": [
-            |       {"type": "pageContent", "noWrapper": false}
-            |   ],
-            |   "extraCss": [
-            |       "https://copper-leaf.github.io/test-downloadable-assets/assets/css/style.css"
-            |   ],
-            |   "extraJs": [
-            |       "https://copper-leaf.github.io/test-downloadable-assets/assets/js/scripts.js"
-            |   ]
-            |}
-            """.trimMargin()
-        )
-
-        execute()
-            .asExpected()
-            .pageWasRendered("/test/asset/page-one/index.html") {
-                htmlHeadMatches("head link[rel=stylesheet]") {
-                    link(href="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}", rel="stylesheet", type="text/css") { }
-                    link(href="http://orchid.test/${TestAssetPage.CSS}", rel="stylesheet", type="text/css") { }
-                    link(href="http://orchid.test/test-downloadable-assets/assets/css/style.css", rel="stylesheet", type="text/css") { }
-                }
-                htmlBodyMatches {
-                    div("component component-pageContent component-order-0") {}
-                    script(src="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
-                    script(src="http://orchid.test/${TestAssetPage.JS}") { }
-                    script(src="http://orchid.test/test-downloadable-assets/assets/js/scripts.js") { }
-                }
-            }
-            .pageWasRendered("/test-downloadable-assets/assets/css/style.css") {
-                get { content.replace("\\s+".toRegex(), "") }
-                    .isEqualTo(
-                        """
-                        |.extra-css {
-                        |  color: blue;
-                        |}
-                        """.trimMargin().replace("\\s+".toRegex(), "")
-                    )
-            }
-            .pageWasRendered("/test-downloadable-assets/assets/js/scripts.js") {
-                get { content.replace("\\s+".toRegex(), "") }
-                    .isEqualTo(
-                        """
-                        |fun js() {
-                        |    console.log("js");
-                        |}
-                        """.trimMargin().replace("\\s+".toRegex(), "")
-                    )
-            }
-    }
-
-    @Test
-    @DisplayName("Test external assets are not downloaded in prod environment when `download` is set to `false`")
-    fun test03() {
-        flag("environment", "prod")
-        configObject(
-            "site",
-            """
-            |{
-            |   "theme": "${TestAssetTheme.KEY}"
-            |}
-            """.trimMargin()
-        )
-        configObject(
-            "allPages",
-            """
-            |{
-            |   "components": [
-            |       {"type": "pageContent", "noWrapper": false}
-            |   ],
             |   "extraCss": [
             |       {
             |           "asset": "https://copper-leaf.github.io/test-downloadable-assets/assets/css/style.css",
-            |           "download": false
+            |           "attrs": {
+            |               "one": "1",
+            |               "two": "2"
+            |           }
             |       }
             |   ],
             |   "extraJs": [
             |       {
             |           "asset": "https://copper-leaf.github.io/test-downloadable-assets/assets/js/scripts.js",
-            |           "download": false
+            |           "attrs": {
+            |               "one": "1",
+            |               "two": "2"
+            |           },
+            |           "async": true,
+            |           "defer": true,
+            |           "module": true,
+            |           "nomodule": false
             |       }
             |   ]
             |}
@@ -176,19 +69,80 @@ class TestResourceConfigurationOptions : OrchidIntegrationTest(
         execute()
             .asExpected()
             .pageWasRendered("/test/asset/page-one/index.html") {
-//                htmlHeadMatches("head link[rel=stylesheet]") {
-//                    link(href="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}", rel="stylesheet", type="text/css") { }
-//                    link(href="http://orchid.test/${TestAssetPage.CSS}", rel="stylesheet", type="text/css") { }
-//                    link(href="https://copper-leaf.github.io/test-downloadable-assets/assets/css/style.css", rel="stylesheet", type="text/css") { }
-//                }
-//                htmlBodyMatches {
-//                    div("component component-pageContent component-order-0") {}
-//                    script(src="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
-//                    script(src="http://orchid.test/${TestAssetPage.JS}") { }
-//                    script(src="https://copper-leaf.github.io/test-downloadable-assets/assets/js/scripts.js") { }
-//                }
+                htmlHeadMatches("head link[rel=stylesheet]") {
+                    link(href="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}", rel="stylesheet", type="text/css") { }
+                    link(href="http://orchid.test/${TestAssetPage.CSS}", rel="stylesheet", type="text/css") { }
+                    link(href="https://copper-leaf.github.io/test-downloadable-assets/assets/css/style.css", rel="stylesheet", type="text/css") {
+                        attributes["one"] = "1"
+                        attributes["two"] = "2"
+                    }
+                }
+                htmlBodyMatches("body script") {
+                    script(src="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
+                    script(src="http://orchid.test/${TestAssetPage.JS}") { }
+                    script(src="https://copper-leaf.github.io/test-downloadable-assets/assets/js/scripts.js") {
+                        attributes["one"] = "1"
+                        attributes["two"] = "2"
+                        async = true
+                        defer = true
+                        type = "module"
+                    }
+                }
             }
             .pageWasNotRendered("/test-downloadable-assets/assets/css/style.css")
             .pageWasNotRendered("/test-downloadable-assets/assets/js/scripts.js")
     }
+
+    @Test
+    @DisplayName("Test jsPage with nomodule attr")
+    fun test02() {
+        flag("environment", "dev")
+        configObject(
+            "site",
+            """
+            |{
+            |   "theme": "${TestAssetTheme.KEY}"
+            |}
+            """.trimMargin()
+        )
+        configObject(
+            "allPages",
+            """
+            |{
+            |   "extraJs": [
+            |       {
+            |           "asset": "https://copper-leaf.github.io/test-downloadable-assets/assets/js/scripts.js",
+            |           "attrs": {
+            |               "one": "1",
+            |               "two": "2"
+            |           },
+            |           "async": true,
+            |           "defer": true,
+            |           "module": false,
+            |           "nomodule": true
+            |       }
+            |   ]
+            |}
+            """.trimMargin()
+        )
+
+        execute()
+            .asExpected()
+            .pageWasRendered("/test/asset/page-one/index.html") {
+                htmlBodyMatches("body script") {
+                    script(src="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
+                    script(src="http://orchid.test/${TestAssetPage.JS}") { }
+                    script(src="https://copper-leaf.github.io/test-downloadable-assets/assets/js/scripts.js") {
+                        attributes["one"] = "1"
+                        attributes["two"] = "2"
+                        attributes["nomodule"] = ""
+                        async = true
+                        defer = true
+                    }
+                }
+            }
+            .pageWasNotRendered("/test-downloadable-assets/assets/css/style.css")
+            .pageWasNotRendered("/test-downloadable-assets/assets/js/scripts.js")
+    }
+
 }
