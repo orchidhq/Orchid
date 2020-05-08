@@ -2,12 +2,10 @@ package com.eden.orchid.taxonomies
 
 import com.eden.orchid.pages.PagesModule
 import com.eden.orchid.posts.PostsModule
-import com.eden.orchid.strikt.asHtml
-import com.eden.orchid.strikt.innerHtmlMatches
+import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.nothingElseRendered
 import com.eden.orchid.strikt.nothingRendered
 import com.eden.orchid.strikt.pageWasRendered
-import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import kotlinx.html.a
 import kotlinx.html.li
@@ -82,73 +80,49 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
             .pageWasRendered("/category2/2018/2/1/post-two/index.html")
             .pageWasRendered("/page-one/index.html")
             .pageWasRendered("/tags/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            ul {
-                                li { a(href = "http://orchid.test/tags/tag2") { +"Tag 2 (1)" } }
-                                li { a(href = "http://orchid.test/tags/tag1") { +"Tag 1 (2)" } }
-                            }
-                        }
+                htmlBodyMatches {
+                    ul {
+                        li { a(href = "http://orchid.test/tags/tag2") { +"Tag 2 (1)" } }
+                        li { a(href = "http://orchid.test/tags/tag1") { +"Tag 1 (2)" } }
                     }
+                }
             }
             .pageWasRendered("/tags/tag1/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            ul {
-                                li { a(href = "http://orchid.test/category2/2018/2/1/post-two") { +"Post Two" } }
-                                li { a(href = "http://orchid.test/category1/2018/1/1/post-one") { +"Post One" } }
-                            }
-                        }
+                htmlBodyMatches {
+                    ul {
+                        li { a(href = "http://orchid.test/category2/2018/2/1/post-two") { +"Post Two" } }
+                        li { a(href = "http://orchid.test/category1/2018/1/1/post-one") { +"Post One" } }
                     }
+                }
             }
             .pageWasRendered("/tags/tag2/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            ul {
-                                li { a(href = "http://orchid.test/page-one") { +"Page One" } }
-                            }
-                        }
+                htmlBodyMatches {
+                    ul {
+                        li { a(href = "http://orchid.test/page-one") { +"Page One" } }
                     }
+                }
             }
             .pageWasRendered("/categories/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            ul {
-                                li { a(href = "http://orchid.test/categories/category2") { +"Category 2 (1)" } }
-                                li { a(href = "http://orchid.test/categories/category1") { +"Category 1 (1)" } }
-                            }
-                        }
+                htmlBodyMatches {
+                    ul {
+                        li { a(href = "http://orchid.test/categories/category2") { +"Category 2 (1)" } }
+                        li { a(href = "http://orchid.test/categories/category1") { +"Category 1 (1)" } }
                     }
+                }
             }
             .pageWasRendered("/categories/category1/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            ul {
-                                li { a(href = "http://orchid.test/category1/2018/1/1/post-one") { +"Post One" } }
-                            }
-                        }
+                htmlBodyMatches {
+                    ul {
+                        li { a(href = "http://orchid.test/category1/2018/1/1/post-one") { +"Post One" } }
                     }
+                }
             }
             .pageWasRendered("/categories/category2/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            ul {
-                                li { a(href = "http://orchid.test/category2/2018/2/1/post-two") { +"Post Two" } }
-                            }
-                        }
+                htmlBodyMatches {
+                    ul {
+                        li { a(href = "http://orchid.test/category2/2018/2/1/post-two") { +"Post Two" } }
                     }
+                }
             }
             .pageWasRendered("/atom.xml")
             .pageWasRendered("/rss.xml")
@@ -193,17 +167,13 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
             .pageWasRendered("/2018/2/1/post-two/index.html")
             .pageWasRendered("/2018/3/1/post-three/index.html")
             .pageWasRendered("/posts/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            ul {
-                                li { a(href = "http://orchid.test/2018/3/1/post-three") { +"Post Three" } }
-                                li { a(href = "http://orchid.test/2018/2/1/post-two") { +"Post Two" } }
-                                li { a(href = "http://orchid.test/2018/1/1/post-one") { +"Post One" } }
-                            }
-                        }
+                htmlBodyMatches {
+                    ul {
+                        li { a(href = "http://orchid.test/2018/3/1/post-three") { +"Post Three" } }
+                        li { a(href = "http://orchid.test/2018/2/1/post-two") { +"Post Two" } }
+                        li { a(href = "http://orchid.test/2018/1/1/post-one") { +"Post One" } }
                     }
+                }
             }
             .nothingElseRendered()
     }
@@ -245,20 +215,16 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
             .pageWasRendered("/2018/2/1/post-two/index.html")
             .pageWasRendered("/2018/3/1/post-three/index.html")
             .pageWasRendered("/archives/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            ul {
-                                li { a(href = "http://orchid.test/page-two") { +"Page Two" } }
-                                li { a(href = "http://orchid.test/page-three") { +"Page Three" } }
-                                li { a(href = "http://orchid.test/page-one") { +"Page One" } }
-                                li { a(href = "http://orchid.test/2018/3/1/post-three") { +"Post Three" } }
-                                li { a(href = "http://orchid.test/2018/2/1/post-two") { +"Post Two" } }
-                                li { a(href = "http://orchid.test/2018/1/1/post-one") { +"Post One" } }
-                            }
-                        }
+                htmlBodyMatches {
+                    ul {
+                        li { a(href = "http://orchid.test/page-two") { +"Page Two" } }
+                        li { a(href = "http://orchid.test/page-three") { +"Page Three" } }
+                        li { a(href = "http://orchid.test/page-one") { +"Page One" } }
+                        li { a(href = "http://orchid.test/2018/3/1/post-three") { +"Post Three" } }
+                        li { a(href = "http://orchid.test/2018/2/1/post-two") { +"Post Two" } }
+                        li { a(href = "http://orchid.test/2018/1/1/post-one") { +"Post One" } }
                     }
+                }
             }
             .nothingElseRendered()
     }

@@ -1,10 +1,8 @@
 package com.eden.orchid.impl.generators
 
-import com.eden.orchid.strikt.asHtml
-import com.eden.orchid.strikt.innerHtmlMatches
+import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.nothingElseRendered
 import com.eden.orchid.strikt.pageWasRendered
-import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
 import kotlinx.html.em
@@ -21,11 +19,9 @@ class HomepageGeneratorTest : OrchidIntegrationTest(withGenerator<HomepageGenera
     fun test01() {
         expectThat(execute())
             .pageWasRendered("/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches { +"" }
-                    }
+                htmlBodyMatches {
+                    +""
+                }
             }
             .pageWasRendered("/favicon.ico")
             .pageWasRendered("/404.html")
@@ -39,16 +35,12 @@ class HomepageGeneratorTest : OrchidIntegrationTest(withGenerator<HomepageGenera
 
         expectThat(execute())
             .pageWasRendered("/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            p {
-                                strong { +"bold" }
-                                em { +"italic" }
-                            }
-                        }
+                htmlBodyMatches {
+                    p {
+                        strong { +"bold" }
+                        em { +"italic" }
                     }
+                }
             }
             .pageWasRendered("/favicon.ico")
             .pageWasRendered("/404.html")
@@ -62,11 +54,9 @@ class HomepageGeneratorTest : OrchidIntegrationTest(withGenerator<HomepageGenera
 
         expectThat(execute())
             .pageWasRendered("/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches { +"**bold** _italic_" }
-                    }
+                htmlBodyMatches {
+                    +"**bold** _italic_"
+                }
             }
             .pageWasRendered("/favicon.ico")
             .pageWasRendered("/404.html")
@@ -82,16 +72,12 @@ class HomepageGeneratorTest : OrchidIntegrationTest(withGenerator<HomepageGenera
             .pageWasRendered("/index.html")
             .pageWasRendered("/favicon.ico")
             .pageWasRendered("/404.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            p {
-                                strong { +"bold" }
-                                em { +"italic" }
-                            }
-                        }
+                htmlBodyMatches {
+                    p {
+                        strong { +"bold" }
+                        em { +"italic" }
                     }
+                }
             }
             .nothingElseRendered()
     }
@@ -105,11 +91,9 @@ class HomepageGeneratorTest : OrchidIntegrationTest(withGenerator<HomepageGenera
             .pageWasRendered("/index.html")
             .pageWasRendered("/favicon.ico")
             .pageWasRendered("/404.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches { +"**bold** _italic_" }
-                    }
+                htmlBodyMatches {
+                    +"**bold** _italic_"
+                }
             }
             .nothingElseRendered()
     }

@@ -1,10 +1,8 @@
 package com.eden.orchid.wiki
 
-import com.eden.orchid.strikt.asHtml
-import com.eden.orchid.strikt.innerHtmlMatches
+import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.nothingRendered
 import com.eden.orchid.strikt.pageWasRendered
-import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import kotlinx.html.a
 import kotlinx.html.li
@@ -101,20 +99,16 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
 
         expectThat(execute())
             .pageWasRendered("/wiki/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            ul {
-                                li {
-                                    a(href = "http://orchid.test/wiki/page-one") { +"Page One" }
-                                }
-                                li {
-                                    a(href = "https://www.example.com/") { +"Page Two" }
-                                }
-                            }
+                htmlBodyMatches {
+                    ul {
+                        li {
+                            a(href = "http://orchid.test/wiki/page-one") { +"Page One" }
+                        }
+                        li {
+                            a(href = "https://www.example.com/") { +"Page Two" }
                         }
                     }
+                }
             }
             .pageWasRendered("/wiki/page-one/index.html")
     }

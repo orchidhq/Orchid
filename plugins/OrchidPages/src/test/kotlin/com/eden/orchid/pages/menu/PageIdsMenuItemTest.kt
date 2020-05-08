@@ -1,10 +1,8 @@
 package com.eden.orchid.pages.menu
 
 import com.eden.orchid.pages.PagesModule
-import com.eden.orchid.strikt.asHtml
-import com.eden.orchid.strikt.outerHtmlMatches
+import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.pageWasRendered
-import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import kotlinx.html.a
 import kotlinx.html.id
@@ -96,25 +94,21 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
 
         expectThat(execute())
             .pageWasRendered("/page-one/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body #menu") {
-                        outerHtmlMatches {
-                            ul {
-                                id = "menu"
+                htmlBodyMatches("body #menu") {
+                    ul {
+                        id = "menu"
 
-                                li { a(href = "#header-1") { +"Header 1" } }
-                                li { a(href = "#header-1-1") { +"Header 1-1" } }
-                                li { a(href = "#header-1-2") { +"Header 1-2" } }
+                        li { a(href = "#header-1") { +"Header 1" } }
+                        li { a(href = "#header-1-1") { +"Header 1-1" } }
+                        li { a(href = "#header-1-2") { +"Header 1-2" } }
 
-                                li { a(href = "#header-2") { +"Header 2" } }
-                                li { a(href = "#header-2-1") { +"Header 2-1" } }
-                                li { a(href = "#header-2-1-1") { +"Header 2-1-1" } }
-                                li { a(href = "#header-2-2") { +"Header 2-2" } }
-                                li { a(href = "#header-2-2-1") { +"Header 2-2-1" } }
-                            }
-                        }
+                        li { a(href = "#header-2") { +"Header 2" } }
+                        li { a(href = "#header-2-1") { +"Header 2-1" } }
+                        li { a(href = "#header-2-1-1") { +"Header 2-1-1" } }
+                        li { a(href = "#header-2-2") { +"Header 2-2" } }
+                        li { a(href = "#header-2-2-1") { +"Header 2-2-1" } }
                     }
+                }
             }
     }
 
@@ -146,40 +140,36 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
 
         expectThat(execute())
             .pageWasRendered("/page-one/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body #menu") {
-                        outerHtmlMatches {
+                htmlBodyMatches("body #menu") {
+                    ul {
+                        id = "menu"
+                        li {
+                            span("submenu") { +"Header 1" }
                             ul {
-                                id = "menu"
+                                li { a(href = "#header-1-1") { +"Header 1-1" } }
+                                li { a(href = "#header-1-2") { +"Header 1-2" } }
+                            }
+                        }
+
+                        li {
+                            span("submenu") { +"Header 2" }
+                            ul {
                                 li {
-                                    span("submenu") { +"Header 1" }
+                                    span("submenu") { +"Header 2-1" }
                                     ul {
-                                        li { a(href = "#header-1-1") { +"Header 1-1" } }
-                                        li { a(href = "#header-1-2") { +"Header 1-2" } }
+                                        li { a(href = "#header-2-1-1") { +"Header 2-1-1" } }
                                     }
                                 }
-
                                 li {
-                                    span("submenu") { +"Header 2" }
+                                    span("submenu") { +"Header 2-2" }
                                     ul {
-                                        li {
-                                            span("submenu") { +"Header 2-1" }
-                                            ul {
-                                                li { a(href = "#header-2-1-1") { +"Header 2-1-1" } }
-                                            }
-                                        }
-                                        li {
-                                            span("submenu") { +"Header 2-2" }
-                                            ul {
-                                                li { a(href = "#header-2-2-1") { +"Header 2-2-1" } }
-                                            }
-                                        }
+                                        li { a(href = "#header-2-2-1") { +"Header 2-2-1" } }
                                     }
                                 }
                             }
                         }
                     }
+                }
             }
     }
 
@@ -214,30 +204,26 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
 
         expectThat(execute())
             .pageWasRendered("/page-one/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body #menu") {
-                        outerHtmlMatches {
+                htmlBodyMatches("body #menu") {
+                    ul {
+                        id = "menu"
+                        li {
+                            span("submenu") { +"Header 1" }
                             ul {
-                                id = "menu"
-                                li {
-                                    span("submenu") { +"Header 1" }
-                                    ul {
-                                        li { a(href = "#header-1-1") { +"Header 1-1" } }
-                                        li { a(href = "#header-1-2") { +"Header 1-2" } }
-                                    }
-                                }
+                                li { a(href = "#header-1-1") { +"Header 1-1" } }
+                                li { a(href = "#header-1-2") { +"Header 1-2" } }
+                            }
+                        }
 
-                                li {
-                                    span("submenu") { +"Header 2" }
-                                    ul {
-                                        li { a(href = "#header-2-1") { +"Header 2-1" } }
-                                        li { a(href = "#header-2-2") { +"Header 2-2" } }
-                                    }
-                                }
+                        li {
+                            span("submenu") { +"Header 2" }
+                            ul {
+                                li { a(href = "#header-2-1") { +"Header 2-1" } }
+                                li { a(href = "#header-2-2") { +"Header 2-2" } }
                             }
                         }
                     }
+                }
             }
     }
 
@@ -272,29 +258,25 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
 
         expectThat(execute())
             .pageWasRendered("/page-one/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body #menu") {
-                        outerHtmlMatches {
+                htmlBodyMatches("body #menu") {
+                    ul {
+                        id = "menu"
+                        li { a(href = "#header-1-1") { +"Header 1-1" } }
+                        li { a(href = "#header-1-2") { +"Header 1-2" } }
+                        li {
+                            span("submenu") { +"Header 2-1" }
                             ul {
-                                id = "menu"
-                                li { a(href = "#header-1-1") { +"Header 1-1" } }
-                                li { a(href = "#header-1-2") { +"Header 1-2" } }
-                                li {
-                                    span("submenu") { +"Header 2-1" }
-                                    ul {
-                                        li { a(href = "#header-2-1-1") { +"Header 2-1-1" } }
-                                    }
-                                }
-                                li {
-                                    span("submenu") { +"Header 2-2" }
-                                    ul {
-                                        li { a(href = "#header-2-2-1") { +"Header 2-2-1" } }
-                                    }
-                                }
+                                li { a(href = "#header-2-1-1") { +"Header 2-1-1" } }
+                            }
+                        }
+                        li {
+                            span("submenu") { +"Header 2-2" }
+                            ul {
+                                li { a(href = "#header-2-2-1") { +"Header 2-2-1" } }
                             }
                         }
                     }
+                }
             }
     }
 

@@ -1,9 +1,7 @@
 package com.eden.orchid.javadoc
 
-import com.eden.orchid.strikt.asHtml
-import com.eden.orchid.strikt.innerHtmlMatches
+import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.pageWasRendered
-import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import kotlinx.html.a
 import kotlinx.html.li
@@ -54,19 +52,15 @@ class LegacyJavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
 
         expectThat(execute())
             .pageWasRendered("/com/eden/orchid/mock/JavaClass/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            ul {
-                                li { a(href = "#summary") { +"Summary" } }
-                                li { a(href = "#description") { +"Description" } }
-                                li { a(href = "#fields") { +"Fields" } }
-                                li { a(href = "#constructors") { +"Constructors" } }
-                                li { a(href = "#methods") { +"Methods" } }
-                            }
-                        }
+                htmlBodyMatches {
+                    ul {
+                        li { a(href = "#summary") { +"Summary" } }
+                        li { a(href = "#description") { +"Description" } }
+                        li { a(href = "#fields") { +"Fields" } }
+                        li { a(href = "#constructors") { +"Constructors" } }
+                        li { a(href = "#methods") { +"Methods" } }
                     }
+                }
             }
     }
 
@@ -101,38 +95,34 @@ class LegacyJavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
 
         expectThat(execute())
             .pageWasRendered("/com/eden/orchid/mock/JavaClass/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
+                htmlBodyMatches {
+                    ul {
+                        li { a(href = "#summary") { +"Summary" } }
+                        li { a(href = "#description") { +"Description" } }
+                        li {
+                            +"Fields"
                             ul {
-                                li { a(href = "#summary") { +"Summary" } }
-                                li { a(href = "#description") { +"Description" } }
-                                li {
-                                    +"Fields"
-                                    ul {
-                                        li { a(href = "#field__public_String_someData") { +"public String someData" } }
-                                    }
-                                }
-                                li {
-                                    +"Constructors"
-                                    ul {
-                                        li { a(href = "#constructor__public_JavaClass_String_s1_") { +"public JavaClass(String s1)" } }
-                                    }
-                                }
-                                li {
-                                    +"Methods"
-                                    ul {
-                                        li { a(href = "#method__public_String_doThing_String_s1_") { +"public String doThing(String s1)" } }
-                                        li { a(href = "#method__public_String_methodWithVarargs_String_strings_") { +"public String methodWithVarargs(String strings)" } }
-                                        li { a(href = "#method__public_String_methodWithStringArray_String_strings_") { +"public String methodWithStringArray(String strings)" } }
-                                        li { a(href = "#method__public_String_methodWithMultiDimensionStringArray_String_strings_") { +"public String methodWithMultiDimensionStringArray(String strings)" } }
-                                        li { a(href = "#method__public_String_methodWithMultiDimensionStringArrayWithVararg_String_strings_") { +"public String methodWithMultiDimensionStringArrayWithVararg(String strings)" } }
-                                    }
-                                }
+                                li { a(href = "#field__public_String_someData") { +"public String someData" } }
+                            }
+                        }
+                        li {
+                            +"Constructors"
+                            ul {
+                                li { a(href = "#constructor__public_JavaClass_String_s1_") { +"public JavaClass(String s1)" } }
+                            }
+                        }
+                        li {
+                            +"Methods"
+                            ul {
+                                li { a(href = "#method__public_String_doThing_String_s1_") { +"public String doThing(String s1)" } }
+                                li { a(href = "#method__public_String_methodWithVarargs_String_strings_") { +"public String methodWithVarargs(String strings)" } }
+                                li { a(href = "#method__public_String_methodWithStringArray_String_strings_") { +"public String methodWithStringArray(String strings)" } }
+                                li { a(href = "#method__public_String_methodWithMultiDimensionStringArray_String_strings_") { +"public String methodWithMultiDimensionStringArray(String strings)" } }
+                                li { a(href = "#method__public_String_methodWithMultiDimensionStringArrayWithVararg_String_strings_") { +"public String methodWithMultiDimensionStringArrayWithVararg(String strings)" } }
                             }
                         }
                     }
+                }
             }
     }
 
@@ -166,24 +156,20 @@ class LegacyJavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
 
         expectThat(execute())
             .pageWasRendered("/com/eden/orchid/mock/JavaClass/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
+                htmlBodyMatches {
+                    ul {
+                        li {
+                            +"All Classes"
                             ul {
-                                li {
-                                    +"All Classes"
-                                    ul {
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/JavaAnnotation") { +"JavaAnnotation" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/JavaClass") { +"JavaClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/JavaEnumClass") { +"JavaEnumClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/JavaExceptionClass") { +"JavaExceptionClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/JavaInterface") { +"JavaInterface" } }
-                                    }
-                                }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/JavaAnnotation") { +"JavaAnnotation" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/JavaClass") { +"JavaClass" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/JavaEnumClass") { +"JavaEnumClass" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/JavaExceptionClass") { +"JavaExceptionClass" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/JavaInterface") { +"JavaInterface" } }
                             }
                         }
                     }
+                }
             }
     }
 
@@ -217,20 +203,16 @@ class LegacyJavadocMenusTest : OrchidIntegrationTest(JavadocModule()) {
 
         expectThat(execute())
             .pageWasRendered("/com/eden/orchid/mock/JavaClass/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
+                htmlBodyMatches {
+                    ul {
+                        li {
+                            +"All Packages"
                             ul {
-                                li {
-                                    +"All Packages"
-                                    ul {
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock") { +"com.eden.orchid.mock" } }
-                                    }
-                                }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock") { +"com.eden.orchid.mock" } }
                             }
                         }
                     }
+                }
             }
     }
 

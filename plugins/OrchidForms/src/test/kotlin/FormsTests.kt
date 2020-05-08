@@ -425,7 +425,7 @@ class FormsTests : OrchidIntegrationTest(FormsModule(), PluginDocsModule(), with
 
         expectThat(execute())
             .pageWasRendered("/index.html") {
-                htmlBodyMatches(selector = "form > .row > .col") {
+                htmlBodyMatches(selector = "form > .row > .col > *") {
                     input(type = InputType.checkBox, name = "name") {
                         id = "Contact Us--name"
                         checked = true
@@ -465,7 +465,7 @@ class FormsTests : OrchidIntegrationTest(FormsModule(), PluginDocsModule(), with
 
         expectThat(execute())
             .pageWasRendered("/index.html") {
-                htmlBodyMatches(selector = "form > .row > .col") {
+                htmlBodyMatches(selector = "form > .row > .col > *") {
                     label {
                         htmlFor = "Contact Us--name"
                         +"Name"
@@ -514,7 +514,7 @@ class FormsTests : OrchidIntegrationTest(FormsModule(), PluginDocsModule(), with
 
         expectThat(execute())
             .pageWasRendered("/index.html") {
-                htmlBodyMatches(selector = "form > .row > .col") {
+                htmlBodyMatches(selector = "form > .row > .col > *") {
                     input(type = InputType.hidden, name = "name") {
                         id = "Contact Us--name"
                         value = "something super secret"
@@ -549,7 +549,7 @@ class FormsTests : OrchidIntegrationTest(FormsModule(), PluginDocsModule(), with
 
         expectThat(execute())
             .pageWasRendered("/index.html") {
-                htmlBodyMatches(selector = "form > .row > .col") {
+                htmlBodyMatches(selector = "form > .row > .col > *") {
                     label {
                         htmlFor = "Contact Us--name"
                         +"Name"
@@ -612,7 +612,7 @@ class FormsTests : OrchidIntegrationTest(FormsModule(), PluginDocsModule(), with
 
         expectThat(execute())
             .pageWasRendered("/index.html") {
-                htmlBodyMatches(selector = "form > .row > .col") {
+                htmlBodyMatches(selector = "form > .row > .col > *") {
                     label {
                         htmlFor = "Contact Us--name"
                         +"Name"
@@ -649,7 +649,7 @@ class FormsTests : OrchidIntegrationTest(FormsModule(), PluginDocsModule(), with
 
         expectThat(execute())
             .pageWasRendered("/index.html") {
-                htmlBodyMatches(selector = "form > .row > .col") {
+                htmlBodyMatches(selector = "form > .row > .col > *") {
                     label {
                         htmlFor = "Contact Us--name"
                         +"Name"

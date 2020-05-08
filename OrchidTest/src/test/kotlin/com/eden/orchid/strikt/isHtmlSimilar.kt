@@ -13,9 +13,10 @@ class IsHtmlSimilarTest : OrchidUnitTest {
     @MethodSource("params")
     fun testCssSelectorText(doc1: String, doc2: String, expectedResult: Boolean) {
         expectThat(
-            doc1.trimMargin().trim()
+            doc1.trimMargin().trim().normalizeDoc().select("body")
                 .hasHtmlSimilarTo(
-                    doc2.trimMargin().trim()
+                    doc2.trimMargin().trim().normalizeDoc().select("body"),
+                    false
                 )
         ).isEqualTo(expectedResult)
     }

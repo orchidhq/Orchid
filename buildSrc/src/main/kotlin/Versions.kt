@@ -58,7 +58,7 @@ object Versions {
 
     const val mockito_core: String = "3.3.3"
 
-    const val strikt_core: String = "0.25.0"
+    const val strikt_core: String = "0.26.0"
 
     const val classgraph: String = "4.8.47"
 

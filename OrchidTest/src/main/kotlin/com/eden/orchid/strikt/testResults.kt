@@ -63,6 +63,14 @@ fun Assertion.Builder<TestResults>.nothingElseRendered(): Assertion.Builder<Test
         }
     }
 
+/**
+ * Assert that a page at the given path was rendered. An additional assertion block can be provided to make assertions
+ * on the contents of this page.
+ *
+ * @see htmlHeadMatches
+ * @see htmlBodyMatches
+ * @see pageWasNotRendered
+ */
 fun Assertion.Builder<TestResults>.pageWasRendered(
     name: String,
     block: Assertion.Builder<TestRenderer.TestRenderedPage>.() -> Unit = {}
@@ -78,6 +86,11 @@ fun Assertion.Builder<TestResults>.pageWasRendered(
         }
     }
 
+/**
+ * Assert that a page at the given path was not rendered.
+ *
+ * @see pageWasRendered
+ */
 fun Assertion.Builder<TestResults>.pageWasNotRendered(name: String): Assertion.Builder<TestResults> =
     assert("page was not rendered at $name") {
         if (!it.isRenderingSuccess || it.thrownException != null)
@@ -128,35 +141,3 @@ fun Assertion.Builder<TestResults>.printResults(): Assertion.Builder<TestResults
 
         true
     }
-
-fun <T> Assertion.Builder<T>.assertBlock(
-    description: String,
-    block: Assertion.Builder<T>.(T) -> Any?
-): Assertion.Builder<T> {
-    var message: Any? = null
-
-    return compose(description) {
-        message = block(it)
-    }.then {
-        when {
-            anyFailed -> fail()
-            message is AssertBlockFailure -> fail((message as AssertBlockFailure).errorMessage)
-            else -> pass()
-        }
-    }
-}
-
-data class AssertBlockFailure(val errorMessage: String)
-
-fun <T> T.asExpected() : DescribeableBuilder<T> {
-    return expectThat(this)
-}
-
-fun <T> Assertion.Builder<T>.assertWhen(condition: Boolean, block: Assertion.Builder<T>.()->Assertion.Builder<T>) : Assertion.Builder<T> {
-    if(condition) {
-        return block()
-    }
-    else {
-        return this
-    }
-}

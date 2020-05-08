@@ -2,7 +2,7 @@ package com.eden.orchid.languages.diagrams
 
 import com.eden.orchid.impl.generators.HomepageGenerator
 import com.eden.orchid.strikt.asHtml
-import com.eden.orchid.strikt.innerHtmlMatches
+import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.matchCountIs
 import com.eden.orchid.strikt.matches
 import com.eden.orchid.strikt.pageWasRendered
@@ -29,15 +29,11 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
         expectThat(execute())
             .pageWasRendered("/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches(expectedSelectorToCheck = "body > div") {
-                            p {
-                                +"Bob->Alice : hello"
-                            }
-                        }
+                htmlBodyMatches {
+                    p {
+                        +"Bob->Alice : hello"
                     }
+                }
             }
     }
 
@@ -53,11 +49,9 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
         expectThat(execute())
             .pageWasRendered("/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches { +"" }
-                    }
+                htmlBodyMatches {
+                    +""
+                }
             }
     }
 

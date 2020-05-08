@@ -1,31 +1,12 @@
 package com.eden.orchid.strikt
 
+import com.eden.orchid.utilities.applyIf
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Attributes
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.Node
 import org.jsoup.nodes.TextNode
-
-/**
- * Two HTML trees are considered similar if:
- *
- * - they both contain the same tags in the same order
- * - the text content of all tags are the same
- * - the attributes on each tag are the same, but not necessarily in the same order
- *
- * This is a recursive check; each tag will check that all its sub-tags also are similar based on the same criteria
- */
-fun String.hasHtmlSimilarTo(
-    expected: String,
-    thisSelectorToCheck: String = "body",
-    expectedSelectorToCheck: String = thisSelectorToCheck
-): Boolean {
-    val doc1 = this.normalizeDoc().select(thisSelectorToCheck).flatMap { it.childNodes() }
-    val doc2 = expected.normalizeDoc().select(expectedSelectorToCheck).flatMap { it.childNodes() }
-
-    return doc1.hasHtmlSimilarTo(doc2)
-}
 
 // Prep trees for evaluation
 //----------------------------------------------------------------------------------------------------------------------
@@ -45,11 +26,10 @@ internal fun String.normalizeDoc(removeComments: Boolean = true): Document {
         }
 }
 
-
 // Evaluate trees for similarity
 //----------------------------------------------------------------------------------------------------------------------
 
-internal fun List<Node>.hasHtmlSimilarTo(expected: List<Node>): Boolean {
+internal fun List<Node>.hasHtmlSimilarTo(expected: List<Node>, ignoreContentWhitespace: Boolean): Boolean {
     val actualThis = this.filter { it !is TextNode || !it.isBlank }
     val actualExpected = expected.filter { it !is TextNode || !it.isBlank }
 
@@ -74,7 +54,7 @@ internal fun List<Node>.hasHtmlSimilarTo(expected: List<Node>): Boolean {
                 return@hasHtmlSimilarTo false
             }
         } else if (thisElement is Element) {
-            if (expectedElement !is Element || !thisElement.hasHtmlSimilarTo(expectedElement)) {
+            if (expectedElement !is Element || !thisElement.hasHtmlSimilarTo(expectedElement, ignoreContentWhitespace)) {
                 return@hasHtmlSimilarTo false
             }
         }
@@ -83,7 +63,7 @@ internal fun List<Node>.hasHtmlSimilarTo(expected: List<Node>): Boolean {
     return true
 }
 
-private fun Element.hasHtmlSimilarTo(expected: Element): Boolean {
+private fun Element.hasHtmlSimilarTo(expected: Element, ignoreContentWhitespace: Boolean): Boolean {
     // check tag name
     val tagName = { it: Element -> it.tagName() }
     val thisTagName = tagName(this)
@@ -94,8 +74,8 @@ private fun Element.hasHtmlSimilarTo(expected: Element): Boolean {
 
     // check own text content
     val ownTextContent = { it: Element -> it.ownText().trim().trimLines() }
-    val thisOwnTextContent = ownTextContent(this)
-    val expectedOwnTextContent = ownTextContent(expected)
+    val thisOwnTextContent = ownTextContent(this).applyIf(ignoreContentWhitespace) { replace("\\s+".toRegex(), "") }
+    val expectedOwnTextContent = ownTextContent(expected).applyIf(ignoreContentWhitespace) { replace("\\s+".toRegex(), "") }
     if (thisOwnTextContent != expectedOwnTextContent) {
         return false
     }
@@ -117,7 +97,7 @@ private fun Element.hasHtmlSimilarTo(expected: Element): Boolean {
     }
 
     // check child notes
-    if (!this.childNodes().hasHtmlSimilarTo(expected.childNodes())) {
+    if (!this.childNodes().hasHtmlSimilarTo(expected.childNodes(), ignoreContentWhitespace)) {
         return false
     }
 

@@ -56,7 +56,7 @@ class TestNormalAssetsAttached : OrchidIntegrationTest(
                     link(href="http://orchid.test/${TestAssetMetaComponent.CSS}", rel="stylesheet", type="text/css") { }
                     link(href="http://orchid.test/${TestAssetPage.CSS}", rel="stylesheet", type="text/css") { }
                 }
-                htmlBodyMatches("body") {
+                htmlBodyMatches {
                     div("component component-testAssetComponent component-order-0") {}
                     script(src="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
                     script(src="http://orchid.test/${TestAssetComponent.JS}") { }
@@ -104,7 +104,7 @@ class TestNormalAssetsAttached : OrchidIntegrationTest(
                     link(href="http://orchid.test/${TestAssetMetaComponent.CSS}", rel="stylesheet", type="text/css") { }
                     link(href="http://orchid.test/${TestAssetPage.CSS}", rel="stylesheet", type="text/css") { }
                 }
-                htmlBodyMatches("body") {
+                htmlBodyMatches {
                     div("component component-testAssetComponent component-order-0") {}
                     div("component component-testAssetComponent component-order-0") {}
                     div("component component-testAssetComponent component-order-0") {}

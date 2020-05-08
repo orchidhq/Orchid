@@ -1,10 +1,8 @@
 package com.eden.orchid.pages.menu
 
 import com.eden.orchid.pages.PagesModule
-import com.eden.orchid.strikt.asHtml
-import com.eden.orchid.strikt.outerHtmlMatches
+import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.pageWasRendered
-import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import kotlinx.html.a
 import kotlinx.html.id
@@ -78,18 +76,14 @@ class PagesMenuItemTest : OrchidIntegrationTest(PagesModule()) {
 
         expectThat(execute())
             .pageWasRendered("/page-1/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body #menu") {
-                        outerHtmlMatches {
-                            ul {
-                                id = "menu"
-                                li { a(href = "http://orchid.test/page-1") { +"Page 1" } }
-                                li { a(href = "http://orchid.test/page-2") { +"Page 2" } }
-                                li { a(href = "http://orchid.test/page-3") { +"Page 3" } }
-                            }
-                        }
+                htmlBodyMatches("body #menu") {
+                    ul {
+                        id = "menu"
+                        li { a(href = "http://orchid.test/page-1") { +"Page 1" } }
+                        li { a(href = "http://orchid.test/page-2") { +"Page 2" } }
+                        li { a(href = "http://orchid.test/page-3") { +"Page 3" } }
                     }
+                }
             }
     }
 
@@ -108,18 +102,14 @@ class PagesMenuItemTest : OrchidIntegrationTest(PagesModule()) {
 
         expectThat(execute())
             .pageWasRendered("/one/page-1/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body #menu") {
-                        outerHtmlMatches {
-                            ul {
-                                id = "menu"
-                                li { a(href = "http://orchid.test/one/page-1") { +"Page 1" } }
-                                li { a(href = "http://orchid.test/one/page-2") { +"Page 2" } }
-                                li { a(href = "http://orchid.test/one/page-3") { +"Page 3" } }
-                            }
-                        }
+                htmlBodyMatches("body #menu") {
+                    ul {
+                        id = "menu"
+                        li { a(href = "http://orchid.test/one/page-1") { +"Page 1" } }
+                        li { a(href = "http://orchid.test/one/page-2") { +"Page 2" } }
+                        li { a(href = "http://orchid.test/one/page-3") { +"Page 3" } }
                     }
+                }
             }
     }
 

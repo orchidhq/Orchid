@@ -1,9 +1,7 @@
 package com.eden.orchid.kotlindoc
 
-import com.eden.orchid.strikt.asHtml
-import com.eden.orchid.strikt.innerHtmlMatches
+import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.pageWasRendered
-import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import kotlinx.html.a
 import kotlinx.html.li
@@ -50,19 +48,15 @@ class LegacyKotlindocMenusTest : OrchidIntegrationTest(KotlindocModule()) {
 
         expectThat(execute())
             .pageWasRendered("/com/eden/orchid/mock/KotlinClass/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            ul {
-                                li { a(href = "#summary") { +"Summary" } }
-                                li { a(href = "#description") { +"Description" } }
-                                li { a(href = "#fields") { +"Fields" } }
-                                li { a(href = "#constructors") { +"Constructors" } }
-                                li { a(href = "#methods") { +"Methods" } }
-                            }
-                        }
+                htmlBodyMatches {
+                    ul {
+                        li { a(href = "#summary") { +"Summary" } }
+                        li { a(href = "#description") { +"Description" } }
+                        li { a(href = "#fields") { +"Fields" } }
+                        li { a(href = "#constructors") { +"Constructors" } }
+                        li { a(href = "#methods") { +"Methods" } }
                     }
+                }
             }
     }
 
@@ -96,34 +90,30 @@ class LegacyKotlindocMenusTest : OrchidIntegrationTest(KotlindocModule()) {
 
         expectThat(execute())
             .pageWasRendered("/com/eden/orchid/mock/KotlinClass/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
+                htmlBodyMatches {
+                    ul {
+                        li { a(href = "#summary") { +"Summary" } }
+                        li { a(href = "#description") { +"Description" } }
+                        li {
+                            +"Fields"
                             ul {
-                                li { a(href = "#summary") { +"Summary" } }
-                                li { a(href = "#description") { +"Description" } }
-                                li {
-                                    +"Fields"
-                                    ul {
-                                        li { a(href = "#field__var_someData__String") { +"var someData: String" } }
-                                    }
-                                }
-                                li {
-                                    +"Constructors"
-                                    ul {
-                                        li { a(href = "#constructor__constructor_s1__String_") { +"constructor(s1: String)" } }
-                                    }
-                                }
-                                li {
-                                    +"Methods"
-                                    ul {
-                                        li { a(href = "#method__fun_doThing_s1__String___String") { +"fun doThing(s1: String): String" } }
-                                    }
-                                }
+                                li { a(href = "#field__var_someData__String") { +"var someData: String" } }
+                            }
+                        }
+                        li {
+                            +"Constructors"
+                            ul {
+                                li { a(href = "#constructor__constructor_s1__String_") { +"constructor(s1: String)" } }
+                            }
+                        }
+                        li {
+                            +"Methods"
+                            ul {
+                                li { a(href = "#method__fun_doThing_s1__String___String") { +"fun doThing(s1: String): String" } }
                             }
                         }
                     }
+                }
             }
     }
 
@@ -156,34 +146,30 @@ class LegacyKotlindocMenusTest : OrchidIntegrationTest(KotlindocModule()) {
 
         expectThat(execute())
             .pageWasRendered("/com/eden/orchid/mock/KotlinClass/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
+                htmlBodyMatches {
+                    ul {
+                        li {
+                            +"All Classes"
                             ul {
-                                li {
-                                    +"All Classes"
-                                    ul {
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/CustomString") { +"CustomString" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinAnnotation") { +"KotlinAnnotation" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinClass") { +"KotlinClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinClassGenerics") { +"KotlinClassGenerics" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinClassWithCompanionObject") { +"KotlinClassWithCompanionObject" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinClassWithLibraryClasses") { +"KotlinClassWithLibraryClasses" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinEnumClass") { +"KotlinEnumClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinExceptionClass") { +"KotlinExceptionClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinInlineClass") { +"KotlinInlineClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinInterface") { +"KotlinInterface" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinObjectClass") { +"KotlinObjectClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinSealedClass1") { +"KotlinSealedClass1" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinSealedClass2") { +"KotlinSealedClass2" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinSealedClass3") { +"KotlinSealedClass3" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinSealedClasses") { +"KotlinSealedClasses" } }
-                                    }
-                                }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/CustomString") { +"CustomString" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinAnnotation") { +"KotlinAnnotation" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinClass") { +"KotlinClass" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinClassGenerics") { +"KotlinClassGenerics" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinClassWithCompanionObject") { +"KotlinClassWithCompanionObject" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinClassWithLibraryClasses") { +"KotlinClassWithLibraryClasses" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinEnumClass") { +"KotlinEnumClass" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinExceptionClass") { +"KotlinExceptionClass" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinInlineClass") { +"KotlinInlineClass" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinInterface") { +"KotlinInterface" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinObjectClass") { +"KotlinObjectClass" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinSealedClass1") { +"KotlinSealedClass1" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinSealedClass2") { +"KotlinSealedClass2" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinSealedClass3") { +"KotlinSealedClass3" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/KotlinSealedClasses") { +"KotlinSealedClasses" } }
                             }
                         }
                     }
+                }
             }
     }
 
@@ -216,20 +202,16 @@ class LegacyKotlindocMenusTest : OrchidIntegrationTest(KotlindocModule()) {
 
         expectThat(execute())
             .pageWasRendered("/com/eden/orchid/mock/KotlinClass/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
+                htmlBodyMatches {
+                    ul {
+                        li {
+                            +"All Packages"
                             ul {
-                                li {
-                                    +"All Packages"
-                                    ul {
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock") { +"com.eden.orchid.mock" } }
-                                    }
-                                }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock") { +"com.eden.orchid.mock" } }
                             }
                         }
                     }
+                }
             }
     }
 

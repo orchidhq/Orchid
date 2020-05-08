@@ -1,9 +1,7 @@
 package com.eden.orchid.groovydoc
 
-import com.eden.orchid.strikt.asHtml
-import com.eden.orchid.strikt.innerHtmlMatches
+import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.pageWasRendered
-import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import kotlinx.html.a
 import kotlinx.html.li
@@ -50,19 +48,15 @@ class LegacyGroovydocMenusTest : OrchidIntegrationTest(GroovydocModule()) {
 
         expectThat(execute())
             .pageWasRendered("/com/eden/orchid/mock/GroovyClass/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            ul {
-                                li { a(href = "#summary") { +"Summary" } }
-                                li { a(href = "#description") { +"Description" } }
-                                li { a(href = "#fields") { +"Fields" } }
-                                li { a(href = "#constructors") { +"Constructors" } }
-                                li { a(href = "#methods") { +"Methods" } }
-                            }
-                        }
+                htmlBodyMatches {
+                    ul {
+                        li { a(href = "#summary") { +"Summary" } }
+                        li { a(href = "#description") { +"Description" } }
+                        li { a(href = "#fields") { +"Fields" } }
+                        li { a(href = "#constructors") { +"Constructors" } }
+                        li { a(href = "#methods") { +"Methods" } }
                     }
+                }
             }
     }
 
@@ -96,34 +90,30 @@ class LegacyGroovydocMenusTest : OrchidIntegrationTest(GroovydocModule()) {
 
         expectThat(execute())
             .pageWasRendered("/com/eden/orchid/mock/GroovyClass/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
+                htmlBodyMatches {
+                    ul {
+                        li { a(href = "#summary") { +"Summary" } }
+                        li { a(href = "#description") { +"Description" } }
+                        li {
+                            +"Fields"
                             ul {
-                                li { a(href = "#summary") { +"Summary" } }
-                                li { a(href = "#description") { +"Description" } }
-                                li {
-                                    +"Fields"
-                                    ul {
-                                        li { a(href = "#field__String_someData") { +"String someData" } }
-                                    }
-                                }
-                                li {
-                                    +"Constructors"
-                                    ul {
-                                        li { a(href = "#constructor__GroovyClass_String_s1_") { +"GroovyClass(String s1)" } }
-                                    }
-                                }
-                                li {
-                                    +"Methods"
-                                    ul {
-                                        li { a(href = "#method__String_doThing_String_s1_") { +"String doThing(String s1)" } }
-                                    }
-                                }
+                                li { a(href = "#field__String_someData") { +"String someData" } }
+                            }
+                        }
+                        li {
+                            +"Constructors"
+                            ul {
+                                li { a(href = "#constructor__GroovyClass_String_s1_") { +"GroovyClass(String s1)" } }
+                            }
+                        }
+                        li {
+                            +"Methods"
+                            ul {
+                                li { a(href = "#method__String_doThing_String_s1_") { +"String doThing(String s1)" } }
                             }
                         }
                     }
+                }
             }
     }
 
@@ -156,25 +146,21 @@ class LegacyGroovydocMenusTest : OrchidIntegrationTest(GroovydocModule()) {
 
         expectThat(execute())
             .pageWasRendered("/com/eden/orchid/mock/GroovyClass/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
+                htmlBodyMatches {
+                    ul {
+                        li {
+                            +"All Classes"
                             ul {
-                                li {
-                                    +"All Classes"
-                                    ul {
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyAnnotation") { +"GroovyAnnotation" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyClass") { +"GroovyClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyEnumClass") { +"GroovyEnumClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyExceptionClass") { +"GroovyExceptionClass" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyInterface") { +"GroovyInterface" } }
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyTrait") { +"GroovyTrait" } }
-                                    }
-                                }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyAnnotation") { +"GroovyAnnotation" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyClass") { +"GroovyClass" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyEnumClass") { +"GroovyEnumClass" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyExceptionClass") { +"GroovyExceptionClass" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyInterface") { +"GroovyInterface" } }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock/GroovyTrait") { +"GroovyTrait" } }
                             }
                         }
                     }
+                }
             }
     }
 
@@ -207,20 +193,16 @@ class LegacyGroovydocMenusTest : OrchidIntegrationTest(GroovydocModule()) {
 
         expectThat(execute())
             .pageWasRendered("/com/eden/orchid/mock/GroovyClass/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
+                htmlBodyMatches {
+                    ul {
+                        li {
+                            +"All Packages"
                             ul {
-                                li {
-                                    +"All Packages"
-                                    ul {
-                                        li { a(href = "http://orchid.test/com/eden/orchid/mock") { +"com.eden.orchid.mock" } }
-                                    }
-                                }
+                                li { a(href = "http://orchid.test/com/eden/orchid/mock") { +"com.eden.orchid.mock" } }
                             }
                         }
                     }
+                }
             }
     }
 

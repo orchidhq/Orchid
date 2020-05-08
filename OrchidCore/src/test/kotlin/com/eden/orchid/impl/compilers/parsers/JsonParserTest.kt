@@ -5,7 +5,7 @@ import com.eden.orchid.testhelpers.OrchidUnitTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import strikt.api.expectCatching
-import strikt.assertions.succeeded
+import strikt.assertions.isSuccess
 
 class JsonParserTest : OrchidUnitTest {
 
@@ -25,8 +25,8 @@ class JsonParserTest : OrchidUnitTest {
             """.trimMargin()
 
         expectCatching {
-            underTest.parse("json", input)
-        }.succeeded()
+                underTest.parse("json", input)
+            }.isSuccess()
     }
 
     @Test
@@ -38,7 +38,7 @@ class JsonParserTest : OrchidUnitTest {
             """.trimMargin()
 
         expectCatching {
-            underTest.parse("json", input)
-        }.succeeded()
+                underTest.parse("json", input)
+            }.isSuccess()
     }
 }
