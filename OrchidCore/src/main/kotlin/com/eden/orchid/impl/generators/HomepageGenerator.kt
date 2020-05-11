@@ -20,7 +20,11 @@ class HomepageGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, 
     }
 
     private fun loadHomepage(context: OrchidContext): OrchidPage {
-        var resource: OrchidResource? = context.locateLocalResourceEntry("homepage")
+        var resource: OrchidResource? =
+            sequenceOf("homepage", "HOMEPAGE", "Homepage", "HomePage")
+                .mapNotNull { context.locateLocalResourceEntry(it) }
+                .firstOrNull()
+
         if (resource == null) {
             resource = StringResource(OrchidReference(context, "homepage.md"), "")
         }

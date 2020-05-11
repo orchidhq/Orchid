@@ -64,8 +64,65 @@ class HomepageGeneratorTest : OrchidIntegrationTest(withGenerator<HomepageGenera
     }
 
     @Test
-    @DisplayName("If a 404.md file exists, it will be used")
+    @DisplayName("The homepage file can have different letter casing")
     fun test04() {
+        resource("HOMEPAGE.md", "**bold** _italic_")
+
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                htmlBodyMatches {
+                    p {
+                        strong { +"bold" }
+                        em { +"italic" }
+                    }
+                }
+            }
+            .pageWasRendered("/favicon.ico")
+            .pageWasRendered("/404.html")
+            .nothingElseRendered()
+    }
+
+    @Test
+    @DisplayName("The homepage file can have different letter casing")
+    fun test05() {
+        resource("Homepage.md", "**bold** _italic_")
+
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                htmlBodyMatches {
+                    p {
+                        strong { +"bold" }
+                        em { +"italic" }
+                    }
+                }
+            }
+            .pageWasRendered("/favicon.ico")
+            .pageWasRendered("/404.html")
+            .nothingElseRendered()
+    }
+
+    @Test
+    @DisplayName("The homepage file can have different letter casing")
+    fun test06() {
+        resource("HomePage.md", "**bold** _italic_")
+
+        expectThat(execute())
+            .pageWasRendered("/index.html") {
+                htmlBodyMatches {
+                    p {
+                        strong { +"bold" }
+                        em { +"italic" }
+                    }
+                }
+            }
+            .pageWasRendered("/favicon.ico")
+            .pageWasRendered("/404.html")
+            .nothingElseRendered()
+    }
+
+    @Test
+    @DisplayName("If a 404.md file exists, it will be used")
+    fun test11() {
         resource("404.md", "**bold** _italic_")
 
         expectThat(execute())
@@ -84,7 +141,7 @@ class HomepageGeneratorTest : OrchidIntegrationTest(withGenerator<HomepageGenera
 
     @Test
     @DisplayName("The 404 file can be any valid file extension")
-    fun test05() {
+    fun test12() {
         resource("404.peb", "**bold** _italic_")
 
         expectThat(execute())
