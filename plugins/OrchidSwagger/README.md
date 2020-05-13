@@ -13,6 +13,10 @@ tags:
 The OrchidSwagger makes it convenient to embed the [Swagger UI](https://swagger.io/tools/swagger-ui/) in your 
 documentation site.
 
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
 ## Demo
 
 - Run [SwaggerTest](https://github.com/orchidhq/orchid/blob/dev/plugins/OrchidSwagger/src/test/kotlin/com/eden/orchid/swagger/SwaggerTest.kt) for demo

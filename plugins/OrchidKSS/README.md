@@ -14,6 +14,10 @@ tags:
 shows example usage of your stylesheets. This plugin implements a basic KSS parser and renders KSS blocks as Orchid 
 pages as a living styleguide.
 
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
 ## Demo
 
 - Run [KssGeneratorTest](https://github.com/orchidhq/orchid/blob/dev/plugins/OrchidKSS/src/test/kotlin/com/eden/orchid/kss/KssGeneratorTest.kt) for demo

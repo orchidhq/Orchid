@@ -172,6 +172,10 @@ object Libs {
      */
     const val com_eden_common: String = "com.eden:Common:" + Versions.com_eden_common
 
+    const val de_fayard_buildsrcversions_gradle_plugin: String =
+            "de.fayard.buildSrcVersions:de.fayard.buildSrcVersions.gradle.plugin:" +
+            Versions.de_fayard_buildsrcversions_gradle_plugin
+
     /**
      * https://www.codacy.com
      */
@@ -259,17 +263,9 @@ object Libs {
     const val commons_io: String = "commons-io:commons-io:" + Versions.commons_io
 
     /**
-     * https://github.com/ajoberstar/gradle-git
-     */
-    const val gradle_git: String = "org.ajoberstar:gradle-git:" + Versions.gradle_git
-
-    /**
      * http://www.snakeyaml.org
      */
     const val snakeyaml: String = "org.yaml:snakeyaml:" + Versions.snakeyaml
-
-    const val task_tree: String = "gradle.plugin.com.dorongold.plugins:task-tree:" +
-            Versions.task_tree
 
     /**
      * http://el-spec.java.net
@@ -305,8 +301,6 @@ object Libs {
      * http://pebbletemplates.io
      */
     const val pebble: String = "io.pebbletemplates:pebble:" + Versions.pebble
-
-    const val plugin: String = "de.fayard:plugin:" + Versions.plugin
 
     /**
      * http://moandjiezana.com/toml/toml4j

@@ -19,6 +19,10 @@ when combined with services like [Netlify Form Handling](https://www.netlify.com
 separate the concerns for the display and fields of your forms from the handling of the form data, so you can focus on 
 what matters most: engaging your audience.
 
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
 ## Demo
 
 TODO

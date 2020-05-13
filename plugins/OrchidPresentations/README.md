@@ -13,6 +13,10 @@ tags:
 Create simple presentations in the browser using [Deck.js](http://imakewebthings.com/deck.js/) and all of Orchid's 
 simple content management. 
 
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
 ## Demo
 
 - Run [PresentationsGeneratorTest](https://github.com/orchidhq/orchid/blob/dev/plugins/OrchidPresentations/src/test/kotlin/com/eden/orchid/presentations/PresentationsGeneratorTest.kt) for demo

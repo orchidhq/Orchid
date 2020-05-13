@@ -437,7 +437,7 @@ public class OrchidPage implements
     private List<ExtraJs> extraJs;
 
     private final Lazy<CombinedAssetHolder> pageAssets = LazyKt.lazy(
-            () -> CombinedAssetHolderKt.initializePageAssets(this, getComponentHolders())
+            () -> CombinedAssetHolderKt.initializePageAssets(this)
     );
 
     @Nonnull
@@ -481,7 +481,7 @@ public class OrchidPage implements
 // Callbacks
 //----------------------------------------------------------------------------------------------------------------------
 
-    protected ComponentHolder[] getComponentHolders() {
+    public ComponentHolder[] getComponentHolders() {
         return new ComponentHolder[] { components, metaComponents };
     }
 

@@ -15,6 +15,10 @@ tags:
 Extract snippets from project files and create reusable content sections. Render as plain content, or tag your snippets
 so they can be easily rendered as tabs. 
 
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
 ## Demo
 
 - Run [WikiGeneratorTest](https://github.com/orchidhq/orchid/blob/dev/plugins/OrchidSnippets/src/test/kotlin/SnippetsTest.kt) for demo

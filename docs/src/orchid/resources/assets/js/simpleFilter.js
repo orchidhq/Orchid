@@ -38,6 +38,4 @@ window.toggleTag = function (id, tag) {
                 el.classList.remove("is-gone")
             }
         });
-
-
 };

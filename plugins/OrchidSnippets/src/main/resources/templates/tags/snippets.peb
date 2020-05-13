@@ -1,7 +1,7 @@
 {% tabs dynamic id=tag.id %}
     {% for snippet in tag.snippets %}
         {% tab snippet.name %}
-            {{ snippet.content | raw }}
+            {{ snippet.snippetContent(tag.raw, tag.page) | raw }}
         {% endtab %}
     {% endfor %}
 {% endtabs %}

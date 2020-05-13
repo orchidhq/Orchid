@@ -11,7 +11,11 @@ tags:
 ## About
 
 OrchidAzure connects your [Azure DevOps Wiki](https://azure.microsoft.com/en-us/services/devops/wiki/) to Orchid, making
-it simple to publish your knowledge base as a full website. 
+it simple to publish your knowledge base as a full website.
+
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %} 
 
 ## Demo
 

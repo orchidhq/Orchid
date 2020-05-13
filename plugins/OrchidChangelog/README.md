@@ -25,6 +25,10 @@ versions.
 
 You may also include the `changelog` component on any page to render a listing of all versions with their release notes.
 
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
 ## Demo
 
 - {{anchor('Changelog Component', 'Changelog')}}

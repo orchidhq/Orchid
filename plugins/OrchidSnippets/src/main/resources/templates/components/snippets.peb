@@ -1,7 +1,7 @@
 {% tabs dynamic id=component.id %}
     {% for snippet in component.snippets %}
         {% tab snippet.name %}
-            {{ snippet.content | raw }}
+            {{ snippet.snippetContent(component.raw, component.page) | raw }}
         {% endtab %}
     {% endfor %}
 {% endtabs %}

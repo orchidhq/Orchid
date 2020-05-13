@@ -44,5 +44,15 @@ included:
     pluginName: OrchidWiki
 ---
 
+## About
+
 An Orchid bundle containing every officially-developed Orchid plugin and theme. This offers the greatest flexibility to 
 try out all the features offered by Orchid and find out which ones are right for you. 
+
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
+## Included In This Bundle
+
+{% include 'includes/bundleItems.peb' with {'included': page.included} %}

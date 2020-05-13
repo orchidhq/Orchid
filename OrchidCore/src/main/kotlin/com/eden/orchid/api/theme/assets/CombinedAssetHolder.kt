@@ -26,14 +26,14 @@ class CombinedAssetHolder(
     }
 }
 
-fun OrchidPage.initializePageAssets(componentHolders: Array<ComponentHolder>): CombinedAssetHolder {
+fun OrchidPage.initializePageAssets(): CombinedAssetHolder {
     val delegatePairs: MutableList<Pair<WithAssets, AssetManagerDelegate>> = ArrayList()
     // create delegate from theme
     (theme to theme.createAssetManagerDelegate(context))
         .also { delegatePairs.add(it) }
 
     // create delegates from components
-    componentHolders
+     (this.componentHolders + theme.componentHolders)
         .flatMap { it.get(this) }
         .map { it to it.createAssetManagerDelegate(context) }
         .also { delegatePairs.addAll(it) }

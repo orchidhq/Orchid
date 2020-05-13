@@ -1,5 +1,9 @@
 {% tabs %}
-    {% gradle "Gradle" %}
+
+
+{% gradle "Gradle" %}
+{# Gradle #}
+{# ------------------------------------------------------------------------------------------------------------------ #}
 {% filter compileAs('md') %}
 ```kotlin
 dependencies {
@@ -7,9 +11,12 @@ dependencies {
 }
 ```
 {% endfilter %}
-    {% endgradle %}
+{% endgradle %}
 
-    {% maven "Maven" %}
+
+{% maven "Maven" %}
+{# Maven #}
+{# ------------------------------------------------------------------------------------------------------------------ #}
 {% filter compileAs('md') %}
 ```xml
 <dependency>
@@ -20,13 +27,26 @@ dependencies {
 </dependency>
 ```
 {% endfilter %}
-    {% endmaven %}
+{% endmaven %}
 
-    {% kscript "KScript" %}
+{% sbt "SBT" %}
+{# SBT #}
+{# ------------------------------------------------------------------------------------------------------------------ #}
+{% filter compileAs('md') %}
+```scala
+libraryDependencies += "io.github.javaeden.orchid" % "{{- page.title -}}" % "{{ site.version }}"
+```
+{% endfilter %}
+{% endsbt %}
+
+{% kscript "KScript" %}
+{# KScript #}
+{# ------------------------------------------------------------------------------------------------------------------ #}
 {% filter compileAs('md') %}
 ```kotlin
 @file:DependsOn("io.github.javaeden.orchid:{{- page.title -}}:{{ site.version }}")
 ```
 {% endfilter %}
-    {% endkscript %}
+{% endkscript %}
+
 {% endtabs %}

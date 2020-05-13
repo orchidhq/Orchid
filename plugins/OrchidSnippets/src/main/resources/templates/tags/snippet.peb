@@ -1,1 +1,1 @@
-{{ tag.snippet.content | raw }}
+{{ tag.snippet.snippetContent(tag.raw, tag.page) | raw }}

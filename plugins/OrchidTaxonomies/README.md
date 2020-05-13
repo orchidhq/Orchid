@@ -18,6 +18,10 @@ The data that defines these logic groupings are often an intrinsic property of t
 produced it, but taxonomies may also be "tagged" by hand to give you complete flexibility over your taxonomies. This 
 makes it easy to create archives for pages produced by another plugin, or create them yourself to match your own needs.
 
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
 ## Demo
 
 - Try the [starter app](https://github.com/orchidhq/OrchidStarter)

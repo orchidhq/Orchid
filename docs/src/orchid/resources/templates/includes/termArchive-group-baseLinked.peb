@@ -14,7 +14,7 @@
                     </div>
                     {% block cardBody %}
 
-                {% endblock %}
+                    {% endblock %}
                 </div>
             </a>
         </div>

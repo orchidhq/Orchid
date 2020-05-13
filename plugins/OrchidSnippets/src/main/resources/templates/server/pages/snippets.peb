@@ -28,7 +28,7 @@
         <a href="#{{ snippet.name }}--preview" uk-toggle>Preview</a>
         <div id="{{ snippet.name }}--preview" uk-modal>
           <div class="uk-modal-dialog uk-modal-body">
-          {{ snippet.content | raw }}
+          {{ snippet.snippetContent(false) | raw }}
             <p class="uk-text-right">
               <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>
             </p>

@@ -1,5 +1,6 @@
 package com.eden.orchid.snippets.components
 
+import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.components.OrchidComponent
@@ -19,6 +20,11 @@ class SnippetsComponent : OrchidComponent("snippets", true), SnippetsModel.Snipp
         get() {
             return field.takeIf { it.isNotBlank() } ?: snippetTags.sorted().joinToString("_")
         }
+
+    @Option
+    @Description("render the raw snippet content without compiling it first")
+    @BooleanDefault(false)
+    var raw: Boolean = false
 
     val snippets: List<Snippet> by lazy {
         val model = context.resolve<SnippetsModel>()

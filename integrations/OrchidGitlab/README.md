@@ -13,7 +13,11 @@ tags:
 
 OrchidGitlab connects Orchid to Gitlab's services, including integrating 
 [wikis](https://docs.gitlab.com/ee/user/project/wiki/) and publishing your site directly to 
-[Gitlab Pages](https://about.gitlab.com/product/pages/). 
+[Gitlab Pages](https://about.gitlab.com/product/pages/).
+
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %} 
 
 ## Demo
 

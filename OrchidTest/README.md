@@ -13,6 +13,10 @@ Orchid modules and a set of assertions to check what was rendered. This framewor
 [JUnit5](https://junit.org/junit5/docs/current/user-guide/), with assertions built on the [Strikt](https://strikt.io/)
 assertion library and [kotlinx.html](https://github.com/Kotlin/kotlinx.html).
 
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
 ## Demo
 
 All of Orchid's official plugins are tested with this framework. See any of the tests in the main Orchid repo for demos.

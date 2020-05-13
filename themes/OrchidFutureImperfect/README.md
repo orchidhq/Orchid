@@ -11,3 +11,14 @@ images:
 tags:
   - 'blogs'
 ---
+
+## About
+
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
+## Screenshots
+
+{% include 'includes/imageCards.peb' with {'images': page.images} %}
+

@@ -17,6 +17,10 @@ dependencies {
 // Orchid setup
 //----------------------------------------------------------------------------------------------------------------------
 
+orchid {
+    githubToken = project.properties["githubToken"]?.toString() ?: ""
+}
+
 val build by tasks
 val check by tasks
 val orchidBuild by tasks

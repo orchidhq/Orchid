@@ -17,6 +17,10 @@ index of all content on your site as static JSON files, and then search it from 
 Alternatively, if your project is registered for [Algolia DocSearch](https://community.algolia.com/docsearch/), you can
 easily add the required code snippets with the official Orchid integration.
 
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
 ## Demo
 
 - Try the [starter app](https://github.com/orchidhq/OrchidStarter)

@@ -1,5 +1,7 @@
 {% extends 'layouts/base/layoutBase' %}
 
+{% import 'macros/listMenu' %}
+
 {% block 'body' %}
 <div class="columns is-marginless is-desktop">
 {% block hero %}
@@ -13,6 +15,7 @@
   <div class="column is-two-thirds-desktop is-three-quarters-widescreen is-four-fifths-fullhd is-paddingless column-main-right">
   {% include 'includes/copper/navbar' %}
     <div class="textured container" style="width: 100%;">
+    {# Breadcrumbs #}
     {% if layoutConfig.includeBreadcrumbs %}
     {% block breadcrumbs %}
     {% if layoutConfig.wrapPageInBox or layoutConfig.wrapBreadcrumbsInBox %}
@@ -24,33 +27,36 @@
     {% endif %}
     {% endblock %}
     {% endif %}
+
+    {# Main page content #}
     {% block main %}
-    {% if layoutConfig.wrapPageInBox %}
-    {% if layoutConfig.includeTitle %}
-      <div class="box" style="position: relative;">
-        <h2 class="title is-1 is-spaced">{{ page.title }}</h2>
-        <p class="subtitle is-4">{{ page.description }}</p>
-        {% page %}
-      </div>
-    {% else %}
-      <div class="box">
-      {% page %}
-      </div>
-    {% endif %}
-    {% else %}
-    {% if layoutConfig.includeTitle %}
-    {% if layoutConfig.wrapTitleInBox %}
-      <div class="box">
-        <h2 class="title is-1 is-spaced">{{ page.title }}</h2>
-        <p class="subtitle is-4">{{ page.description }}</p>
-      </div>
-    {% else %}
-      <h2 class="title is-1 is-spaced">{{ page.title }}</h2>
-      <p class="subtitle is-4">{{ page.description }}</p>
-    {% endif %}
-    {% endif %}
-    {% page %}
-    {% endif %}
+      <article style="position: relative; margin-top: 60px; margin-bottom: 60px;" role="main">
+      {% if layoutConfig.wrapPageInBox %}
+      {% if layoutConfig.includeTitle %}
+        <div class="box" style="position: relative;">
+        {{ _pageTitle(page) }}
+          <hr>
+        {{ _pageBody(page, layoutConfig) }}
+        </div>
+      {% else %}
+        <div class="box">
+        {{ _pageBody(page, layoutConfig) }}
+        </div>
+      {% endif %}
+      {% else %}
+      {% if layoutConfig.includeTitle %}
+      {% if layoutConfig.wrapTitleInBox %}
+        <div class="box">
+        {{ _pageTitle(page) }}
+        </div>
+      {% else %}
+      {{ _pageTitle(page) }}
+        <hr>
+      {% endif %}
+      {% endif %}
+      {{ _pageBody(page, layoutConfig) }}
+      {% endif %}
+      </article>
     {% endblock %}
       <div class="grow"></div>
       <div class="page-footer">
@@ -63,3 +69,23 @@
 </div>
 {% endblock %}
 
+{% macro _pageTitle(page) %}
+<h2 class="title is-1 is-spaced">{{ page.title }}</h2>
+<p class="subtitle is-4">{{ page.description }}</p>
+{% endmacro %}
+
+{% macro _pageBody(page, layoutConfig) %}
+{% set hasMenu = layoutConfig.includePageContentsMenu and not layoutConfig.pageContentsMenu.isEmpty() %}
+<div class="columns">
+  <div class="column {% if hasMenu %}is-three-quarters-desktop{% else %}is-full{% endif %}">
+  {% page %}
+  </div>
+  {% if hasMenu %}
+    <div class="column is-one-quarter is-hidden-touch">
+      <div class="sticky-menu" style="position: sticky; top: 30px;">
+      {{- _listMenu(page, layoutConfig.pageContentsMenu) -}}
+      </div>
+    </div>
+  {% endif %}
+</div>
+{% endmacro %}

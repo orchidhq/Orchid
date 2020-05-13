@@ -10,7 +10,11 @@ tags:
 
 ## About
 
-OrchidAsciidoc adds support for [AsciiDoc markup](https://asciidoctor.org/) in Orchid, as a replacement for Markdown. 
+OrchidAsciidoc adds support for [AsciiDoc markup](https://asciidoctor.org/) in Orchid, as a replacement for Markdown.
+
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %} 
 
 ## Demo
 

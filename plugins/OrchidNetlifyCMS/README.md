@@ -16,6 +16,10 @@ your Orchid site so you can manage all your content with an beautiful and easy-t
 generates the Netlify CMS' required `config.yml` (not to be confused with Orchid's `config.yml`), and also creates 
 widgets for the Orchid-specific content types like Components, Menus, and Template Tags.
 
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
 ## Demo
 
 - Try the [starter app](https://github.com/orchidhq/OrchidStarter)

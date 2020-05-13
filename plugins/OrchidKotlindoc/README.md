@@ -6,34 +6,36 @@ images:
     caption: Photo by Federico Bottos on Unsplash
 tags:
     - docs
+sourceLanguage: 'kotlin'
 ---
 
 ## About
 
-The OrchidKotlindoc plugin integrates with the [Dokka](https://github.com/Kotlin/dokka) tool to embed class and package 
-info from Kotlin and Java source code directly in your Orchid site. Comment text is compiled as Markdown, and is also 
-fully-searchable with the {{anchor('OrchidSearch plugin', 'OrchidSearch') }}.
+The OrchidKotlindoc plugin integrates with the [Dokka](https://github.com/Kotlin/dokka) CLI to embed class and package 
+info and [KDoc](https://kotlinlang.org/docs/reference/kotlin-doc.html#kdoc-syntax) comments from Kotlin and Java source
+code directly in your Orchid site.
 
-{% alert 'danger' :: compileAs('md') %}
-**The behavior of the OrchidKotlindoc is changing**. Please see the {{ anchor('0.18.0 Migration Guide') }} for more details.
-
-This plugin is being deprecated in favor of a new, more unified, and more modular code-documentation plugin, 
-{{ anchor('OrchidSourceDoc') }}. All configuration will be defined by that plugin, and this plugin will simply provide
-Kotlin language support for that plugin.
-
-The new system is now the default, but the old system can still be used for a short while under a feature flag until the
-transition is complete. Legacy Kotlindocs can be enabled with the `--legacySourceDoc` CLI flag. The legacy behavior is
-scheduled for removal in version 0.22.0.
+{% alert 'info' %}
+{% snippet 'sourcedocs_about' %}
 {% endalert %}
+
+{% alert 'danger' %}
+{% snippet 'sourcedocs_legacy_warning' %}
+{% endalert %}
+
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
 
 ## Demo
 
 - Try the [example app](https://github.com/orchidhq/OrchidTutorials/tree/master/kotlin-site)
 - Run [KotlindocGeneratorTest](https://github.com/orchidhq/orchid/blob/dev/plugins/OrchidKotlindoc/src/test/kotlin/com/eden/orchid/kotlindoc/NewKotlindocGeneratorTest.kt) for demo
 
-## Usage
+## Single-Module Usage
 
-{% alert 'info' :: compileAs('md') %}
-The article {{ anchor('How to Document a Kotlin Project') }} is the best way to get started using Orchid for code 
-documentation, check it out for a beginning-to-end guide to using Orchid.
-{% endalert %}
+{% snippet 'sourcedocs_single_module_kotlin' raw=true %}
+
+## Multi-Module Usage
+
+{% snippet 'sourcedocs_multi_module_kotlin' raw=true %}

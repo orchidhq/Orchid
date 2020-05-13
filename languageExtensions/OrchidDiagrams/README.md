@@ -6,9 +6,8 @@ images:
     caption: Photo by William Iven on Unsplash
 tags:
     - markup
+TODO: 'improve clarity of these docs'
 ---
-
-TODO: improve clarity of these docs
 
 ## About
 
@@ -18,6 +17,10 @@ them easy to create and maintain, and enables them to be tracked with Git, ideal
 project documentation.
 
 Note that some diagram types require GraphViz to be installed on your local machine to work properly.
+
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
 
 ## Demo
 

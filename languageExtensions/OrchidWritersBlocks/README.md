@@ -13,6 +13,10 @@ tags:
 
 This plugin adds a collection of useful tags and functions for Pebble to make writing content simpler.
 
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
 ## Demo
 
 - Try the [starter app](https://github.com/orchidhq/OrchidStarter)

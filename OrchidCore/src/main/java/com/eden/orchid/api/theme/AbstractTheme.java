@@ -70,7 +70,7 @@ public abstract class AbstractTheme implements OptionsHolder, WithAssets, Compar
         return themeResourceSource;
     }
 
-    protected ComponentHolder[] getComponentHolders() {
+    public ComponentHolder[] getComponentHolders() {
         return new ComponentHolder[] { };
     }
 

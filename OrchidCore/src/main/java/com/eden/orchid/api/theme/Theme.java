@@ -48,7 +48,7 @@ public abstract class Theme extends AbstractTheme {
     }
 
     @Override
-    protected ComponentHolder[] getComponentHolders() {
+    public ComponentHolder[] getComponentHolders() {
         return new ComponentHolder[] { metaComponents };
     }
 

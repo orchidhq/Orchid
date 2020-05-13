@@ -1,1 +1,1 @@
-{{ component.snippet.content | raw }}
+{{ component.snippet.snippetContent(component.raw, component.page) | raw }}

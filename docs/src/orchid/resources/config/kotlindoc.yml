@@ -54,6 +54,21 @@ moduleHomePages:
   vcsRepo: orchidhq/orchid
   tags:
     - 'official'
+  menu:
+    - type: 'separator'
+      title: 'All Plugins'
+      order: 1000
+    - type: 'collectionPages'
+      collectionType: 'kotlindoc'
+      collectionId: 'modules-plugins'
+      order: 1010
+    - type: 'separator'
+      title: 'All Themes'
+      order: 1020
+    - type: 'collectionPages'
+      collectionType: 'kotlindoc'
+      collectionId: 'modules-themes'
+      order: 1030
   layoutConfig:
     pageContentsMenu:
       - type: 'separator'
@@ -67,8 +82,6 @@ themesModuleHomePages:
     - type: 'separator'
       title: 'Demos'
     - type: 'pageChildren'
-      asSubmenu: true
-      submenuTitle: Docs
 
 classesPages:
   menu:

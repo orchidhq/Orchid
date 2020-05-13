@@ -17,6 +17,10 @@ This plugin only creates the blog posts themselves. To generate archives for you
 check out the {{ anchor('OrchidTaxonomies') }} plugin, and refer to the [OrchidStarter repo](https://github.com/orchidhq/OrchidStarter/blob/master/src/orchid/resources/config/taxonomies.yml)
 for basic taxonomies setup.
 
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
 ## Demo
 
 - Try the [starter app](https://github.com/orchidhq/OrchidStarter)

@@ -1,4 +1,3 @@
-{#{% include 'includes/pluginPageHeader.peb' with { 'githubRepo': githubRepo, 'siteUrl': siteUrl } %}#}
 
 <div class="content is-medium-tablet is-large-fullhd">
 {{ page.content | raw }}

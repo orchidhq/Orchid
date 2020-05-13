@@ -83,7 +83,11 @@ constructor(context: OrchidContext) : Theme(context, "Copper") {
         delegate.addCss("assets/css/bulma-tooltip.css")
         delegate.addCss("assets/css/bulma-accordion.min.css")
 
-        delegate.addJs("https://use.fontawesome.com/releases/v5.4.0/js/all.js") { defer = true; this }
+        delegate.addJs("https://use.fontawesome.com/releases/v5.4.0/js/all.js") {
+            defer = true
+            attrs["data-search-pseudo-elements"] = "true"
+            this
+        }
         delegate.addJs("assets/js/bulma.js")
         delegate.addJs("assets/js/bulma-accordion.min.js")
         delegate.addJs("assets/js/bulma-tabs.js")

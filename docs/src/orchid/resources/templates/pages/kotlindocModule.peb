@@ -1,5 +1,3 @@
-{#{% include 'includes/pluginPageHeader.peb' with { 'docLink': 'docs', 'docName': 'API Documentation', 'docIcon': 'code' } %}#}
-
 <div class="content is-medium-tablet is-large-fullhd">
 {{ page.content | raw }}
 {% if page.roots is not empty %}
@@ -11,5 +9,3 @@
   </ul>
 {% endif %}
 </div>
-
-{% include 'includes/dependencyTabs.peb' %}
