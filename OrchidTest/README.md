@@ -56,8 +56,10 @@ file to your site's local resources. The first argument is the full file path an
 contents of that page, typically as a Kotlin 
 [multiline string](https://kotlinlang.org/docs/reference/basic-types.html#string-literals).
 
-You can also add options to the `config.yml` with `configObject()`. It accepts a primary key to add options to, and JSON
-snippet for the options at that key (later, this will accept some kind of configuration DSL instead of JSON strings).
+You can also add options to the `config.yml` with the `config { }` DSL. It accepts a DSL json object builder, and values
+are added to the map with `"key" to [value]` syntax. Json array builders use a syntax of `this add [value]`. Valid 
+values for both object or array builders are `String`, `Int`, `Double`, or `Boolean`, but you can also nest `obj { }` or
+ `arr { }` blocks to create nested json structures.
 
 Finally, you can pass command-line flags to the test build `flag()`.
 
@@ -74,17 +76,14 @@ fun test01() {
         |- List item 3
         """.trimMargin()
     )
-    configObject(
-        "wiki", 
-        """
-        |{
-        |  "sections": [
-        |    "section1", 
-        |    "section2"
-        |  ]
-        |}
-        """.trimMargin()
-    )
+    config {
+        "wiki" to obj {
+            "sections" to arr {
+                this add "section1"
+                this add "section2"
+            }   
+        }
+    }
     flag("legacySourceDoc", "true")
     
     ...

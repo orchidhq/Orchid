@@ -6,6 +6,8 @@ import com.eden.orchid.strikt.htmlHeadMatches
 import com.eden.orchid.strikt.pageWasNotRendered
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
+import com.eden.orchid.testhelpers.arr
+import com.eden.orchid.testhelpers.obj
 import kotlinx.html.div
 import kotlinx.html.link
 import kotlinx.html.script
@@ -46,50 +48,49 @@ class TestAssetInlining : OrchidIntegrationTest(
     @Test
     @DisplayName("Test normal assets are inlined into page")
     fun test01() {
-        configObject(
-            "site",
-            """
-            |{
-            |   "theme": "${TestAssetTheme.KEY}"
-            |}
-            """.trimMargin()
-        )
-        configObject(
-            "allPages",
-            """
-            |{
-            |   "components": [
-            |       {"type": "pageContent", "noWrapper": false}
-            |   ],
-            |   "extraCss": [
-            |       {
-            |           "asset": "assets/css/inlinedCss.scss",
-            |           "inlined": true
-            |       }
-            |   ],
-            |   "extraJs": [
-            |       {
-            |           "asset": "assets/js/inlinedJs.js",
-            |           "inlined": true
-            |       }
-            |   ]
-            |}
-            """.trimMargin()
-        )
+        config {
+            "site" to obj {
+                "theme" to TestAssetTheme.KEY
+            }
+            "allPages" to obj {
+                "components" to arr {
+                    this add obj {
+                        "type" to "pageContent"
+                        "noWrapper" to false
+                    }
+                }
+                "extraCss" to arr {
+                    this add obj {
+                        "asset" to "assets/css/inlinedCss.scss"
+                        "inlined" to true
+                    }
+                }
+                "extraJs" to arr {
+                    this add obj {
+                        "asset" to "assets/js/inlinedJs.js"
+                        "inlined" to true
+                    }
+                }
+            }
+        }
 
         execute()
             .asExpected()
             .pageWasRendered("/test/asset/page-one/index.html") {
                 htmlHeadMatches("head link[rel=stylesheet], head style", ignoreContentWhitespace = true) {
-                    link(href="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}", rel="stylesheet", type="text/css") { }
-                    link(href="http://orchid.test/${TestAssetPage.CSS}", rel="stylesheet", type="text/css") { }
+                    link(
+                        href = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}",
+                        rel = "stylesheet",
+                        type = "text/css"
+                    ) { }
+                    link(href = "http://orchid.test/${TestAssetPage.CSS}", rel = "stylesheet", type = "text/css") { }
                     style {
                         +".red .blue { color: purple; }"
                     }
                 }
                 htmlBodyMatches("body script", ignoreContentWhitespace = true) {
-                    script(src="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
-                    script(src="http://orchid.test/${TestAssetPage.JS}") { }
+                    script(src = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
+                    script(src = "http://orchid.test/${TestAssetPage.JS}") { }
                     script() {
                         +"function itsFunToInline() { }"
                     }
@@ -102,48 +103,48 @@ class TestAssetInlining : OrchidIntegrationTest(
     @Test
     @DisplayName("Test external assets not downloaded or inlined in dev environment")
     fun test02() {
-        configObject(
-            "site",
-            """
-            |{
-            |   "theme": "${TestAssetTheme.KEY}"
-            |}
-            """.trimMargin()
-        )
-        configObject(
-            "allPages",
-            """
-            |{
-            |   "extraCss": [
-            |       {
-            |           "asset": "https://copper-leaf.github.io/test-downloadable-assets/assets/css/style.css",
-            |           "download": true,
-            |           "inlined": true
-            |       }
-            |   ],
-            |   "extraJs": [
-            |       {
-            |           "asset": "https://copper-leaf.github.io/test-downloadable-assets/assets/js/scripts.js",
-            |           "download": true,
-            |           "inlined": true
-            |       }
-            |   ]
-            |}
-            """.trimMargin()
-        )
+        config {
+            "site" to obj {
+                "theme" to TestAssetTheme.KEY
+            }
+            "allPages" to obj {
+                "extraCss" to arr {
+                    this add obj {
+                        "asset" to "https://copper-leaf.github.io/test-downloadable-assets/assets/css/style.css"
+                        "download" to true
+                        "inlined" to true
+                    }
+                }
+                "extraJs" to arr {
+                    this add obj {
+                        "asset" to "https://copper-leaf.github.io/test-downloadable-assets/assets/js/scripts.js"
+                        "download" to true
+                        "inlined" to true
+                    }
+                }
+            }
+        }
 
         execute()
             .asExpected()
             .pageWasRendered("/test/asset/page-one/index.html") {
                 htmlHeadMatches("head link[rel=stylesheet]", ignoreContentWhitespace = true) {
-                    link(href="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}", rel="stylesheet", type="text/css") { }
-                    link(href="http://orchid.test/${TestAssetPage.CSS}", rel="stylesheet", type="text/css") { }
-                    link(href="https://copper-leaf.github.io/test-downloadable-assets/assets/css/style.css", rel="stylesheet", type="text/css") { }
+                    link(
+                        href = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}",
+                        rel = "stylesheet",
+                        type = "text/css"
+                    ) { }
+                    link(href = "http://orchid.test/${TestAssetPage.CSS}", rel = "stylesheet", type = "text/css") { }
+                    link(
+                        href = "https://copper-leaf.github.io/test-downloadable-assets/assets/css/style.css",
+                        rel = "stylesheet",
+                        type = "text/css"
+                    ) { }
                 }
                 htmlBodyMatches("body script", ignoreContentWhitespace = true) {
-                    script(src="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
-                    script(src="http://orchid.test/${TestAssetPage.JS}") { }
-                    script(src="https://copper-leaf.github.io/test-downloadable-assets/assets/js/scripts.js") { }
+                    script(src = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
+                    script(src = "http://orchid.test/${TestAssetPage.JS}") { }
+                    script(src = "https://copper-leaf.github.io/test-downloadable-assets/assets/js/scripts.js") { }
                 }
             }
             .pageWasNotRendered("/test-downloadable-assets/assets/css/style.css")
@@ -151,45 +152,41 @@ class TestAssetInlining : OrchidIntegrationTest(
     }
 
     @Test
-    @DisplayName("Test external assets not downloaded and inlined in prod environment")
+    @DisplayName("Test external assets downloaded and inlined in prod environment")
     fun test03() {
         flag("environment", "prod")
-        configObject(
-            "site",
-            """
-            |{
-            |   "theme": "${TestAssetTheme.KEY}"
-            |}
-            """.trimMargin()
-        )
-        configObject(
-            "allPages",
-            """
-            |{
-            |   "extraCss": [
-            |       {
-            |           "asset": "https://copper-leaf.github.io/test-downloadable-assets/assets/css/style.css",
-            |           "download": true,
-            |           "inlined": true
-            |       }
-            |   ],
-            |   "extraJs": [
-            |       {
-            |           "asset": "https://copper-leaf.github.io/test-downloadable-assets/assets/js/scripts.js",
-            |           "download": true,
-            |           "inlined": true
-            |       }
-            |   ]
-            |}
-            """.trimMargin()
-        )
+        config {
+            "site" to obj {
+                "theme" to TestAssetTheme.KEY
+            }
+            "allPages" to obj {
+                "extraCss" to arr {
+                    this add obj {
+                        "asset" to "https://copper-leaf.github.io/test-downloadable-assets/assets/css/style.css"
+                        "download" to true
+                        "inlined" to true
+                    }
+                }
+                "extraJs" to arr {
+                    this add obj {
+                        "asset" to "https://copper-leaf.github.io/test-downloadable-assets/assets/js/scripts.js"
+                        "download" to true
+                        "inlined" to true
+                    }
+                }
+            }
+        }
 
         execute()
             .asExpected()
             .pageWasRendered("/test/asset/page-one/index.html") {
                 htmlHeadMatches("head link[rel=stylesheet], head style", ignoreContentWhitespace = true) {
-                    link(href="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}", rel="stylesheet", type="text/css") { }
-                    link(href="http://orchid.test/${TestAssetPage.CSS}", rel="stylesheet", type="text/css") { }
+                    link(
+                        href = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}",
+                        rel = "stylesheet",
+                        type = "text/css"
+                    ) { }
+                    link(href = "http://orchid.test/${TestAssetPage.CSS}", rel = "stylesheet", type = "text/css") { }
                     style {
                         +"""
                         |.extra-css {
@@ -199,8 +196,8 @@ class TestAssetInlining : OrchidIntegrationTest(
                     }
                 }
                 htmlBodyMatches("body script", ignoreContentWhitespace = true) {
-                    script(src="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
-                    script(src="http://orchid.test/${TestAssetPage.JS}") { }
+                    script(src = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
+                    script(src = "http://orchid.test/${TestAssetPage.JS}") { }
                     script {
                         +"""
                         |fun js() {
