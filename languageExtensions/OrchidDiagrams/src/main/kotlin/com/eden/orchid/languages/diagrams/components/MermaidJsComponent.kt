@@ -25,7 +25,7 @@ class MermaidJsComponent : OrchidComponent("mermaid", true) {
 
     override fun loadAssets(delegate: AssetManagerDelegate) {
         delegate.addJs(mermaidSource)
-        delegate.addJs("assets/js/mermaidSetup.js") { inlined = true; this }
+        delegate.addJs("assets/js/mermaidSetup.js") { inlined = true }
     }
 
     override fun isHidden(): Boolean {

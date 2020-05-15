@@ -32,7 +32,7 @@ class AlgoliaDocSearchComponent : OrchidComponent("algoliaDocsearch", true) {
     override fun loadAssets(delegate: AssetManagerDelegate) {
         delegate.addCss("https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css")
         delegate.addJs("https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js")
-        delegate.addJs("assets/js/algoliaDocsearch.js") { inlined = true; this }
+        delegate.addJs("assets/js/algoliaDocsearch.js") { inlined = true }
     }
 
     override fun isHidden(): Boolean {

@@ -28,7 +28,7 @@ public interface Renderable {
     default String renderContent(OrchidContext context, OrchidPage orchidPage) {
         OrchidResource resource = resolveTemplate(context, orchidPage);
         if(resource != null) {
-            return resource.compileContent(this);
+            return resource.compileContent(context, this);
         }
         return "";
     }

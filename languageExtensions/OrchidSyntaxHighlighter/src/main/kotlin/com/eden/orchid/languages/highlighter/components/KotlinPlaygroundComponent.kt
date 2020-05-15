@@ -36,8 +36,6 @@ class KotlinPlaygroundComponent : OrchidComponent("kotlinPlayground", true) {
             if (server.isNotBlank()) {
                 attrs["data-server"] = server
             }
-
-            this
         }
     }
 

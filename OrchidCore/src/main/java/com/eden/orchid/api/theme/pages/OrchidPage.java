@@ -271,7 +271,7 @@ public class OrchidPage implements
         if(context.getState().isPreBuildState()) throw new IllegalStateException("Cannot get page content until after indexing has completed");
 
         if(compiledContent == null) {
-            compiledContent = resource.compileContent(this);
+            compiledContent = resource.compileContent(context, this);
             if(compiledContent == null) {
                 compiledContent = "";
             }
@@ -343,7 +343,7 @@ public class OrchidPage implements
     public final String renderInLayout() {
         OrchidResource layoutResource = resolveLayout();
         if(layoutResource != null) {
-            return layoutResource.compileContent(this);
+            return layoutResource.compileContent(context, this);
         }
         return "";
     }

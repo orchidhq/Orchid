@@ -86,7 +86,6 @@ constructor(context: OrchidContext) : Theme(context, "Copper") {
         delegate.addJs("https://use.fontawesome.com/releases/v5.4.0/js/all.js") {
             defer = true
             attrs["data-search-pseudo-elements"] = "true"
-            this
         }
         delegate.addJs("assets/js/bulma.js")
         delegate.addJs("assets/js/bulma-accordion.min.js")

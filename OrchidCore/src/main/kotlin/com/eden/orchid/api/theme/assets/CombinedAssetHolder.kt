@@ -46,8 +46,8 @@ fun OrchidPage.initializePageAssets(): CombinedAssetHolder {
     val delegates = delegatePairs
         .map { (source, assetManagerDelegate) ->
             source.loadAssets(assetManagerDelegate)
-            source.getExtraCss().forEach { assetManagerDelegate.addCss(it.asset) { it } }
-            source.getExtraJs().forEach { assetManagerDelegate.addJs(it.asset) { it } }
+            source.getExtraCss().forEach { assetManagerDelegate.addCss(it.asset, it) }
+            source.getExtraJs().forEach { assetManagerDelegate.addJs(it.asset, it) }
             assetManagerDelegate
         }
 

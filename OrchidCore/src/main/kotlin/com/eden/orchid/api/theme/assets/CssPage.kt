@@ -80,7 +80,7 @@ class CssPage(
 
     override fun renderAssetToPage(): String {
         return if (shouldInline) {
-            "<style ${renderAttrs(attrs)}>\n${resource.compileContent(this)}\n</style>"
+            "<style ${renderAttrs(attrs)}>\n${resource.compileContent(context, this)}\n</style>"
         } else {
             """<link rel="stylesheet" type="text/css" href="${this.link}" ${renderAttrs(attrs)}/>"""
         }

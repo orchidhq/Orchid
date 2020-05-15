@@ -43,7 +43,7 @@ class CustomPluginTest : OrchidIntegrationTest(
 }
 ```
 
-Each test function typically consists of 3 sections: 
+Each test function typically consists of 3 sections:
 
 1) Arrange test resources and configurations
 2) Execute test to perform an Orchid build
@@ -133,8 +133,11 @@ created. The following functions are available:
 
 For each call to `pageWasRendered()`, you must provide an assertion lambda on the located page object. Most commonly, 
 you will call `htmlBodyMatches()` in that callback and provide a `Kotlinx.html` DOM builder to match the HTML body
-contents. The builder is flexible in the order that attributes are listed on each tag, and recursively checks all nested
-HTML structures for equivalence. 
+contents. You may also call `htmlHeadMatches()` to match a DOM builder against the page `HEAD` contents.
+
+These DOM builders are flexible in the order that attributes are listed on each tag, and recursively checks all nested
+HTML structures for equivalence. You can also pass a selector to these methods to match the DOM builder against a 
+specific selector on the page.
 
 ```kotlin
 @Test
@@ -144,7 +147,7 @@ fun test1() {
     expectThat(execute())
         .printResults()
         .pageWasRendered("/index.html") {
-            htmlBodyMatches {
+            htmlBodyMatches("article[role=main]") {
                 h2 {
                     +"Homepage Title"
                 }

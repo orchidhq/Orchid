@@ -47,7 +47,7 @@ class LoadFunction : TemplateFunction("load", false) {
                 foundResource.embeddedData
             }
             else if (compile) {
-                foundResource.compileContent(null)
+                foundResource.compileContent(context, null)
             }
             else {
                 foundResource.content

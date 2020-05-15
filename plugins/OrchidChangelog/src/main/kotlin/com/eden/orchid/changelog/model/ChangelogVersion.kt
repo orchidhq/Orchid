@@ -15,7 +15,7 @@ import org.json.JSONObject
 
 @Archetype(value = ConfigArchetype::class, key = "${ChangelogGenerator.GENERATOR_KEY}.allVersions")
 class ChangelogVersion(
-    context: OrchidContext,
+    private val context: OrchidContext,
     private val versionFormat: String,
     private val versionName: String,
     private val versionReleaseDate: String?,
@@ -45,7 +45,7 @@ class ChangelogVersion(
 
     val content: String
         get() {
-            return resource.compileContent(null)
+            return resource.compileContent(context, null)
         }
 
     val versionComponents = LinkedHashMap<String, Pair<String, Boolean>>()

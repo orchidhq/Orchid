@@ -32,7 +32,7 @@ class SwaggerComponent : OrchidComponent("swaggerUi") {
         delegate.addCss("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/$swaggerUiVersion/swagger-ui.css")
         delegate.addJs("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/$swaggerUiVersion/swagger-ui-bundle.js")
         delegate.addJs("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/$swaggerUiVersion/swagger-ui-standalone-preset.js")
-        delegate.addJs("assets/js/swaggerUiStart.js") { inlined = true; this }
+        delegate.addJs("assets/js/swaggerUiStart.js") { inlined = true }
     }
 
 }

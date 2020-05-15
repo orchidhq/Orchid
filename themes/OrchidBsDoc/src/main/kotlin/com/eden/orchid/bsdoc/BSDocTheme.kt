@@ -74,8 +74,8 @@ constructor(
 
     override fun loadAssets(delegate: AssetManagerDelegate) {
         // these assets include relative references to font files, which become invalid if the asset is downloaded locally and so need to stay as external assets even in production
-        delegate.addCss("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css") { download = false; this }
-        delegate.addCss("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css") { download = false; this }
+        delegate.addCss("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css") { download = false }
+        delegate.addCss("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css") { download = false }
         delegate.addCss("https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.min.css")
         delegate.addCss("assets/css/bsdoc.scss")
 

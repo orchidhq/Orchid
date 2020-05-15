@@ -18,7 +18,7 @@ class WikiBookResource(
 
     override fun getContentStream(): InputStream {
         val wikiBookTemplate = reference.context.locateTemplate("wiki/book")
-        val pdfOutput = wikiBookTemplate.compileContent(mapOf(
+        val pdfOutput = wikiBookTemplate.compileContent(reference.context, mapOf(
             "section" to section,
             "resource" to this@WikiBookResource
         ))

@@ -140,7 +140,7 @@ class JsPage(
     }
 
     private fun applyInlineScript(): String? {
-        return ">\n${resource.compileContent(this)}"
+        return ">\n${resource.compileContent(context, this)}"
     }
 
     private fun applyStartTag(): String? {

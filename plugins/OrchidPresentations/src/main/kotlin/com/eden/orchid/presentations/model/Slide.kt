@@ -1,8 +1,13 @@
 package com.eden.orchid.presentations.model
 
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.OrchidResource
 
-class Slide(val slideContent: OrchidResource, order: Int) {
+class Slide(
+    val context: OrchidContext,
+    val slideContent: OrchidResource,
+    order: Int
+) {
 
     private val slideOrderRegex = "(\\d+)-(.*)"
 
@@ -24,7 +29,7 @@ class Slide(val slideContent: OrchidResource, order: Int) {
 
     val content: String
         get() {
-            return slideContent.compileContent(null)
+            return slideContent.compileContent(context, null)
         }
 }
 

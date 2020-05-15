@@ -28,18 +28,40 @@ class AssetManagerDelegate(
 //----------------------------------------------------------------------------------------------------------------------
 
     @JvmOverloads
-    fun addCss(resourceName: String, configure: (CssPageAttributes.() -> CssPageAttributes)? = null): CssPage {
+    fun addCss(resourceName: String, configure: (CssPageAttributes.() -> Unit)? = null): CssPage {
+        val extraCss = if(configure != null) {
+            ExtraCss().also {
+                it.extractOptions(context, emptyMap())
+                it.configure()
+            }
+        } else null
+
+        return addCss(resourceName, extraCss)
+    }
+
+    fun addCss(resourceName: String, configure: CssPageAttributes?): CssPage {
         val requestedPage = context.assetManager
-            .createCss(this, resourceName, configure = configure?.let { it(ExtraCss().also { it.extractOptions(context, emptyMap()) }) })
+            .createCss(this, resourceName, configure = configure)
         return context.assetManager
             .getActualCss(this, requestedPage, true)
             .also { assets.add(it) }
     }
 
     @JvmOverloads
-    fun addJs(resourceName: String, configure: (JsPageAttributes.() -> JsPageAttributes)? = null): JsPage {
+    fun addJs(resourceName: String, configure: (JsPageAttributes.() -> Unit)? = null): JsPage {
+        val extraJs = if(configure != null) {
+            ExtraJs().also {
+                it.extractOptions(context, emptyMap())
+                it.configure()
+            }
+        } else null
+
+        return addJs(resourceName, extraJs)
+    }
+
+    fun addJs(resourceName: String, configure: JsPageAttributes?): JsPage {
         val requestedPage = context.assetManager
-            .createJs(this, resourceName, configure = configure?.let { it(ExtraJs().also { it.extractOptions(context, emptyMap()) }) })
+            .createJs(this, resourceName, configure = configure)
         return context.assetManager
             .getActualJs(this, requestedPage, true)
             .also { assets.add(it) }

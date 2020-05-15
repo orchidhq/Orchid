@@ -1,5 +1,6 @@
 package com.eden.orchid.api.resources.resource
 
+import com.eden.orchid.api.OrchidContext
 import java.io.InputStream
 
 /**
@@ -19,8 +20,8 @@ abstract class ResourceWrapper(private val resource: OrchidResource) : OrchidRes
         return resource.shouldRender()
     }
 
-    override fun compileContent(data: Any?): String {
-        return resource.compileContent(data)
+    override fun compileContent(context: OrchidContext, data: Any?): String {
+        return resource.compileContent(context, data)
     }
 
     override val precompilerExtension: String

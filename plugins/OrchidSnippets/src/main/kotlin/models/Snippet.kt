@@ -14,7 +14,7 @@ data class Snippet(
      * snippet content exactly as written. The output is evaluated lazily and cached.
      */
     val content: String by lazy {
-        resource.compileContent(null)
+        resource.compileContent(resource.reference.context, null)
     }
 
     /**
@@ -22,6 +22,6 @@ data class Snippet(
      * compiled against a specific set of data (a particular page), its output is not cached.
      */
     fun snippetContent(raw: Boolean, page: OrchidPage?): String {
-        return if(raw) resource.content else resource.compileContent(page)
+        return if(raw) resource.content else resource.compileContent(page?.context ?: resource.reference.context, page)
     }
 }

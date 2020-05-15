@@ -1,5 +1,6 @@
 package com.eden.orchid.api.resources.resource
 
+import com.eden.orchid.api.OrchidContext
 import java.io.InputStream
 
 /**
@@ -18,8 +19,8 @@ constructor(
         return transform(super.getContentStream(), contentStreamTransformations)
     }
 
-    override fun compileContent(data: Any?): String {
-        return transform(super.compileContent(data), contentPostTransformations)
+    override fun compileContent(context: OrchidContext, data: Any?): String {
+        return transform(super.compileContent(context, data), contentPostTransformations)
     }
 
     override val content: String
