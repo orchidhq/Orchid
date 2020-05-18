@@ -365,25 +365,6 @@ public final class OrchidUtils {
         }
     }
 
-    public static Stream<String> expandTemplateList(OrchidContext context, final List<String> templates, final String templateBase) {
-        String themePreferredExtension = context.getTheme().getPreferredTemplateExtension();
-        String defaultExtension = context.getDefaultTemplateExtension();
-
-        return templates
-                .stream()
-                .filter(OrchidUtils.not(EdenUtils::isEmpty))
-                .distinct()
-                .flatMap(template -> Stream.of(
-                        "templates/" + template,
-                        "templates/" + template + "." + themePreferredExtension,
-                        "templates/" + template + "." + defaultExtension,
-                        "templates/" + templateBase + "/" + template,
-                        "templates/" + templateBase + "/" + template + "." + themePreferredExtension,
-                        "templates/" + templateBase + "/" + template + "." + defaultExtension
-                        ).distinct()
-                );
-    }
-
 // Temporary Directories, which get deleted after Orchid finishes
 //----------------------------------------------------------------------------------------------------------------------
 

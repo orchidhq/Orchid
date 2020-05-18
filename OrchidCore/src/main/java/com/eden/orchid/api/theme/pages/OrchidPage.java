@@ -297,10 +297,12 @@ public class OrchidPage implements
         return resource.shouldRender();
     }
 
+    @Nullable
     public List<String> getTemplates() {
         return null;
     }
 
+    @Nonnull
     public final List<String> getPossibleTemplates() {
         List<String> templates = new ArrayList<>();
         Collections.addAll(templates, this.template);
@@ -315,6 +317,7 @@ public class OrchidPage implements
         return templates;
     }
 
+    @Nonnull
     public final List<String> getPossibleLayouts() {
         List<String> layouts = new ArrayList<>();
         if(!EdenUtils.isEmpty(getLayout())) {
@@ -328,18 +331,19 @@ public class OrchidPage implements
         return layouts;
     }
 
+    @Nullable
     public final OrchidResource resolveLayout() {
-        return OrchidUtils.expandTemplateList(getContext(), getPossibleLayouts(), getLayoutBase())
-                .map(template -> getContext().locateTemplate(template, true))
-                .filter(Objects::nonNull)
-                .findFirst()
-                .orElse(null);
+        return getContext()
+                .getTemplateResourceSource(null, getTheme())
+                .getResourceEntry(context, getLayoutBase(), getPossibleLayouts());
     }
 
+    @Nullable
     public final OrchidResource resolveTemplate() {
         return resolveTemplate(context, this);
     }
 
+    @Nonnull
     public final String renderInLayout() {
         OrchidResource layoutResource = resolveLayout();
         if(layoutResource != null) {
@@ -348,6 +352,7 @@ public class OrchidPage implements
         return "";
     }
 
+    @Nonnull
     public final String renderContent() {
         return renderContent(context, this);
     }
@@ -481,6 +486,7 @@ public class OrchidPage implements
 // Callbacks
 //----------------------------------------------------------------------------------------------------------------------
 
+    @Nonnull
     public ComponentHolder[] getComponentHolders() {
         return new ComponentHolder[] { components, metaComponents };
     }
@@ -595,10 +601,12 @@ public class OrchidPage implements
         return this.context;
     }
 
+    @Nonnull
     public String getTemplateBase() {
         return this.templateBase;
     }
 
+    @Nonnull
     public String getLayoutBase() {
         return this.layoutBase;
     }

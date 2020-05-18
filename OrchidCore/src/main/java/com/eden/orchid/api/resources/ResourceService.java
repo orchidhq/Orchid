@@ -4,8 +4,11 @@ import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource;
+import com.eden.orchid.api.resources.resourcesource.TemplateResourceSource;
 import com.eden.orchid.api.resources.resourcesource.ThemeResourceSource;
+import com.eden.orchid.api.theme.AbstractTheme;
 import com.google.inject.ImplementedBy;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -24,6 +27,14 @@ public interface ResourceService extends OrchidService {
 
     default Map<String, Object> getDatafiles(final String directory) {
         return getService(ResourceService.class).getDatafiles(directory);
+    }
+
+    default OrchidResourceSource getDefaultResourceSource(@Nullable OrchidResourceSource.Scope scopes, @Nullable AbstractTheme theme) {
+        return getService(ResourceService.class).getDefaultResourceSource(scopes, theme);
+    }
+
+    default TemplateResourceSource getTemplateResourceSource(@Nullable OrchidResourceSource.Scope scopes, @NonNull AbstractTheme theme) {
+        return getService(ResourceService.class).getTemplateResourceSource(scopes, theme);
     }
 
     default @Nullable OrchidResource getResourceEntry(final String fileName, @Nullable OrchidResourceSource.Scope scopes) {
@@ -64,30 +75,6 @@ public interface ResourceService extends OrchidService {
 
     default OrchidResource locateLocalResourceEntry(final String fileName, List<String> fileExtensions) {
         return getService(ResourceService.class).locateLocalResourceEntry(fileName, fileExtensions);
-    }
-
-    default OrchidResource locateTemplate(final String fileNames) {
-        return getService(ResourceService.class).locateTemplate(fileNames);
-    }
-
-    default OrchidResource locateTemplate(final String fileNames, boolean ignoreMissing) {
-        return getService(ResourceService.class).locateTemplate(fileNames, ignoreMissing);
-    }
-
-    default OrchidResource locateTemplate(final String[] fileNames) {
-        return getService(ResourceService.class).locateTemplate(fileNames);
-    }
-
-    default OrchidResource locateTemplate(final List<String> fileNames) {
-        return getService(ResourceService.class).locateTemplate(fileNames);
-    }
-
-    default OrchidResource locateTemplate(final String[] fileNames, boolean ignoreMissing) {
-        return getService(ResourceService.class).locateTemplate(fileNames, ignoreMissing);
-    }
-
-    default OrchidResource locateTemplate(final List<String> fileNames, boolean ignoreMissing) {
-        return getService(ResourceService.class).locateTemplate(fileNames, ignoreMissing);
     }
 
 }

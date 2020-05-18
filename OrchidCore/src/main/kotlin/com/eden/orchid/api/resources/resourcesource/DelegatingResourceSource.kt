@@ -1,17 +1,8 @@
 package com.eden.orchid.api.resources.resourcesource
 
-import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.OrchidResource
-import com.eden.orchid.utilities.OrchidUtils
-import java.util.ArrayList
-import java.util.Comparator
-import java.util.Objects
 import java.util.TreeMap
-import java.util.function.Consumer
-import java.util.function.Function
-import java.util.function.Predicate
-import java.util.stream.Stream
 
 /**
  * An OrchidResourceSource which wraps other resource sources and combines elements from each. For locating a single

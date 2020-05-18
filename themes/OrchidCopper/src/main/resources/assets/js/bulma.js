@@ -32,9 +32,13 @@
     function setupMenuScrollspy() {
         // query elements
         var columnMainRight = document.querySelector(".column-main-right");
+        if(!columnMainRight) return;
+
         var content = document.querySelector("article[role=main] .content");
-        var contentHeaders = Array.from(content.querySelectorAll("h1, h2, h3, h4, h5, h6"));
+        if(!content) return;
+
         var menuHeaders = Array.from(columnMainRight.querySelectorAll("article[role=main] .sticky-menu a"));
+        var contentHeaders = Array.from(content.querySelectorAll("h1, h2, h3, h4, h5, h6"));
 
         // zip the menu items to their associated content headers
         var zipped = menuHeaders

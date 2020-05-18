@@ -141,6 +141,7 @@ public abstract class OrchidComponent extends Prioritized implements
         return this.context;
     }
 
+    @Nonnull
     public String getTemplateBase() {
         return this.templateBase;
     }

@@ -16,6 +16,8 @@ import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resourcesource.DelegatingResourceSource;
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource;
+import com.eden.orchid.api.resources.resourcesource.TemplateResourceSource;
+import com.eden.orchid.api.theme.AbstractTheme;
 import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import com.eden.orchid.utilities.CacheKt;
@@ -28,6 +30,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -138,7 +141,7 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
     @Override
     public OrchidResource getResourceEntry(final String fileName, @Nullable OrchidResourceSource.Scope scopes) {
         final ResourceCacheKey key = new ResourceCacheKey(fileName, scopes, context.getTheme());
-        return CacheKt.computeIfAbsent(resourceCache, key, () -> getDelegatedResourceSource(scopes).getResourceEntry(context, fileName));
+        return CacheKt.computeIfAbsent(resourceCache, key, () -> getDefaultResourceSource(scopes, context.getTheme()).getResourceEntry(context, fileName));
     }
 
 // Get all matching resources
@@ -146,12 +149,12 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
 
     @Override
     public List<OrchidResource> getResourceEntries(String path, String[] fileExtensions, boolean recursive, @Nullable OrchidResourceSource.Scope scopes) {
-        return getDelegatedResourceSource(scopes).getResourceEntries(context, path, fileExtensions, recursive);
+        return getDefaultResourceSource(scopes, context.getTheme()).getResourceEntries(context, path, fileExtensions, recursive);
     }
 
-    private OrchidResourceSource getDelegatedResourceSource(@Nullable OrchidResourceSource.Scope scopes) {
+    @Override
+    public OrchidResourceSource getDefaultResourceSource(@Nullable OrchidResourceSource.Scope scopes, @Nullable AbstractTheme theme) {
         List<OrchidResourceSource> allSources = new ArrayList<>(resourceSources);
-        Theme theme = context.getTheme();
         if(theme != null) {
             allSources.add(theme.getResourceSource());
         }
@@ -166,6 +169,14 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
                 validScopes,
                 0,
                 LocalResourceSource.INSTANCE
+        );
+    }
+
+    @Override
+    public TemplateResourceSource getTemplateResourceSource(@Nullable OrchidResourceSource.Scope scopes, @NonNull AbstractTheme theme) {
+        return new TemplateResourceSource(
+                theme,
+                getDefaultResourceSource(scopes, theme)
         );
     }
 
@@ -299,71 +310,6 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
             }
         }
         return getResourceEntry(fullFileName, LocalResourceSource.INSTANCE);
-    }
-
-    private OrchidResource locateSinglePage(String templateName, String extension) {
-        String fullFileName = OrchidUtils.normalizePath(templateName);
-        if (!fullFileName.contains(".")) {
-            fullFileName = fullFileName + "." + extension;
-        }
-        return getResourceEntry(fullFileName, null);
-    }
-
-    @Override
-    public OrchidResource locateTemplate(String fileNames) {
-        if (fileNames.startsWith("?")) {
-            return locateTemplate(StringUtils.stripStart(fileNames, "?"), true);
-        } else {
-            return locateTemplate(fileNames, false);
-        }
-    }
-
-    @Override
-    public OrchidResource locateTemplate(final String[] fileNames) {
-        return locateTemplate(fileNames, true);
-    }
-
-    @Override
-    public OrchidResource locateTemplate(List<String> fileNames) {
-        return locateTemplate(fileNames, true);
-    }
-
-    @Override
-    public OrchidResource locateTemplate(String fileNames, boolean ignoreMissing) {
-        return locateTemplate(fileNames.split(","), ignoreMissing);
-    }
-
-    @Override
-    public OrchidResource locateTemplate(final String[] fileNames, boolean ignoreMissing) {
-        List<String> fileNamesList = new ArrayList<>();
-        Collections.addAll(fileNamesList, fileNames);
-        return locateTemplate(fileNamesList, ignoreMissing);
-    }
-
-    @Override
-    public OrchidResource locateTemplate(final List<String> fileNames, boolean ignoreMissing) {
-        for (String template : fileNames) {
-            OrchidResource resource = locateSingleTemplate(template);
-            if (resource != null) {
-                return resource;
-            }
-        }
-        if (ignoreMissing) {
-            return null;
-        } else {
-            throw new IllegalArgumentException("Could not find template in list \"" + fileNames + "\"");
-        }
-    }
-
-    private OrchidResource locateSingleTemplate(String templateName) {
-        String fullFileName = OrchidUtils.normalizePath(OrchidUtils.normalizePath(templateName));
-        if (!fullFileName.startsWith("templates/")) {
-            fullFileName = "templates/" + fullFileName;
-        }
-        if (!fullFileName.contains(".")) {
-            fullFileName = fullFileName + "." + context.getTheme().getPreferredTemplateExtension();
-        }
-        return getResourceEntry(fullFileName, null);
     }
 
 // Delombok

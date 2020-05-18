@@ -65,8 +65,7 @@ public class RenderServiceImpl implements RenderService {
         return renderInternal(page, () -> getRendered(page));
     }
 
-    @Override
-    public synchronized InputStream getRendered(OrchidPage page) {
+    private void applyThemes(OrchidPage page) {
         page.addPossibleTheme(0, context.getDefaultThemeRelation());
         OrchidGenerator generator = page.getGenerator();
         if(generator != null) {
@@ -76,6 +75,11 @@ public class RenderServiceImpl implements RenderService {
         if(pageThemeRelation != null) {
             page.addPossibleTheme(20, pageThemeRelation);
         }
+    }
+
+    @Override
+    public synchronized InputStream getRendered(OrchidPage page) {
+        applyThemes(page);
 
         return renderPageWithTheme(page, page.getTheme(), () -> {
             RenderMode renderMode = page.getPageRenderMode();
@@ -98,8 +102,11 @@ public class RenderServiceImpl implements RenderService {
     @Override
     public synchronized boolean renderAsset(AssetPage asset) {
         boolean success = false;
-        if (!(asset.getResource() instanceof InlineResource)) {
+        if (!asset.getShouldInline()) {
             success = render(asset);
+        }
+        else {
+            applyThemes(asset);
         }
         asset.setRendered(true);
         return success;

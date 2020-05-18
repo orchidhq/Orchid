@@ -86,6 +86,7 @@ public final class OrchidView extends OrchidPage {
     // View renderer
 //----------------------------------------------------------------------------------------------------------------------
     @Override
+    @Nonnull
     public String getTemplateBase() {
         return "server/" + super.getTemplateBase();
     }

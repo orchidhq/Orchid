@@ -76,15 +76,8 @@ class DefaultAssetManager : AssetManager {
 
         if (!assets.containsKey(assetKey)) {
             if (renderImmediately) {
-                if(!asset.shouldInline) {
-                    origin.context.renderAsset(asset)
-                }
-                else {
-                    // Asset is being inlined into each page, not rendered to file. To prevent recursion when getting
-                    // the link for this asset, we need to acknowledge that this asset is the cached one we want to
-                    // continue to use to create links
-                    asset.isRendered = true
-                }
+                // internally, this will check if the asset is inlined or not, and set the `isRendered` flag accordingly
+                origin.context.renderAsset(asset)
             }
             assets[assetKey] = asset
         }
