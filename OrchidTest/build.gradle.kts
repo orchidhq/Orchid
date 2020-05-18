@@ -2,6 +2,7 @@ apply(from = "$rootDir/gradle/actions/java.gradle")
 apply(from = "$rootDir/gradle/actions/kotlin.gradle")
 apply(from = "$rootDir/gradle/actions/publish.gradle")
 apply(from = "$rootDir/gradle/actions/testing.gradle")
+apply(from = "$rootDir/gradle/actions/repositories.gradle")
 
 dependencies {
     "api"(project(":OrchidCore"))

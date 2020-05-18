@@ -3,11 +3,7 @@ plugins {
     id("java-library")
 }
 apply(from = "$rootDir/gradle/groups/mainProjects.gradle")
-
-repositories {
-    jcenter()
-    maven(url = "https://kotlin.bintray.com/kotlinx")
-}
+apply(from = "$rootDir/gradle/actions/repositories.gradle")
 
 dependencies {
 

@@ -1,13 +1,9 @@
 plugins {
     id("com.eden.orchidPlugin")
 }
+apply(from = "$rootDir/gradle/actions/repositories.gradle")
 
 version = rootProject.version
-
-repositories {
-    jcenter()
-    maven(url = "https://kotlin.bintray.com/kotlinx")
-}
 
 dependencies {
     // generate own documentation with Orchid

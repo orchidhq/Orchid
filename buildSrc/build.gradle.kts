@@ -4,12 +4,10 @@ plugins {
     java
     `kotlin-dsl`
 }
-apply(from = "../gradle/semver.gradle.kts")
+apply(from = "${rootProject.rootDir}/../gradle/semver.gradle.kts")
 
 allprojects {
-    repositories {
-        jcenter()
-    }
+    apply(from = "${rootProject.rootDir}/../gradle/actions/repositories.gradle")
 }
 
 group = "com.eden"

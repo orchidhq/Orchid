@@ -28,9 +28,4 @@ java {
     withSourcesJar()
 }
 
-repositories {
-    jcenter()
-    maven { url "https://kotlin.bintray.com/kotlinx" }
-}
-
 tasks.javadoc.onlyIf { false }

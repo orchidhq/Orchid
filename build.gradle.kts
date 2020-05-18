@@ -2,7 +2,7 @@
 //------------------------------------------------------------------------------
 buildscript {
     repositories {
-        maven(url = "https://plugins.gradle.org/m2/")
+        gradlePluginPortal()
         jcenter()
     }
     dependencies {
@@ -17,6 +17,7 @@ plugins {
     id("de.fayard.buildSrcVersions") version "0.7.0"
 }
 apply(from = "$rootDir/gradle/semver.gradle.kts")
+apply(from = "$rootDir/gradle/actions/repositories.gradle")
 
 //val delegate: org.gradle.kotlin.dsl.support.delegates.ProjectDelegate = this
 group = "io.github.javaeden.orchid"
@@ -47,11 +48,6 @@ val publish by tasks.registering {
 
 // Code Coverage Reports
 //----------------------------------------------------------------------------------------------------------------------
-
-repositories {
-    jcenter()
-    maven(url = "https://kotlin.bintray.com/kotlinx")
-}
 
 val codacy: Configuration by configurations.creating
 dependencies {
