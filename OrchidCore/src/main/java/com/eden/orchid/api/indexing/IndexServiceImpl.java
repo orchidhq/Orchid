@@ -14,6 +14,7 @@ import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.CacheKt;
 import com.eden.orchid.utilities.LRUCache;
+import kotlin.Pair;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -81,12 +82,7 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
     }
 
     @Override
-    public String linkToPage(@Nullable OrchidPage from, String title, String collectionType, String collectionId, String itemId, String customClasses) {
-        return linkToPage(from, title, collectionType, collectionId, itemId, customClasses, null);
-    }
-
-    @Override
-    public String linkToPage(@Nullable OrchidPage from, String title, String collectionType, String collectionId, String itemId, String customClasses, @Nullable String pageAnchorId) {
+    public Pair<Boolean, String> linkToPage(@Nullable OrchidPage from, String title, String collectionType, String collectionId, String itemId, String customClasses, @Nullable String pageAnchorId) {
         OrchidPage foundPage = findPage(collectionType, collectionId, itemId);
 
         if (foundPage != null) {
@@ -97,11 +93,11 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
             }
 
             if (!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(customClasses)) {
-                return Clog.format("<a href=\"#{$1}\" class=\"#{$3}\">#{$2}</a>", link, title, customClasses);
+                return new Pair<>(true, Clog.format("<a href=\"#{$1}\" class=\"#{$3}\">#{$2}</a>", link, title, customClasses));
             } else if (!EdenUtils.isEmpty(title)) {
-                return Clog.format("<a href=\"#{$1}\">#{$2}</a>", link, title);
+                return new Pair<>(true, Clog.format("<a href=\"#{$1}\">#{$2}</a>", link, title));
             } else {
-                return Clog.format("<a href=\"#{$1}\">#{$1}</a>", link);
+                return new Pair<>(true, Clog.format("<a href=\"#{$1}\">#{$1}</a>", link));
             }
         } else {
             context.diagnosisMessage(() ->
@@ -115,9 +111,9 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
         }
 
         if (!EdenUtils.isEmpty(title)) {
-            return title;
+            return new Pair<>(false, title);
         } else {
-            return "";
+            return new Pair<>(false, "");
         }
     }
 

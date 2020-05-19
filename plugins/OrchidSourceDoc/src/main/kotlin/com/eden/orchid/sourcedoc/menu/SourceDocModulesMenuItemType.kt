@@ -25,8 +25,7 @@ class SourceDocModulesMenuItemType : OrchidMenuFactory("sourcedocModules") {
         page: OrchidPage
     ): List<MenuItem> {
         return try {
-            val model: SourceDocModel? =
-                context.resolve(SourceDocModel::class.java, moduleType) ?: context.resolve(SourceDocModel::class.java)
+            val model = SourceDocModel.getModel(context, moduleType)
 
             // no model, return early
             if (model == null) return emptyList()

@@ -42,6 +42,10 @@ abstract class SourceDocModuleConfig(val moduleType: String) : OptionsHolder {
     lateinit var sourceDirs: List<String>
 
     @Option
+    @Description("Other modules which contain sources that may be linked to by the page sin this module")
+    lateinit var relatedModules: List<String>
+
+    @Option
     @BooleanDefault(true)
     @Description("Whether to reuse outputs from the cache, or rerun each build")
     var fromCache: Boolean = true

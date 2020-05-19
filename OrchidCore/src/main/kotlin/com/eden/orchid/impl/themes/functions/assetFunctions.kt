@@ -42,7 +42,9 @@ class AssetFunction : TemplateFunction("asset", false) {
     }
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
-        return context.assetManager.createAsset(createAssetManagerDelegate(context, page), itemId, null)
+        return runCatching {
+            context.assetManager.createAsset(createAssetManagerDelegate(context, page), itemId, null)
+        }.getOrNull()
     }
 }
 

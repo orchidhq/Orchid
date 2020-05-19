@@ -4,7 +4,7 @@
 In:
 <ul>
 {% for pageContext in component.pageContexts %}
-  <li>{{ anchor(title=pageContext.value, itemId=pageContext.value, collectionType=component.page.moduleType) }}</li>
+  <li>{{ sourceDocAnchor(title=pageContext.value, itemId=pageContext.value) }}</li>
 {% endfor %}
 </ul>
 {% endif %}
@@ -14,7 +14,7 @@ In:
 Inheritance Hierarchy:
 <ul>
 {% for pageParent in component.pageParentHierarchy %}
-  <li>{{ anchor(title=pageParent.value, itemId=pageParent.value, collectionType=component.page.moduleType) }}</li>
+  <li>{{ sourceDocAnchor(title=pageParent.value, itemId=pageParent.value) }}</li>
 {% endfor %}
 </ul>
 {% endif %}
@@ -24,7 +24,7 @@ Inheritance Hierarchy:
 In:
 <ul>
 {% for child in component.pageDirectChildren %}
-  <li>{{ anchor(title=child.text, itemId=child.value, collectionType=component.page.moduleType) }}</li>
+  <li>{{ sourceDocAnchor(title=child.text, itemId=child.value) }}</li>
 {% endfor %}
 </ul>
 {% endif %}
@@ -34,7 +34,7 @@ In:
 In:
 <ul>
 {% for child in component.pageIndirectChildren %}
-  <li>{{ anchor(title=child.text, itemId=child.value, collectionType=component.page.moduleType) }}</li>
+  <li>{{ sourceDocAnchor(title=child.text, itemId=child.value) }}</li>
 {% endfor %}
 </ul>
 {% endif %}

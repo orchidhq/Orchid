@@ -140,6 +140,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
             config.name,
             invokerModel,
             config.moduleGroup,
+            config.relatedModules,
             modelPageMap
         )
     }

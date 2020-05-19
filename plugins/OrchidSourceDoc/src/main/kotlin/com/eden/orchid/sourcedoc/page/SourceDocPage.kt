@@ -7,6 +7,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.components.ComponentHolder
+import com.eden.orchid.sourcedoc.functions.SourcedocAnchorFunction
 import com.eden.orchid.utilities.OrchidUtils
 
 class SourceDocPage<T : DocElement>(
@@ -72,7 +73,7 @@ class SourceDocPage<T : DocElement>(
             .components
             .map {
                 if (it.kind == TYPE_NAME) {
-                    context.linkToPage(this, it.text, generator.key, "", it.value, "")
+                    SourcedocAnchorFunction.getLinkToSourcedocPage(context, this, it.text, it.value ?: "")
                 } else {
                     it.text
                 }
