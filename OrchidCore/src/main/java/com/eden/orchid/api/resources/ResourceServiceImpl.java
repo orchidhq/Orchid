@@ -14,6 +14,8 @@ import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.resources.resource.FileResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resourcesource.CachingResourceSource;
+import com.eden.orchid.api.resources.resourcesource.DataResourceSource;
+import com.eden.orchid.api.resources.resourcesource.DefaultDataResourceSource;
 import com.eden.orchid.api.resources.resourcesource.DefaultTemplateResourceSource;
 import com.eden.orchid.api.resources.resourcesource.DelegatingResourceSource;
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource;
@@ -34,6 +36,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -58,83 +61,22 @@ import java.util.stream.Collectors;
 public final class ResourceServiceImpl implements ResourceService, OrchidEventListener {
     private OrchidContext context;
     private final List<OrchidResourceSource> resourceSources;
-    private final OkHttpClient client;
     private final LRUCache<CachingResourceSource.CacheKey, OrchidResource> resourceCache;
+
     @Option
     @StringDefault({".DS_store", ".localized"})
     @Description("A list of filenames to globally filter out files from being sourced. Should be used primarily for ignoring pesky hidden or system files that are not intended to be used as site content.")
     private String[] ignoredFilenames;
 
     @Inject
-    public ResourceServiceImpl(
-            Set<OrchidResourceSource> resourceSources,
-            OkHttpClient client
-    ) {
+    public ResourceServiceImpl(Set<OrchidResourceSource> resourceSources) {
         this.resourceSources = resourceSources.stream().sorted().collect(Collectors.toList());
-        this.client = client;
         this.resourceCache = new LRUCache<>();
     }
 
     @Override
     public void initialize(OrchidContext context) {
         this.context = context;
-    }
-
-// Load many datafiles into a single map
-//----------------------------------------------------------------------------------------------------------------------
-
-    @Override
-    public Map<String, Object> getDatafile(final String fileName) {
-        return context.getParserExtensions().stream().map(ext -> {
-            OrchidResource resource = context.getDefaultResourceSource(LocalResourceSource.INSTANCE, null).getResourceEntry(context, fileName + "." + ext);
-            if (resource != null) {
-                String content = resource.getContent();
-                if (!EdenUtils.isEmpty(content)) {
-                    return context.parse(ext, content);
-                }
-            }
-            return null;
-        }).filter(Objects::nonNull).findFirst().orElse(null);
-    }
-
-    @Override
-    public Map<String, Object> getDatafiles(final String directory) {
-        String[] parserExtensions = new String[context.getParserExtensions().size()];
-        context.getParserExtensions().toArray(parserExtensions);
-        List<OrchidResource> files = context.getDefaultResourceSource(LocalResourceSource.INSTANCE,  null).getResourceEntries(context, directory, parserExtensions, true);
-        Map<String, Object> allDatafiles = new HashMap<>();
-        for (OrchidResource file : files) {
-            file.getReference().setUsePrettyUrl(false);
-            Map<String, Object> fileData = context.parse(file.getReference().getExtension(), file.getContent());
-            String innerPath = OrchidUtils.normalizePath(file.getReference().getPath().replaceAll(directory, ""));
-            String[] filePathPieces = OrchidUtils.normalizePath(innerPath + "/" + file.getReference().getFileName()).split("/");
-            addNestedDataToMap(allDatafiles, filePathPieces, fileData);
-        }
-        return allDatafiles;
-    }
-
-    private void addNestedDataToMap(Map<String, Object> allDatafiles, String[] pathPieces, Map<String, Object> fileData) {
-        if (fileData != null && pathPieces.length > 0) {
-            if (pathPieces.length > 1) {
-                if (!allDatafiles.containsKey(pathPieces[0])) {
-                    allDatafiles.put(pathPieces[0], new HashMap<String, Object>());
-                }
-                String[] newArray = Arrays.copyOfRange(pathPieces, 1, pathPieces.length);
-                addNestedDataToMap((Map<String, Object>) allDatafiles.get(pathPieces[0]), newArray, fileData);
-            } else {
-                if (fileData.containsKey(OrchidParser.arrayAsObjectKey) && fileData.keySet().size() == 1) {
-                    allDatafiles.put(pathPieces[0], fileData.get(OrchidParser.arrayAsObjectKey));
-                } else {
-                    if (allDatafiles.containsKey(pathPieces[0]) && (allDatafiles.get(pathPieces[0]) instanceof Map)) {
-                        for (String key : fileData.keySet()) {
-                            ((Map<String, Object>) allDatafiles.get(pathPieces[0])).put(key, fileData.get(key));
-                        }
-                    } else {
-                        allDatafiles.put(pathPieces[0], fileData);
-                    }
-                }
-            }
-        }
     }
 
 // Get all matching resources
@@ -173,50 +115,14 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
         );
     }
 
-// Load a file from a local or remote URL
-//----------------------------------------------------------------------------------------------------------------------
-
     @Override
-    public Map<String, Object> loadAdditionalFile(String url) {
-        if (!EdenUtils.isEmpty(url) && url.trim().startsWith("file://")) {
-            return loadLocalFile(url.replaceAll("file://", ""));
-        } else {
-            return loadRemoteFile(url);
-        }
+    public DataResourceSource getDataResourceSource(@Nullable OrchidResourceSource.Scope scopes) {
+        return new DefaultDataResourceSource(
+                getDefaultResourceSource(scopes, null)
+        );
     }
 
-    private Map<String, Object> loadLocalFile(String url) {
-        try {
-            File file = new File(url);
-            String s = IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8);
-            return context.parse("json", s);
-        } catch (FileNotFoundException e) {
-        } catch (
-        // ignore files not being found
-        Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private Map<String, Object> loadRemoteFile(String url) {
-        Request request = new Request.Builder().url(url).build();
-        Map<String, Object> object = null;
-        try (Response response = client.newCall(request).execute()) {
-            if (response.isSuccessful()) {
-                String extension = FilenameUtils.getExtension(url);
-                if (EdenUtils.isEmpty(extension)) {
-                    extension = "json";
-                }
-                object = context.parse(extension, response.body().string());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return object;
-    }
-
-// Find closest file
+    // Find closest file
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override

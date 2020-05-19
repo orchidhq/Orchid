@@ -21,9 +21,7 @@ constructor(
 
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
         val key = CacheKey(fileName, themeKey, themeHashcode, delegateScopes)
-        val requests = cacheRequests.incrementAndGet()
         return cache.computeIfAbsent(key) {
-            val misses = cacheMisses.incrementAndGet()
             delegate.getResourceEntry(context, fileName)
         }
     }
@@ -43,9 +41,4 @@ constructor(
         val themeHashcode: Int,
         val delegateScopes: List<OrchidResourceSource.Scope>
     )
-
-    companion object {
-        val cacheRequests = AtomicInteger(0)
-        val cacheMisses = AtomicInteger(0)
-    }
 }

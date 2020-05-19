@@ -32,10 +32,6 @@ class ExternalResourceSource(
         return emptyList()
     }
 
-    private fun isIgnoredFile(context: OrchidContext, file: File): Boolean {
-        return context.ignoredFilenames?.any { file.name == it } ?: false
-    }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

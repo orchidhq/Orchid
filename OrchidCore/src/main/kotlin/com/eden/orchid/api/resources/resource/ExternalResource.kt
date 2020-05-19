@@ -19,9 +19,10 @@ class ExternalResource(
 ) : OrchidResource(reference) {
 
     private val isProd = reference.context.isProduction
+    var downloadInProdOnly = true
     var download: Boolean = false
 
-    val shouldDownload: Boolean get() = isProd && download
+    val shouldDownload: Boolean get() = if(downloadInProdOnly) isProd && download else download
 
     override fun shouldPrecompile(): Boolean {
         return if (shouldDownload) {

@@ -52,6 +52,21 @@ abstract class OrchidResource(
         }
     }
 
+    open fun parseContent(context: OrchidContext, data: Any?): Map<String, Any>? {
+        var compiledContent = content
+        return if (!EdenUtils.isEmpty(compiledContent)) {
+            if (shouldPrecompile()) {
+                compiledContent = context.compile(this, precompilerExtension, compiledContent, data)
+            }
+            context.parse(
+                reference.extension,
+                compiledContent
+            )
+        } else {
+            emptyMap()
+        }
+    }
+
     open val precompilerExtension: String
         get() {
             val data = embeddedData

@@ -41,7 +41,7 @@ public final class ResourceServiceTest implements OrchidUnitTest {
         // test the service directly
         context = mock(OrchidContext.class);
         client = mock(OkHttpClient.class);
-        service = new ResourceServiceImpl(resourceSources, client);
+        service = new ResourceServiceImpl(resourceSources);
         service.initialize(context);
 
         // test that the public implementation is identical to the real implementation

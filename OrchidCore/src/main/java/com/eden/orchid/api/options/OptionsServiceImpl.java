@@ -7,6 +7,7 @@ import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource;
 import com.eden.orchid.api.server.OrchidServer;
 import com.eden.orchid.api.server.OrchidView;
 import com.eden.orchid.api.theme.assets.AssetPage;
@@ -67,10 +68,10 @@ public final class OptionsServiceImpl implements OptionsService {
     @Override
     public Map<String, Object> loadOptions() {
         if (config == null) {
-            config = Collections.unmodifiableMap(loadData("config"));
+            config = Collections.unmodifiableMap(context.getDataResourceSource(LocalResourceSource.INSTANCE).loadData(context, "config"));
         }
         if (data == null) {
-            data = Collections.unmodifiableMap(loadData("data"));
+            data = Collections.unmodifiableMap(context.getDataResourceSource(LocalResourceSource.INSTANCE).loadData(context, "data"));
         }
 
         return config;
@@ -126,30 +127,6 @@ public final class OptionsServiceImpl implements OptionsService {
         }
 
         return siteData;
-    }
-
-// Helpers for loading data
-//----------------------------------------------------------------------------------------------------------------------
-
-    private Map<String, Object> loadData(String name) {
-        Map<String, Object> data = new HashMap<>();
-
-        Map<String, Object> files = context.getDatafiles(name);
-        if (files != null) {
-            data = EdenUtils.merge(data, files);
-        }
-
-        Map<String, Object> file = context.getDatafile(name);
-        if(file != null) {
-            data = EdenUtils.merge(data, file);
-        }
-
-        Map<String, Object> envFile = context.getDatafile(name + "-" + context.getEnvironment());
-        if(envFile != null) {
-            data = EdenUtils.merge(data, envFile);
-        }
-
-        return data;
     }
 
 // Helpers for getting data from object types
