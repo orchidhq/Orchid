@@ -29,8 +29,6 @@ final class IndexFileResponse {
 
     // TODO: convert this to a component
     static OrchidResponse getResponse(OrchidContext context, File targetFile, String targetPath) {
-        AssetManagerDelegate delegate = new AssetManagerDelegate(context, context, "context", null);
-
         if (targetFile.isDirectory()) {
             Clog.i("Rendering directory index: {}", targetPath);
             File[] files = targetFile.listFiles();
@@ -74,7 +72,7 @@ final class IndexFileResponse {
                 jsonDirs.sort(Comparator.comparing(fileRow -> fileRow.name));
                 jsonFiles.sort(Comparator.comparing(fileRow -> fileRow.name));
 
-                OrchidResource resource = context.getResourceEntry("templates/server/directoryListing.peb", null);
+                OrchidResource resource = context.getDefaultResourceSource(null, context.getTheme()).getResourceEntry(context, "templates/server/directoryListing.peb");
 
                 Map<String, Object> indexPageVars = new HashMap<>();
                 indexPageVars.put("title", "List of files/dirs under " + targetPath);

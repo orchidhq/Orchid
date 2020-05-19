@@ -42,11 +42,11 @@ class AssetsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, St
         val delegate = createAssetManagerDelegate(context)
         val assetPages = sourceDirs
             .flatMap { dir ->
-                context.getResourceEntries(
+                context.getDefaultResourceSource(LocalResourceSource, null).getResourceEntries(
+                    context,
                     dir.sourceDir,
                     if (!EdenUtils.isEmpty(dir.assetFileExtensions)) dir.assetFileExtensions else null,
-                    dir.recursive,
-                    LocalResourceSource
+                    dir.recursive
                 )
             }
             .map { resource ->

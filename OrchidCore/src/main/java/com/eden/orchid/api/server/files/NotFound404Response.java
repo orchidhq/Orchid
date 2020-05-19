@@ -5,6 +5,7 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource;
 import com.eden.orchid.api.server.OrchidResponse;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
@@ -29,7 +30,7 @@ final class NotFound404Response {
             );
         }
         else {
-            resource = context.getResourceEntry("templates/server/404.peb", null);
+            resource = context.getDefaultResourceSource(null, null).getResourceEntry(context, "templates/server/404.peb");
 
             Map<String, Object> indexPageVars = new HashMap<>();
             indexPageVars.put("title", "Not Found - " + targetPath);

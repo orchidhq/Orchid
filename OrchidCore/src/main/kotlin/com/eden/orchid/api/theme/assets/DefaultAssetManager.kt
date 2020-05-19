@@ -22,7 +22,7 @@ class DefaultAssetManager : AssetManager {
     }
 
     override fun createAsset(origin: AssetManagerDelegate, asset: String, scopes: OrchidResourceSource.Scope?): AssetPage {
-        val requestedResource: OrchidResource? = origin.context.getResourceEntry(asset, scopes)
+        val requestedResource: OrchidResource? = origin.context.getDefaultResourceSource(scopes, origin.context.theme).getResourceEntry(origin.context, asset)
 
         checkNotNull(requestedResource) { "requested asset '$asset' could not be found" }
 
@@ -35,7 +35,7 @@ class DefaultAssetManager : AssetManager {
     }
 
     override fun createCss(origin: AssetManagerDelegate, asset: String, scopes: OrchidResourceSource.Scope?, configure: CssPageAttributes?): CssPage {
-        val requestedResource: OrchidResource? = origin.context.getResourceEntry(asset, scopes)
+        val requestedResource: OrchidResource? = origin.context.getDefaultResourceSource(scopes, origin.context.theme).getResourceEntry(origin.context, asset)
 
         checkNotNull(requestedResource) { "requested asset '$asset' could not be found" }
 
@@ -53,7 +53,7 @@ class DefaultAssetManager : AssetManager {
     }
 
     override fun createJs(origin: AssetManagerDelegate, asset: String, scopes: OrchidResourceSource.Scope?, configure: JsPageAttributes?): JsPage {
-        val requestedResource: OrchidResource? = origin.context.getResourceEntry(asset, scopes)
+        val requestedResource: OrchidResource? = origin.context.getDefaultResourceSource(scopes, origin.context.theme).getResourceEntry(origin.context, asset)
 
         checkNotNull(requestedResource) { "requested asset '$asset' could not be found" }
 

@@ -46,7 +46,7 @@ constructor(
         return WikiUtils.createWikiFromSummaryFile(context, section, summary) { linkName, linkTarget, _ ->
             val file = sectionBaseDir + linkTarget
 
-            var resource: OrchidResource? = context.getResourceEntry(file, LocalResourceSource)
+            var resource: OrchidResource? = context.getDefaultResourceSource(LocalResourceSource, null).getResourceEntry(context, file)
 
             if (resource == null) {
                 val path = sectionBaseDir + FilenameUtils.removeExtension(linkTarget)

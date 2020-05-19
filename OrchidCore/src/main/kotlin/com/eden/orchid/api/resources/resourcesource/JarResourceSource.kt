@@ -1,6 +1,5 @@
 package com.eden.orchid.api.resources.resourcesource
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.JarResource
 import com.eden.orchid.api.resources.resource.OrchidResource
@@ -76,6 +75,29 @@ class JarResourceSource(
 
     fun getManifest(): Manifest {
         return jarFile.manifest
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as JarResourceSource
+
+        if (jarFile != other.jarFile) return false
+        if (priority != other.priority) return false
+        if (scope != other.scope) return false
+
+        return true
+    }
+
+    private val _hashcode by lazy {
+        var result = jarFile.hashCode()
+        result = 31 * result + priority
+        result = 31 * result + scope.hashCode()
+        result
+    }
+    override fun hashCode(): Int {
+        return _hashcode
     }
 
     companion object {

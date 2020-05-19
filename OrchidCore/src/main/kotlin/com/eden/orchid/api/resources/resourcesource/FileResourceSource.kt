@@ -77,4 +77,27 @@ class FileResourceSource(
         else if (other is FileResourceSource) other.baseDirectory.compareTo(baseDirectory)
         else superValue
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as FileResourceSource
+
+        if (baseDirectory != other.baseDirectory) return false
+        if (priority != other.priority) return false
+        if (scope != other.scope) return false
+
+        return true
+    }
+
+    private val _hashcode by lazy {
+        var result = baseDirectory.hashCode()
+        result = 31 * result + priority
+        result = 31 * result + scope.hashCode()
+        result
+    }
+    override fun hashCode(): Int {
+        return _hashcode
+    }
 }

@@ -35,4 +35,25 @@ class ExternalResourceSource(
     private fun isIgnoredFile(context: OrchidContext, file: File): Boolean {
         return context.ignoredFilenames?.any { file.name == it } ?: false
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as ExternalResourceSource
+
+        if (priority != other.priority) return false
+        if (scope != other.scope) return false
+
+        return true
+    }
+
+    private val _hashcode by lazy {
+        var result = priority
+        result = 31 * result + scope.hashCode()
+        result
+    }
+    override fun hashCode(): Int {
+        return _hashcode
+    }
 }

@@ -88,7 +88,7 @@ constructor(private val delegate: Cache<T, U> = PerpetualCache(), private val ma
     }
 
     companion object {
-        private const val DEFAULT_SIZE = 250
+        private const val DEFAULT_SIZE = 1500
         private const val PRESENT = true
     }
 }

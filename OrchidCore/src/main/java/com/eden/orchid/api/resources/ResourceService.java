@@ -37,14 +37,6 @@ public interface ResourceService extends OrchidService {
         return getService(ResourceService.class).getTemplateResourceSource(scopes, theme);
     }
 
-    default @Nullable OrchidResource getResourceEntry(final String fileName, @Nullable OrchidResourceSource.Scope scopes) {
-        return getService(ResourceService.class).getResourceEntry(fileName, scopes);
-    }
-
-    default List<OrchidResource> getResourceEntries(String path, String[] fileExtensions, boolean recursive, @Nullable OrchidResourceSource.Scope scopes) {
-        return getService(ResourceService.class).getResourceEntries(path, fileExtensions, recursive, scopes);
-    }
-
     default Map<String, Object> loadAdditionalFile(String url) {
         return getService(ResourceService.class).loadAdditionalFile(url);
     }

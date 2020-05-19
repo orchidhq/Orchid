@@ -32,7 +32,7 @@ class PresentationsGenerator : OrchidGenerator<PresentationsModel>(GENERATOR_KEY
     }
 
     private fun getPresentationResources(context: OrchidContext, baseDir: String): Map<String, List<OrchidResource>> {
-        val slides = context.getResourceEntries(baseDir, context.compilerExtensions.toTypedArray(), true, LocalResourceSource)
+        val slides = context.getDefaultResourceSource(LocalResourceSource, null).getResourceEntries(context, baseDir, context.compilerExtensions.toTypedArray(), true)
         val slideMap = HashMap<String, ArrayList<OrchidResource>>()
 
         slides.map {

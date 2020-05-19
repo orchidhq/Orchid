@@ -42,7 +42,7 @@ constructor(private val context: OrchidContext) : Importer {
         }
 
         for (availableFile in availableFiles) {
-            val importedResource = context.getResourceEntry(availableFile, null)
+            val importedResource = context.getDefaultResourceSource(null, context.theme).getResourceEntry(context, availableFile)
 
             if (importedResource != null) {
                 var content = importedResource.content

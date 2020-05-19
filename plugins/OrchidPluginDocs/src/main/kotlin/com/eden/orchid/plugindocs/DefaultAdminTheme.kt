@@ -18,7 +18,7 @@ constructor(
         delegate.addCss("https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.16/css/uikit.min.css")
 
         delegate.addJs("https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js")
-        context.getResourceEntries("assets/js/server", null, true, null)
+        context.getDefaultResourceSource(null, this).getResourceEntries(context, "assets/js/server", null, true)
             .filter { it.reference.outputExtension.equals("js", ignoreCase = true) }
             .map { resource ->
                 context

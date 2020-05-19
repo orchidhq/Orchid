@@ -13,6 +13,8 @@ import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.resources.resource.FileResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.api.resources.resourcesource.CachingResourceSource;
+import com.eden.orchid.api.resources.resourcesource.DefaultTemplateResourceSource;
 import com.eden.orchid.api.resources.resourcesource.DelegatingResourceSource;
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource;
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource;
@@ -57,7 +59,7 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
     private OrchidContext context;
     private final List<OrchidResourceSource> resourceSources;
     private final OkHttpClient client;
-    private final LRUCache<ResourceCacheKey, OrchidResource> resourceCache;
+    private final LRUCache<CachingResourceSource.CacheKey, OrchidResource> resourceCache;
     @Option
     @StringDefault({".DS_store", ".localized"})
     @Description("A list of filenames to globally filter out files from being sourced. Should be used primarily for ignoring pesky hidden or system files that are not intended to be used as site content.")
@@ -84,7 +86,7 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
     @Override
     public Map<String, Object> getDatafile(final String fileName) {
         return context.getParserExtensions().stream().map(ext -> {
-            OrchidResource resource = getResourceEntry(fileName + "." + ext, LocalResourceSource.INSTANCE);
+            OrchidResource resource = context.getDefaultResourceSource(LocalResourceSource.INSTANCE, null).getResourceEntry(context, fileName + "." + ext);
             if (resource != null) {
                 String content = resource.getContent();
                 if (!EdenUtils.isEmpty(content)) {
@@ -99,7 +101,7 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
     public Map<String, Object> getDatafiles(final String directory) {
         String[] parserExtensions = new String[context.getParserExtensions().size()];
         context.getParserExtensions().toArray(parserExtensions);
-        List<OrchidResource> files = getResourceEntries(directory, parserExtensions, true, LocalResourceSource.INSTANCE);
+        List<OrchidResource> files = context.getDefaultResourceSource(LocalResourceSource.INSTANCE,  null).getResourceEntries(context, directory, parserExtensions, true);
         Map<String, Object> allDatafiles = new HashMap<>();
         for (OrchidResource file : files) {
             file.getReference().setUsePrettyUrl(false);
@@ -135,22 +137,8 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
         }
     }
 
-// Get a single resource from an exact filename
-//----------------------------------------------------------------------------------------------------------------------
-
-    @Override
-    public OrchidResource getResourceEntry(final String fileName, @Nullable OrchidResourceSource.Scope scopes) {
-        final ResourceCacheKey key = new ResourceCacheKey(fileName, scopes, context.getTheme());
-        return CacheKt.computeIfAbsent(resourceCache, key, () -> getDefaultResourceSource(scopes, context.getTheme()).getResourceEntry(context, fileName));
-    }
-
 // Get all matching resources
 //----------------------------------------------------------------------------------------------------------------------
-
-    @Override
-    public List<OrchidResource> getResourceEntries(String path, String[] fileExtensions, boolean recursive, @Nullable OrchidResourceSource.Scope scopes) {
-        return getDefaultResourceSource(scopes, context.getTheme()).getResourceEntries(context, path, fileExtensions, recursive);
-    }
 
     @Override
     public OrchidResourceSource getDefaultResourceSource(@Nullable OrchidResourceSource.Scope scopes, @Nullable AbstractTheme theme) {
@@ -164,17 +152,22 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
             validScopes.add(scopes);
         }
 
-        return new DelegatingResourceSource(
-                allSources,
-                validScopes,
-                0,
-                LocalResourceSource.INSTANCE
+        return new CachingResourceSource(
+                resourceCache,
+                theme,
+                new DelegatingResourceSource(
+                        allSources,
+                        validScopes,
+                        0,
+                        LocalResourceSource.INSTANCE
+                ),
+                validScopes
         );
     }
 
     @Override
     public TemplateResourceSource getTemplateResourceSource(@Nullable OrchidResourceSource.Scope scopes, @NonNull AbstractTheme theme) {
-        return new TemplateResourceSource(
+        return new DefaultTemplateResourceSource(
                 theme,
                 getDefaultResourceSource(scopes, theme)
         );
@@ -303,13 +296,13 @@ public final class ResourceServiceImpl implements ResourceService, OrchidEventLi
         if (!fullFileName.contains(".")) {
             for (String extension : fileExtensions) {
                 String testFileName = fullFileName + "." + extension;
-                OrchidResource resource = getResourceEntry(testFileName, LocalResourceSource.INSTANCE);
+                OrchidResource resource = context.getDefaultResourceSource(LocalResourceSource.INSTANCE, null).getResourceEntry(context, testFileName);
                 if (resource != null) {
                     return resource;
                 }
             }
         }
-        return getResourceEntry(fullFileName, LocalResourceSource.INSTANCE);
+        return context.getDefaultResourceSource(LocalResourceSource.INSTANCE, null).getResourceEntry(context, fullFileName);
     }
 
 // Delombok

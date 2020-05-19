@@ -34,11 +34,12 @@ class FileSnippetsAdapter : SnippetsAdapter {
 
     private suspend fun SequenceScope<SnippetConfig>.addSnippetsInDir(context: OrchidContext, baseDir: String) {
         context
+            .getDefaultResourceSource(LocalResourceSource, null)
             .getResourceEntries(
+                context,
                 baseDir,
                 fileExtensions.takeIf { it.isNotEmpty() }?.toTypedArray(),
-                recursive,
-                LocalResourceSource
+                recursive
             )
             .forEach { resource ->
                 yield(

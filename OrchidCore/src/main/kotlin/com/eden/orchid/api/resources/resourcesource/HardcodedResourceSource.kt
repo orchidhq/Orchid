@@ -1,15 +1,9 @@
 package com.eden.orchid.api.resources.resourcesource
 
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.registration.OrchidModule
-import com.eden.orchid.api.resources.resource.ClasspathResource
 import com.eden.orchid.api.resources.resource.OrchidResource
-import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
 import org.apache.commons.io.FilenameUtils
-import java.util.ArrayList
-import java.util.Arrays
-import javax.inject.Inject
 
 /**
  * An OrchidResourceSource that serves from a static list of resources.

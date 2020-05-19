@@ -53,7 +53,7 @@ class FeedsGenerator : OrchidGenerator<FeedsModel>(GENERATOR_KEY, Stage.META) {
                 .take(size)
 
             feedTypes
-                .map { feedType -> feedType to context.getResourceEntry("feeds/$feedType.peb", null) }
+                .map { feedType -> feedType to context.getDefaultResourceSource(null, null).getResourceEntry(context, "feeds/$feedType.peb") }
                 .filter { it.second != null }
                 .map { (feedType, res) ->
                     res!!
