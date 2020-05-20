@@ -5,8 +5,10 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.OrchidParser
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.SuppressedWarnings
 import java.util.Arrays
 
+@Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
 class DefaultDataResourceSource(
     private val delegate: OrchidResourceSource
 ) : OrchidResourceSource by delegate, DataResourceSource {
@@ -73,7 +75,7 @@ class DefaultDataResourceSource(
     ) {
         if (fileData != null && pathPieces.size > 0) {
             if (pathPieces.size > 1) {
-                if (!allDatafiles!!.containsKey(pathPieces[0])) {
+                if (!allDatafiles.containsKey(pathPieces[0])) {
                     allDatafiles[pathPieces[0]] = HashMap<String, Any>()
                 }
                 val newArray =
@@ -85,9 +87,9 @@ class DefaultDataResourceSource(
                 )
             } else {
                 if (fileData.containsKey(OrchidParser.arrayAsObjectKey) && fileData.keys.size == 1) {
-                    allDatafiles!![pathPieces[0]] = fileData[OrchidParser.arrayAsObjectKey]
+                    allDatafiles[pathPieces[0]] = fileData[OrchidParser.arrayAsObjectKey]
                 } else {
-                    if (allDatafiles!!.containsKey(pathPieces[0]) && allDatafiles[pathPieces[0]] is Map<*, *>) {
+                    if (allDatafiles.containsKey(pathPieces[0]) && allDatafiles[pathPieces[0]] is Map<*, *>) {
                         for (key in fileData.keys) {
                             (allDatafiles[pathPieces[0]] as MutableMap<String?, Any?>?)!![key] = fileData[key]
                         }

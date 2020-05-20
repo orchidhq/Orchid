@@ -40,6 +40,8 @@ class AssetsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, St
 
     override fun startIndexing(context: OrchidContext): Model {
         val delegate = createAssetManagerDelegate(context)
+        val resourceSource = context.getDefaultResourceSource(LocalResourceSource, null)
+
         val assetPages = sourceDirs
             .flatMap { dir ->
                 context.getDefaultResourceSource(LocalResourceSource, null).getResourceEntries(
@@ -52,7 +54,7 @@ class AssetsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, St
             .map { resource ->
                 context
                     .assetManager
-                    .createAsset(delegate, resource.reference.originalFullFileName, LocalResourceSource)
+                    .createAsset(delegate, resourceSource, resource.reference.originalFullFileName)
                     .let { context.assetManager.getActualAsset(delegate, it, false) }
             }
 

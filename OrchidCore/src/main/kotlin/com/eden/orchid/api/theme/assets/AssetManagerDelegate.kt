@@ -40,8 +40,8 @@ class AssetManagerDelegate(
     }
 
     fun addCss(resourceName: String, configure: CssPageAttributes?): CssPage {
-        val requestedPage = context.assetManager
-            .createCss(this, resourceName, configure = configure)
+        val resourceSource = context.getDefaultResourceSource(null, context.theme)
+        val requestedPage = context.assetManager.createCss(this, resourceSource, resourceName, configure)
         return context.assetManager
             .getActualCss(this, requestedPage, true)
             .also { assets.add(it) }
@@ -60,8 +60,8 @@ class AssetManagerDelegate(
     }
 
     fun addJs(resourceName: String, configure: JsPageAttributes?): JsPage {
-        val requestedPage = context.assetManager
-            .createJs(this, resourceName, configure = configure)
+        val resourceSource = context.getDefaultResourceSource(null, context.theme)
+        val requestedPage = context.assetManager.createJs(this, resourceSource, resourceName, configure)
         return context.assetManager
             .getActualJs(this, requestedPage, true)
             .also { assets.add(it) }

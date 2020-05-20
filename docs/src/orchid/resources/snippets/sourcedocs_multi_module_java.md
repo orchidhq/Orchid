@@ -16,22 +16,24 @@ javadoc:
       sourcePagePermalink: '...'
       showRunnerLogs: false
       homePageOnly: false
+      relatedModules: ['project-2-name']
       args: []
     - name: 'project-2-name'
       ...
 ```
 
-| Description                                                                           | Option                | Default Value |
-| ------------------------------------------------------------------------------------- | --------------------- | ------------- |
-| The name of the module, which becomes the title of the module Homepage.               | `name`                | `false`       |
-| The slug prepended to page URLs from this module.                                     | `slug`                | ``            |
-| Group multiple modules together for easier configuration and improved site hierarchy. | `moduleGroup`         | `[]`          |
-| Relative paths to directories containing Java or Java source code.                    | `sourceDirs`          | `[]`          |
-| Customize the URL path for the homepage.                                              | `homePagePermalink`   | see below     |
-| Customize the URL path for class and package pages.                                   | `sourcePagePermalink` | see below     |
-| Whether to print logs from the underlying Javadoc CLI                                 | `showRunnerLogs`      | `false`       |
-| If true, do not run Javadoc. Create docs a module with only a homepage.               | `homePageOnly`        | `false`       |
-| Additional args to pass-through to the Javadoc CLI.                                   | `args`                | `[]`          |
+| Description                                                                                     | Option                | Default Value |
+| ----------------------------------------------------------------------------------------------- | --------------------- | ------------- |
+| The name of the module, which becomes the title of the module Homepage.                         | `name`                | `false`       |
+| The slug prepended to page URLs from this module.                                               | `slug`                | ``            |
+| Group multiple modules together for easier configuration and improved site hierarchy.           | `moduleGroup`         | `[]`          |
+| Relative paths to directories containing Java or Java source code.                              | `sourceDirs`          | `[]`          |
+| Customize the URL path for the homepage.                                                        | `homePagePermalink`   | see below     |
+| Customize the URL path for class and package pages.                                             | `sourcePagePermalink` | see below     |
+| Whether to print logs from the underlying Javadoc CLI                                           | `showRunnerLogs`      | `false`       |
+| If true, do not run Javadoc. Create docs a module with only a homepage.                         | `homePageOnly`        | `false`       |
+| A list of other modules which contain sources that may be linked to by the pages in this module | `relatedModules`      | `[]`          |
+| Additional args to pass-through to the Javadoc CLI.                                             | `args`                | `[]`          |
 
 ### Permalinks
 

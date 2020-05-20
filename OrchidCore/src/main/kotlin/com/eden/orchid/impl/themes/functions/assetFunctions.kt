@@ -11,6 +11,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.annotations.Validate
 import com.eden.orchid.api.resources.resource.OrchidResource
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.theme.assets.AssetPage
 import com.eden.orchid.api.resources.thumbnails.Renameable
 import com.eden.orchid.api.resources.thumbnails.Resizable
@@ -43,7 +44,11 @@ class AssetFunction : TemplateFunction("asset", false) {
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         return runCatching {
-            context.assetManager.createAsset(createAssetManagerDelegate(context, page), itemId, null)
+            context.assetManager.createAsset(
+                createAssetManagerDelegate(context, page),
+                context.getDefaultResourceSource(null, null),
+                itemId
+            )
         }.getOrNull()
     }
 }
@@ -80,7 +85,11 @@ abstract class BaseImageManipulationFunction(name: String, isSafeString: Boolean
                 // want to manipulate the asset and render it differently
                 asset = (input as AssetRelation).load()
             } else if(input is String) {
-                asset = context.assetManager.createAsset(createAssetManagerDelegate(context, page), input!!.toString(), null)
+                asset = context.assetManager.createAsset(
+                    createAssetManagerDelegate(context, page),
+                    context.getDefaultResourceSource(null, null),
+                    input!!.toString()
+                )
             } else {
                 asset = null
             }

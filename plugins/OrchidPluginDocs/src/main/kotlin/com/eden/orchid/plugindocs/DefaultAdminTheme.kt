@@ -23,7 +23,11 @@ constructor(
             .map { resource ->
                 context
                     .assetManager
-                    .createAsset(delegate, resource.reference.originalFullFileName)
+                    .createAsset(
+                        delegate,
+                        context.getDefaultResourceSource(null, this),
+                        resource.reference.originalFullFileName
+                    )
             }
             .map { asset ->
                 context.assetManager.getActualAsset(delegate, asset, true)

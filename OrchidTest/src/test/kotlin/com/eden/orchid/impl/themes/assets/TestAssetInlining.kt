@@ -12,6 +12,7 @@ import kotlinx.html.div
 import kotlinx.html.link
 import kotlinx.html.script
 import kotlinx.html.style
+import kotlinx.html.unsafe
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -85,14 +86,14 @@ class TestAssetInlining : OrchidIntegrationTest(
                     ) { }
                     link(href = "http://orchid.test/${TestAssetPage.CSS}", rel = "stylesheet", type = "text/css") { }
                     style {
-                        +".red .blue { color: purple; }"
+                        unsafe { +".red .blue { color: purple; }" }
                     }
                 }
                 htmlBodyMatches("body script", ignoreContentWhitespace = true) {
                     script(src = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
                     script(src = "http://orchid.test/${TestAssetPage.JS}") { }
-                    script() {
-                        +"function itsFunToInline() { }"
+                    script {
+                        unsafe { +"function itsFunToInline() { }"}
                     }
                 }
             }
@@ -188,22 +189,26 @@ class TestAssetInlining : OrchidIntegrationTest(
                     ) { }
                     link(href = "http://orchid.test/${TestAssetPage.CSS}", rel = "stylesheet", type = "text/css") { }
                     style {
-                        +"""
-                        |.extra-css {
-                        |  color: blue;
-                        |}
-                        """.trimMargin()
+                        unsafe {
+                            +"""
+                            |.extra-css {
+                            |  color: blue;
+                            |}
+                            """.trimMargin()
+                        }
                     }
                 }
                 htmlBodyMatches("body script", ignoreContentWhitespace = true) {
                     script(src = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
                     script(src = "http://orchid.test/${TestAssetPage.JS}") { }
                     script {
-                        +"""
-                        |fun js() {
-                        |    console.log("js");
-                        |}
-                        """.trimMargin()
+                        unsafe {
+                            +"""
+                            |fun js() {
+                            |    console.log("js");
+                            |}
+                            """.trimMargin()
+                        }
                     }
                 }
             }

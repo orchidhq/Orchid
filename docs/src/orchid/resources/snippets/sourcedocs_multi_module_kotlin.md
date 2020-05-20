@@ -16,22 +16,24 @@ kotlindoc:
       sourcePagePermalink: '...'
       showRunnerLogs: false
       homePageOnly: false
+      relatedModules: ['project-2-name']
       args: ['-packageOptions', 'com.example.hidden,+suppress;com.example.alsohidden,+suppress']
     - name: 'project-2-name'
       ...
 ```
 
-| Description                                                                           | Option                | Default Value |
-| ------------------------------------------------------------------------------------- | --------------------- | ------------- |
-| The name of the module, which becomes the title of the module Homepage.               | `name`                | `false`       |
-| The slug prepended to page URLs from this module.                                     | `slug`                | ``            |
-| Group multiple modules together for easier configuration and improved site hierarchy. | `moduleGroup`         | `[]`          |
-| Relative paths to directories containing Kotlin or Java source code.                  | `sourceDirs`          | `[]`          |
-| Customize the URL path for the homepage.                                              | `homePagePermalink`   | see below     |
-| Customize the URL path for class and package pages.                                   | `sourcePagePermalink` | see below     |
-| Whether to print logs from the underlying Dokka CLI                                   | `showRunnerLogs`      | `false`       |
-| If true, do not run Dokka. Create docs a module with only a homepage.                 | `homePageOnly`        | `false`       |
-| Additional args to pass-through to the Dokka CLI.                                     | `args`                | `[]`          |
+| Description                                                                                     | Option                | Default Value |
+| ----------------------------------------------------------------------------------------------- | --------------------- | ------------- |
+| The name of the module, which becomes the title of the module Homepage.                         | `name`                | `false`       |
+| The slug prepended to page URLs from this module.                                               | `slug`                | ``            |
+| Group multiple modules together for easier configuration and improved site hierarchy.           | `moduleGroup`         | `[]`          |
+| Relative paths to directories containing Kotlin or Java source code.                            | `sourceDirs`          | `[]`          |
+| Customize the URL path for the homepage.                                                        | `homePagePermalink`   | see below     |
+| Customize the URL path for class and package pages.                                             | `sourcePagePermalink` | see below     |
+| Whether to print logs from the underlying Dokka CLI                                             | `showRunnerLogs`      | `false`       |
+| If true, do not run Dokka. Create docs a module with only a homepage.                           | `homePageOnly`        | `false`       |
+| A list of other modules which contain sources that may be linked to by the pages in this module | `relatedModules`      | `[]`          |
+| Additional args to pass-through to the Dokka CLI.                                               | `args`                | `[]`          |
 
 ### Permalinks
 

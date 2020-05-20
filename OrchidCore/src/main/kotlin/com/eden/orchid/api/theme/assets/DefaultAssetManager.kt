@@ -21,8 +21,8 @@ class DefaultAssetManager : AssetManager {
         assets.clear()
     }
 
-    override fun createAsset(origin: AssetManagerDelegate, asset: String, scopes: OrchidResourceSource.Scope?): AssetPage {
-        val requestedResource: OrchidResource? = origin.context.getDefaultResourceSource(scopes, origin.context.theme).getResourceEntry(origin.context, asset)
+    override fun createAsset(origin: AssetManagerDelegate, resourceSource: OrchidResourceSource, asset: String): AssetPage {
+        val requestedResource: OrchidResource? = resourceSource.getResourceEntry(origin.context, asset)
 
         checkNotNull(requestedResource) { "requested asset '$asset' could not be found" }
 
@@ -34,8 +34,8 @@ class DefaultAssetManager : AssetManager {
         ).also { it.configureReferences() }
     }
 
-    override fun createCss(origin: AssetManagerDelegate, asset: String, scopes: OrchidResourceSource.Scope?, configure: CssPageAttributes?): CssPage {
-        val requestedResource: OrchidResource? = origin.context.getDefaultResourceSource(scopes, origin.context.theme).getResourceEntry(origin.context, asset)
+    override fun createCss(origin: AssetManagerDelegate, resourceSource: OrchidResourceSource, asset: String, configure: CssPageAttributes?): CssPage {
+        val requestedResource: OrchidResource? = resourceSource.getResourceEntry(origin.context, asset)
 
         checkNotNull(requestedResource) { "requested asset '$asset' could not be found" }
 
@@ -52,8 +52,8 @@ class DefaultAssetManager : AssetManager {
         }
     }
 
-    override fun createJs(origin: AssetManagerDelegate, asset: String, scopes: OrchidResourceSource.Scope?, configure: JsPageAttributes?): JsPage {
-        val requestedResource: OrchidResource? = origin.context.getDefaultResourceSource(scopes, origin.context.theme).getResourceEntry(origin.context, asset)
+    override fun createJs(origin: AssetManagerDelegate, resourceSource: OrchidResourceSource, asset: String, configure: JsPageAttributes?): JsPage {
+        val requestedResource: OrchidResource? = resourceSource.getResourceEntry(origin.context, asset)
 
         checkNotNull(requestedResource) { "requested asset '$asset' could not be found" }
 

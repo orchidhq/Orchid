@@ -29,7 +29,7 @@ interface AssetManager {
      *
      * @return a new page. Do not render directly, first get the actual page (potentially cached) from [.getActualAsset].
      */
-    fun createAsset(origin: AssetManagerDelegate, asset: String, scopes: OrchidResourceSource.Scope? = null): AssetPage
+    fun createAsset(origin: AssetManagerDelegate, resourceSource: OrchidResourceSource, asset: String): AssetPage
 
     /**
      * Create a new CssPage. After creation, it should be configured by the caller, then checked against the
@@ -41,7 +41,7 @@ interface AssetManager {
      *
      * @return a new page. Do not render directly, first get the actual page (potentially cached) from [.getActualCss].
      */
-    fun createCss(origin: AssetManagerDelegate, asset: String, scopes: OrchidResourceSource.Scope? = null, configure: CssPageAttributes? = null): CssPage
+    fun createCss(origin: AssetManagerDelegate, resourceSource: OrchidResourceSource, asset: String, configure: CssPageAttributes? = null): CssPage
 
     /**
      * Create a new JsPage. After creation, it should be configured by the caller, then checked against the
@@ -53,7 +53,7 @@ interface AssetManager {
      *
      * @return a new page. Do not render directly, first get the actual page (potentially cached) from [.createJs].
      */
-    fun createJs(origin: AssetManagerDelegate, asset: String, scopes: OrchidResourceSource.Scope? = null, configure: JsPageAttributes? = null): JsPage
+    fun createJs(origin: AssetManagerDelegate, resourceSource: OrchidResourceSource, asset: String, configure: JsPageAttributes? = null): JsPage
 
     /**
      * Checks the given asset against the cache. If any asset matches the provided asset, return that instance instead.
