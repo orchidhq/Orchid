@@ -26,7 +26,6 @@ import strikt.assertions.size
 class HardcodedResourceSourceTest {
 
     val underTest by lazy {
-
         HardcodedResourceSource(
             listOf<(OrchidContext) -> OrchidResource>(
                 { createStringResource(it, "res.md") },
@@ -96,10 +95,10 @@ class HardcodedResourceSourceTest {
 
 
     companion object {
-        private fun createStringResource(context: OrchidContext, name: String): OrchidResource {
+        fun createStringResource(context: OrchidContext, name: String, content: String = name): OrchidResource {
             return StringResource(
                 OrchidReference(context, name),
-                name
+                content
             )
         }
     }

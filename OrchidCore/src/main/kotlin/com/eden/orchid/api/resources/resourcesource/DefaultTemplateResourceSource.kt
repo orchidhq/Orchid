@@ -11,7 +11,7 @@ class DefaultTemplateResourceSource(
 ) : OrchidResourceSource by delegate, TemplateResourceSource {
 
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
-        return locateTemplate(context, fileName)
+        return getResourceEntry(context, "", fileName.split(","))
     }
 
     override fun getResourceEntry(context: OrchidContext, templateSubdir: String, possibleFileNames: List<String>): OrchidResource? {
@@ -19,20 +19,25 @@ class DefaultTemplateResourceSource(
             val themePreferredExtension = theme.preferredTemplateExtension
             val defaultExtension = context.defaultTemplateExtension
 
-            for(template in possibleFileNames) {
-                listOf(
-                    template,
-                    "$template.$themePreferredExtension", // get rid of this?
-                    "$template.$defaultExtension", // get rid of this?
-                    "$templateSubdir/$template",
-                    "$templateSubdir/$template.$themePreferredExtension",
-                    "$templateSubdir/$template.$defaultExtension"
-                ).forEach { yield(it) }
+            for(nullableTemplateName in possibleFileNames) {
+                val template = nullableTemplateName.removePrefix("?")
+
+                // look for exact template name
+                yield(template)
+                yield("$template.$themePreferredExtension") // get rid of this?
+                yield("$template.$defaultExtension") // get rid of this?
+
+                // if we have a subdirectory, look there too
+                if(templateSubdir.isNotBlank()) {
+                    yield("$templateSubdir/$template")
+                    yield("$templateSubdir/$template.$themePreferredExtension")
+                    yield("$templateSubdir/$template.$defaultExtension")
+                }
             }
         }
             .filter { it.isNotBlank() }
             .distinct()
-            .map { locateTemplate(context, it) }
+            .map { delegate.getResourceEntry(context, it) }
             .filterNotNull()
             .firstOrNull()
     }
@@ -44,31 +49,6 @@ class DefaultTemplateResourceSource(
         recursive: Boolean
     ): List<OrchidResource> {
         throw NotImplementedError("TemplateResourceSource can only look up a single resource entry")
-    }
-
-// Implementation
-//----------------------------------------------------------------------------------------------------------------------
-
-    private fun locateTemplate(context: OrchidContext, fileNames: String): OrchidResource? {
-        val possibleTemplates = if (fileNames.startsWith("?")) {
-            fileNames.substring(1).split(",")
-        } else {
-            fileNames.split(",")
-        }
-
-        return possibleTemplates
-            .asSequence()
-            .map { locateSingleTemplate(context, it) }
-            .filterNotNull()
-            .firstOrNull()
-    }
-
-    private fun locateSingleTemplate(context: OrchidContext, templateName: String?): OrchidResource? {
-        var fullFileName = OrchidUtils.normalizePath(OrchidUtils.normalizePath(templateName))
-        if (!fullFileName.contains(".")) {
-            fullFileName = fullFileName + "." + theme.preferredTemplateExtension
-        }
-        return delegate.getResourceEntry(context, fullFileName)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -97,6 +77,6 @@ class DefaultTemplateResourceSource(
 fun OrchidResourceSource.useForTemplates(
     theme: AbstractTheme,
     templateBaseDir: String = "templates"
-): DefaultTemplateResourceSource {
+): TemplateResourceSource {
     return DefaultTemplateResourceSource(this.atSubdirectory(templateBaseDir), theme)
 }
