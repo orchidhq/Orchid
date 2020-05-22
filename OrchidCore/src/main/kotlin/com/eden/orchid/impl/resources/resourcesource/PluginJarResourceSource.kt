@@ -7,9 +7,11 @@ import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource
 import com.eden.orchid.api.resources.resourcesource.PluginResourceSource
 import java.io.File
 import java.nio.file.Path
+import javax.annotation.Nonnull
 
 object PluginJarResourceSource {
     @JvmStatic
+    @Nonnull
     fun create(
         pluginClass: Class<*>,
         priority: Int,

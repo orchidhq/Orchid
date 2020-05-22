@@ -1,18 +1,16 @@
 package com.eden.orchid.api.resources.resourcesource
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.AbstractTheme
 import com.eden.orchid.utilities.LRUCache
 import com.eden.orchid.utilities.computeIfAbsent
-import java.util.concurrent.atomic.AtomicInteger
 
 class CachingResourceSource
 constructor(
+    private val delegate: OrchidResourceSource,
     private val cache: LRUCache<CacheKey, OrchidResource?>,
     private val theme: AbstractTheme?,
-    private val delegate: OrchidResourceSource,
     private val delegateScopes: List<OrchidResourceSource.Scope>
 ) : OrchidResourceSource by delegate {
 
@@ -40,5 +38,18 @@ constructor(
         val themeKey: String,
         val themeHashcode: Int,
         val delegateScopes: List<OrchidResourceSource.Scope>
+    )
+}
+
+fun OrchidResourceSource.cached(
+    cache: LRUCache<CachingResourceSource.CacheKey, OrchidResource?>,
+    theme: AbstractTheme?,
+    delegateScopes: List<OrchidResourceSource.Scope>
+): CachingResourceSource {
+    return CachingResourceSource(
+        this,
+        cache,
+        theme,
+        delegateScopes
     )
 }

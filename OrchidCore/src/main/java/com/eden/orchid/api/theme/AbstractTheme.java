@@ -61,7 +61,7 @@ public abstract class AbstractTheme implements OptionsHolder, WithAssets, Compar
 // Resource Source
 //----------------------------------------------------------------------------------------------------------------------
 
-    @Nullable
+    @Nonnull
     public OrchidResourceSource getResourceSource() {
         if(themeResourceSource == null) {
             this.themeResourceSource = PluginJarResourceSource.create(this.getClass(), priority,  ThemeResourceSource.INSTANCE);

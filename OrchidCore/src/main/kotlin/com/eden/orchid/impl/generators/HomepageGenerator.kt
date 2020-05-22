@@ -9,6 +9,8 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
+import com.eden.orchid.api.resources.resourcesource.flexible
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 
@@ -22,7 +24,12 @@ class HomepageGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, 
     private fun loadHomepage(context: OrchidContext): OrchidPage {
         var resource: OrchidResource? =
             sequenceOf("homepage", "HOMEPAGE", "Homepage", "HomePage")
-                .mapNotNull { context.locateLocalResourceEntry(it) }
+                .mapNotNull {
+                    context
+                        .getDefaultResourceSource(LocalResourceSource, null)
+                        .flexible()
+                        .locateResourceEntry(context, it)
+                }
                 .firstOrNull()
 
         if (resource == null) {
@@ -35,7 +42,10 @@ class HomepageGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, 
     }
 
     private fun load404page(context: OrchidContext): OrchidPage {
-        var resource = context.locateLocalResourceEntry("404")
+        var resource = context
+            .getDefaultResourceSource(LocalResourceSource, null)
+            .flexible()
+            .locateResourceEntry(context, "404")
         if (resource == null) {
             resource = StringResource(OrchidReference(context, "404.md"), "")
         }

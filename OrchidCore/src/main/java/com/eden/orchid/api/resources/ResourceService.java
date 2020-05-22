@@ -30,33 +30,4 @@ public interface ResourceService extends OrchidService {
     default DataResourceSource getDataResourceSource(@Nullable OrchidResourceSource.Scope scopes) {
         return getService(ResourceService.class).getDataResourceSource(scopes);
     }
-
-    default @Nullable OrchidResource findClosestFile(String filename) {
-        return getService(ResourceService.class).findClosestFile(filename);
-    }
-
-    default @Nullable OrchidResource findClosestFile(String filename, boolean strict) {
-        return getService(ResourceService.class).findClosestFile(filename, strict);
-    }
-
-    default @Nullable OrchidResource findClosestFile(String filename, boolean strict, int maxIterations) {
-        return getService(ResourceService.class).findClosestFile(filename, strict, maxIterations);
-    }
-
-    default @Nullable OrchidResource findClosestFile(String baseDir, String filename, boolean strict, int maxIterations) {
-        return getService(ResourceService.class).findClosestFile(baseDir, filename, strict, maxIterations);
-    }
-
-    default OrchidResource locateLocalResourceEntry(final String fileName) {
-        return getService(ResourceService.class).locateLocalResourceEntry(fileName);
-    }
-
-    default OrchidResource locateLocalResourceEntry(final String fileName, String[] fileExtensions) {
-        return getService(ResourceService.class).locateLocalResourceEntry(fileName, fileExtensions);
-    }
-
-    default OrchidResource locateLocalResourceEntry(final String fileName, List<String> fileExtensions) {
-        return getService(ResourceService.class).locateLocalResourceEntry(fileName, fileExtensions);
-    }
-
 }

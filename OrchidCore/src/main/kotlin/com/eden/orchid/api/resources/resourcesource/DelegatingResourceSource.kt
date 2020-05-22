@@ -10,8 +10,8 @@ import java.util.TreeMap
  * a combination of the resources collected from _all_ delegates.
  */
 class DelegatingResourceSource(
-    private val delegates: List<OrchidResourceSource>,
-    private val scopeFilter: List<OrchidResourceSource.Scope>,
+    private val delegates: Collection<OrchidResourceSource>,
+    private val scopeFilter: Collection<OrchidResourceSource.Scope>,
     override val priority: Int,
     override val scope: OrchidResourceSource.Scope
 ) : OrchidResourceSource {

@@ -4,6 +4,7 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.OrchidParser
 import com.eden.orchid.api.resources.resource.OrchidResource
+import com.eden.orchid.api.theme.AbstractTheme
 import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.utilities.SuppressedWarnings
 import java.util.Arrays
@@ -100,5 +101,8 @@ class DefaultDataResourceSource(
             }
         }
     }
+}
 
+fun OrchidResourceSource.useForData(): DefaultDataResourceSource {
+    return DefaultDataResourceSource(this)
 }

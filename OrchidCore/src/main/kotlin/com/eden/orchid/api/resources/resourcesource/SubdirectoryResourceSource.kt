@@ -51,3 +51,7 @@ class SubdirectoryResourceSource(
         return _hashcode
     }
 }
+
+fun OrchidResourceSource.atSubdirectory(subDirectory: String): SubdirectoryResourceSource {
+    return SubdirectoryResourceSource(this, subDirectory)
+}

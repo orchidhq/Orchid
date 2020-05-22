@@ -13,6 +13,8 @@ import com.eden.orchid.api.generators.PageCollection
 import com.eden.orchid.api.options.OptionsExtractor
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
+import com.eden.orchid.api.resources.resourcesource.flexible
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
 import com.eden.orchid.sourcedoc.model.SourceDocModel
@@ -157,7 +159,10 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
 
         for (baseDir in config.sourceDirs) {
             val baseFile = File(context.sourceDir).toPath().resolve(baseDir).toFile().absolutePath
-            val closestFile: OrchidResource? = context.findClosestFile(baseFile, "readme", false, 10)
+            val closestFile: OrchidResource? = context
+                .getDefaultResourceSource(LocalResourceSource, null)
+                .flexible()
+                .findClosestFile(context, "readme", baseFile)
             if (closestFile != null) {
                 readmeFile = closestFile
                 break

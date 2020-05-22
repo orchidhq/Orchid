@@ -5,12 +5,9 @@ import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.AbstractTheme
 import com.eden.orchid.utilities.OrchidUtils
 
-class DefaultTemplateResourceSource
-@JvmOverloads
-constructor(
-    private val theme: AbstractTheme,
-    private val templateBaseDir: String = "templates",
-    private val delegate: OrchidResourceSource
+class DefaultTemplateResourceSource(
+    private val delegate: OrchidResourceSource,
+    private val theme: AbstractTheme
 ) : OrchidResourceSource by delegate, TemplateResourceSource {
 
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
@@ -24,12 +21,12 @@ constructor(
 
             for(template in possibleFileNames) {
                 listOf(
-                    "$templateBaseDir/$template",
-                    "$templateBaseDir/$template.$themePreferredExtension",
-                    "$templateBaseDir/$template.$defaultExtension",
-                    "$templateBaseDir/$templateSubdir/$template",
-                    "$templateBaseDir/$templateSubdir/$template.$themePreferredExtension",
-                    "$templateBaseDir/$templateSubdir/$template.$defaultExtension"
+                    template,
+                    "$template.$themePreferredExtension", // get rid of this?
+                    "$template.$defaultExtension", // get rid of this?
+                    "$templateSubdir/$template",
+                    "$templateSubdir/$template.$themePreferredExtension",
+                    "$templateSubdir/$template.$defaultExtension"
                 ).forEach { yield(it) }
             }
         }
@@ -68,9 +65,6 @@ constructor(
 
     private fun locateSingleTemplate(context: OrchidContext, templateName: String?): OrchidResource? {
         var fullFileName = OrchidUtils.normalizePath(OrchidUtils.normalizePath(templateName))
-        if (!fullFileName.startsWith("$templateBaseDir/")) {
-            fullFileName = "$templateBaseDir/$fullFileName"
-        }
         if (!fullFileName.contains(".")) {
             fullFileName = fullFileName + "." + theme.preferredTemplateExtension
         }
@@ -84,7 +78,6 @@ constructor(
         other as DefaultTemplateResourceSource
 
         if (theme != other.theme) return false
-        if (templateBaseDir != other.templateBaseDir) return false
         if (delegate != other.delegate) return false
 
         return true
@@ -92,11 +85,18 @@ constructor(
 
     private val _hashcode by lazy {
         var result = theme.hashCode()
-        result = 31 * result + templateBaseDir.hashCode()
         result = 31 * result + delegate.hashCode()
         result
     }
     override fun hashCode(): Int {
         return _hashcode
     }
+}
+
+@JvmOverloads
+fun OrchidResourceSource.useForTemplates(
+    theme: AbstractTheme,
+    templateBaseDir: String = "templates"
+): DefaultTemplateResourceSource {
+    return DefaultTemplateResourceSource(this.atSubdirectory(templateBaseDir), theme)
 }
