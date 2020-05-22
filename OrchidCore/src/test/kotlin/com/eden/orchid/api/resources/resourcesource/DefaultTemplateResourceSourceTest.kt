@@ -1,6 +1,5 @@
 package com.eden.orchid.api.resources.resourcesource
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resourcesource.HardcodedResourceSourceTest.Companion.createStringResource
@@ -50,11 +49,6 @@ class DefaultTemplateResourceSourceTest : OrchidUnitTest {
     }
     val underTest: TemplateResourceSource by lazy {
         testDelegate.useForTemplates(theme)
-    }
-
-    @BeforeEach
-    internal fun setUp() {
-        enableLogging()
     }
 
     @ParameterizedTest

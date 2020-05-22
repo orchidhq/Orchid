@@ -6,11 +6,12 @@ import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.utilities.OrchidUtils
 
 class LoggingResourceSource(
-    private val delegate: OrchidResourceSource
+    private val delegate: OrchidResourceSource,
+    val tag: String
 ): OrchidResourceSource by delegate {
 
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
-        Clog.d("getResourceEntry(fileName=$fileName)")
+        Clog.tag(tag).d("getResourceEntry(fileName=$fileName)")
         return delegate.getResourceEntry(context, fileName)
     }
 
@@ -20,11 +21,11 @@ class LoggingResourceSource(
         fileExtensions: Array<String>?,
         recursive: Boolean
     ): List<OrchidResource> {
-        Clog.d("getResourceEntry(dirName=$dirName, fileExtensions=$fileExtensions, recursive=$recursive)")
+        Clog.tag(tag).d("getResourceEntry(dirName=$dirName, fileExtensions=$fileExtensions, recursive=$recursive)")
         return delegate.getResourceEntries(context, dirName, fileExtensions, recursive)
     }
 }
 
-fun OrchidResourceSource.withLogging(): LoggingResourceSource {
-    return LoggingResourceSource(this)
+fun OrchidResourceSource.withLogging(tag: String = "LoggingResourceSource"): LoggingResourceSource {
+    return LoggingResourceSource(this, tag)
 }

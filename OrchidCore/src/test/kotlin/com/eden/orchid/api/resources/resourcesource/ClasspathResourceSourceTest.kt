@@ -3,23 +3,18 @@ package com.eden.orchid.api.resources.resourcesource
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.ClasspathResource
 import com.eden.orchid.strikt.asExpected
+import com.eden.orchid.testhelpers.OrchidUnitTest
 import com.eden.orchid.utilities.SuppressedWarnings
 import com.eden.orchid.utilities.readToString
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.mockito.Mockito.mock
-import strikt.api.expectThat
 import strikt.api.expectThrows
-import strikt.assertions.containsExactly
-import strikt.assertions.containsExactlyInAnyOrder
-import strikt.assertions.hasSize
 import strikt.assertions.isA
 import strikt.assertions.isEqualTo
 import strikt.assertions.isNotNull
-import strikt.assertions.map
-import strikt.assertions.size
 
-class ClasspathResourceSourceTest {
+class ClasspathResourceSourceTest : OrchidUnitTest {
 
     val underTest by lazy {
         ClasspathResourceSource(ClasspathResourceSourceTest::class.java.classLoader, 0, LocalResourceSource)
