@@ -28,11 +28,11 @@ class SwaggerComponent : OrchidComponent("swaggerUi") {
     @Description("The full JSON object that initializes the Swagger UI, allowing you to completely customize it.")
     lateinit var allSwaggerOptions: JSONObject
 
-    override fun loadAssets(delegate: AssetManagerDelegate) {
-        delegate.addCss("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/$swaggerUiVersion/swagger-ui.css")
-        delegate.addJs("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/$swaggerUiVersion/swagger-ui-bundle.js")
-        delegate.addJs("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/$swaggerUiVersion/swagger-ui-standalone-preset.js")
-        delegate.addJs("assets/js/swaggerUiStart.js") { inlined = true }
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
+        addCss("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/$swaggerUiVersion/swagger-ui.css")
+        addJs("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/$swaggerUiVersion/swagger-ui-bundle.js")
+        addJs("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/$swaggerUiVersion/swagger-ui-standalone-preset.js")
+        addJs("assets/js/swaggerUiStart.js") { inlined = true }
     }
 
 }

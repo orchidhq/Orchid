@@ -29,10 +29,10 @@ class AlgoliaDocSearchComponent : OrchidComponent("algoliaDocsearch", true) {
     @Description("Set debug to true if you want to inspect the dropdown.")
     var debug: Boolean = false
 
-    override fun loadAssets(delegate: AssetManagerDelegate) {
-        delegate.addCss("https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css")
-        delegate.addJs("https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js")
-        delegate.addJs("assets/js/algoliaDocsearch.js") { inlined = true }
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
+        addCss("https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css")
+        addJs("https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js")
+        addJs("assets/js/algoliaDocsearch.js") { inlined = true }
     }
 
     override fun isHidden(): Boolean {

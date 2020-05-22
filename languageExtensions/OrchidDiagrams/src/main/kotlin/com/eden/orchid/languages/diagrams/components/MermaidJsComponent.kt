@@ -23,9 +23,9 @@ class MermaidJsComponent : OrchidComponent("mermaid", true) {
     @StringDefault("pre code[class='language-mermaid']")
     lateinit var selector: String
 
-    override fun loadAssets(delegate: AssetManagerDelegate) {
-        delegate.addJs(mermaidSource)
-        delegate.addJs("assets/js/mermaidSetup.js") { inlined = true }
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
+        addJs(mermaidSource)
+        addJs("assets/js/mermaidSetup.js") { inlined = true }
     }
 
     override fun isHidden(): Boolean {

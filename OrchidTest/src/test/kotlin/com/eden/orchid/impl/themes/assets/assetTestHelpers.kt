@@ -22,9 +22,9 @@ constructor(
     context: OrchidContext
 ) : Theme(context, KEY) {
 
-    override fun loadAssets(delegate: AssetManagerDelegate) {
-        delegate.addCss(CSS)
-        delegate.addJs(JS)
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
+        addCss(CSS)
+        addJs(JS)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -59,9 +59,9 @@ constructor(
     resource: OrchidResource
 ) : OrchidPage(resource, RenderService.RenderMode.TEMPLATE, KEY, null) {
 
-    override fun loadAssets(delegate: AssetManagerDelegate) {
-        delegate.addCss(CSS)
-        delegate.addJs(JS)
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
+        addCss(CSS)
+        addJs(JS)
     }
 
     companion object {
@@ -99,9 +99,9 @@ class TestAssetGenerator : OrchidGenerator<OrchidGenerator.Model>(KEY, Stage.CON
 }
 
 class TestAssetComponent : OrchidComponent(KEY) {
-    override fun loadAssets(delegate: AssetManagerDelegate) {
-        delegate.addCss(CSS)
-        delegate.addJs(JS)
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
+        addCss(CSS)
+        addJs(JS)
     }
 
     companion object {
@@ -120,9 +120,9 @@ class TestAssetComponent : OrchidComponent(KEY) {
 }
 
 class TestAssetMetaComponent : OrchidComponent(KEY, true) {
-    override fun loadAssets(delegate: AssetManagerDelegate) {
-        delegate.addCss(CSS)
-        delegate.addJs(JS)
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
+        addCss(CSS)
+        addJs(JS)
     }
 
     companion object {

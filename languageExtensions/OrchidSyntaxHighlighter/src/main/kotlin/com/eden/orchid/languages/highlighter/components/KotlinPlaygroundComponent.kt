@@ -29,8 +29,8 @@ class KotlinPlaygroundComponent : OrchidComponent("kotlinPlayground", true) {
     @Description("The URL to a self-hosted server instance for running code snippets.")
     lateinit var server: String
 
-    override fun loadAssets(delegate: AssetManagerDelegate) {
-        delegate.addJs(kotlinPlaygroundSource) {
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
+        addJs(kotlinPlaygroundSource) {
             attrs["data-selector"] = selector
 
             if (server.isNotBlank()) {

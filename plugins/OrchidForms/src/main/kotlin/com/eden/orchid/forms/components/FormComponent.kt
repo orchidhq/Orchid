@@ -15,7 +15,7 @@ class FormComponent : OrchidComponent("form") {
     )
     var form: Form? = null
 
-    override fun loadAssets(delegate: AssetManagerDelegate) {
-        delegate.addCss("assets/css/form.scss")
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
+        addCss("assets/css/form.scss")
     }
 }

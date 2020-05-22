@@ -11,12 +11,12 @@ import com.eden.orchid.api.theme.components.OrchidComponent
 )
 class OrchidSearchComponent : OrchidComponent("orchidSearch", true) {
 
-    override fun loadAssets(delegate: AssetManagerDelegate) {
-        delegate.addCss("assets/css/orchidSearch.scss")
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
+        addCss("assets/css/orchidSearch.scss")
 
-        delegate.addJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js")
-        delegate.addJs("https://unpkg.com/lunr/lunr.js")
-        delegate.addJs("assets/js/orchidSearch.js")
+        addJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+        addJs("https://unpkg.com/lunr/lunr.js")
+        addJs("assets/js/orchidSearch.js")
     }
 
     override fun isHidden(): Boolean {

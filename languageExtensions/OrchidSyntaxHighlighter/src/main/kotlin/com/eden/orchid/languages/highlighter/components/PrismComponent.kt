@@ -42,37 +42,37 @@ class PrismComponent : OrchidComponent("prism", true) {
     @Description("If true, only include the Prism Javascript files, opting to build the styles yourself.")
     var scriptsOnly: Boolean = false
 
-    override fun loadAssets(delegate: AssetManagerDelegate) {
-        delegate.addJs(OrchidUtils.normalizePath(prismSource) + "/prism.min.js")
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
+        addJs(OrchidUtils.normalizePath(prismSource) + "/prism.min.js")
 
         if (!scriptsOnly) {
             if (!EdenUtils.isEmpty(theme)) {
-                delegate.addCss("${OrchidUtils.normalizePath(prismSource)}/themes/prism-$theme.min.css")
+                addCss("${OrchidUtils.normalizePath(prismSource)}/themes/prism-$theme.min.css")
             }
             else if (!EdenUtils.isEmpty(githubTheme)) {
-                delegate.addCss("https://rawgit.com/PrismJS/prism-themes/master/themes/prism-$githubTheme.css")
+                addCss("https://rawgit.com/PrismJS/prism-themes/master/themes/prism-$githubTheme.css")
             }
             else {
-                delegate.addCss("${OrchidUtils.normalizePath(prismSource)}/themes/prism.min.css")
+                addCss("${OrchidUtils.normalizePath(prismSource)}/themes/prism.min.css")
             }
         }
 
         if (!EdenUtils.isEmpty(languages)) {
             for (lang in languages) {
-                delegate.addJs("${OrchidUtils.normalizePath(prismSource)}/components/prism-$lang.min.js")
+                addJs("${OrchidUtils.normalizePath(prismSource)}/components/prism-$lang.min.js")
             }
         }
 
         if (!EdenUtils.isEmpty(plugins)) {
             for (plugin in plugins) {
                 if (plugin == "copy-to-clipboard") {
-                    delegate.addJs("https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js")
+                    addJs("https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js")
                 }
-                delegate.addJs("${OrchidUtils.normalizePath(prismSource)}/plugins/$plugin/prism-$plugin.min.js")
+                addJs("${OrchidUtils.normalizePath(prismSource)}/plugins/$plugin/prism-$plugin.min.js")
 
                 if (!scriptsOnly) {
                     when (plugin) {
-                        "line-numbers", "line-highlight", "toolbar" -> delegate.addCss("${OrchidUtils.normalizePath(prismSource)}/plugins/$plugin/prism-$plugin.min.css")
+                        "line-numbers", "line-highlight", "toolbar" -> addCss("${OrchidUtils.normalizePath(prismSource)}/plugins/$plugin/prism-$plugin.min.css")
                     }
                 }
             }

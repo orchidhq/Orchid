@@ -82,16 +82,16 @@ class NetlifyCmsModel(
         return context.taskType == TaskService.TaskType.SERVE
     }
 
-    fun loadAssets(delegate: AssetManagerDelegate) {
-        delegate.addJs("https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js")
+    fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
+        addJs("https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js")
 
         if (isRunningLocally()) {
-            delegate.addCss("assets/css/fs-backend.min.css")
-            delegate.addJs("assets/js/fs-backend.min.js")
-            delegate.addJs("inline:fs-cms-registration.js:CMS.registerBackend(\"orchid-server\", FileSystemBackendClass)")
+            addCss("assets/css/fs-backend.min.css")
+            addJs("assets/js/fs-backend.min.js")
+            addJs("inline:fs-cms-registration.js:CMS.registerBackend(\"orchid-server\", FileSystemBackendClass)")
         }
         else if (useNetlifyIdentityWidget) {
-            delegate.addJs("https://identity.netlify.com/v1/netlify-identity-widget.js")
+            addJs("https://identity.netlify.com/v1/netlify-identity-widget.js")
         }
     }
 

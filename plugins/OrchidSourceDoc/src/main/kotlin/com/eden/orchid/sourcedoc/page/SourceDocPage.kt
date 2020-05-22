@@ -48,8 +48,8 @@ class SourceDocPage<T : DocElement>(
         )
     }
 
-    override fun loadAssets(delegate: AssetManagerDelegate) {
-        delegate.addCss("assets/css/orchidSourceDoc.scss")
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
+        addCss("assets/css/orchidSourceDoc.scss")
     }
 
     fun getRootSection(): Section {

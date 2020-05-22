@@ -77,19 +77,19 @@ constructor(context: OrchidContext) : Theme(context, "Copper") {
     @Option @StringDefault("assets/svg/orchid/logo_left_dark.svg")
     lateinit var navbarLogo: String
 
-    override fun loadAssets(delegate: AssetManagerDelegate) {
-        delegate.addCss("assets/css/bulma.scss")
-        delegate.addCss("assets/css/extraCss.scss")
-        delegate.addCss("assets/css/bulma-tooltip.css")
-        delegate.addCss("assets/css/bulma-accordion.min.css")
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
+        addCss("assets/css/bulma.scss")
+        addCss("assets/css/extraCss.scss")
+        addCss("assets/css/bulma-tooltip.css")
+        addCss("assets/css/bulma-accordion.min.css")
 
-        delegate.addJs("https://use.fontawesome.com/releases/v5.4.0/js/all.js") {
+        addJs("https://use.fontawesome.com/releases/v5.4.0/js/all.js") {
             defer = true
             attrs["data-search-pseudo-elements"] = "true"
         }
-        delegate.addJs("assets/js/bulma.js")
-        delegate.addJs("assets/js/bulma-accordion.min.js")
-        delegate.addJs("assets/js/bulma-tabs.js")
+        addJs("assets/js/bulma.js")
+        addJs("assets/js/bulma-accordion.min.js")
+        addJs("assets/js/bulma-tabs.js")
     }
 
     fun getLayoutConfig(layoutName: String, data: Map<String, Any>?): Any? {

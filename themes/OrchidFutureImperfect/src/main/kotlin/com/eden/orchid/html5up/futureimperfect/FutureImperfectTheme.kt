@@ -39,15 +39,15 @@ constructor(
     @Description("Components to include in the sidebar on pages with non-single layouts.")
     lateinit var sidebar: ComponentHolder
 
-    override fun loadAssets(delegate: AssetManagerDelegate) {
-        delegate.addCss("assets/css/futureImperfect_main.scss")
-        delegate.addCss("assets/css/futureImperfect_orchidCustomizations.scss")
-        delegate.addCss("assets/css/orchidSearch.scss")
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
+        addCss("assets/css/futureImperfect_main.scss")
+        addCss("assets/css/futureImperfect_orchidCustomizations.scss")
+        addCss("assets/css/orchidSearch.scss")
 
-        delegate.addJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js")
-        delegate.addJs("https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js")
-        delegate.addJs("assets/js/futureImperfect_util.js")
-        delegate.addJs("assets/js/futureImperfect_main.js")
+        addJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js")
+        addJs("https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js")
+        addJs("assets/js/futureImperfect_util.js")
+        addJs("assets/js/futureImperfect_main.js")
     }
 
     override fun getComponentHolders(): Array<ComponentHolder> {

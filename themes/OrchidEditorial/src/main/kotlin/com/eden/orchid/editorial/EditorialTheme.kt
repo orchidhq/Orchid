@@ -37,15 +37,15 @@ constructor(
             field = value
         }
 
-    override fun loadAssets(delegate: AssetManagerDelegate) {
-        delegate.addCss("assets/css/editorial_main.scss")
-        delegate.addCss("assets/css/editorial_orchidCustomizations.scss")
-        delegate.addCss("assets/css/orchidSearch.scss")
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
+        addCss("assets/css/editorial_main.scss")
+        addCss("assets/css/editorial_orchidCustomizations.scss")
+        addCss("assets/css/orchidSearch.scss")
 
-        delegate.addJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js")
-        delegate.addJs("https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js")
-        delegate.addJs("assets/js/editorial_util.js")
-        delegate.addJs("assets/js/editorial_main.js")
-        delegate.addJs("assets/js/editorial_orchidCustomizations.js")
+        addJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js")
+        addJs("https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js")
+        addJs("assets/js/editorial_util.js")
+        addJs("assets/js/editorial_main.js")
+        addJs("assets/js/editorial_orchidCustomizations.js")
     }
 }
