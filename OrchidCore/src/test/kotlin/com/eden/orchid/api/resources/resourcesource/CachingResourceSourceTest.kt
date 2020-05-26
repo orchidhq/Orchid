@@ -63,7 +63,7 @@ class CachingResourceSourceTest : OrchidUnitTest {
 
     @Test
     fun testResourceCounterWithCacheing() {
-        val lruCache = LRUCache<CachingResourceSource.CacheKey, OrchidResource?>()
+        val lruCache = LRUCache<CachingResourceSourceCacheKey, OrchidResource?>()
         val underTest = testDelegate.cached(lruCache, null, emptyList())
 
         underTest
@@ -91,7 +91,7 @@ class CachingResourceSourceTest : OrchidUnitTest {
 
     @Test
     fun testResourceCounterWithCacheMultipleResourceLookups() {
-        val lruCache = LRUCache<CachingResourceSource.CacheKey, OrchidResource?>()
+        val lruCache = LRUCache<CachingResourceSourceCacheKey, OrchidResource?>()
         val underTest = testDelegate.cached(lruCache, null, emptyList())
 
         underTest
@@ -174,7 +174,7 @@ class CachingResourceSourceTest : OrchidUnitTest {
 
     @Test
     fun testResourceCounterWithCacheMultipleResourceLookupsWithEvictions() {
-        val lruCache = LRUCache<CachingResourceSource.CacheKey, OrchidResource?>(maxSize = 1)
+        val lruCache = LRUCache<CachingResourceSourceCacheKey, OrchidResource?>(maxSize = 1)
         val underTest = testDelegate.cached(lruCache, null, emptyList())
 
         underTest

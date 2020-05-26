@@ -10,19 +10,15 @@ import com.eden.orchid.utilities.SuppressedWarnings
 import java.util.Arrays
 
 @Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
-class DefaultDataResourceSource(
+internal class DefaultDataResourceSource(
     private val delegate: OrchidResourceSource
 ) : OrchidResourceSource by delegate, DataResourceSource {
 
     override fun getDatafile(context: OrchidContext, fileName: String): Map<String, Any?>? {
-        return context
-            .parserExtensions
-            .asSequence()
-            .map { delegate.getResourceEntry(context, "$fileName.$it") }
-            .filterNotNull()
-            .map { it.parseContent(context, null) }
-            .filterNotNull()
-            .firstOrNull()
+        return delegate
+            .flexible()
+            .locateResourceEntry(context, fileName, *context.parserExtensions.toTypedArray())
+            ?.parseContent(context, null)
     }
 
     override fun loadData(context: OrchidContext, name: String): Map<String, Any?> {
@@ -42,7 +38,7 @@ class DefaultDataResourceSource(
 
         // load data file for environment. Highest priority, overrides file and directory settings
         val envFile =
-            getDatafile(context, name + "-" + context.getEnvironment())
+            getDatafile(context, name + "-" + context.environment)
         if (envFile != null) {
             data = EdenUtils.merge(data, envFile)
         }
@@ -103,6 +99,6 @@ class DefaultDataResourceSource(
     }
 }
 
-fun OrchidResourceSource.useForData(): DefaultDataResourceSource {
+fun OrchidResourceSource.useForData(): DataResourceSource {
     return DefaultDataResourceSource(this)
 }

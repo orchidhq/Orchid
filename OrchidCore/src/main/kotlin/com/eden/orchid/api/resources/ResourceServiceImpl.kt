@@ -10,17 +10,20 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.OrchidResource
-import com.eden.orchid.api.resources.resourcesource.CachingResourceSource
+import com.eden.orchid.api.resources.resourcesource.CachingResourceSourceCacheKey
 import com.eden.orchid.api.resources.resourcesource.DataResourceSource
 import com.eden.orchid.api.resources.resourcesource.DelegatingResourceSource
+import com.eden.orchid.api.resources.resourcesource.FlexibleResourceSource
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource
 import com.eden.orchid.api.resources.resourcesource.TemplateResourceSource
 import com.eden.orchid.api.resources.resourcesource.cached
+import com.eden.orchid.api.resources.resourcesource.flexible
 import com.eden.orchid.api.resources.resourcesource.useForData
 import com.eden.orchid.api.resources.resourcesource.useForTemplates
 import com.eden.orchid.api.theme.AbstractTheme
 import com.eden.orchid.utilities.LRUCache
+import com.eden.orchid.utilities.SuppressedWarnings
 import java.util.ArrayList
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -35,7 +38,7 @@ constructor(
     private val resourceSources: Set<OrchidResourceSource>
 ) : ResourceService, OrchidEventListener {
 
-    private val resourceCache: LRUCache<CachingResourceSource.CacheKey, OrchidResource?> = LRUCache()
+    private val resourceCache: LRUCache<CachingResourceSourceCacheKey, OrchidResource?> = LRUCache()
 
     // TODO: this is not available early enough because we need options to be loaded before they can be extracted, but
     //  this class needs to be extracted before we can properly load the options to ignore specific files. It's a
@@ -61,6 +64,13 @@ constructor(
             0,
             LocalResourceSource
         ).cached(resourceCache, theme, validScopes)
+    }
+
+    override fun getFlexibleResourceSource(
+        scopes: OrchidResourceSource.Scope?,
+        theme: AbstractTheme?
+    ): FlexibleResourceSource {
+        return getDefaultResourceSource(scopes, theme).flexible()
     }
 
     override fun getTemplateResourceSource(
@@ -89,6 +99,7 @@ constructor(
 //----------------------------------------------------------------------------------------------------------------------
 
     @On(ClearCache::class)
+    @Suppress(SuppressedWarnings.UNUSED_PARAMETER)
     fun onClearCache(event: ClearCache?) {
         resourceCache.clear()
     }

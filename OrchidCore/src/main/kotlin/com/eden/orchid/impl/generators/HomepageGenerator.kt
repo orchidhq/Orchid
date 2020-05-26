@@ -26,8 +26,7 @@ class HomepageGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, 
             sequenceOf("homepage", "HOMEPAGE", "Homepage", "HomePage")
                 .mapNotNull {
                     context
-                        .getDefaultResourceSource(LocalResourceSource, null)
-                        .flexible()
+                        .getFlexibleResourceSource(LocalResourceSource, null)
                         .locateResourceEntry(context, it)
                 }
                 .firstOrNull()
@@ -43,8 +42,7 @@ class HomepageGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, 
 
     private fun load404page(context: OrchidContext): OrchidPage {
         var resource = context
-            .getDefaultResourceSource(LocalResourceSource, null)
-            .flexible()
+            .getFlexibleResourceSource(LocalResourceSource, null)
             .locateResourceEntry(context, "404")
         if (resource == null) {
             resource = StringResource(OrchidReference(context, "404.md"), "")

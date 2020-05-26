@@ -7,6 +7,7 @@ import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.strikt.asExpected
 import com.eden.orchid.testhelpers.OrchidUnitTest
 import com.eden.orchid.utilities.readToString
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.mockito.Mockito.`when`
@@ -15,7 +16,7 @@ import strikt.assertions.isEqualTo
 import strikt.assertions.isNotNull
 import strikt.assertions.isNull
 
-class DefaultTemplateResourceSourceTest : OrchidUnitTest {
+class DefaultDataResourceSourceTest : OrchidUnitTest {
 
     val testDelegate: OrchidResourceSource by lazy {
         HardcodedResourceSource(

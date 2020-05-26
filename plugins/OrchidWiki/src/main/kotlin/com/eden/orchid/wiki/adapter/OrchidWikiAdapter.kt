@@ -36,8 +36,7 @@ constructor(
         val sectionBaseDir = section.sectionBaseDir
 
         val summary = context
-            .getDefaultResourceSource(LocalResourceSource, null)
-            .flexible()
+            .getFlexibleResourceSource(LocalResourceSource, null)
             .locateResourceEntry(context, sectionBaseDir + "summary")
 
         if (summary == null) {

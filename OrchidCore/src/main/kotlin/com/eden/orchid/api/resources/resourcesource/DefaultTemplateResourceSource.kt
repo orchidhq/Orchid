@@ -5,16 +5,16 @@ import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.AbstractTheme
 import com.eden.orchid.utilities.OrchidUtils
 
-class DefaultTemplateResourceSource(
+internal class DefaultTemplateResourceSource(
     private val delegate: OrchidResourceSource,
     private val theme: AbstractTheme
 ) : OrchidResourceSource by delegate, TemplateResourceSource {
 
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
-        return getResourceEntry(context, "", fileName.split(","))
+        return getResourceEntry(context,null, fileName.split(","))
     }
 
-    override fun getResourceEntry(context: OrchidContext, templateSubdir: String, possibleFileNames: List<String>): OrchidResource? {
+    override fun getResourceEntry(context: OrchidContext, templateSubDir: String?, possibleFileNames: List<String>): OrchidResource? {
         return sequence {
             val themePreferredExtension = theme.preferredTemplateExtension
             val defaultExtension = context.defaultTemplateExtension
@@ -28,17 +28,16 @@ class DefaultTemplateResourceSource(
                 yield("$template.$defaultExtension") // get rid of this?
 
                 // if we have a subdirectory, look there too
-                if(templateSubdir.isNotBlank()) {
-                    yield("$templateSubdir/$template")
-                    yield("$templateSubdir/$template.$themePreferredExtension")
-                    yield("$templateSubdir/$template.$defaultExtension")
+                if(!templateSubDir.isNullOrBlank()) {
+                    yield("$templateSubDir/$template")
+                    yield("$templateSubDir/$template.$themePreferredExtension")
+                    yield("$templateSubDir/$template.$defaultExtension")
                 }
             }
         }
             .filter { it.isNotBlank() }
             .distinct()
-            .map { delegate.getResourceEntry(context, it) }
-            .filterNotNull()
+            .mapNotNull { delegate.getResourceEntry(context, it) }
             .firstOrNull()
     }
 

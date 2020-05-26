@@ -160,8 +160,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
         for (baseDir in config.sourceDirs) {
             val baseFile = File(context.sourceDir).toPath().resolve(baseDir).toFile().absolutePath
             val closestFile: OrchidResource? = context
-                .getDefaultResourceSource(LocalResourceSource, null)
-                .flexible()
+                .getFlexibleResourceSource(LocalResourceSource, null)
                 .findClosestFile(context, "readme", baseFile)
             if (closestFile != null) {
                 readmeFile = closestFile

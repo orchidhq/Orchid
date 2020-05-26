@@ -68,10 +68,18 @@ public final class OptionsServiceImpl implements OptionsService {
     @Override
     public Map<String, Object> loadOptions() {
         if (config == null) {
-            config = Collections.unmodifiableMap(context.getDataResourceSource(LocalResourceSource.INSTANCE).loadData(context, "config"));
+            config = Collections.unmodifiableMap(
+                    context
+                            .getDataResourceSource(LocalResourceSource.INSTANCE)
+                            .loadData(context, "config")
+            );
         }
         if (data == null) {
-            data = Collections.unmodifiableMap(context.getDataResourceSource(LocalResourceSource.INSTANCE).loadData(context, "data"));
+            data = Collections.unmodifiableMap(
+                    context
+                            .getDataResourceSource(LocalResourceSource.INSTANCE)
+                            .loadData(context, "data")
+            );
         }
 
         return config;

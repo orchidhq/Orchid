@@ -5,7 +5,6 @@ import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.render.RenderService;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resource.StringResource;
-import com.eden.orchid.api.resources.resourcesource.FlexibleResourceSourceKt;
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource;
 import com.eden.orchid.api.server.OrchidResponse;
 import com.eden.orchid.api.theme.pages.OrchidPage;
@@ -20,10 +19,8 @@ final class NotFound404Response {
         String content = "";
         Clog.i("Rendering 404: #{$1}", targetPath);
 
-
-
-        OrchidResource resource = FlexibleResourceSourceKt
-                .flexible(context.getDefaultResourceSource(LocalResourceSource.INSTANCE, null))
+        OrchidResource resource = context
+                .getFlexibleResourceSource(LocalResourceSource.INSTANCE, null)
                 .locateResourceEntry(context, "404");
         OrchidPage page = null;
         if(resource != null) {

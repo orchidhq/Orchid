@@ -100,6 +100,7 @@ import com.eden.orchid.impl.themes.tags.ScriptsTag
 import com.eden.orchid.impl.themes.tags.StylesTag
 import com.eden.orchid.impl.themes.tags.TabsTag
 import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.SuppressedWarnings
 import com.google.inject.Provides
 import io.github.classgraph.ClassGraph
 import okhttp3.Cache
@@ -113,6 +114,7 @@ import javax.inject.Provider
 import javax.inject.Singleton
 
 @IgnoreModule
+@Suppress(SuppressedWarnings.DEPRECATION)
 class ImplModule(
     private val test: Boolean
 ) : OrchidModule() {

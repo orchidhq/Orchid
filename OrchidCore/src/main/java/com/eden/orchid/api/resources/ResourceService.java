@@ -3,6 +3,7 @@ package com.eden.orchid.api.resources;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.resources.resourcesource.DataResourceSource;
+import com.eden.orchid.api.resources.resourcesource.FlexibleResourceSource;
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource;
 import com.eden.orchid.api.resources.resourcesource.TemplateResourceSource;
 import com.eden.orchid.api.theme.AbstractTheme;
@@ -21,6 +22,10 @@ public interface ResourceService extends OrchidService {
 
     default OrchidResourceSource getDefaultResourceSource(@Nullable OrchidResourceSource.Scope scopes, @Nullable AbstractTheme theme) {
         return getService(ResourceService.class).getDefaultResourceSource(scopes, theme);
+    }
+
+    default FlexibleResourceSource getFlexibleResourceSource(@Nullable OrchidResourceSource.Scope scopes, @Nullable AbstractTheme theme) {
+        return getService(ResourceService.class).getFlexibleResourceSource(scopes, theme);
     }
 
     default TemplateResourceSource getTemplateResourceSource(@Nullable OrchidResourceSource.Scope scopes, @NonNull AbstractTheme theme) {

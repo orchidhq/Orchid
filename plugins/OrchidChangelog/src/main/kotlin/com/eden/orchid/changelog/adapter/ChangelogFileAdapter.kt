@@ -51,8 +51,7 @@ class ChangelogFileAdapter : ChangelogAdapter {
 
     override fun loadChangelogEntries(context: OrchidContext): List<ChangelogVersion> {
         val flexibleResourceSource: FlexibleResourceSource = context
-            .getDefaultResourceSource(LocalResourceSource, null)
-            .flexible()
+            .getFlexibleResourceSource(LocalResourceSource, null)
 
         val readme = flexibleResourceSource.locateResourceEntry(context, filename)
             ?: flexibleResourceSource.findClosestFile(context, filename, baseDir)

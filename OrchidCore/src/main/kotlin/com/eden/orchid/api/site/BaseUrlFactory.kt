@@ -53,6 +53,7 @@ class OrchidSiteBaseUrls : ModularList<OrchidSiteBaseUrls, BaseUrlFactory>() {
 
 }
 
+@Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
 class OrchidSiteBaseUrlsOptionExtractor
 @Inject
 constructor(
