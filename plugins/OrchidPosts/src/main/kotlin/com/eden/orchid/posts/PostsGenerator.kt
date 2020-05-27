@@ -47,14 +47,6 @@ constructor(
     }
 
     @Option
-    @StringDefault("<!--more-->")
-    @Description(
-        "The shortcode used to manually set the breakpoint for a page summary, otherwise the summary is the " +
-                "first 240 characters of the post."
-    )
-    lateinit var excerptSeparator: String
-
-    @Option
     @ImpliedKey(typeKey = "name")
     @Description(
         "A list of Author objects denoting the 'regular' or known authors of the blog. Authors can also be " +
@@ -95,7 +87,7 @@ constructor(
             categories.add(defaultConfig)
         }
 
-        val model = PostsModel(context, excerptSeparator, categories, authorPages)
+        val model = PostsModel(context, categories, authorPages)
 
         val postPages = mutableListOf<PostPage>()
 

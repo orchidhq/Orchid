@@ -16,6 +16,7 @@ import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.changelog.ChangelogGenerator
 import com.eden.orchid.changelog.model.ChangelogVersion
 import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.SuppressedWarnings
 
 @Archetype(value = ConfigArchetype::class, key = ChangelogGenerator.GENERATOR_KEY)
 class ChangelogFileAdapter : ChangelogAdapter {
@@ -49,6 +50,7 @@ class ChangelogFileAdapter : ChangelogAdapter {
 
     override fun getType() = "file"
 
+    @Suppress(SuppressedWarnings.DEPRECATION)
     override fun loadChangelogEntries(context: OrchidContext): List<ChangelogVersion> {
         val flexibleResourceSource: FlexibleResourceSource = context
             .getFlexibleResourceSource(LocalResourceSource, null)

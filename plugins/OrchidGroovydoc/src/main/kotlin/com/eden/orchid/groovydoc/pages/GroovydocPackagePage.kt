@@ -1,3 +1,4 @@
+@file:Suppress(SuppressedWarnings.DEPRECATION)
 package com.eden.orchid.groovydoc.pages
 
 import com.copperleaf.groovydoc.json.models.GroovydocPackageDoc
@@ -7,6 +8,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.groovydoc.GroovydocGenerator
 import com.eden.orchid.groovydoc.resources.PackageDocResource
+import com.eden.orchid.utilities.SuppressedWarnings
 
 @Archetype(value = ConfigArchetype::class, key = "${GroovydocGenerator.GENERATOR_KEY}.packagePages")
 @Description(value = "Documentation for a Groovy package.", name = "Groovy Package")

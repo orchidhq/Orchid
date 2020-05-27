@@ -1,3 +1,4 @@
+@file:Suppress(SuppressedWarnings.DEPRECATION)
 package com.eden.orchid.javadoc.pages
 
 import com.copperleaf.javadoc.json.models.JavaClassDoc
@@ -8,6 +9,7 @@ import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.javadoc.JavadocGenerator
 import com.eden.orchid.javadoc.models.JavadocModel
 import com.eden.orchid.javadoc.resources.ClassDocResource
+import com.eden.orchid.utilities.SuppressedWarnings
 
 @Archetype(value = ConfigArchetype::class, key = "${JavadocGenerator.GENERATOR_KEY}.classPages")
 @Description(value = "Documentation for a Java class.", name = "Java class")

@@ -24,6 +24,7 @@ import com.eden.orchid.sourcedoc.page.SourceDocModuleHomePage
 import com.eden.orchid.sourcedoc.page.SourceDocPage
 import com.eden.orchid.sourcedoc.page.SourceDocResource
 import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.SuppressedWarnings
 import java.io.File
 import java.nio.file.Path
 import javax.inject.Named
@@ -147,6 +148,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
         )
     }
 
+    @Suppress(SuppressedWarnings.DEPRECATION)
     private fun setupModuleHomepage(
         context: OrchidContext,
         module: T?,

@@ -1,3 +1,4 @@
+@file:Suppress(SuppressedWarnings.DEPRECATION)
 package com.eden.orchid.impl
 
 import com.eden.orchid.api.OrchidContext
@@ -66,6 +67,7 @@ import com.eden.orchid.impl.themes.functions.AnchorFunction
 import com.eden.orchid.impl.themes.functions.AssetFunction
 import com.eden.orchid.impl.themes.functions.BaseUrlFunction
 import com.eden.orchid.impl.themes.functions.CompileAsFunction
+import com.eden.orchid.impl.themes.functions.ExcerptFunction
 import com.eden.orchid.impl.themes.functions.FindAllFunction
 import com.eden.orchid.impl.themes.functions.FindFunction
 import com.eden.orchid.impl.themes.functions.HomepageUrlFunction
@@ -107,7 +109,6 @@ import okhttp3.Cache
 import okhttp3.OkHttpClient
 import java.io.IOException
 import java.lang.reflect.Modifier
-import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Provider
@@ -259,6 +260,7 @@ class ImplModule(
                 LinkFunction::class.java,
                 LoadFunction::class.java,
                 LocalDateFunction::class.java,
+                ExcerptFunction::class.java,
 
                 RotateFunction::class.java,
                 ScaleFunction::class.java,
