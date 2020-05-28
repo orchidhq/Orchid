@@ -8,14 +8,5 @@ services:
       - 'groovydoc'
       - 'swiftdoc'
 
-external:
-  externalIndices:
-    - collectionId: 'clog'
-      url: 'https://javaeden.github.io/Clog/meta/javadoc.index.json'
-    - collectionId: 'javaeden-common'
-      url: 'https://javaeden.github.io/Common/meta/javadoc.index.json'
-    - collectionId: 'krow'
-      url: 'https://copper-leaf.github.io/krow/meta/kotlindoc.index.json'
-
 kotlindoc:
   homePageOnly: true

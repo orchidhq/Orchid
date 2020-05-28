@@ -41,7 +41,7 @@ cd Orchid
 
 **Run (serve)**
 ```bash
-./gradlew assemble :OrchidCore:orchidServe
+./gradlew assemble :docs:orchidServe
 ```
 
 **Run Tests**

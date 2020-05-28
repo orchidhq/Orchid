@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -e
 
-./gradlew assemble :OrchidCore:orchidBuild -PorchidEnvironment=prod
+./gradlew assemble :docs:orchidBuild -PorchidEnvironment=prod

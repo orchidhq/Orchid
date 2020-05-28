@@ -238,30 +238,32 @@ code[class*="language-"] .tag { line-height: initial;background: none;height: in
 }
 .content {
   h1, h2, h3, h4, h5, h6 {
-    display: table;
-    position: relative;
-    padding-right: 36px;
+    &:not(.title) {
+      display: table;
+      position: relative;
+      padding-right: 36px;
 
-    & > a.anchor {
-      position: absolute;
-      opacity: 0;
-      display: block;
-      width: 100%;
-      text-align: right;
-      transition: opacity 0.15s;
+      & > a.anchor {
+        position: absolute;
+        opacity: 0;
+        display: block;
+        width: 100%;
+        text-align: right;
+        transition: opacity 0.15s;
 
-      &::after {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        content: "\f0c1";
-        display: none;
-      }
-      &:hover {
-        opacity: 1;
-      }
-      > svg {
-        width: 24px;
-        color: hsl(0, 0%, 71%);
+        &::after {
+          font-family: "Font Awesome 5 Free";
+          font-weight: 900;
+          content: "\f0c1";
+          display: none;
+        }
+        &:hover {
+          opacity: 1;
+        }
+        > svg {
+          width: 24px;
+          color: hsl(0, 0%, 71%);
+        }
       }
     }
   }

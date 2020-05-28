@@ -33,7 +33,7 @@ val check by tasks
 check.dependsOn("checkForChangelogFile")
 
 val archiveDocumentation by tasks.registering(Zip::class) {
-    from("${project(":OrchidCore").buildDir}/docs/orchid")
+    from("${project(":docs").buildDir}/docs/orchid")
 //    from(project.version.toFile())
 
     include("**/*")
