@@ -258,7 +258,7 @@ object Libs {
     const val classgraph: String = "io.github.classgraph:classgraph:" + Versions.classgraph
 
     /**
-     * http://commons.apache.org/proper/commons-io/
+     * https://commons.apache.org/proper/commons-io/
      */
     const val commons_io: String = "commons-io:commons-io:" + Versions.commons_io
 

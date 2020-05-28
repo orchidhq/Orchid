@@ -65,7 +65,7 @@ class JarResourceSource(
 
             if (normalizedEntryName.startsWith("META-INF")) continue
 
-            if (fileExtensions.isNullOrEmpty() || FilenameUtils.isExtension(normalizedEntryName, fileExtensions)) {
+            if (fileExtensions.isNullOrEmpty() || FilenameUtils.isExtension(normalizedEntryName, fileExtensions.toList())) {
                 entries.add(JarResource(OrchidReference(context, normalizedEntryName), jarFile, jarEntry))
             }
         }

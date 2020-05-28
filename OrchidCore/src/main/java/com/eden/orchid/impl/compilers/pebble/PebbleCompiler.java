@@ -11,6 +11,7 @@ import com.eden.orchid.api.theme.AbstractTheme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidExtensionsKt;
 import com.mitchellbosecke.pebble.PebbleEngine;
+import com.mitchellbosecke.pebble.attributes.methodaccess.NoOpMethodAccessValidator;
 import com.mitchellbosecke.pebble.cache.CacheKey;
 import com.mitchellbosecke.pebble.cache.PebbleCache;
 import com.mitchellbosecke.pebble.cache.tag.ConcurrentMapTagCache;
@@ -79,7 +80,7 @@ public final class PebbleCompiler extends OrchidCompiler implements OrchidEventL
                     .loader(loader)
                     .executorService(executor)
                     .extension(extensionArray)
-                    .allowUnsafeMethods(true)
+                    .methodAccessValidator(new NoOpMethodAccessValidator())
                     .newLineTrimming(false)
                     .tagCache(tagCache)
                     .templateCache(templateCache)
