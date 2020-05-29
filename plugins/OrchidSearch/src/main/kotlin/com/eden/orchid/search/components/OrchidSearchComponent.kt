@@ -1,6 +1,7 @@
 package com.eden.orchid.search.components
 
 import com.eden.orchid.api.options.annotations.Description
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.components.OrchidComponent
 
 @Description(
@@ -10,7 +11,7 @@ import com.eden.orchid.api.theme.components.OrchidComponent
 )
 class OrchidSearchComponent : OrchidComponent("orchidSearch", true) {
 
-    override fun loadAssets() {
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
         addCss("assets/css/orchidSearch.scss")
 
         addJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js")

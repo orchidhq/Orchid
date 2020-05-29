@@ -17,8 +17,8 @@ class WikiBookResource(
 ) : OrchidResource(reference) {
 
     override fun getContentStream(): InputStream {
-        val wikiBookTemplate = reference.context.locateTemplate("wiki/book")
-        val pdfOutput = wikiBookTemplate.compileContent(mapOf(
+        val wikiBookTemplate = reference.context.getTemplateResourceSource(null, reference.context.theme).getResourceEntry(reference.context, "wiki/book")!!
+        val pdfOutput = wikiBookTemplate.compileContent(reference.context, mapOf(
             "section" to section,
             "resource" to this@WikiBookResource
         ))

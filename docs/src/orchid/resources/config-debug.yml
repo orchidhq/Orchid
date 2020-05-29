@@ -1,0 +1,16 @@
+# Feel free to change any values in here as needed, they are overridden by `config-prod.yml` in full production builds.
+# Typically, as much as possible is disabled so that iterative development is as quick as possible.
+
+services:
+  generators:
+    disabled:
+      - 'javadoc'
+      - 'groovydoc'
+      - 'swiftdoc'
+      - 'feeds'
+      - 'indices'
+      - 'sitemap'
+      - 'netlifyCms'
+
+kotlindoc:
+  homePageOnly: true

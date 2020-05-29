@@ -12,6 +12,8 @@ included:
     pluginName: OrchidWritersBlocks
 ---
 
+## About
+
 The Orchid Language Pack bundle is not a ready-to-use bundle, but does group together all the plugins designed to 
 improve your composing and documenting experience. All official Orchid plugins which add new Compilers, markup your
 page content, or otherwise extend the language capabilities of your Orchid site are bundled here. Some examples include:
@@ -22,3 +24,11 @@ file extension
 [Pygments](https://pygments.org/docs/java/), or browser-side highlighting with [Prism.js](https://prismjs.com/).
 * Load the text of Bible verse references automatically. Choose from static references loading with a Markdown 
 extension, or use the [Faithlife Reftagger.js](https://reftagger.com) to load verses on-demand.
+
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
+## Included In This Bundle
+
+{% include 'includes/bundleItems.peb' with {'included': page.included} %}

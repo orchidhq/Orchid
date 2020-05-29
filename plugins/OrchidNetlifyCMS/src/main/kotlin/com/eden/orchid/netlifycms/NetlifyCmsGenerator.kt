@@ -14,6 +14,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.StringResource
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.pages.OrchidPage
@@ -97,7 +98,7 @@ constructor(
         }
 
         if (includeCms) {
-            val adminResource = context.getResourceEntry("netlifyCms/admin.peb", null)
+            val adminResource = context.getDefaultResourceSource(null, null).getResourceEntry(context, "netlifyCms/admin.peb")!!
             adminResource.reference.stripFromPath("netlifyCms")
             val adminPage = NetlifyCmsAdminPage(adminResource, model)
             context.render(adminPage)

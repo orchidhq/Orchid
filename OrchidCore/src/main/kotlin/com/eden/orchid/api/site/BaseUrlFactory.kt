@@ -13,11 +13,13 @@ import com.eden.orchid.api.registration.Prioritized
 import com.eden.orchid.api.theme.components.ModularList
 import com.eden.orchid.api.theme.components.ModularListItem
 import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.SuppressedWarnings
 import java.lang.reflect.Field
 import javax.inject.Inject
 import javax.inject.Provider
 
 @Archetype(value = ConfigArchetype::class, key = "site.baseUrl")
+@Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
 abstract class BaseUrlFactory(
     private val _type: String,
     priority: Int = OrchidUtils.DEFAULT_PRIORITY
@@ -51,6 +53,7 @@ class OrchidSiteBaseUrls : ModularList<OrchidSiteBaseUrls, BaseUrlFactory>() {
 
 }
 
+@Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
 class OrchidSiteBaseUrlsOptionExtractor
 @Inject
 constructor(

@@ -14,6 +14,10 @@ OrchidBible makes it easy to embed Bible verses in your site content using
 [Faithlife Reftagger](https://faithlife.com/products/reftagger). Reftagger automatically finds Bible references on the
 page, and hovering over them will show a tooltip with the verse text.
 
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
 ## Demo
 
 - Run [BibleTest](https://github.com/orchidhq/orchid/blob/dev/languageExtensions/OrchidBible/src/test/kotlin/com/eden/orchid/languages/bible/BibleTest.kt) for demo

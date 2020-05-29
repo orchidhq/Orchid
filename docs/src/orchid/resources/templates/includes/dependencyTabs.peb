@@ -1,0 +1,52 @@
+{% tabs %}
+
+
+{% gradle "Gradle" %}
+{# Gradle #}
+{# ------------------------------------------------------------------------------------------------------------------ #}
+{% filter compileAs('md') %}
+```kotlin
+dependencies {
+    orchidRuntime("io.github.javaeden.orchid:{{- page.title -}}:{{ site.version }}")
+}
+```
+{% endfilter %}
+{% endgradle %}
+
+
+{% maven "Maven" %}
+{# Maven #}
+{# ------------------------------------------------------------------------------------------------------------------ #}
+{% filter compileAs('md') %}
+```xml
+<dependency>
+    <groupId>io.github.javaeden.orchid</groupId>
+    <artifactId>{{- page.title -}}</artifactId>
+    <version>{{ site.version }}</version>
+    <type>pom</type>
+</dependency>
+```
+{% endfilter %}
+{% endmaven %}
+
+{% sbt "SBT" %}
+{# SBT #}
+{# ------------------------------------------------------------------------------------------------------------------ #}
+{% filter compileAs('md') %}
+```scala
+libraryDependencies += "io.github.javaeden.orchid" % "{{- page.title -}}" % "{{ site.version }}"
+```
+{% endfilter %}
+{% endsbt %}
+
+{% kscript "KScript" %}
+{# KScript #}
+{# ------------------------------------------------------------------------------------------------------------------ #}
+{% filter compileAs('md') %}
+```kotlin
+@file:DependsOn("io.github.javaeden.orchid:{{- page.title -}}:{{ site.version }}")
+```
+{% endfilter %}
+{% endkscript %}
+
+{% endtabs %}

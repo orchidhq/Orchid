@@ -6,3 +6,7 @@
 {%- endfor %}
 {%- endif %}
 <!-- end:inject scripts -->
+
+{% log level='warning' %}
+The `scripts` tag is deprecated, and has been replaced by body tag.
+{% endlog %}

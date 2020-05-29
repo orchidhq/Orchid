@@ -1,7 +1,5 @@
 package com.eden.orchid.kotlindoc.model
 
-import com.eden.orchid.api.options.annotations.Archetype
-import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.kotlindoc.NewKotlindocGenerator
 import com.eden.orchid.sourcedoc.model.SourceDocModuleConfig
 import javax.inject.Inject

@@ -4,6 +4,7 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.utilities.OrchidUtils
 
@@ -41,7 +42,7 @@ class PrismComponent : OrchidComponent("prism", true) {
     @Description("If true, only include the Prism Javascript files, opting to build the styles yourself.")
     var scriptsOnly: Boolean = false
 
-    override fun loadAssets() {
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
         addJs(OrchidUtils.normalizePath(prismSource) + "/prism.min.js")
 
         if (!scriptsOnly) {

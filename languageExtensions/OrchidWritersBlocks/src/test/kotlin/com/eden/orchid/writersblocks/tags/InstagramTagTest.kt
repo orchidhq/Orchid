@@ -1,7 +1,7 @@
 package com.eden.orchid.writersblocks.tags
 
 import com.eden.orchid.impl.generators.HomepageGenerator
-import com.eden.orchid.strikt.htmlBodyMatchesString
+import com.eden.orchid.strikt.htmlBodyMatchesStringAssertions
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
@@ -30,10 +30,8 @@ class InstagramTagTest : OrchidIntegrationTest(
 
         expectThat(execute())
             .pageWasRendered("/index.html") {
-                htmlBodyMatchesString {
-                    it
-                        .contains("<script async src=\"//www.instagram.com/embed.js\"></script>")
-                        .contains("Pure Michigan")
+                htmlBodyMatchesStringAssertions {
+                    contains("<script async src=\"//www.instagram.com/embed.js\"></script>").contains("Pure Michigan")
                 }
             }
     }

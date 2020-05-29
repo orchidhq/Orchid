@@ -40,6 +40,15 @@ public final class PebbleWrapperTemplateFilter implements Filter {
 
     @Override
     public Object apply(Object input, Map<String, Object> args, PebbleTemplate self, EvaluationContext context, int lineNumber) throws PebbleException {
+        try {
+            return doApply(input, args, context);
+        }
+        catch (Exception e) {
+            throw new PebbleException(e, "Error thrown evaluating TemplateFilter '" + name + "'", lineNumber, self.getName());
+        }
+    }
+
+    private Object doApply(Object input, Map<String, Object> args, EvaluationContext context) throws PebbleException {
         args.put(inputParam, input);
         TemplateFunction freshFunction = contextProvider.get().resolve(functionClass);
 

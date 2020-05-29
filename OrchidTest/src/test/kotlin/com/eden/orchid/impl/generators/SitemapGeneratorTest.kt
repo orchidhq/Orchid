@@ -1,10 +1,8 @@
 package com.eden.orchid.impl.generators
 
-import com.eden.orchid.strikt.asHtml
-import com.eden.orchid.strikt.innerHtmlMatches
+import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.nothingElseRendered
 import com.eden.orchid.strikt.pageWasRendered
-import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
 import org.junit.jupiter.api.DisplayName
@@ -21,11 +19,9 @@ class SitemapGeneratorTest : OrchidIntegrationTest(
     fun test01() {
         expectThat(execute())
             .pageWasRendered("/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches { +"" }
-                    }
+                htmlBodyMatches {
+                    +""
+                }
             }
             .pageWasRendered("/favicon.ico")
             .pageWasRendered("/404.html")

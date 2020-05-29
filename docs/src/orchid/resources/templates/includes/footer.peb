@@ -1,0 +1,32 @@
+<div class="columns is-mobile">
+  <div class="column has-text-left">
+    <p>&copy; 2017-{{ 'now'|localDate('yyyy') }} Orchid</p>
+    <p>Site proudly built with <a href="https://orchid.run/">Orchid</a>.<br></p>
+  </div>
+  <div class="column has-text-right is-hidden-mobile">
+    <a href="https://github.com/orchidhq/orchid" style="margin-right: 10px;"><i class="fa fab fa-github"></i>
+      orchidhq/orchid</a>
+    <a href="https://twitter.com/OrchidSSG" style="margin-right: 10px;"><i class="fa fab fa-twitter"></i> @OrchidSSG</a>
+  </div>
+  <div class="column has-text-right is-hidden-tablet">
+    <p>
+      <a href="https://github.com/orchidhq/orchid" style="margin-right: 10px;"><i class="fa fab fa-github"></i>
+        orchidhq/orchid</a>
+    </p>
+    <p>
+      <a href="https://twitter.com/OrchidSSG" style="margin-right: 10px;"><i class="fa fab fa-twitter"></i> @OrchidSSG</a>
+    </p>
+  </div>
+</div>
+
+<p>
+  <b>See Also:</b>
+</p>
+<p>
+  <span class="tag is-light"><a href="https://orchid.run/">Orchid</a></span>
+  <span class="tag is-light"><a href="https://javaeden.github.io/Clog/">Clog</a></span>
+  <span class="tag is-light"><a href="https://copper-leaf.github.io/krow/">Krow</a></span>
+  <span class="tag is-light"><a href="https://copper-leaf.github.io/kudzu/">Kudzu</a></span>
+  <span class="tag is-light"><a href="https://copper-leaf.github.io/trellis/">Trellis</a></span>
+  <span class="tag is-light"><a href="https://copper-leaf.github.io/kodiak/">Kodiak</a></span>
+</p>

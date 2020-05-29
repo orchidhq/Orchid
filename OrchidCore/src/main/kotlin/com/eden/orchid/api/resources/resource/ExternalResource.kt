@@ -6,7 +6,6 @@ import com.eden.orchid.utilities.asInputStream
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.InputStream
-import kotlin.properties.Delegates
 
 /**
  * An ExternalResource acts either as a placeholder for URL reference, or can be a full resource when set to download.
@@ -19,24 +18,14 @@ class ExternalResource(
     reference: OrchidReference
 ) : OrchidResource(reference) {
 
-    var download: Boolean by Delegates.observable(false) { _, _, it ->
-        if (it) {
-            reference.baseUrl = reference.context.baseUrl
-        } else {
-            reference.baseUrl = originalExternalReference.baseUrl
-        }
-        free()
-    }
+    private val isProd = reference.context.isProduction
+    var downloadInProdOnly = true
+    var download: Boolean = false
 
-    private val originalExternalReference: OrchidReference = OrchidReference(reference)
-
-    init {
-        originalExternalReference.isUsePrettyUrl = false
-        download = false
-    }
+    val shouldDownload: Boolean get() = if(downloadInProdOnly) isProd && download else download
 
     override fun shouldPrecompile(): Boolean {
-        return if (download) {
+        return if (shouldDownload) {
             super.shouldPrecompile()
         } else {
             false
@@ -44,15 +33,15 @@ class ExternalResource(
     }
 
     override fun shouldRender(): Boolean {
-        return download
+        return shouldDownload
     }
 
     @Throws(Exception::class)
     private fun getContentBody(): InputStream? {
-        if (download) {
-            Clog.i("Downloading external resource {}", originalExternalReference.toString(reference.context))
+        if (shouldDownload) {
+            Clog.i("Downloading external resource {}", reference.toString(reference.context))
             val client = reference.context.resolve(OkHttpClient::class.java)
-            val request = Request.Builder().url(originalExternalReference.toString(reference.context)).build()
+            val request = Request.Builder().url(reference.toString(reference.context)).build()
             val response = client.newCall(request).execute()
             if (response.isSuccessful) {
                 val responseBody = response.body
@@ -77,16 +66,12 @@ class ExternalResource(
     }
 
     override val content: String
-        get() = if (download) {
+        get() = if (shouldDownload) {
             super.content
         } else {
             throw UnsupportedOperationException("This method is not allowed on ExternalResource when it is not set to download")
         }
 
     override val embeddedData: Map<String, Any?>
-        get() = if (download) super.embeddedData else emptyMap()
-
-    fun isDownload(): Boolean {
-        return download
-    }
+        get() = if (shouldDownload) super.embeddedData else emptyMap()
 }

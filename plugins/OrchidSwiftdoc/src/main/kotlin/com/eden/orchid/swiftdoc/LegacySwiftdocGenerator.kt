@@ -62,7 +62,7 @@ class SwiftdocGenerator : OrchidGenerator<SwiftdocModel>(GENERATOR_KEY, Stage.CO
 
         sourceDirs
             .forEach { baseDir ->
-                context.getResourceEntries(baseDir, arrayOf("swift"), true, LocalResourceSource).forEach { resource ->
+                context.getDefaultResourceSource(LocalResourceSource, null).getResourceEntries(context, baseDir, arrayOf("swift"), true).forEach { resource ->
                     val sourceFile = resource.reference.originalFullFileName
                     try {
                         val codeJson = parseSwiftFile(context, sourceFile)

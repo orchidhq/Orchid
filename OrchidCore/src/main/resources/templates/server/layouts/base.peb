@@ -3,14 +3,12 @@
 <head>
     <meta charset="utf-8">
     <title>Orchid Insights</title>
-    {% set page = view %}
-    {% styles %}
-    {% block styles %}{% endblock %}
+    {% head %}
 </head>
 <body>
+{% body %}
 {% page %}
 <script>window.websocketUrl = 'ws://localhost:{{ websocketPort }}';</script>
-{% scripts %}
-{% block scripts %}{% endblock %}
+{% endbody %}
 </body>
 </html>

@@ -27,7 +27,7 @@ constructor(
         attributes: MutableMap<String, Any>?
     ) {
         // first try looking for the target in normal site resources
-        val resolvedResource = context.getResourceEntry(target, LocalResourceSource)
+        val resolvedResource = context.getDefaultResourceSource(LocalResourceSource, null).getResourceEntry(context, target ?: "")
         if (resolvedResource != null) {
             handleIncludeContent(
                 reader,

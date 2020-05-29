@@ -3,7 +3,6 @@ package com.eden.orchid.api.site
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.AllOptions
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.utilities.debugger
 import com.google.inject.name.Named
 import javax.inject.Inject
 

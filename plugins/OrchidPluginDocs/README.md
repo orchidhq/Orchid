@@ -18,6 +18,10 @@ documents about available features and their possible options for all plugins in
 The same auto-documentation can be used to produce similar static documentation, for example, for documenting your own
 Orchid plugin.
 
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
 ## Demo
 
 - Try the [starter app](https://github.com/orchidhq/OrchidStarter) and visit `http://localhost:8080/admin` 

@@ -1,0 +1,90 @@
+site:
+  theme: Copper
+  baseUrl: netlify
+  about:
+    siteName: Orchid
+    siteDescription: Build and deploy beautiful documentation sites that grow with you
+    avatar: 'assets/media/avatar.jpg'
+    social:
+      other:
+        - link: '/'
+          label: 'Home'
+          icon: 'fas fa-home'
+        - link: 'https://github.com/orchidhq/orchid'
+          label: 'Github'
+          icon: 'fab fa-github'
+        - link: 'https://twitter.com/OrchidSSG'
+          label: 'Twitter'
+          icon: 'fab fa-twitter'
+        - link: 'https://gitter.im/JavaEden/Orchid'
+          label: 'Gitter'
+          icon: 'fab fa-gitter'
+
+theme:
+  primaryColor: '#7E80CF'
+  bannerColor: '#444444'
+  linkColor: '#7E80CF'
+
+  menu:
+    - type: 'page'
+      collectionType: 'taxonomies'
+      itemId: 'plugins'
+    - type: 'page'
+      collectionType: 'taxonomies'
+      itemId: 'themes'
+    - type: 'page'
+      itemId: 'Tutorials'
+    - type: 'page'
+      collectionType: 'taxonomies'
+      itemId: 'Showcase'
+  navbarPrimaryButtonTitle: 'Quick Start'
+  navbarPrimaryButton: 'Quick-Start'
+  navbarSecondaryButtonTitle: 'Documentation'
+  navbarSecondaryButton: 'Getting Started'
+
+  sidebarBackground: 'black'
+  sidebarBackgroundType: GRADIENT
+  sidebarShadow: false
+  useBackgroundTexture: false
+  colors:
+    purple: '#7E83C4'
+    green: '#7EB394'
+    black: '#444444'
+  palette:
+    primary: 'PURPLE'
+    link: 'PURPLE'
+    secondary: 'GREEN'
+    linkVisited: 'GREEN'
+
+  extraCss:
+    - 'assets/css/plugins.scss'
+    - 'assets/css/extras.scss'
+    - 'assets/css/extras.scss'
+    - 'assets/css/extras.scss'
+  extraJs:
+    - "assets/js/simpleFilter.js"
+  metaComponents:
+    - type: "prism"
+      scriptsOnly: 'true'
+      languages:
+        - 'clike'
+        - 'markup-templating'
+        - kotlin
+        - java
+        - groovy
+        - yaml
+        - asciidoc
+        - markdown
+        - twig
+      extraCss:
+        - 'assets/css/prism-duotone.css'
+    - type: "algoliaDocsearch"
+      apiKey: 'f597b0a7c1080757a60853addd344aaf'
+      indexName: 'orchid'
+
+services:
+  publications:
+    stages:
+      - type: githubReleases
+        repo: 'orchidhq/orchid'
+        commitish: 'master'

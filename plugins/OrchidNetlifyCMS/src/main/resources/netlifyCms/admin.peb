@@ -2,11 +2,11 @@
 <html>
 <head>
     {% head %}
-    {% styles %}
 </head>
 <body>
-{% scripts %}
+{% body %}
 {% include 'includes/netlifyCms/orchidNetlifyCms' with {"model": page.model} %}
+{% endbody %}
 </body>
 </html>
 

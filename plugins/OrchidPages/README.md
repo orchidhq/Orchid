@@ -15,6 +15,10 @@ Static pages allow you to add pages to your Orchid site in with ultimate flexibi
 contain any content, use any layout, and have no restriction on their URL path, because it is simply their location on
 disk that determines their URL, which all gives you a ton of flexibility with static pages.
 
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
 ## Demo
 
 - Try the [starter app](https://github.com/orchidhq/OrchidStarter)

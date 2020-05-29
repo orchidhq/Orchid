@@ -3,6 +3,7 @@ package com.eden.orchid.languages.diagrams.components
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.components.OrchidComponent
 
 @Description("Convert MermaidJS code snippets into diagrams in your browser.",
@@ -22,9 +23,9 @@ class MermaidJsComponent : OrchidComponent("mermaid", true) {
     @StringDefault("pre code[class='language-mermaid']")
     lateinit var selector: String
 
-    override fun loadAssets() {
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
         addJs(mermaidSource)
-        addJs("assets/js/mermaidSetup.js").apply { inlined() }
+        addJs("assets/js/mermaidSetup.js") { inlined = true }
     }
 
     override fun isHidden(): Boolean {

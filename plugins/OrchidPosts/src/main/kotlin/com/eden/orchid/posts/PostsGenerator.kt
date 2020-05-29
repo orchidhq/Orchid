@@ -28,7 +28,6 @@ import com.eden.orchid.utilities.from
 import com.eden.orchid.utilities.titleCase
 import com.eden.orchid.utilities.to
 import com.eden.orchid.utilities.words
-import org.json.JSONObject
 import java.time.LocalDate
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -46,14 +45,6 @@ constructor(
         val pageTitleRegex = Pattern.compile("(\\d{4})-(?:(\\d{1,2})-(\\d{1,2})|(\\d{3}))-([\\w-]+)")
         enum class PageTitleGrp {ALL, YEAR, MONTH, DAY, DAY_OF_YEAR, TITLE}
     }
-
-    @Option
-    @StringDefault("<!--more-->")
-    @Description(
-        "The shortcode used to manually set the breakpoint for a page summary, otherwise the summary is the " +
-                "first 240 characters of the post."
-    )
-    lateinit var excerptSeparator: String
 
     @Option
     @ImpliedKey(typeKey = "name")
@@ -96,7 +87,7 @@ constructor(
             categories.add(defaultConfig)
         }
 
-        val model = PostsModel(context, excerptSeparator, categories, authorPages)
+        val model = PostsModel(context, categories, authorPages)
 
         val postPages = mutableListOf<PostPage>()
 
@@ -119,7 +110,7 @@ constructor(
         val authorPages = ArrayList<AuthorPage>()
 
         // add Author pages from content pages in the authorsBaseDir
-        val resourcesList = context.getResourceEntries(authorsBaseDir, null, false, LocalResourceSource)
+        val resourcesList = context.getDefaultResourceSource(LocalResourceSource, null).getResourceEntries(context, authorsBaseDir, null, false)
         for (entry in resourcesList) {
             val newAuthor = Author()
             val authorName = entry.reference.originalFileName from { dashCase() } to { titleCase() }
@@ -156,7 +147,7 @@ constructor(
 
     private fun getPostsPages(context: OrchidContext, categoryModel: CategoryModel): List<PostPage> {
         val baseCategoryPath = OrchidUtils.normalizePath(baseDir + "/" + categoryModel.path)
-        val resourcesList = context.getResourceEntries(baseCategoryPath, null, true, LocalResourceSource)
+        val resourcesList = context.getDefaultResourceSource(LocalResourceSource, null).getResourceEntries(context, baseCategoryPath, null, true)
 
         val posts = ArrayList<PostPage>()
 

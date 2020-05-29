@@ -1,0 +1,7 @@
+{# @pebvariable name="page" type="com.eden.orchid.api.theme.pages.OrchidPage" #}
+{# @pebvariable name="theme" type="com.eden.orchid.api.theme.AbstractTheme" #}
+{# @pebvariable name="site" type="com.eden.orchid.api.site.OrchidSite" #}
+
+{% include 'includes/metaComponentHolder' with {"componentHolder": theme.metaComponents, "metaLocation":"bodyStart"} %}
+{% include 'includes/metaComponentHolder' with {"componentHolder": page.metaComponents, "metaLocation":"bodyStart"} %}
+{% include '?trackingBodyStart' %}

@@ -10,6 +10,7 @@ class SourceDocModuleModel(
     val name: String,
     val moduleDoc: ModuleDoc?,
     val moduleGroup: String,
+    val relatedModules: List<String>,
     val nodes: Map<AutoDocumentNode, List<SourceDocPage<*>>>
 ) {
 

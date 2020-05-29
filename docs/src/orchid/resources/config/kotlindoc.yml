@@ -1,0 +1,95 @@
+homePagePermalink: ':moduleGroup/:module'
+sourcePagePermalink: ':moduleType/:module/:sourceDocPath'
+
+modules:
+  - { name: 'OrchidCore',              sourceDirs: ['../../main/kotlin', '../../main/java'],                                 moduleGroup: 'plugins' }
+  - { name: 'OrchidTest',              sourceDirs: '../../../../OrchidTest/src/main/kotlin',                                 moduleGroup: 'plugins' }
+  - { name: 'OrchidChangelog',         sourceDirs: '../../../../plugins/OrchidChangelog/src/main/kotlin',                    moduleGroup: 'plugins' }
+  - { name: 'OrchidForms',             sourceDirs: '../../../../plugins/OrchidForms/src/main/kotlin',                        moduleGroup: 'plugins' }
+  - { name: 'OrchidGroovydoc',         sourceDirs: '../../../../plugins/OrchidGroovydoc/src/main/kotlin',                    moduleGroup: 'plugins' }
+  - { name: 'OrchidJavadoc',           sourceDirs: '../../../../plugins/OrchidJavadoc/src/main/kotlin',                      moduleGroup: 'plugins' }
+  - { name: 'OrchidKotlindoc',         sourceDirs: '../../../../plugins/OrchidKotlindoc/src/main/kotlin',                    moduleGroup: 'plugins' }
+  - { name: 'OrchidKSS',               sourceDirs: '../../../../plugins/OrchidKSS/src/main/kotlin',                          moduleGroup: 'plugins' }
+  - { name: 'OrchidNetlifyCMS',        sourceDirs: '../../../../plugins/OrchidNetlifyCMS/src/main/kotlin',                   moduleGroup: 'plugins' }
+  - { name: 'OrchidPages',             sourceDirs: '../../../../plugins/OrchidPages/src/main/kotlin',                        moduleGroup: 'plugins' }
+  - { name: 'OrchidPluginDocs',        sourceDirs: '../../../../plugins/OrchidPluginDocs/src/main/kotlin',                   moduleGroup: 'plugins' }
+  - { name: 'OrchidPosts',             sourceDirs: '../../../../plugins/OrchidPosts/src/main/kotlin',                        moduleGroup: 'plugins' }
+  - { name: 'OrchidPresentations',     sourceDirs: '../../../../plugins/OrchidPresentations/src/main/kotlin',                moduleGroup: 'plugins' }
+  - { name: 'OrchidSearch',            sourceDirs: '../../../../plugins/OrchidSearch/src/main/kotlin',                       moduleGroup: 'plugins' }
+  - { name: 'OrchidSnippets',          sourceDirs: '../../../../plugins/OrchidSnippets/src/main/kotlin',                     moduleGroup: 'plugins' }
+  - { name: 'OrchidSourceDoc',         sourceDirs: '../../../../plugins/OrchidSourceDoc/src/main/kotlin',                    moduleGroup: 'plugins' }
+  - { name: 'OrchidSwagger',           sourceDirs: '../../../../plugins/OrchidSwagger/src/main/kotlin',                      moduleGroup: 'plugins' }
+  - { name: 'OrchidSwiftdoc',          sourceDirs: '../../../../plugins/OrchidSwiftdoc/src/main/kotlin',                     moduleGroup: 'plugins' }
+  - { name: 'OrchidTaxonomies',        sourceDirs: '../../../../plugins/OrchidTaxonomies/src/main/kotlin',                   moduleGroup: 'plugins' }
+  - { name: 'OrchidWiki',              sourceDirs: '../../../../plugins/OrchidWiki/src/main/kotlin',                         moduleGroup: 'plugins' }
+  - { name: 'OrchidAsciidoc',          sourceDirs: '../../../../languageExtensions/OrchidAsciidoc/src/main/kotlin',          moduleGroup: 'plugins' }
+  - { name: 'OrchidBible',             sourceDirs: '../../../../languageExtensions/OrchidBible/src/main/kotlin',             moduleGroup: 'plugins' }
+  - { name: 'OrchidDiagrams',          sourceDirs: '../../../../languageExtensions/OrchidDiagrams/src/main/kotlin',          moduleGroup: 'plugins' }
+  - { name: 'OrchidSyntaxHighlighter', sourceDirs: '../../../../languageExtensions/OrchidSyntaxHighlighter/src/main/kotlin', moduleGroup: 'plugins' }
+  - { name: 'OrchidWritersBlocks',     sourceDirs: '../../../../languageExtensions/OrchidWritersBlocks/src/main/kotlin',     moduleGroup: 'plugins' }
+  - { name: 'OrchidAzure',             sourceDirs: '../../../../integrations/OrchidAzure/src/main/kotlin',                   moduleGroup: 'plugins' }
+  - { name: 'OrchidBitbucket',         sourceDirs: '../../../../integrations/OrchidBitbucket/src/main/kotlin',               moduleGroup: 'plugins' }
+  - { name: 'OrchidGithub',            sourceDirs: '../../../../integrations/OrchidGithub/src/main/kotlin',                  moduleGroup: 'plugins' }
+  - { name: 'OrchidGitlab',            sourceDirs: '../../../../integrations/OrchidGitlab/src/main/kotlin',                  moduleGroup: 'plugins' }
+  - { name: 'OrchidNetlify',           sourceDirs: '../../../../integrations/OrchidNetlify/src/main/kotlin',                 moduleGroup: 'plugins' }
+  - { name: 'OrchidBsDoc',             sourceDirs: '../../../../themes/OrchidBsDoc/src/main/kotlin',                         moduleGroup: 'themes' }
+  - { name: 'OrchidCopper',            sourceDirs: '../../../../themes/OrchidCopper/src/main/kotlin',                        moduleGroup: 'themes' }
+  - { name: 'OrchidEditorial',         sourceDirs: '../../../../themes/OrchidEditorial/src/main/kotlin',                     moduleGroup: 'themes' }
+  - { name: 'OrchidFutureImperfect',   sourceDirs: '../../../../themes/OrchidFutureImperfect/src/main/kotlin',               moduleGroup: 'themes' }
+  - { name: 'OrchidAll',               sourceDirs: '../../../../bundles/OrchidAll/src/main/kotlin',                          moduleGroup: 'bundles' }
+  - { name: 'OrchidBlog',              sourceDirs: '../../../../bundles/OrchidBlog/src/main/kotlin',                         moduleGroup: 'bundles' }
+  - { name: 'OrchidDocs',              sourceDirs: '../../../../bundles/OrchidDocs/src/main/kotlin',                         moduleGroup: 'bundles' }
+  - { name: 'OrchidLanguagePack',      sourceDirs: '../../../../bundles/OrchidLanguagePack/src/main/kotlin',                 moduleGroup: 'bundles' }
+
+pages:
+  layoutConfig:
+    wrapPageInBox: false
+    wrapTitleInBox: false
+    includeTitle: true
+    includeBreadcrumbs: true
+
+moduleHomePages:
+  vcsUrl: https://github.com/orchidhq/orchid
+  vcsIcon: github
+  vcsRepo: orchidhq/orchid
+  tags:
+    - 'official'
+  menu:
+    - type: 'separator'
+      title: 'All Plugins'
+      order: 1000
+    - type: 'collectionPages'
+      collectionType: 'kotlindoc'
+      collectionId: 'modules-plugins'
+      order: 1010
+    - type: 'separator'
+      title: 'All Themes'
+      order: 1020
+    - type: 'collectionPages'
+      collectionType: 'kotlindoc'
+      collectionId: 'modules-themes'
+      order: 1030
+  layoutConfig:
+    pageContentsMenu:
+      - type: 'separator'
+        title: 'In This Page'
+      - type: 'pageIds'
+        structure: nested
+        maxLevel: 2
+
+themesModuleHomePages:
+  menu:
+    - type: 'separator'
+      title: 'Demos'
+    - type: 'pageChildren'
+
+classesPages:
+  menu:
+    - type: 'sourcedocPageLinks'
+      includeItems: true
+      itemTitleType: "SIGNATURE"
+
+packagesPages:
+  menu:
+    - type: 'sourcedocPageLinks'
+      includeItems: true

@@ -1,0 +1,5 @@
+<div style="margin: 0 14px;">
+  <div class="content is-medium-tablet is-large-fullhd">
+  {{ page.content | raw }}
+  </div>
+</div>

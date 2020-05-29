@@ -11,7 +11,11 @@ tags:
 ## About
 
 OrchidNetlify connects your Orchid site to Netlify's platform, enabling you to publish your site to Netlify without 
-needing to use the Netlify's CI build platform. 
+needing to use the Netlify's CI build platform.
+
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %} 
 
 ## Demo
 

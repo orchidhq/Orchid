@@ -1,3 +1,4 @@
+@file:Suppress(SuppressedWarnings.DEPRECATION)
 package com.eden.orchid.kotlindoc.page
 
 import com.copperleaf.dokka.json.models.KotlinClassDoc
@@ -8,6 +9,7 @@ import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.kotlindoc.KotlindocGenerator
 import com.eden.orchid.kotlindoc.model.KotlindocModel
 import com.eden.orchid.kotlindoc.resources.KotlinClassdocResource
+import com.eden.orchid.utilities.SuppressedWarnings
 
 @Archetype(value = ConfigArchetype::class, key = "${KotlindocGenerator.GENERATOR_KEY}.classPages")
 @Description(value = "Documentation for a Kotlin or Java class.", name = "Kotlin class")

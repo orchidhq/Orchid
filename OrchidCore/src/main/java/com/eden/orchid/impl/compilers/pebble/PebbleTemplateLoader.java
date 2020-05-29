@@ -2,9 +2,12 @@ package com.eden.orchid.impl.compilers.pebble;
 
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.resources.resource.OrchidResource;
+import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource;
+import com.eden.orchid.api.theme.AbstractTheme;
 import com.mitchellbosecke.pebble.error.LoaderException;
 import com.mitchellbosecke.pebble.loader.Loader;
 import com.mitchellbosecke.pebble.utils.PathUtils;
+import kotlin.text.StringsKt;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -17,20 +20,23 @@ import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 
 public final class PebbleTemplateLoader implements Loader<String> {
-    private final Provider<OrchidContext> context;
+    private final OrchidContext context;
+    private final OrchidResourceSource templateResourceSource;
+    private final String cacheKeyPrefix;
     private String charset;
 
-    @Inject
-    public PebbleTemplateLoader(Provider<OrchidContext> context) {
+    PebbleTemplateLoader(OrchidContext context, AbstractTheme theme) {
         this.context = context;
+        this.cacheKeyPrefix = "::" + theme.getKey() + "::";
+        this.templateResourceSource = context.getTemplateResourceSource(null, theme);
         this.charset = "UTF-8";
     }
 
     @Override
     public Reader getReader(String templateName) throws LoaderException {
-        templateName = templateName.replaceAll("::.*::", "");
+        templateName = StringsKt.removePrefix(templateName, cacheKeyPrefix);
         try {
-            OrchidResource res = context.get().locateTemplate(templateName);
+            OrchidResource res = templateResourceSource.getResourceEntry(context, templateName);
             return (res != null) ? getReaderFromResource(res) : new StringReader("");
         } catch (Exception e) {
             throw new LoaderException(e, "Could not find template in list \"" + templateName + "\"");
@@ -39,7 +45,7 @@ public final class PebbleTemplateLoader implements Loader<String> {
 
     @Override
     public String createCacheKey(String templateName) {
-        return "::" + context.get().getTheme().getKey() + "::" + templateName;
+        return "::" + context.getTheme().getKey() + "::" + templateName;
     }
 
     @Override

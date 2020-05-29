@@ -9,6 +9,7 @@ import com.eden.orchid.api.resources.resource.ResourceTransformation
 import com.eden.orchid.api.resources.resource.FileResource
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.assets.AssetPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.api.util.GitFacade
@@ -47,6 +48,10 @@ constructor(
     lateinit var branch: String
 
     override fun getType(): String = "gitlab"
+
+    private fun createAssetManagerDelegate(context: OrchidContext): AssetManagerDelegate {
+        return AssetManagerDelegate(context, this, "wikiAdapter", null)
+    }
 
     override fun loadWikiPages(section: WikiSection): Pair<WikiSummaryPage, List<WikiPage>>? {
         val repo = git.clone(remoteUrl, displayedRemoteUrl, branch, false)
@@ -171,7 +176,7 @@ constructor(
                                 it
                             )
                         }
-                        ?.let { AssetPage(this@GitlabWikiAdapter, "wikiAdapter", it, "image", "") }
+                        ?.let { AssetPage(createAssetManagerDelegate(context), it, "image", null).also { it.configureReferences() } }
                 }
             )
         )

@@ -22,7 +22,7 @@
       </div>
 
       <div class="navbar-end">
-      {{ _navbarSocial(page, theme) }}
+      {{ _navbarSocial(page, site) }}
       </div>
     </div>
   </div>

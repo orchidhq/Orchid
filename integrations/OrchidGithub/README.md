@@ -14,7 +14,11 @@ tags:
 OrchidGithub connects Orchid to Github's services, including integrating 
 [wikis](https://help.github.com/en/articles/documenting-your-project-with-wikis), 
 creating [releases](https://help.github.com/en/categories/releases), and publishing your site directly to 
-[Github Pages](https://pages.github.com/). 
+[Github Pages](https://pages.github.com/).
+
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %} 
 
 ## Demo
 

@@ -46,18 +46,28 @@ public final class PebbleWrapperTemplateTag implements TokenParser {
 
     @Override
     public RenderableNode parse(Token token, Parser parser) throws ParserException {
+        try {
+            return doParse(token, parser);
+        }
+        catch (Exception e) {
+            throw new ParserException(e, "error parsing '" + name + "'", token.getLineNumber(), parser.getStream().getFilename());
+        }
+    }
+
+    private RenderableNode doParse(Token token, Parser parser) {
         switch (type) {
-        case Simple: 
-            return new SimpleTagParser(contextProvider, name, tagParameters, tagClass).parse(token, parser);
+            case Simple:
+                return new SimpleTagParser(contextProvider, name, tagParameters, tagClass).parse(token, parser);
 
-        case Content: 
-            return new ContentTagParser(contextProvider, name, tagParameters, tagClass).parse(token, parser);
+            case Content:
+                return new ContentTagParser(contextProvider, name, tagParameters, tagClass).parse(token, parser);
 
-        case Tabbed: 
-            return new TabbedTagParser(contextProvider, name, tagParameters, tagClass, tabParameters, tabClass).parse(token, parser);
+            case Tabbed:
+                return new TabbedTagParser(contextProvider, name, tagParameters, tagClass, tabParameters, tabClass).parse(token, parser);
 
-        default: 
-            throw new IllegalArgumentException("Tag type must be a valid type.");
+            default:
+
+                throw new IllegalArgumentException("Tag type must be a valid type.");
         }
     }
 

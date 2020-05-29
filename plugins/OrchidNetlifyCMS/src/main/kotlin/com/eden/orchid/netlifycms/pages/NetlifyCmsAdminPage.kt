@@ -3,6 +3,7 @@ package com.eden.orchid.netlifycms.pages
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.OrchidResource
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.assets.CssPage
 import com.eden.orchid.api.theme.assets.JsPage
 import com.eden.orchid.api.theme.pages.OrchidPage
@@ -14,17 +15,9 @@ class NetlifyCmsAdminPage(
         val model: NetlifyCmsModel
 ) : OrchidPage(resource, RenderService.RenderMode.RAW, "contentManager", "Orchid Content Manager") {
 
-    override fun loadAssets() {
-        model.loadAssets(this)
+    override fun loadAssets(delegate: AssetManagerDelegate) {
+        model.loadAssets(delegate)
     }
 
-    // override to prevent theme scripts and styles from being added to this page
-    override fun collectThemeScripts(scripts: MutableList<JsPage>) {
-
-    }
-
-    override fun collectThemeStyles(styles: MutableList<CssPage>) {
-
-    }
-
+    // TODO: prevent theme scripts and styles from being added to this page
 }

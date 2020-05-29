@@ -371,30 +371,6 @@ public final class Orchid {
 
             public static EndSession fire(Object sender) { return new EndSession(sender); }
         }
-
-        /**
-         * Fired as a shim in the options loading process to allow options to be dynamically loaded as needed. This is
-         * fired from the {@link ConfigArchetype}, and catching this event allows listeners to add additional values
-         * into the archetype options for this object. This archetype is added to Pages, Generators, and Publishers by
-         * default, but other classes are free to use it as needed.
-         */
-        public static class ArchetypeOptions extends OrchidEvent {
-            private Map<String, Object> config;
-            public ArchetypeOptions(String archetypeKey, Object sender) {
-                super(archetypeKey, sender);
-                config = new HashMap<>();
-            }
-
-            public Map<String, Object> getConfig() {
-                return config;
-            }
-
-            public void addConfig(Map<String, Object> config) {
-                if(config != null) {
-                    this.config = EdenUtils.merge(this.config, config);
-                }
-            }
-        }
     }
 
     public enum State {
@@ -403,7 +379,7 @@ public final class Orchid {
          * From the time Orchid is first instantiated until after the initial injection is complete. This phase ends
          * with the {@link Orchid.Lifecycle.InitComplete} event, after which the selected task is run.
          */
-        BOOTSTRAP(false, false),
+        BOOTSTRAP(true, false, false),
 
         /**
          * The Orchid shutdown process. This is set anytime {@link Orchid.Lifecycle.Shutdown} event is fired, such as
@@ -413,51 +389,57 @@ public final class Orchid {
          * the {@link Orchid.Lifecycle.OnFinish} event and all services get a change to shutdown cleanly, and is then
          * followed by the {@link Orchid.Lifecycle.OnFinish} event.
          */
-        SHUTDOWN(false, false),
+        SHUTDOWN(false, false, false),
 
         /**
          * From the start of a 'build' until indexing begins. Starts with the {@link Orchid.Lifecycle.BuildStart}
          * event, and includes clearing the cache, re-loading config options, re-initializing the theme, and extracting
          * options into the services. This is the first of the 'build states', which are 'working states.'
          */
-        BUILD_PREP(true,  false),
+        BUILD_PREP(true, true,  false),
 
         /**
          * Orchid is indexing all Generators. During this state, {@link Orchid.Lifecycle.ProgressEvent} of type
          * 'indexing' are broadcast, one for each generator. This is the second of the 'build states', which are
          * 'working states.'
          */
-        INDEXING(true,  false),
+        INDEXING(true, true,  false),
 
         /**
          * Orchid is generating all pages. During this state, {@link Orchid.Lifecycle.ProgressEvent} of type 'building'
          * are broadcast, one for each page. This is the third and final of the 'build states', which are 'working
          * states.'
          */
-        BUILDING(true,  false),
+        BUILDING(false, true,  false),
 
         /**
          * Orchid is deploying your site with all configured publishers. During this state,
          * {@link Orchid.Lifecycle.ProgressEvent} of type 'deploying' are broadcast, one for each publisher. This is
          * the only 'deploy state', which is a 'working states.'
          */
-        DEPLOYING(false, true),
+        DEPLOYING(false, false, true),
 
         /**
          * Orchid is idle, not currently indexing, building, or deploying. Orchid is listening for changes to your files
          * to rebuild, or is waiting to respond to a command.
          */
-        IDLE(false, false)
+        IDLE(false, false, false)
         ;
 
+        private final boolean isPreBuildState;
         private final boolean isBuildState;
         private final boolean isDeployState;
         private final boolean isWorkingState;
 
-        State(boolean isBuildState, boolean isDeployState) {
+        State(boolean isPreBuildState, boolean isBuildState, boolean isDeployState) {
+            this.isPreBuildState = isPreBuildState;
             this.isBuildState = isBuildState;
             this.isDeployState = isDeployState;
             this.isWorkingState = isDeployState || isBuildState;
+        }
+
+        public boolean isPreBuildState() {
+            return isPreBuildState;
         }
 
         public boolean isBuildState() {

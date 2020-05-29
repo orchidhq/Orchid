@@ -22,7 +22,7 @@ class HighlightTag : TemplateTag("highlight", Type.Content, true) {
         try {
             val interpreter = PythonInterpreter()
 
-            val pygmentsScript: OrchidResource? = context.getResourceEntry("scripts/pygments/pygments.py", null)
+            val pygmentsScript: OrchidResource? = context.getDefaultResourceSource(null, null).getResourceEntry(context, "scripts/pygments/pygments.py")
             val pythonScript = pygmentsScript?.content ?: ""
 
             // Set a variable with the content you want to work with

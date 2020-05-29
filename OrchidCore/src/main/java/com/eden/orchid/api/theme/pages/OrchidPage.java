@@ -1,5 +1,6 @@
 package com.eden.orchid.api.theme.pages;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
@@ -11,6 +12,8 @@ import com.eden.orchid.api.options.annotations.AllOptions;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.annotations.FloatDefault;
+import com.eden.orchid.api.options.annotations.ImpliedKey;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.options.archetypes.SharedConfigArchetype;
@@ -20,21 +23,31 @@ import com.eden.orchid.api.resources.resource.ExternalResource;
 import com.eden.orchid.api.resources.resource.OrchidResource;
 import com.eden.orchid.api.theme.AbstractTheme;
 import com.eden.orchid.api.theme.Theme;
-import com.eden.orchid.api.theme.assets.AssetHolder;
-import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate;
+import com.eden.orchid.api.theme.assets.CombinedAssetHolder;
+import com.eden.orchid.api.theme.assets.CombinedAssetHolderKt;
 import com.eden.orchid.api.theme.assets.CssPage;
+import com.eden.orchid.api.theme.assets.ExtraCss;
+import com.eden.orchid.api.theme.assets.ExtraJs;
 import com.eden.orchid.api.theme.assets.JsPage;
+import com.eden.orchid.api.theme.assets.WithAssets;
 import com.eden.orchid.api.theme.components.ComponentHolder;
 import com.eden.orchid.api.theme.components.MetaComponentHolder;
-import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.menus.OrchidMenu;
 import com.eden.orchid.impl.relations.PageRelation;
+import com.eden.orchid.impl.relations.ThemeRelation;
 import com.eden.orchid.utilities.OrchidExtensionsKt;
 import com.eden.orchid.utilities.OrchidUtils;
+import kotlin.Lazy;
+import kotlin.LazyKt;
+import kotlin.Pair;
+import kotlin.collections.CollectionsKt;
+import kotlin.collections.MapsKt;
 import kotlin.jvm.internal.Intrinsics;
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -53,7 +66,7 @@ import static com.eden.orchid.utilities.OrchidExtensionsKt.to;
 @Archetype(value = ConfigArchetype.class, key = "allPages")
 public class OrchidPage implements
         OptionsHolder,
-        AssetHolder,
+        WithAssets,
         Renderable,
         Collectible<OrchidPage>
 {
@@ -105,7 +118,6 @@ public class OrchidPage implements
     // internal bookkeeping variables
     protected boolean isCurrent;
     protected boolean isIndexed;
-    private boolean hasAddedAssets;
 
     // SEO variables
     @Option
@@ -124,7 +136,7 @@ public class OrchidPage implements
     )
     protected String changeFrequency;
 
-    @Option
+    @Option @FloatDefault(0.5f)
     @Description("The importance of this page relative to the rest of the pages on your site. Should be a value " +
             "between 0 and 1."
     )
@@ -157,7 +169,6 @@ public class OrchidPage implements
     private LocalDateTime lastModifiedDate;
 
     // variables that attach other objects to this page
-    protected AssetHolder assets;
 
     @Option
     @Description("The secondary only added to this page. It is common for generators to add menu items to their pages" +
@@ -181,20 +192,17 @@ public class OrchidPage implements
     protected MetaComponentHolder metaComponents;
 
     @Option
-    @Description("Add extra CSS files to this page only, which will be compiled just like the rest of the site's " +
-            "assets."
-    )
-    protected String[] extraCss;
-
-    @Option
-    @Description("Add extra Javascript files to every this page only, which will be compiled just like the rest of " +
-            "the site's assets."
-    )
-    protected String[] extraJs;
-
-    @Option
     @Description("The default breadcrumbs to display for this page.")
     protected String defaultBreadcrumbs;
+
+    private final Map<Integer, ThemeRelation> possibleThemes = new HashMap<>();
+    private final Lazy<AbstractTheme> lazyTheme = LazyKt.lazy(() -> {
+        List<Pair<Integer, ThemeRelation>> mapPairs = MapsKt.toList(possibleThemes);
+        List<Pair<Integer, ThemeRelation>> filteredPairs = CollectionsKt.filter(mapPairs, it -> it.getSecond().get() != null);
+        Pair<Integer, ThemeRelation> maxPriorityTheme = CollectionsKt.maxBy(filteredPairs, it -> it.getFirst());
+
+        return maxPriorityTheme.getSecond().get();
+    });
 
 // Constructors and initialization
 //----------------------------------------------------------------------------------------------------------------------
@@ -205,7 +213,6 @@ public class OrchidPage implements
         Intrinsics.checkNotNull(key, "OrchidPage 'key' cannot be null");
 
         this.context = resource.getReference().getContext();
-        this.assets = new AssetHolderDelegate(context, this, "page");
 
         this.key = key;
         this.template = new String[]{"page"};
@@ -261,11 +268,10 @@ public class OrchidPage implements
     }
 
     public String getContent() {
-        if(!(context.getState() == Orchid.State.BUILDING || context.getState() == Orchid.State.IDLE)) {
-            throw new IllegalStateException("Cannot get page content until indexing has completed.");
-        }
+        if(context.getState().isPreBuildState()) throw new IllegalStateException("Cannot get page content until after indexing has completed");
+
         if(compiledContent == null) {
-            compiledContent = resource.compileContent(this);
+            compiledContent = resource.compileContent(context, this);
             if(compiledContent == null) {
                 compiledContent = "";
             }
@@ -274,18 +280,29 @@ public class OrchidPage implements
         return compiledContent;
     }
 
+    public void addPossibleTheme(int priority, ThemeRelation relation) {
+        possibleThemes.put(priority, relation);
+    }
+
+    public @Nullable ThemeRelation getThemeRelation() {
+        return null;
+    }
+
     public AbstractTheme getTheme() {
-        return context.getTheme();
+        if(context.getState().isPreBuildState()) throw new IllegalStateException("Cannot access a page's theme until after indexing has completed");
+        return lazyTheme.getValue();
     }
 
     public boolean shouldRender() {
         return resource.shouldRender();
     }
 
+    @Nullable
     public List<String> getTemplates() {
         return null;
     }
 
+    @Nonnull
     public final List<String> getPossibleTemplates() {
         List<String> templates = new ArrayList<>();
         Collections.addAll(templates, this.template);
@@ -300,6 +317,7 @@ public class OrchidPage implements
         return templates;
     }
 
+    @Nonnull
     public final List<String> getPossibleLayouts() {
         List<String> layouts = new ArrayList<>();
         if(!EdenUtils.isEmpty(getLayout())) {
@@ -313,26 +331,28 @@ public class OrchidPage implements
         return layouts;
     }
 
+    @Nullable
     public final OrchidResource resolveLayout() {
-        return OrchidUtils.expandTemplateList(getContext(), getPossibleLayouts(), getLayoutBase())
-                .map(template -> getContext().locateTemplate(template, true))
-                .filter(Objects::nonNull)
-                .findFirst()
-                .orElse(null);
+        return getContext()
+                .getTemplateResourceSource(null, getTheme())
+                .getResourceEntry(context, getLayoutBase(), getPossibleLayouts());
     }
 
+    @Nullable
     public final OrchidResource resolveTemplate() {
         return resolveTemplate(context, this);
     }
 
+    @Nonnull
     public final String renderInLayout() {
         OrchidResource layoutResource = resolveLayout();
         if(layoutResource != null) {
-            return layoutResource.compileContent(this);
+            return layoutResource.compileContent(context, this);
         }
         return "";
     }
 
+    @Nonnull
     public final String renderContent() {
         return renderContent(context, this);
     }
@@ -359,7 +379,7 @@ public class OrchidPage implements
 
         if (includePageContent) {
             if(resource instanceof ExternalResource) {
-                if(((ExternalResource) resource).isDownload()) {
+                if(((ExternalResource) resource).getShouldDownload()) {
                     pageJson.put("content", this.getContent());
                 }
             }
@@ -408,85 +428,75 @@ public class OrchidPage implements
         return getLink();
     }
 
-// Assets, Components, Breadcrumbs
+// Assets
 //----------------------------------------------------------------------------------------------------------------------
 
+    @Option
+    @Description("Attach extra CSS assets to this page.")
+    @ImpliedKey(typeKey = "asset")
+    private List<ExtraCss> extraCss;
+
+    @Option
+    @Description("Attach extra Javascript assets to this page.")
+    @ImpliedKey(typeKey = "asset")
+    private List<ExtraJs> extraJs;
+
+    private final Lazy<CombinedAssetHolder> pageAssets = LazyKt.lazy(
+            () -> CombinedAssetHolderKt.initializePageAssets(this)
+    );
+
+    @Nonnull
     @Override
-    public final AssetHolder getAssetHolder() {
-        return assets;
-    }
+    public final AssetManagerDelegate createAssetManagerDelegate(@Nonnull OrchidContext context) { return new AssetManagerDelegate(context, this, "page", null); }
 
+    @Nonnull
     @Override
-    public final List<JsPage> getScripts() {
-        addAssets();
-        List<JsPage> scripts = new ArrayList<>();
-        collectThemeScripts(scripts);
-        collectOwnScripts(scripts);
-        collectComponentScripts(scripts);
+    public final List<ExtraCss> getExtraCss() { return extraCss; }
+    public final void setExtraCss(List<ExtraCss> extraCss) { this.extraCss = extraCss; }
 
-        return scripts;
-    }
-
+    @Nonnull
     @Override
-    public final List<CssPage> getStyles() {
-        addAssets();
-        List<CssPage> styles = new ArrayList<>();
-        collectThemeStyles(styles);
-        collectOwnStyles(styles);
-        collectComponentStyles(styles);
+    public final List<ExtraJs> getExtraJs() { return extraJs; }
+    public final void setExtraJs(List<ExtraJs> extraJs) { this.extraJs = extraJs; }
 
-        return styles;
-    }
+    /**
+     * Get all CSS assets that should be included in the page `&gt;head&lt;`. Includes assets from this OrchidPage, the
+     * Theme, and all registered Components.
+     *
+     * Assets are cached, and calling this method multiple times will not recompute or re-render assets.
+     */
+    public final List<CssPage> getStyles() { return pageAssets.getValue().getStyles(); }
 
-    public final void addAssets() {
-        if(!hasAddedAssets) {
-            loadAssets();
-            OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this, this, "page");
-            hasAddedAssets = true;
-        }
-    }
+    /**
+     * Get all JS assets that should be included at the end of the page' `&gt;body&lt;`. Includes assets from this
+     * OrchidPage, the Theme, and all registered Components.
+     *
+     * Assets are cached, and calling this method multiple times will not recompute or re-render assets.
+     */
+    public final List<JsPage> getScripts() { return pageAssets.getValue().getScripts(); }
 
-    protected void collectThemeScripts(List<JsPage> scripts) {
-        getTheme().doWithCurrentPage(this, (theme) -> scripts.addAll(theme.getScripts()));
-    }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void loadAssets(@Nonnull AssetManagerDelegate delegate) {
 
-    protected void collectOwnScripts(List<JsPage> scripts) {
-        scripts.addAll(assets.getScripts());
-    }
-
-    protected void collectComponentScripts(List<JsPage> scripts) {
-        OrchidUtils.addComponentAssets(this, getComponentHolders(), scripts, OrchidComponent::getScripts);
-    }
-
-    protected void collectThemeStyles(List<CssPage> styles) {
-        getTheme().doWithCurrentPage(this, (theme) -> styles.addAll(theme.getStyles()));
-    }
-
-    protected void collectOwnStyles(List<CssPage> styles) {
-        styles.addAll(assets.getStyles());
-    }
-
-    protected void collectComponentStyles(List<CssPage> styles) {
-        OrchidUtils.addComponentAssets(this, getComponentHolders(), styles, OrchidComponent::getStyles);
     }
 
 // Callbacks
 //----------------------------------------------------------------------------------------------------------------------
 
-    protected ComponentHolder[] getComponentHolders() {
+    @Nonnull
+    public ComponentHolder[] getComponentHolders() {
         return new ComponentHolder[] { components, metaComponents };
     }
 
-    public void addComponents() {
+    private void addComponents() {
         if (this.components != null && this.components.isEmpty()) {
             Map<String, Object> jsonObject = new HashMap<>();
             jsonObject.put("type", "pageContent");
             this.components.add(jsonObject);
         }
-    }
-
-    public void loadAssets() {
-
     }
 
     public void free() {
@@ -499,14 +509,14 @@ public class OrchidPage implements
         return this;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public List<String> getItemIds() {
         return Collections.singletonList(title);
     }
 
 
-    // Page Relationships
+// Page Relationships
 //----------------------------------------------------------------------------------------------------------------------
 
     public void setNext(OrchidPage nextPage) {
@@ -591,10 +601,12 @@ public class OrchidPage implements
         return this.context;
     }
 
+    @Nonnull
     public String getTemplateBase() {
         return this.templateBase;
     }
 
+    @Nonnull
     public String getLayoutBase() {
         return this.layoutBase;
     }
@@ -663,10 +675,6 @@ public class OrchidPage implements
         return this.lastModifiedDate;
     }
 
-    public AssetHolder getAssets() {
-        return this.assets;
-    }
-
     public OrchidMenu getMenu() {
         return this.menu;
     }
@@ -677,14 +685,6 @@ public class OrchidPage implements
 
     public MetaComponentHolder getMetaComponents() {
         return metaComponents;
-    }
-
-    public String[] getExtraCss() {
-        return this.extraCss;
-    }
-
-    public String[] getExtraJs() {
-        return this.extraJs;
     }
 
     public String getDefaultBreadcrumbs() {
@@ -763,10 +763,6 @@ public class OrchidPage implements
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public void setAssets(AssetHolder assets) {
-        this.assets = assets;
-    }
-
     public void setMenu(OrchidMenu menu) {
         this.menu = menu;
     }
@@ -777,14 +773,6 @@ public class OrchidPage implements
 
     public void setMetaComponents(MetaComponentHolder metaComponents) {
         this.metaComponents = metaComponents;
-    }
-
-    public void setExtraCss(String[] extraCss) {
-        this.extraCss = extraCss;
-    }
-
-    public void setExtraJs(String[] extraJs) {
-        this.extraJs = extraJs;
     }
 
     public void setDefaultBreadcrumbs(String defaultBreadcrumbs) {

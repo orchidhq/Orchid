@@ -1,4 +1,5 @@
+apply(from = "$rootDir/gradle/groups/bundleProjects.gradle")
 
 dependencies {
-    implementation(Projects.LanguageExtensions.all)
+    implementation(ModuleGroups.LanguageExtensions.all)
 }

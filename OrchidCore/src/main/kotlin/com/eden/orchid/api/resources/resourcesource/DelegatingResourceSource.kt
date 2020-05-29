@@ -1,17 +1,8 @@
 package com.eden.orchid.api.resources.resourcesource
 
-import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.OrchidResource
-import com.eden.orchid.utilities.OrchidUtils
-import java.util.ArrayList
-import java.util.Comparator
-import java.util.Objects
 import java.util.TreeMap
-import java.util.function.Consumer
-import java.util.function.Function
-import java.util.function.Predicate
-import java.util.stream.Stream
 
 /**
  * An OrchidResourceSource which wraps other resource sources and combines elements from each. For locating a single
@@ -19,8 +10,8 @@ import java.util.stream.Stream
  * a combination of the resources collected from _all_ delegates.
  */
 class DelegatingResourceSource(
-    private val delegates: List<OrchidResourceSource>,
-    private val scopeFilter: List<OrchidResourceSource.Scope>,
+    private val delegates: Collection<OrchidResourceSource>,
+    private val scopeFilter: Collection<OrchidResourceSource.Scope>,
     override val priority: Int,
     override val scope: OrchidResourceSource.Scope
 ) : OrchidResourceSource {
@@ -55,4 +46,28 @@ class DelegatingResourceSource(
 
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as DelegatingResourceSource
+
+        if (delegates != other.delegates) return false
+        if (scopeFilter != other.scopeFilter) return false
+        if (priority != other.priority) return false
+        if (scope != other.scope) return false
+
+        return true
+    }
+
+    private val _hashcode by lazy {
+        var result = delegates.hashCode()
+        result = 31 * result + scopeFilter.hashCode()
+        result = 31 * result + priority
+        result = 31 * result + scope.hashCode()
+        result
+    }
+    override fun hashCode(): Int {
+        return _hashcode
+    }
 }

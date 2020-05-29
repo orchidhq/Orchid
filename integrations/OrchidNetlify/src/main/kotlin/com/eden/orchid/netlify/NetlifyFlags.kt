@@ -5,7 +5,6 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.Protected
 import com.eden.orchid.api.options.annotations.StringDefault
-import com.eden.orchid.utilities.debugger
 
 class NetlifyFlags : OrchidFlag() {
 

@@ -14,7 +14,6 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.impl.relations.ThemeRelation
 import com.eden.orchid.pages.PageGroupArchetype
 import com.eden.orchid.pages.PagesGenerator
-import java.lang.Exception
 
 @Archetypes(
         Archetype(value = PageGroupArchetype::class, key = PagesGenerator.GENERATOR_KEY),
@@ -41,6 +40,10 @@ class StaticPage(resource: OrchidResource)
 
     override fun onPostExtraction() {
         reference.isUsePrettyUrl = usePrettyUrl
+    }
+
+    override fun getThemeRelation(): ThemeRelation? {
+        return theme
     }
 
     val group: String?

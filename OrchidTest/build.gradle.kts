@@ -1,8 +1,8 @@
 apply(from = "$rootDir/gradle/actions/java.gradle")
 apply(from = "$rootDir/gradle/actions/kotlin.gradle")
-apply(from = "$rootDir/gradle/actions/javadoc.gradle")
 apply(from = "$rootDir/gradle/actions/publish.gradle")
 apply(from = "$rootDir/gradle/actions/testing.gradle")
+apply(from = "$rootDir/gradle/actions/repositories.gradle")
 
 dependencies {
     "api"(project(":OrchidCore"))
@@ -16,7 +16,7 @@ dependencies {
     "api"(Libs.kotlin_stdlib_jdk8)
     "api"(Libs.kotlinx_html_jvm)
 
-    testImplementation(Module.OrchidPages)
+    testImplementation(Modules.OrchidPages)
     "testRuntimeOnly"(Libs.junit_jupiter_engine)
 }
 

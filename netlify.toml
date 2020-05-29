@@ -8,4 +8,4 @@
 [build]
   base    = ""
   command = "./docs.sh"
-  publish = "OrchidCore/build/docs/orchid"
+  publish = "docs/build/docs/orchid"

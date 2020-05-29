@@ -1,28 +1,22 @@
 package com.eden.orchid.api.resources.resourcesource
 
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.resources.resource.ClasspathResource
 import com.eden.orchid.api.resources.resource.FileResource
 import com.eden.orchid.strikt.asExpected
+import com.eden.orchid.testhelpers.OrchidUnitTest
 import com.eden.orchid.utilities.readToString
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.mockito.Mockito.mock
-import strikt.api.expectThat
-import strikt.api.expectThrows
 import strikt.assertions.all
-import strikt.assertions.containsExactly
 import strikt.assertions.containsExactlyInAnyOrder
-import strikt.assertions.hasSize
 import strikt.assertions.isA
 import strikt.assertions.isEqualTo
 import strikt.assertions.isNotNull
 import strikt.assertions.map
-import strikt.assertions.size
 import java.io.File
 
-class FileResourceSourceTest {
+class FileResourceSourceTest : OrchidUnitTest {
 
     val underTest by lazy {
         FileResourceSource(File("./src/test/resources").toPath(), 0, LocalResourceSource)

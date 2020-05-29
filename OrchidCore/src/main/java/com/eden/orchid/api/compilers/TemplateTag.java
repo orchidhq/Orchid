@@ -8,6 +8,7 @@ import com.eden.orchid.api.render.Renderable;
 import com.eden.orchid.api.server.annotations.ImportantModularType;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -101,7 +102,9 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
      *
      * @return the sequential parameters
      */
-    public abstract String[] parameters();
+    public String[] parameters() {
+        return new String[0];
+    }
 
     public void onRender(OrchidContext context, OrchidPage page) {
         this.context = context;
@@ -181,6 +184,7 @@ public abstract class TemplateTag implements OptionsHolder, Renderable {
         return templates;
     }
 
+    @Nonnull
     public String getTemplateBase() {
         return this.templateBase;
     }

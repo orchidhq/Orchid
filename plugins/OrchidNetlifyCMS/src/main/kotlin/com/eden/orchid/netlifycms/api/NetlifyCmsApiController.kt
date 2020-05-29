@@ -33,7 +33,7 @@ constructor(
     fun getFiles(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest, localFilename: String): OrchidResponse {
         val locatedResources = JSONArray()
 
-        val resources = context.getResourceEntries(localFilename, null, false, LocalResourceSource)
+        val resources = context.getDefaultResourceSource(LocalResourceSource, null).getResourceEntries(context, localFilename, null, false)
         if (!EdenUtils.isEmpty(resources)) {
             resources.forEach {
                 val localResource = JSONObject()
@@ -58,7 +58,7 @@ constructor(
 
     @Get(path = "/api/file/**localFilename")
     fun getFile(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest, localFilename: String): OrchidResponse {
-        val resource = context.getResourceEntry(localFilename, LocalResourceSource)
+        val resource = context.getDefaultResourceSource(LocalResourceSource, null).getResourceEntry(context, localFilename)
         if (resource != null) {
             return OrchidResponse(context).content(resource.getContentStream().readToString())
         }
@@ -69,7 +69,7 @@ constructor(
 
     @Delete(path = "/api/file/**localFilename")
     fun deleteFile(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest, localFilename: String): OrchidResponse {
-        val resource = context.getResourceEntry(localFilename, LocalResourceSource)
+        val resource = context.getDefaultResourceSource(LocalResourceSource, null).getResourceEntry(context, localFilename)
         if (resource != null) {
             if (resource.canDelete()) {
                 resource.delete()
@@ -86,7 +86,7 @@ constructor(
 
     @Put(path = "/api/file/**localFilename")
     fun updateFile(request: OrchidRequest, localFilename: String): OrchidResponse {
-        val resource = context.getResourceEntry(localFilename, LocalResourceSource)
+        val resource = context.getDefaultResourceSource(LocalResourceSource, null).getResourceEntry(context, localFilename)
         if (resource != null) {
             if (resource.canUpdate()) {
                 val contentBase64 = request.input("content")

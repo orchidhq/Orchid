@@ -1,8 +1,8 @@
 <!-- Footer -->
 <section id="footer">
     <ul class="icons">
-    {% if theme.social is not empty %}
-    {% for item in theme.social.items %}
+    {% if site.about.social is not empty %}
+    {% for item in site.about.social.items %}
         <li><a href="{{ item.link }}" class="{{ item.icon }}"><span class="label">{{ item.label }}</span></a></li>
     {% endfor %}
     {% endif %}

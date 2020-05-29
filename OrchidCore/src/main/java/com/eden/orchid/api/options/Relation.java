@@ -32,6 +32,8 @@ public abstract class Relation<T> implements OptionsHolder {
 
     @Nullable
     public final T get() {
+        if(context.getState().isPreBuildState()) throw new IllegalStateException("Cannot get an item from a relation until after indexing has completed");
+
         if (item == null) {
             extractOptions(context, ref);
             item = load();

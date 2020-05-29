@@ -1,5 +1,6 @@
 package com.eden.orchid.api;
 
+import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.compilers.CompilerService;
 import com.eden.orchid.api.events.EventService;
@@ -16,6 +17,7 @@ import com.eden.orchid.api.theme.ThemeService;
 import com.google.inject.ImplementedBy;
 
 import java.util.Collection;
+import java.util.function.Supplier;
 
 @ImplementedBy(OrchidContextImpl.class)
 public interface OrchidContext extends
@@ -47,5 +49,6 @@ public interface OrchidContext extends
     Orchid.State getState();
     void setState(Orchid.State state);
 
-    boolean diagnose();
+    void diagnosisMessage(Supplier<String> messageSupplier);
+    void deprecationMessage(Supplier<String> messageSupplier);
 }

@@ -1,0 +1,12 @@
+# These values shouldn't be changed during normal development. Instead, change values in `config-debug.yml` which will
+# not affect production builds
+
+services:
+  generators:
+    disabled:
+      - 'javadoc'
+      - 'groovydoc'
+      - 'swiftdoc'
+
+kotlindoc:
+  homePageOnly: true

@@ -13,6 +13,8 @@ import com.eden.orchid.api.generators.PageCollection
 import com.eden.orchid.api.options.OptionsExtractor
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
+import com.eden.orchid.api.resources.resourcesource.flexible
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
 import com.eden.orchid.sourcedoc.model.SourceDocModel
@@ -22,6 +24,7 @@ import com.eden.orchid.sourcedoc.page.SourceDocModuleHomePage
 import com.eden.orchid.sourcedoc.page.SourceDocPage
 import com.eden.orchid.sourcedoc.page.SourceDocResource
 import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.SuppressedWarnings
 import java.io.File
 import java.nio.file.Path
 import javax.inject.Named
@@ -37,7 +40,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
         const val deprecationWarning = """
             This SourceDoc generator is being deprecated in favor of a new, more unified, 
             and more modular code-documentation plugin, OrchidSourceDoc. The new system 
-            can be enabled now with the `--experimentalSourceDoc` CLI flag, and the legacy 
+            is enabled by default, and the legacy system must be enabled with the `--legacySourceDoc` CLI flag. Legacy 
             generators will be removed in the next major version.
         """
     }
@@ -140,10 +143,12 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
             config.name,
             invokerModel,
             config.moduleGroup,
+            config.relatedModules,
             modelPageMap
         )
     }
 
+    @Suppress(SuppressedWarnings.DEPRECATION)
     private fun setupModuleHomepage(
         context: OrchidContext,
         module: T?,
@@ -156,7 +161,9 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
 
         for (baseDir in config.sourceDirs) {
             val baseFile = File(context.sourceDir).toPath().resolve(baseDir).toFile().absolutePath
-            val closestFile: OrchidResource? = context.findClosestFile(baseFile, "readme", false, 10)
+            val closestFile: OrchidResource? = context
+                .getFlexibleResourceSource(LocalResourceSource, null)
+                .findClosestFile(context, "readme", baseFile)
             if (closestFile != null) {
                 readmeFile = closestFile
                 break

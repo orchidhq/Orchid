@@ -13,3 +13,13 @@ images:
 tags:
   - 'docs'
 ---
+
+## About
+
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
+## Screenshots
+
+{% include 'includes/imageCards.peb' with {'images': page.images} %}

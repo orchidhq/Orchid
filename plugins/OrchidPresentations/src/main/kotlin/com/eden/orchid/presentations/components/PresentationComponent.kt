@@ -4,6 +4,7 @@ import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.presentations.model.Presentation
 
@@ -29,7 +30,7 @@ class PresentationComponent : OrchidComponent("presentation") {
     @Description("The key of the Presentation to display.")
     var presentation: Presentation? = null
 
-    override fun loadAssets() {
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
         if (!scriptsOnly) {
             addCss("assets/core/deck_core.scss")
             addCss("assets/extensions/goto/deck_goto.scss")

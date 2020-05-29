@@ -4,7 +4,7 @@
 <p><b>Roots:</b></p>
 <ul>
 {%- for root in page.roots %}
-  <li>{{ anchor(root) }}</li>
+  <li>{{ sourceDocAnchor(title=root, itemId=root) }}</li>
 {% endfor %}
 </ul>
 {% endif %}

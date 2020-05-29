@@ -5,6 +5,7 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.generators.emptyModel
+import com.eden.orchid.api.generators.modelOf
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
@@ -13,6 +14,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.annotations.Validate
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.assets.AssetPage
 import java.util.Arrays
 import javax.inject.Inject
@@ -32,34 +34,38 @@ class AssetsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, St
     @StringDefault("assets/media")
     lateinit var sourceDirs: List<AssetDirectory>
 
+    private fun createAssetManagerDelegate(context: OrchidContext): AssetManagerDelegate {
+        return AssetManagerDelegate(context, this, "generator", null)
+    }
+
     override fun startIndexing(context: OrchidContext): Model {
-        sourceDirs
+        val delegate = createAssetManagerDelegate(context)
+        val resourceSource = context.getDefaultResourceSource(LocalResourceSource, null)
+
+        val assetPages = sourceDirs
             .flatMap { dir ->
-                context.getResourceEntries(
+                context.getDefaultResourceSource(LocalResourceSource, null).getResourceEntries(
+                    context,
                     dir.sourceDir,
                     if (!EdenUtils.isEmpty(dir.assetFileExtensions)) dir.assetFileExtensions else null,
-                    dir.recursive,
-                    LocalResourceSource
+                    dir.recursive
                 )
             }
             .map { resource ->
-                AssetPage(
-                    null, null,
-                    resource,
-                    resource.reference.fileName,
-                    resource.reference.fileName
-                ).apply {
-                    reference.isUsePrettyUrl = false
-                }
-            }
-            .forEach { asset ->
-                context.assetManager.addAsset(asset, true)
+                context
+                    .assetManager
+                    .createAsset(delegate, resourceSource, resource.reference.originalFullFileName)
+                    .let { context.assetManager.getActualAsset(delegate, it, false) }
             }
 
-        return emptyModel()
+        return modelOf { assetPages }
     }
 
-// Helpers
+    override fun startGeneration(context: OrchidContext, model: Model) {
+        model.allPages.filterIsInstance<AssetPage>().forEach { context.renderAsset(it) }
+    }
+
+    // Helpers
 //----------------------------------------------------------------------------------------------------------------------
 
     @Validate

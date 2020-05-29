@@ -73,16 +73,16 @@ public class OrchidSecurityManagerImpl extends OrchidSecurityManager {
     @Override public void checkListen(int port) { }
     @Override public void checkAccept(String host, int port) { }
     @Override public void checkMulticast(InetAddress maddr) { }
-    @SuppressWarnings(SuppressedWarnings.DEPRECATED_JAVA) public void checkMulticast(InetAddress maddr, byte ttl) { }
+    @SuppressWarnings(SuppressedWarnings.DEPRECATION) public void checkMulticast(InetAddress maddr, byte ttl) { }
     @Override public void checkPropertiesAccess() { }
     @Override public void checkPropertyAccess(String key) { }
     @Override public void checkPrintJobAccess() { }
-    @SuppressWarnings(SuppressedWarnings.DEPRECATED_JAVA) public void checkSystemClipboardAccess() { }
-    @SuppressWarnings(SuppressedWarnings.DEPRECATED_JAVA) public void checkAwtEventQueueAccess() { }
+    @SuppressWarnings(SuppressedWarnings.DEPRECATION) public void checkSystemClipboardAccess() { }
+    @SuppressWarnings(SuppressedWarnings.DEPRECATION) public void checkAwtEventQueueAccess() { }
     @Override public void checkPackageAccess(String pkg) { }
     @Override public void checkPackageDefinition(String pkg) { }
     @Override public void checkSetFactory() { }
-    @SuppressWarnings(SuppressedWarnings.DEPRECATED_JAVA) public void checkMemberAccess(Class<?> clazz, int which) { }
+    @SuppressWarnings(SuppressedWarnings.DEPRECATION) public void checkMemberAccess(Class<?> clazz, int which) { }
     @Override public void checkSecurityAccess(String target) { }
 
     @Override public void checkRead(String file) { checkFilesystemReadAccess(file); }

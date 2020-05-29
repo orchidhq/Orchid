@@ -12,6 +12,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
+import com.eden.orchid.api.resources.resource.ExternalResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import org.apache.commons.io.FilenameUtils
 import org.json.JSONObject
@@ -35,9 +36,15 @@ class ExternalIndexGenerator :
 
         if (!EdenUtils.isEmpty(externalIndices)) {
             for (externalIndex in externalIndices) {
-                val indexJson = context.loadAdditionalFile(externalIndex.url)
-                if (indexJson != null) {
-                    val index = OrchidIndex.fromJSON(context, JSONObject(indexJson))
+                val indexResource = context.getDefaultResourceSource(null, null).getResourceEntry(context, externalIndex.url)
+                if (indexResource != null) {
+                    if(indexResource is ExternalResource) {
+                        indexResource.download = true
+                        indexResource.downloadInProdOnly = false
+                    }
+
+                    val resourceContent = indexResource.parseContent(context, null)
+                    val index = OrchidIndex.fromJSON(context, JSONObject(resourceContent))
                     allPages[externalIndex.indexKey] = index
                 }
             }

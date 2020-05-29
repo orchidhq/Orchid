@@ -1,138 +1,154 @@
+<p align="center">
+  <a href="https://orchid.run/">
+    <img width="460" src="https://orchid.run/assets/svg/orchid/logo_top_light.svg" title="Orchid" alt="Orchid">
+  </a>
+  <br>
+  <strong>Build and deploy beautiful documentation sites that grow with you</strong>
+</p>
+<hr/>
+<p align="center">
+  <a href="https://bintray.com/javaeden/Orchid/OrchidCore/_latestVersion">
+    <img src="https://api.bintray.com/packages/javaeden/Orchid/OrchidCore/images/download.svg" title="Current Version" alt="Current Version">
+  </a>
+  <a href="https://www.gnu.org/licenses/lgpl-3.0">
+    <img src="https://img.shields.io/badge/License-LGPL%20v3-blue.svg" title="License: LGPL-3.0" alt="License: LGPL-3.0">
+  </a>
+  <a href="https://travis-ci.org/orchidhq/orchid">
+    <img src="https://travis-ci.org/orchidhq/orchid.svg?branch=dev" title="Linux and Mac Build Status" alt="Linux and Mac Build Status">
+  </a>
+  <a href="https://ci.appveyor.com/project/cjbrooks12/orchid/branch/dev">
+    <img src="https://ci.appveyor.com/api/projects/status/0358qdkmfhbqedo1/branch/dev?svg=true" title="Windows Build status" alt="Windows Build status">
+  </a>
+  <a href="https://www.codacy.com/app/cjbrooks12/Orchid?utm_source=github.com&utm_medium=referral&utm_content=orchidhq/orchid&utm_campaign=Badge_Coverage">
+    <img src="https://api.codacy.com/project/badge/Coverage/8bca7e84b6094c03ae1316278cf63ae1" title="Code Coverage" alt="Code Coverage">
+  </a>
+</p>
+<p align="center">
+  <a href="https://orchid.run/wiki/user-manual/getting-started/quickstart">Quick-Start</a>
+  <span>•</span>
+  <a href="https://orchid.run/wiki/user-manual/getting-started">Documentation</a>
+  <span>•</span>
+  <a href="https://orchid.run/wiki/learn">Tutorials</a>
+  <span>•</span>
+  <a href="https://orchid.run/showcase">Showcase</a>
+  <span>•</span>
+  <a href="https://gitter.im/JavaEden/Orchid">Support</a>
+</p>
 
-# Orchid
+## Quick-Start
 
-[![Linux and Mac Build Status](https://travis-ci.org/orchidhq/orchid.svg?branch=dev "Linux and Mac Build Status")](https://travis-ci.org/orchidhq/orchid)
-[![Windows Build status](https://ci.appveyor.com/api/projects/status/0358qdkmfhbqedo1/branch/dev?svg=true "Windows Build status")](https://ci.appveyor.com/project/cjbrooks12/orchid/branch/dev)
-[![Current Version](https://api.bintray.com/packages/javaeden/Orchid/OrchidCore/images/download.svg "Current Version") ](https://bintray.com/javaeden/Orchid/OrchidCore/_latestVersion)
-[![License: LGPL-3.0](https://img.shields.io/badge/License-LGPL%20v3-blue.svg "Licensed under LGPL-3.0")](https://www.gnu.org/licenses/lgpl-3.0)
-[![Codacy Grade](https://api.codacy.com/project/badge/Grade/8bca7e84b6094c03ae1316278cf63ae1 "Codacy Grade")](https://www.codacy.com/app/cjbrooks12/Orchid?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=orchidhq/orchid&amp;utm_campaign=Badge_Grade)
-[![Codacy Coverage](https://api.codacy.com/project/badge/Coverage/8bca7e84b6094c03ae1316278cf63ae1 "Codacy Coverage")](https://www.codacy.com/app/cjbrooks12/Orchid?utm_source=github.com&utm_medium=referral&utm_content=orchidhq/orchid&utm_campaign=Badge_Coverage)
-[![Gitter chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg "Gitter Chat")](https://gitter.im/JavaEden/Orchid)
-[![Backers on Open Collective](https://opencollective.com/orchidssg/backers/badge.svg)](#backers) 
-[![Sponsors on Open Collective](https://opencollective.com/orchidssg/sponsors/badge.svg)](#sponsors) 
-[![Open Source Helpers](https://www.codetriage.com/orchidhq/orchid/badges/users.svg)](https://www.codetriage.com/orchidhq/orchid)
+<ul>
+  <li>
+    <a href="https://orchid.run/wiki/user-manual/getting-started/quickstart#gradle">
+      <img src="docs/src/orchid/resources/assets/svg/gradle.svg" title="Gradle" alt="Gradle" width="200" height="50">
+    </a>
+  </li>
+  <li>
+    <a href="https://orchid.run/wiki/user-manual/getting-started/quickstart#maven">
+      <img src="docs/src/orchid/resources/assets/svg/maven.svg" title="Maven" alt="Maven" width="200" height="50">
+    </a>
+  </li>
+  <li>
+    <a href="https://orchid.run/wiki/user-manual/getting-started/quickstart#sbt">
+      <img src="docs/src/orchid/resources/assets/svg/sbt.svg" title="SBT" alt="SBT" width="200" height="50">
+    </a>
+  </li>
+  <li>
+    <a href="https://app.netlify.com/start/deploy?repository=https://github.com/orchidhq/OrchidStarter">
+      <img src="https://www.netlify.com/img/deploy/button.svg" title="Deploy to Netlify" alt="Deploy to Netlify" width="200" height="50">
+    </a>
+  </li>
+</ul>
 
-> A beautiful and truly unique documentation engine and static site generator.
-
-![Example Orchid site](https://cdn.statically.io/screenshot/orchid.run)
-
-Orchid is a brand-new, general-purpose static site generator for Java and Kotlin, with a focus on extensibility and 
-aimed at developers looking to improve their technical documentation. Orchid was born out of a desire for better-looking 
-Javadocs and frustration with how difficult is it to manage large Jekyll sites and keep it up-to-date with your code.
-
-Orchid supports a variety of plugins, including a wiki, static pages, blogs, and much more. It aims to have high 
-compatibility with many of the existing static site generators, such as Jekyll, Gitbook, and Hugo, so that migration to 
-Orchid is painless. And if you can't find a plugin to do what you need, Orchid provides an intuitive way to add your own 
-private plugins and a rich API so you can make your site as beautiful and unique as an Orchid.
-
-### Features
-
-- Plugin-driven architecture
-- Multi-theme support
-- Admin interface to manage your content and gain deep insights into your build
-- Link to other Orchid sites
-- Powerful and flexible indexing, unique to Orchid
-- Full-text static search
-- Component-based content management
-- Integrated deployment pipeline
-- Fully replaces Jekyll, Hugo, Gitbook, Javadocs, and more!
-
-[View the full documentation](https://orchid.run) or see the quick-start below.
-
-## Table of Contents
-
-1. [Getting Started](#getting-started)
-1. [User Manual](#user-manual)
-1. [Tutorials](#tutorials)
-1. [Example Orchid Sites](#example-orchid-sites)
-1. [License](#license)
-1. [Contributing](#contributing)
-1. [Contact](#contact)
-
-## Getting Started
-
-Orchid integrates with any new or existing Gradle/Maven project. The simplest way to get started is to deploy the 
-[starter repo](https://github.com/orchidhq/OrchidStarter) directly to Netlify. Just click the button below to 
-automatically clone this repo and deploy it to Netlify. The starter repo includes the 
-[Netlify CMS](https://www.netlifycms.org/), so you will be up and publishing content as soon as possible. You will need 
-to set the Github user/repo in `src/orchid/resources/config.yml`, but the rest of the CMS config is automatically 
-generated based on your current Orchid plugins and configurations. 
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/orchidhq/OrchidStarter)
-
-To run Orchid locally, the only system dependency necessary is a valid Java 8 JDK. Orchid can be integrated with any new
- or existing Gradle, Maven, or sbt project, or bootstrapped manually in any JVM-based scriptlet (such as 
-[kscript](https://github.com/holgerbrandl/kscript)). To get started, pick a Bundle (OrchidAll or OrchidBlog) or manually 
-choose your desired Orchid plugins. You may pick a bundle to start with and add any number of plugins afterward, both 
-official and unofficial.
-
-Orchid can also be integrated into existing projects. The following build tools are currently supported:
-
-- [Gradle](https://orchid.run/wiki/user-manual/getting-started/quickstart#gradle)
-- [Maven](https://orchid.run/wiki/user-manual/getting-started/quickstart#maven)
-- [KScript](https://orchid.run/wiki/user-manual/getting-started/quickstart#kscript)
-- [sbt](https://orchid.run/wiki/user-manual/getting-started/quickstart#sbt)
-
-## User Manual
+## Documentation
 
 Orchid's User Manual will walk you through the main features of Orchid and give you a deeper understanding of each topic
 and feature.
 
-[User Manual](https://orchid.run/wiki/user-manual)
+[Documentation](https://orchid.run/wiki/user-manual/getting-started)
 
 ## Tutorials
 
-There are several tutorials designed to walk you through building an Orchid site from scratch. The source for all 
+There are several tutorials designed to walk you through building an Orchid site from scratch. The source for all
 tutorials can also be found in the [OrchidTutorials repository](https://github.com/orchidhq/OrchidTutorials).
 
 [Tutorials](https://orchid.run/wiki/learn)
 
-## Example Orchid Sites
+## Showcase
 
-* [Official Orchid documentation](https://orchid.run)
-* [Clog documentation](https://javaeden.github.io/Clog/)
-* [Krow documentation](https://javaeden.github.io/Krow/)
-* [caseyjbrooks.com](https://www.caseyjbrooks.com/)
-* [Strikt.io](https://strikt.io/)
-* [PebbleTemplates.io](https://pebbletemplates.io/)
+View the Showcase to see Orchid in action.
 
-## Contributors
+[Showcase](https://orchid.run/showcase)
 
-This project exists thanks to all the people who contribute. 
+## Support
 
-<a href="https://github.com/orchidhq/orchid/graphs/contributors"><img src="https://opencollective.com/orchidssg/contributors.svg?width=890&button=false" /></a>
+### Contributors
 
-## Backers
+This project exists thanks to all the people who contribute. To get involved, please see
+[CONTRIBUTING.md](https://github.com/orchidhq/orchid/blob/dev/.github/CONTRIBUTING.md)
 
-Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/orchidssg#backer)]
+<a href="https://github.com/orchidhq/orchid/graphs/contributors">
+  <img
+    src="https://opencollective.com/orchidssg/contributors.svg?width=890&button=false"
+    title="Contributors"
+    alt="Contributors"
+  />
+</a>
 
-<a href="https://opencollective.com/orchidssg#backers" target="_blank"><img src="https://opencollective.com/orchidssg/backers.svg?width=890"></a>
+### Backers
 
-## Sponsors
+Thank you to all our backers! 🙏
 
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/orchidssg#sponsor)]
+<a href="https://opencollective.com/orchidssg#backers" target="_blank">
+  <img src="https://opencollective.com/orchidssg/backers.svg?width=890" title="Backers" alt="Backers">
+</a>
 
-<a href="https://opencollective.com/orchidssg/sponsor/0/website" target="_blank"><img src="https://opencollective.com/orchidssg/sponsor/0/avatar.svg"></a>
-<a href="https://opencollective.com/orchidssg/sponsor/1/website" target="_blank"><img src="https://opencollective.com/orchidssg/sponsor/1/avatar.svg"></a>
-<a href="https://opencollective.com/orchidssg/sponsor/2/website" target="_blank"><img src="https://opencollective.com/orchidssg/sponsor/2/avatar.svg"></a>
-<a href="https://opencollective.com/orchidssg/sponsor/3/website" target="_blank"><img src="https://opencollective.com/orchidssg/sponsor/3/avatar.svg"></a>
-<a href="https://opencollective.com/orchidssg/sponsor/4/website" target="_blank"><img src="https://opencollective.com/orchidssg/sponsor/4/avatar.svg"></a>
-<a href="https://opencollective.com/orchidssg/sponsor/5/website" target="_blank"><img src="https://opencollective.com/orchidssg/sponsor/5/avatar.svg"></a>
-<a href="https://opencollective.com/orchidssg/sponsor/6/website" target="_blank"><img src="https://opencollective.com/orchidssg/sponsor/6/avatar.svg"></a>
-<a href="https://opencollective.com/orchidssg/sponsor/7/website" target="_blank"><img src="https://opencollective.com/orchidssg/sponsor/7/avatar.svg"></a>
-<a href="https://opencollective.com/orchidssg/sponsor/8/website" target="_blank"><img src="https://opencollective.com/orchidssg/sponsor/8/avatar.svg"></a>
-<a href="https://opencollective.com/orchidssg/sponsor/9/website" target="_blank"><img src="https://opencollective.com/orchidssg/sponsor/9/avatar.svg"></a>
+### Sponsors
 
-## License
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website.
 
-Orchid is open-source software licensed under the GNU Lesser General Public License (LGPL). Please see
+<a href="https://opencollective.com/orchidssg/sponsor/0/website" target="_blank">
+  <img src="https://opencollective.com/orchidssg/sponsor/0/avatar.svg" title="Sponsor 1" alt="Sponsor 1">
+</a>
+<a href="https://opencollective.com/orchidssg/sponsor/1/website" target="_blank">
+  <img src="https://opencollective.com/orchidssg/sponsor/1/avatar.svg" title="Sponsor 2" alt="Sponsor 2">
+</a>
+<a href="https://opencollective.com/orchidssg/sponsor/2/website" target="_blank">
+  <img src="https://opencollective.com/orchidssg/sponsor/2/avatar.svg" title="Sponsor 3" alt="Sponsor 3">
+</a>
+<a href="https://opencollective.com/orchidssg/sponsor/3/website" target="_blank">
+  <img src="https://opencollective.com/orchidssg/sponsor/3/avatar.svg" title="Sponsor 4" alt="Sponsor 4">
+</a>
+<a href="https://opencollective.com/orchidssg/sponsor/4/website" target="_blank">
+  <img src="https://opencollective.com/orchidssg/sponsor/4/avatar.svg" title="Sponsor 5" alt="Sponsor 5">
+</a>
+<a href="https://opencollective.com/orchidssg/sponsor/5/website" target="_blank">
+  <img src="https://opencollective.com/orchidssg/sponsor/5/avatar.svg" title="Sponsor 6" alt="Sponsor 6">
+</a>
+<a href="https://opencollective.com/orchidssg/sponsor/6/website" target="_blank">
+  <img src="https://opencollective.com/orchidssg/sponsor/6/avatar.svg" title="Sponsor 7" alt="Sponsor 7">
+</a>
+<a href="https://opencollective.com/orchidssg/sponsor/7/website" target="_blank">
+  <img src="https://opencollective.com/orchidssg/sponsor/7/avatar.svg" title="Sponsor 8" alt="Sponsor 8">
+</a>
+<a href="https://opencollective.com/orchidssg/sponsor/8/website" target="_blank">
+  <img src="https://opencollective.com/orchidssg/sponsor/8/avatar.svg" title="Sponsor 9" alt="Sponsor 9">
+</a>
+<a href="https://opencollective.com/orchidssg/sponsor/9/website" target="_blank">
+  <img src="https://opencollective.com/orchidssg/sponsor/9/avatar.svg" title="Sponsor 10" alt="Sponsor 10">
+</a>
+
+### License
+
+Orchid is open-source software licensed under the GNU Lesser General Public License (LGPL-3.0). Please see
 [License.md](https://github.com/orchidhq/orchid/blob/dev/License.md)
 
-## Contributing
+### Contact
 
-Please see [CONTRIBUTING.md](https://github.com/orchidhq/orchid/blob/dev/.github/CONTRIBUTING.md)
+Orchid is being actively developed by Casey Brooks. You can reach out with questions, bug reports, or feature requests 
+on any of the following:
 
-## Contact
-
-Orchid is being actively developed by Casey Brooks. Please open an issue here with questions or bug/feature requests, or
-you can reach me directly at cjbrooks12@gmail.com.
+- [Github Issues](https://github.com/orchidhq/Orchid/issues) 
+- [Gitter Chat](https://gitter.im/JavaEden/Orchid) 
+- [Twitter](https://twitter.com/OrchidSSG)
+- [Email me directly](mailto:cjbrooks12@gmail.com)

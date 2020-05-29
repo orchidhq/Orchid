@@ -31,11 +31,12 @@ class FormsGenerator : OrchidGenerator<FormsModel>(GENERATOR_KEY, Stage.CONTENT)
 
     private fun getFormsByDatafiles(context: OrchidContext) : List<Form> {
         return context
+            .getDefaultResourceSource(null, null)
             .getResourceEntries(
+                context,
                 OrchidUtils.normalizePath(baseDir),
                 context.parserExtensions.toTypedArray(),
-                false,
-                null
+                false
             )
             .map { resource ->
                 resource.reference.isUsePrettyUrl = false

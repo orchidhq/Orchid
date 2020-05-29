@@ -6,7 +6,10 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.relations.ThemeRelation;
 import com.google.inject.ImplementedBy;
 
+import javax.annotation.Nonnull;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 @ImplementedBy(ThemeServiceImpl.class)
 public interface ThemeService extends OrchidService {
@@ -19,20 +22,16 @@ public interface ThemeService extends OrchidService {
         return getService(ThemeService.class).getTheme();
     }
 
+    default ThemeRelation getDefaultThemeRelation() {
+        return getService(ThemeService.class).getDefaultThemeRelation();
+    }
+
     default Theme findTheme(String theme) {
         return getService(ThemeService.class).findTheme(theme);
     }
 
     default void pushTheme(Theme theme) {
         getService(ThemeService.class).pushTheme(theme);
-    }
-
-    default void renderPageWithTheme(OrchidPage page, ThemeRelation themeObjectFromGenerator, Consumer<OrchidPage> cb) {
-        getService(ThemeService.class).renderPageWithTheme(page, themeObjectFromGenerator, cb);
-    }
-
-    default void renderPageWithTheme(OrchidPage page, ThemeRelation themeObjectFromGenerator, ThemeRelation themeObjectFromPage, Consumer<OrchidPage> cb) {
-        getService(ThemeService.class).renderPageWithTheme(page, themeObjectFromGenerator, themeObjectFromPage, cb);
     }
 
     default void popTheme() {

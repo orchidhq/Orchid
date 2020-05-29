@@ -1,0 +1,40 @@
+
+{# Context #}
+{% if component.pageContexts is not empty %}
+In:
+<ul>
+{% for pageContext in component.pageContexts %}
+  <li>{{ sourceDocAnchor(title=pageContext.value, itemId=pageContext.value) }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{# Inheritance Hierarchy #}
+{% if component.pageParentHierarchy is not empty %}
+Inheritance Hierarchy:
+<ul>
+{% for pageParent in component.pageParentHierarchy %}
+  <li>{{ sourceDocAnchor(title=pageParent.value, itemId=pageParent.value) }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{# Direct Children #}
+{% if component.pageDirectChildren is not empty %}
+In:
+<ul>
+{% for child in component.pageDirectChildren %}
+  <li>{{ sourceDocAnchor(title=child.text, itemId=child.value) }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{# Indirect Children #}
+{% if component.pageDirectChildren is not empty %}
+In:
+<ul>
+{% for child in component.pageIndirectChildren %}
+  <li>{{ sourceDocAnchor(title=child.text, itemId=child.value) }}</li>
+{% endfor %}
+</ul>
+{% endif %}

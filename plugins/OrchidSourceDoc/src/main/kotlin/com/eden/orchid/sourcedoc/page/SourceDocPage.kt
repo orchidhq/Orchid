@@ -1,8 +1,13 @@
 package com.eden.orchid.sourcedoc.page
 
 import com.copperleaf.kodiak.common.AutoDocument
-import com.copperleaf.kodiak.common.CommentComponent.Companion.TYPE_NAME
+import com.copperleaf.kodiak.common.RichTextComponent.Companion.TYPE_NAME
 import com.copperleaf.kodiak.common.DocElement
+import com.eden.orchid.api.options.annotations.Description
+import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
+import com.eden.orchid.api.theme.components.ComponentHolder
+import com.eden.orchid.sourcedoc.functions.SourcedocAnchorFunction
 import com.eden.orchid.utilities.OrchidUtils
 
 class SourceDocPage<T : DocElement>(
@@ -26,6 +31,16 @@ class SourceDocPage<T : DocElement>(
 
     override val itemIds = listOf(element.id, element.name)
 
+    @Option
+    @Description(
+        "Components to inject into SourceDocPages to provide additional info or context about the element."
+    )
+    lateinit var summaryComponents: ComponentHolder
+
+    override fun getComponentHolders(): Array<ComponentHolder> {
+        return super.getComponentHolders() + summaryComponents
+    }
+
     override fun getTemplates(): List<String> {
         return listOf(
             "${generator.key.decapitalize()}${element.kind.capitalize()}",
@@ -33,7 +48,7 @@ class SourceDocPage<T : DocElement>(
         )
     }
 
-    override fun loadAssets() {
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
         addCss("assets/css/orchidSourceDoc.scss")
     }
 
@@ -58,7 +73,7 @@ class SourceDocPage<T : DocElement>(
             .components
             .map {
                 if (it.kind == TYPE_NAME) {
-                    context.linkToPage(this, it.text, generator.key, "", it.value, "")
+                    SourcedocAnchorFunction.getLinkToSourcedocPage(context, this, it.text, it.value ?: "")
                 } else {
                     it.text
                 }

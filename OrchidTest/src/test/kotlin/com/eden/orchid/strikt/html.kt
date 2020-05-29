@@ -8,11 +8,12 @@ import org.junit.jupiter.api.Test
 import strikt.api.Assertion
 import strikt.api.expectCatching
 import strikt.api.expectThat
-import strikt.assertions.failed
 import strikt.assertions.isA
 import strikt.assertions.isEqualTo
+import strikt.assertions.isFailure
 import strikt.assertions.isNotNull
-import strikt.assertions.succeeded
+import strikt.assertions.isSuccess
+import javax.management.Query.div
 
 class StriktHtmlTest : OrchidUnitTest {
 
@@ -48,26 +49,26 @@ class StriktHtmlTest : OrchidUnitTest {
         """.trimIndent()
 
         expectCatching {
-            expectThat(html)
-                .asHtml()
-                .select(".c1 .c2 p") {
-                    matches()
-                        .attr("attr-key") {
-                            isEqualTo("value")
-                        }
-                }
-        }.succeeded()
+                expectThat(html)
+                    .asHtml()
+                    .select(".c1 .c2 p") {
+                        matches()
+                            .attr("attr-key") {
+                                isEqualTo("value")
+                            }
+                    }
+            }.isSuccess()
 
         expectCatching {
-            expectThat(html)
-                .asHtml()
-                .select(".c1 .c2 p") {
-                    matches()
-                        .attr("attr-key") {
-                            isEqualTo("other value")
-                        }
-                }
-        }.failed().isA<AssertionError>()
+                expectThat(html)
+                    .asHtml()
+                    .select(".c1 .c2 p") {
+                        matches()
+                            .attr("attr-key") {
+                                isEqualTo("other value")
+                            }
+                    }
+            }.isFailure().isA<AssertionError>()
             .get { message }
             .isNotNull()
             .checkAndLog(
@@ -87,84 +88,6 @@ class StriktHtmlTest : OrchidUnitTest {
                 |                    found "value"
                 """.trimMargin()
             )
-    }
-
-    @Test
-    fun test03() {
-        val html = """
-            <div class="c1">
-              <div class="c2">
-                <p>Paragraph test</p>
-              </div>
-            </div>
-            """.trimIndent()
-
-        expectThat(html)
-            .asHtml()
-            .select(".c1 .c2") {
-                matches()
-                    .innerHtmlMatches {
-                        p {
-                            +"Paragraph test"
-                        }
-                    }
-            }
-    }
-
-    @Test
-    fun test04() {
-        val html = """
-            <div class="c1">
-              <div class="c2">
-                <p>Paragraph test</p>
-              </div>
-            </div>
-            """.trimIndent()
-
-        expectThat(html)
-            .asHtml()
-            .select(".c1 .c2") {
-                matches()
-                    .outerHtmlMatches {
-                        div("c2") {
-                            p {
-                                +"Paragraph test"
-                            }
-                        }
-                    }
-            }
-    }
-
-    @Test
-    fun test05() {
-        val html = """
-            <html>
-            <head>
-              <title>A Title</title>
-            </head>
-            <body>
-              <div class="c1">
-                <div class="c2">
-                  <p>Paragraph test</p>
-                </div>
-              </div>
-            </body>
-            </html>
-            """.trimIndent()
-
-        expectThat(html)
-            .asHtml()
-            .select("body") {
-                innerHtmlMatches {
-                    div("c1") {
-                        div("c2") {
-                            p {
-                                +"Paragraph test"
-                            }
-                        }
-                    }
-                }
-            }
     }
 
     fun Assertion.Builder<String>.checkAndLog(expected: String): Assertion.Builder<String> {

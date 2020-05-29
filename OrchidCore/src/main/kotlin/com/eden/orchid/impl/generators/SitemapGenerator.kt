@@ -62,7 +62,7 @@ class SitemapGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, S
     @Description(value = "The sitemap for a section of your site, grouped by generator.", name = "Sitemap")
     class SitemapPage internal constructor(context: OrchidContext, key: String, val entries: List<OrchidPage>?) :
         OrchidPage(
-            context.getResourceEntry("sitemap.xml.peb", null),
+            context.getDefaultResourceSource(null, null).getResourceEntry(context, "sitemap.xml.peb"),
             RenderService.RenderMode.RAW,
             "sitemap",
             "Sitemap"
@@ -78,7 +78,7 @@ class SitemapGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, S
     @Description(value = "The root sitemap, with links to all individual sitemaps.", name = "Sitemap Index")
     class SitemapIndexPage internal constructor(context: OrchidContext, val sitemaps: List<SitemapPage>) :
         OrchidPage(
-            context.getResourceEntry("sitemapIndex.xml.peb", null),
+            context.getDefaultResourceSource(null, null).getResourceEntry(context, "sitemapIndex.xml.peb"),
             RenderService.RenderMode.RAW,
             "sitemapIndex",
             "Sitemap Index"
@@ -94,7 +94,7 @@ class SitemapGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, S
     @Description(value = "Your site's robots.txt file, for directing web crawlers.", name = "Robots.txt")
     class RobotsPage internal constructor(context: OrchidContext, val sitemap: SitemapIndexPage?) :
         OrchidPage(
-            context.getResourceEntry("robots.txt.peb", null),
+            context.getDefaultResourceSource(null, null).getResourceEntry(context, "robots.txt.peb"),
             RenderService.RenderMode.RAW,
             "robots",
             "Robots"

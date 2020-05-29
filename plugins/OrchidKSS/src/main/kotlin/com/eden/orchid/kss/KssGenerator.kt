@@ -58,7 +58,7 @@ class KssGenerator : OrchidGenerator<KssModel>(GENERATOR_KEY, Stage.CONTENT) {
 
         val pages = ArrayList<KssPage>()
 
-        val resources = context.getResourceEntries(sectionBaseDir, arrayOf("css", "sass", "scss", "less"), true, LocalResourceSource)
+        val resources = context.getDefaultResourceSource(LocalResourceSource, null) .getResourceEntries(context, sectionBaseDir, arrayOf("css", "sass", "scss", "less"), true)
         val parser = KssParser(resources)
         parser.sections.values.forEach {
             val page = KssPage(context, it)

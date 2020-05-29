@@ -31,7 +31,7 @@ class PagesGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, Sta
     lateinit var baseDir: String
 
     override fun startIndexing(context: OrchidContext): Model {
-        val resourcesList = context.getResourceEntries(baseDir, null, true, LocalResourceSource)
+        val resourcesList = context.getDefaultResourceSource(LocalResourceSource, null).getResourceEntries(context, baseDir, null, true)
         val pages = ArrayList<StaticPage>()
 
         val pagesMap = HashMap<String, StaticPage>()
@@ -65,17 +65,6 @@ class PagesGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, Sta
 
         val collections = getCollections(pages)
         return modelOf({ pages }, { collections })
-    }
-
-    override fun startGeneration(context: OrchidContext, model: Model) {
-        model
-            .allPages
-            .filterIsInstance<StaticPage>()
-            .forEach {
-                context.renderPageWithTheme(it, this@PagesGenerator.theme, it.theme) { page ->
-                    context.render(page)
-                }
-            }
     }
 
     private fun getCollections(

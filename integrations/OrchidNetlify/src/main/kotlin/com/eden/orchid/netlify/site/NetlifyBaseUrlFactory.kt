@@ -1,10 +1,7 @@
 package com.eden.orchid.netlify.site
 
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.options.annotations.AllOptions
-import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.site.BaseUrlFactory
-import com.eden.orchid.utilities.debugger
 import com.google.inject.name.Named
 import javax.inject.Inject
 
@@ -27,9 +24,9 @@ class NetlifyBaseUrlFactory
 
     override fun getBaseUrl(context: OrchidContext): String {
         return when {
-            isBranchDeploy -> deployPrimeUrl.debugger() // branch deploys
-            isPullRequest -> deployUrl.debugger()       // PR deploy previews
-            else -> url.debugger()                      // production deploys
-        }.debugger()
+            isBranchDeploy -> deployPrimeUrl // branch deploys
+            isPullRequest -> deployUrl       // PR deploy previews
+            else -> url                      // production deploys
+        }
     }
 }

@@ -1,15 +1,9 @@
 package com.eden.orchid.api.resources.resourcesource
 
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.registration.OrchidModule
-import com.eden.orchid.api.resources.resource.ClasspathResource
 import com.eden.orchid.api.resources.resource.OrchidResource
-import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
 import org.apache.commons.io.FilenameUtils
-import java.util.ArrayList
-import java.util.Arrays
-import javax.inject.Inject
 
 /**
  * An OrchidResourceSource that serves from a static list of resources.
@@ -23,6 +17,7 @@ class HardcodedResourceSource(
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
         val normalizedName = OrchidUtils.normalizePath(fileName)
         return resources
+            .asSequence()
             .map { it(context) }
             .find { it.reference.originalFullFileName == normalizedName }
     }
@@ -34,6 +29,7 @@ class HardcodedResourceSource(
         recursive: Boolean
     ): List<OrchidResource> {
         return resources
+            .asSequence()
             .map { it(context) }
             .filter {
                 val cleanPath = OrchidUtils.normalizePath(it.reference.originalPath)
@@ -46,6 +42,7 @@ class HardcodedResourceSource(
                 else
                     true
             }
+            .toList()
     }
 
 }

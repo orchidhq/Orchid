@@ -11,7 +11,6 @@ import com.eden.orchid.posts.pages.PostPage
 
 class PostsModel(
     val context: OrchidContext,
-    val excerptSeparator: String,
     var categoriesList: List<CategoryModel>,
     val authorPages: List<AuthorPage>
 ) : OrchidGenerator.Model {

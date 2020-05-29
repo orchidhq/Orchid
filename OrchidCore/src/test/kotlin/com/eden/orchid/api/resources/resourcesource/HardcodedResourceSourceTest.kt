@@ -1,32 +1,25 @@
 package com.eden.orchid.api.resources.resourcesource
 
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.resources.resource.FileResource
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.strikt.asExpected
-import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.testhelpers.OrchidUnitTest
 import com.eden.orchid.utilities.readToString
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.mockito.Mockito.mock
-import strikt.api.expectThat
-import strikt.api.expectThrows
 import strikt.assertions.all
-import strikt.assertions.containsExactly
 import strikt.assertions.containsExactlyInAnyOrder
-import strikt.assertions.hasSize
 import strikt.assertions.isA
 import strikt.assertions.isEqualTo
 import strikt.assertions.isNotNull
 import strikt.assertions.map
-import strikt.assertions.size
 
-class HardcodedResourceSourceTest {
+class HardcodedResourceSourceTest : OrchidUnitTest {
 
     val underTest by lazy {
-
         HardcodedResourceSource(
             listOf<(OrchidContext) -> OrchidResource>(
                 { createStringResource(it, "res.md") },
@@ -96,10 +89,10 @@ class HardcodedResourceSourceTest {
 
 
     companion object {
-        private fun createStringResource(context: OrchidContext, name: String): OrchidResource {
+        fun createStringResource(context: OrchidContext, name: String, content: String = name): OrchidResource {
             return StringResource(
                 OrchidReference(context, name),
-                name
+                content
             )
         }
     }

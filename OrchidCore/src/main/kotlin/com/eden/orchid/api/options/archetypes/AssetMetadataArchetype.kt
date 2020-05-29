@@ -5,6 +5,7 @@ import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionArchetype
 import com.eden.orchid.api.options.annotations.Description
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.theme.assets.AssetPage
 import com.eden.orchid.utilities.OrchidUtils
 
@@ -22,8 +23,8 @@ constructor(
     private val context: OrchidContext
 ) : OptionArchetype {
 
-    override fun getOptions(target: Any, archetypeKey: String): Map<String, Any>? {
-        var data: Map<String, Any>? = null
+    override fun getOptions(target: Any, archetypeKey: String): Map<String, Any?>? {
+        var data: Map<String, Any?>? = null
 
         if (target is AssetPage) {
 
@@ -35,7 +36,7 @@ constructor(
             )
 
             if (!EdenUtils.isEmpty(metadataFilename)) {
-                data = context.getDatafile(metadataFilename)
+                data = context.getDataResourceSource(LocalResourceSource).getDatafile(context, metadataFilename)
             }
         }
 

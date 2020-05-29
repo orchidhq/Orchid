@@ -3,6 +3,7 @@ package com.eden.orchid.search.components
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.components.OrchidComponent
 
 @Description(
@@ -28,10 +29,10 @@ class AlgoliaDocSearchComponent : OrchidComponent("algoliaDocsearch", true) {
     @Description("Set debug to true if you want to inspect the dropdown.")
     var debug: Boolean = false
 
-    override fun loadAssets() {
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
         addCss("https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css")
         addJs("https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js")
-        addJs("assets/js/algoliaDocsearch.js").apply { inlined() }
+        addJs("assets/js/algoliaDocsearch.js") { inlined = true }
     }
 
     override fun isHidden(): Boolean {

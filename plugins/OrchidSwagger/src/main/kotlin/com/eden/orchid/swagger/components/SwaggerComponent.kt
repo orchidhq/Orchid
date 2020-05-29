@@ -3,6 +3,7 @@ package com.eden.orchid.swagger.components
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.components.OrchidComponent
 import org.json.JSONObject
 
@@ -27,11 +28,11 @@ class SwaggerComponent : OrchidComponent("swaggerUi") {
     @Description("The full JSON object that initializes the Swagger UI, allowing you to completely customize it.")
     lateinit var allSwaggerOptions: JSONObject
 
-    override fun loadAssets() {
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
         addCss("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/$swaggerUiVersion/swagger-ui.css")
         addJs("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/$swaggerUiVersion/swagger-ui-bundle.js")
         addJs("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/$swaggerUiVersion/swagger-ui-standalone-preset.js")
-        addJs("assets/js/swaggerUiStart.js").apply { inlined() }
+        addJs("assets/js/swaggerUiStart.js") { inlined = true }
     }
 
 }

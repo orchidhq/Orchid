@@ -15,6 +15,10 @@ OrchidBitbucket connects Orchid to Bitbucket's Cloud services, including integra
 [Wikis](https://confluence.atlassian.com/bitbucket/wikis-221449748.html) and publishing your site directly to 
 [Bitbucket Cloud](https://confluence.atlassian.com/bitbucket/publishing-a-website-on-bitbucket-cloud-221449776.html).
 
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
 ## Demo
 
 This plugin is currently still in progress and not all features are available with a demo yet. Please check back later.

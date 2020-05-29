@@ -4,6 +4,9 @@ import com.eden.orchid.api.compilers.OrchidCompiler
 import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.OrchidResource
+import com.vladsch.flexmark.ext.attributes.AttributesExtension
+import com.vladsch.flexmark.ext.attributes.FencedCodeAddType
+import com.vladsch.flexmark.ext.anchorlink.AnchorLinkExtension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.ast.IRender
@@ -29,13 +32,14 @@ constructor(
     private val renderer: IRender
 
     init {
-
         val options = MutableDataSet()
         options.set(HtmlRenderer.GENERATE_HEADER_ID, true)
         options.set(HtmlRenderer.RENDER_HEADER_ID, true)
         options.set(Parser.HTML_BLOCK_DEEP_PARSE_BLANK_LINE_INTERRUPTS, false)
         options.set(Parser.HTML_BLOCK_DEEP_PARSER, true)
-
+        options.set(AnchorLinkExtension.ANCHORLINKS_WRAP_TEXT, false)
+        options.set(AnchorLinkExtension.ANCHORLINKS_ANCHOR_CLASS, "anchor")
+        options.set(AttributesExtension.FENCED_CODE_ADD_ATTRIBUTES, FencedCodeAddType.ADD_TO_PRE_CODE)
 
         options.set(Parser.EXTENSIONS, extensionSet)
 

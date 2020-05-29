@@ -1,6 +1,5 @@
 package com.eden.orchid.impl.resources.resourcesource
 
-import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.resourcesource.FileResourceSource
 import com.eden.orchid.api.resources.resourcesource.JarResourceSource
 import com.eden.orchid.api.resources.resourcesource.JarResourceSource.Companion.jarForClass
@@ -8,9 +7,11 @@ import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource
 import com.eden.orchid.api.resources.resourcesource.PluginResourceSource
 import java.io.File
 import java.nio.file.Path
-import javax.inject.Inject
+import javax.annotation.Nonnull
 
 object PluginJarResourceSource {
+    @JvmStatic
+    @Nonnull
     fun create(
         pluginClass: Class<*>,
         priority: Int,

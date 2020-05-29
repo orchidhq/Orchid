@@ -3,6 +3,7 @@ package com.eden.orchid.languages.highlighter.components
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.components.OrchidComponent
 
 @Description(
@@ -28,8 +29,8 @@ class KotlinPlaygroundComponent : OrchidComponent("kotlinPlayground", true) {
     @Description("The URL to a self-hosted server instance for running code snippets.")
     lateinit var server: String
 
-    override fun loadAssets() {
-        addJs(kotlinPlaygroundSource).apply {
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
+        addJs(kotlinPlaygroundSource) {
             attrs["data-selector"] = selector
 
             if (server.isNotBlank()) {

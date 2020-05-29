@@ -7,23 +7,17 @@ import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.TestResults
 import strikt.api.Assertion
 
-fun OrchidIntegrationTest.kotlindocSetup(showRunnerLogs: Boolean = false) {
-    sourceDocTestSetup(
-        NewKotlindocGenerator.type,
-        NewKotlindocGenerator.nodeKinds,
-        NewKotlindocGenerator.otherSourceKinds,
-        showRunnerLogs
-    )
-}
+fun OrchidIntegrationTest.kotlindocSetup(modules: List<String> = emptyList(), showRunnerLogs: Boolean = false) {
+    val type = NewKotlindocGenerator.type
+    val nodeKinds = NewKotlindocGenerator.nodeKinds
+    val otherSourceKinds = NewKotlindocGenerator.otherSourceKinds
 
-fun OrchidIntegrationTest.kotlindocSetup(modules: List<String>, showRunnerLogs: Boolean = false) {
-    sourceDocTestSetup(
-        NewKotlindocGenerator.type,
-        NewKotlindocGenerator.nodeKinds,
-        NewKotlindocGenerator.otherSourceKinds,
-        modules,
-        showRunnerLogs
-    )
+    if(modules.isEmpty()) {
+        singleModuleSetup(type, showRunnerLogs, nodeKinds, otherSourceKinds, null)
+    }
+    else {
+        multiModuleSetup(type, modules, showRunnerLogs, nodeKinds, otherSourceKinds)
+    }
 }
 
 fun Assertion.Builder<TestResults>.assertKotlinPages(baseDir: String = "/kotlindoc"): Assertion.Builder<TestResults> {
@@ -59,15 +53,14 @@ fun Assertion.Builder<TestResults>.assertKotlinPages(baseDirs: List<String>): As
 }
 
 fun Assertion.Builder<TestResults>.assertKotlinCollections(baseDirs: List<String> = emptyList()): Assertion.Builder<TestResults> {
-    return if(baseDirs.isNotEmpty()) {
+    return if (baseDirs.isNotEmpty()) {
         baseDirs.fold(this) { acc, dir ->
             acc
                 .collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, dir)
                 .collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, "$dir-classes")
                 .collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, "$dir-packages")
         }.collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, "modules")
-    }
-    else {
+    } else {
         this
             .collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, "modules")
             .collectionWasCreated(NewKotlindocGenerator.GENERATOR_KEY, NewKotlindocGenerator.GENERATOR_KEY)

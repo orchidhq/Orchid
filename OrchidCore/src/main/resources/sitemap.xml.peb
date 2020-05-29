@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
+{#- @pebvariable name="page" type="com.eden.orchid.impl.generators.SitemapGenerator.SitemapPage" #}
 <urlset
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    {% for entry in page.entries -%}
+    {%- for entry in page.entries %}
     <url>
         <loc>{{- entry.link -}}</loc>
         <lastmod>{{- entry.lastModifiedDate|localDate('YYYY-MM-dd') -}}</lastmod>
-        {% if entry.changeFrequency is not empty -%}
+        {%- if entry.changeFrequency is not empty %}
         <changefreq>{{- entry.changeFrequency -}}</changefreq>
-        {%- endif -%}
-        {% if entry.changeFrequency != 0.0 -%}
+        {%- endif %}
         <priority>{{- entry.relativePriority -}}</priority>
-        {% endif %}
     </url>
-    {% endfor %}
+    {%- endfor %}
 </urlset>

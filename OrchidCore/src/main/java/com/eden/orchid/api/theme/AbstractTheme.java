@@ -1,86 +1,52 @@
 package com.eden.orchid.api.theme;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
 import com.eden.orchid.api.options.annotations.AllOptions;
 import com.eden.orchid.api.options.annotations.Description;
+import com.eden.orchid.api.options.annotations.ImpliedKey;
 import com.eden.orchid.api.options.annotations.Option;
-import com.eden.orchid.api.resources.ResourceServiceImpl;
-import com.eden.orchid.api.resources.resource.JarResource;
-import com.eden.orchid.api.resources.resource.OrchidResource;
-import com.eden.orchid.api.resources.resourcesource.JarResourceSource;
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource;
 import com.eden.orchid.api.resources.resourcesource.ThemeResourceSource;
-import com.eden.orchid.api.theme.assets.AssetHolder;
-import com.eden.orchid.api.theme.assets.AssetHolderDelegate;
-import com.eden.orchid.api.theme.assets.CssPage;
-import com.eden.orchid.api.theme.assets.JsPage;
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate;
+import com.eden.orchid.api.theme.assets.ExtraCss;
+import com.eden.orchid.api.theme.assets.ExtraJs;
+import com.eden.orchid.api.theme.assets.WithAssets;
 import com.eden.orchid.api.theme.components.ComponentHolder;
-import com.eden.orchid.api.theme.components.OrchidComponent;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.impl.resources.resourcesource.PluginJarResourceSource;
-import com.eden.orchid.utilities.CacheKt;
-import com.eden.orchid.utilities.LRUCache;
-import com.eden.orchid.utilities.OrchidUtils;
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
-import java.util.jar.JarFile;
+import java.util.function.Supplier;
 
-public abstract class AbstractTheme implements OptionsHolder, AssetHolder, Comparable<AbstractTheme> {
+public abstract class AbstractTheme implements OptionsHolder, WithAssets, Comparable<AbstractTheme> {
 
     @Nullable
     private OrchidResourceSource themeResourceSource;
     protected final OrchidContext context;
     protected final String key;
     protected final int priority;
-    protected final AssetHolder assetHolder;
 
     @AllOptions
     private Map<String, Object> allData;
-
-    @Option
-    @Description("Add extra CSS files to every page rendered with this theme, which will be compiled just like the " +
-            "rest of the site's assets."
-    )
-    protected String[] extraCss;
-
-    @Option
-    @Description("Add extra Javascript files to every page rendered with this theme, which will be compiled just " +
-            "like the rest of the site's assets."
-    )
-    protected String[] extraJs;
-
-    private boolean hasAddedAssets;
-
-    private boolean hasRenderedAssets;
-
-    protected String preferredTemplateExtension;
 
     private boolean isUsingCurrentPage;
     private OrchidPage currentPage;
 
     public AbstractTheme(OrchidContext context, String key, int priority) {
         this.key = key;
-        this.assetHolder = new AssetHolderDelegate(context, this, "theme");
-        this.preferredTemplateExtension = "peb";
         this.context = context;
         this.priority = priority;
     }
 
     public void clearCache() {
-        assetHolder.clearAssets();
-        hasAddedAssets = false;
-        hasRenderedAssets = false;
         themeResourceSource = null;
     }
 
@@ -88,71 +54,83 @@ public abstract class AbstractTheme implements OptionsHolder, AssetHolder, Compa
 
     }
 
-    public final void addAssets() {
-        if(!hasAddedAssets) {
-            withNamespace(getKey() + "/" + Integer.toHexString(this.hashCode()), () -> {
-                loadAssets();
-                OrchidUtils.addExtraAssetsTo(context, extraCss, extraJs, this, this, "theme");
-            });
-            hasAddedAssets = true;
-        }
+    public String getPreferredTemplateExtension() {
+        return "peb";
     }
 
-    protected void loadAssets() {
+// Resource Source
+//----------------------------------------------------------------------------------------------------------------------
 
-    }
-
-    @Nullable
+    @Nonnull
     public OrchidResourceSource getResourceSource() {
         if(themeResourceSource == null) {
-            this.themeResourceSource = PluginJarResourceSource.INSTANCE.create(this.getClass(), priority,  ThemeResourceSource.INSTANCE);
+            this.themeResourceSource = PluginJarResourceSource.create(this.getClass(), priority,  ThemeResourceSource.INSTANCE);
         }
 
         return themeResourceSource;
     }
 
-    public final void renderAssets() {
-        if (!isHasRenderedAssets()) {
-            getScripts()
-                    .stream()
-                    .forEach(context::render);
-            getStyles()
-                    .stream()
-                    .forEach(context::render);
-            hasRenderedAssets = true;
-        }
-    }
-
-    @Override
-    public final List<JsPage> getScripts() {
-        addAssets();
-        List<JsPage> scripts = new ArrayList<>();
-        scripts.addAll(assetHolder.getScripts());
-        OrchidUtils.addComponentAssets(currentPage, getComponentHolders(), scripts, OrchidComponent::getScripts);
-
-        return scripts;
-    }
-
-    @Override
-    public final List<CssPage> getStyles() {
-        addAssets();
-        List<CssPage> styles = new ArrayList<>();
-        styles.addAll(assetHolder.getStyles());
-        OrchidUtils.addComponentAssets(currentPage, getComponentHolders(), styles, OrchidComponent::getStyles);
-
-        return styles;
-    }
-
-    protected ComponentHolder[] getComponentHolders() {
+    public ComponentHolder[] getComponentHolders() {
         return new ComponentHolder[] { };
     }
 
-    public final void doWithCurrentPage(@Nonnull OrchidPage currentPage, Consumer<AbstractTheme> callback) {
+    public final <T> T doWithCurrentPage(@Nonnull OrchidPage currentPage, Supplier<T> callback) {
         if(currentPage == null) throw new NullPointerException("Page cannot be null");
 
         this.currentPage = currentPage;
-        callback.accept(this);
+        T result = callback.get();
         this.currentPage = null;
+        return result;
+    }
+
+// Assets
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Option
+    @Description("Add extra CSS files to every page rendered with this theme, which will be compiled just like the " +
+            "rest of the site's assets."
+    )
+    @ImpliedKey(typeKey = "asset")
+    private List<ExtraCss> extraCss;
+
+    @Option
+    @Description("Add extra Javascript files to every page rendered with this theme, which will be compiled just " +
+            "like the rest of the site's assets."
+    )
+    @ImpliedKey(typeKey = "asset")
+    private List<ExtraJs> extraJs;
+
+    @Nonnull
+    @Override
+    public final AssetManagerDelegate createAssetManagerDelegate(@Nonnull OrchidContext context) {
+        String prefix = getKey() + "/" + Integer.toHexString(this.hashCode());
+        return new AssetManagerDelegate(context, this, "theme", prefix);
+    }
+
+    @Nonnull
+    @Override
+    public final List<ExtraCss> getExtraCss() {
+        return extraCss;
+    }
+    public final void setExtraCss(List<ExtraCss> extraCss) {
+        this.extraCss = extraCss;
+    }
+
+    @Nonnull
+    @Override
+    public final List<ExtraJs> getExtraJs() {
+        return extraJs;
+    }
+    public final void setExtraJs(List<ExtraJs> extraJs) {
+        this.extraJs = extraJs;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void loadAssets(@Nonnull AssetManagerDelegate delegate) {
+
     }
 
 // Map Implementation
@@ -212,52 +190,16 @@ public abstract class AbstractTheme implements OptionsHolder, AssetHolder, Compa
         return this.key;
     }
 
-    public AssetHolder getAssetHolder() {
-        return this.assetHolder;
-    }
-
     public Map<String, Object> getAllData() {
         return this.allData;
-    }
-
-    public String[] getExtraCss() {
-        return this.extraCss;
-    }
-
-    public String[] getExtraJs() {
-        return this.extraJs;
-    }
-
-    public boolean isHasRenderedAssets() {
-        return this.hasRenderedAssets;
-    }
-
-    public String getPreferredTemplateExtension() {
-        return this.preferredTemplateExtension;
     }
 
     public void setAllData(Map<String, Object> allData) {
         this.allData = allData;
     }
 
-    public void setExtraCss(String[] extraCss) {
-        this.extraCss = extraCss;
-    }
-
-    public void setExtraJs(String[] extraJs) {
-        this.extraJs = extraJs;
-    }
-
-    public void setHasRenderedAssets(boolean hasRenderedAssets) {
-        this.hasRenderedAssets = hasRenderedAssets;
-    }
-
-    public void setPreferredTemplateExtension(String preferredTemplateExtension) {
-        this.preferredTemplateExtension = preferredTemplateExtension;
-    }
-
     @Override
-    public int compareTo(@NotNull AbstractTheme o) {
+    public int compareTo(@Nonnull AbstractTheme o) {
         return this.priority - o.priority;
     }
 }

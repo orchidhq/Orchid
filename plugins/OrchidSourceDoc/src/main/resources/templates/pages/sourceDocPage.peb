@@ -32,7 +32,10 @@
   </div>
 
 {% else %}
-  <h{{ depth }} class="sourcedoc-section section-name">{{ section.name|capitalize }}</h{{ depth }}>
+  {% if depth > 1 %}
+    <h{{ depth }} class="sourcedoc-section section-name">{{ section.name|capitalize }}</h{{ depth }}>
+  {% endif %}
+
   {% for element in section.elements %}
     <div class="sourcedoc-section section-element" id="{{ page.elementId(element) }}">
       {% if depth > 1 %}
@@ -41,6 +44,12 @@
       <p class="sourcedoc-section section-signature">
         <code>{{ __renderSignature(page, element) }}</code>
       </p>
+
+      {% if depth == 1 %}
+        {% embed 'includes/componentHolder' with {"componentHolder": page.summaryComponents} %}
+        {% endembed %}
+      {% endif %}
+
       <div class="sourcedoc-section section-comments">{{ page.renderComment(element)|compileAs('md') }}</div>
 
       {% set childrenSections = page.getSectionsData(element) %}
@@ -59,4 +68,4 @@
 tags in the following macros. This also must be done in the template if we do not wish to apply manual escaping from a
 utility function in the Orchid plugin code (which we definitely do not), since some of the components may render literal
 '<' or '>' (which must be escaped), while others may render raw HTML link tags (which should not be escaped). #}
-{% macro __renderSignature(page, element) %}{% for signatureComponent in element.signature -%}{% if signatureComponent.kind == "typeName" %}{{ anchor(title=signatureComponent.text, itemId=signatureComponent.value, collectionType=page.moduleType) }}{% else %}{{ signatureComponent.text }}{% endif %}{% endfor %}{% endmacro %}
+{% macro __renderSignature(page, element) %}{% for signatureComponent in element.signature -%}{% if signatureComponent.kind == "typeName" %}{{ sourceDocAnchor(title=signatureComponent.text, itemId=signatureComponent.value) }}{% else %}{{ signatureComponent.text }}{% endif %}{% endfor %}{% endmacro %}

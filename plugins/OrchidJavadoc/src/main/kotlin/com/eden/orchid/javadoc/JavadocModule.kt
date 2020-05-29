@@ -1,3 +1,4 @@
+@file:Suppress(SuppressedWarnings.DEPRECATION)
 package com.eden.orchid.javadoc
 
 import com.copperleaf.kodiak.java.JavadocInvokerImpl
@@ -9,13 +10,14 @@ import com.eden.orchid.javadoc.menu.AllClassesMenuItemType
 import com.eden.orchid.javadoc.menu.AllPackagesMenuItemType
 import com.eden.orchid.javadoc.menu.ClassDocLinksMenuItemType
 import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.SuppressedWarnings
 import com.eden.orchid.utilities.addToSet
 import com.google.inject.Provides
 
 class JavadocModule : OrchidModule() {
 
     override fun configure() {
-        if(OrchidFlags.getInstance().getFlagValue<Boolean?>("experimentalSourceDoc") == true) {
+        if(OrchidFlags.getInstance().getFlagValue<Boolean?>("legacySourceDoc") != true) {
             addToSet<OrchidGenerator<*>, NewJavadocGenerator>()
         }
         else {

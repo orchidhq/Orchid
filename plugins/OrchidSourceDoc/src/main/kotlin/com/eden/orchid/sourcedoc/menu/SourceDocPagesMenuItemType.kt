@@ -47,22 +47,9 @@ class SourceDocPagesMenuItemType : OrchidMenuFactory("sourcedocPages") {
         page: OrchidPage
     ): List<MenuItem> {
         return try {
-            val model: SourceDocModel? =
-                context.resolve(SourceDocModel::class.java, moduleType) ?: context.resolve(SourceDocModel::class.java)
-
-            // no model, return early
-            if (model == null) return emptyList()
-
-            val module = if (model.modules.size > 1 && moduleName.isNotBlank()) {
-                model.modules.firstOrNull { it.name == moduleName }
-            } else if (model.modules.size == 1) {
-                model.modules.single()
-            } else {
-                Clog.e("Cannot find module of type '{}' named '{}'", moduleType, moduleName)
-                null
-            }
-
+            val module = SourceDocModel.getModule(context, moduleType, moduleName)
             if (module == null) return emptyList()
+
             if (node.isNotBlank()) {
                 val pages: List<SourceDocPage<*>> = module
                     .nodes

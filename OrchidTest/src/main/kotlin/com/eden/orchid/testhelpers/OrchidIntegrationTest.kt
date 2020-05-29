@@ -49,20 +49,29 @@ open class OrchidIntegrationTest(
 
     @Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
     fun configObject(flag: String, json: String) {
-        if (config.containsKey(flag)) {
-            val o = config[flag]
-            if (o is Map<*, *>) {
-                config[flag] = EdenUtils.merge(o as Map<String, *>, JSONObject(json).toMap())
-            } else {
-                config[flag] = JSONObject(json).toMap()
-            }
-        } else {
-            config[flag] = JSONObject(json).toMap()
+        configObject(flag, JSONObject(json).toMap())
+    }
+
+    @Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
+    fun config(jsonBuilder: JsonObjectBuilder.() -> Unit) {
+        val result = obj(jsonBuilder)
+        result.entries.forEach {
+            configObject(it.key, it.value)
         }
     }
 
-    fun configArray(flag: String, json: String) {
-        config[flag] = JSONArray(json).toList()
+    @Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
+    fun configObject(flag: String, json: Any) {
+        if (config.containsKey(flag)) {
+            val o = config[flag]
+            if (o is Map<*, *> && json is Map<*, *>) {
+                config[flag] = EdenUtils.merge(o as Map<String, *>, json as Map<String, *>)
+            } else {
+                config[flag] = json
+            }
+        } else {
+            config[flag] = json
+        }
     }
 
     fun resource(path: String, content: String, json: String) {

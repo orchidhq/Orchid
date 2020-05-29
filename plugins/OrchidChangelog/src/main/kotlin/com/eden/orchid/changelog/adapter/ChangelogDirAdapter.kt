@@ -27,11 +27,11 @@ class ChangelogDirAdapter : ChangelogAdapter {
     override fun getType() = "directory"
 
     override fun loadChangelogEntries(context: OrchidContext): List<ChangelogVersion> {
-        return context.getResourceEntries(
+        return context.getDefaultResourceSource(LocalResourceSource, null).getResourceEntries(
+            context,
             OrchidUtils.normalizePath(baseDir),
             context.compilerExtensions.toTypedArray(),
-            true,
-            LocalResourceSource
+            true
         ).map { ChangelogVersion(context, format, it.reference.originalFileName, null, it) }
     }
 }

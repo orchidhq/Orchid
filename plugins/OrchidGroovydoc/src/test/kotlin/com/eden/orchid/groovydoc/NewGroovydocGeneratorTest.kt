@@ -14,7 +14,6 @@ class NewGroovydocGeneratorTest : OrchidIntegrationTest(GroovydocModule(), Sourc
     @Test
     @DisplayName("Groovy files are parsed, and pages are generated for each class and package.")
     fun test01() {
-        flag("experimentalSourceDoc", "true")
         configObject(
             "groovydoc",
             """

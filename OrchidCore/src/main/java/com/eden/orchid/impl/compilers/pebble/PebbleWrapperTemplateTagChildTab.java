@@ -44,6 +44,15 @@ public final class PebbleWrapperTemplateTagChildTab implements TokenParser {
 
     @Override
     public RenderableNode parse(Token token, Parser parser) throws ParserException {
+        try {
+            return doParse(token, parser);
+        }
+        catch (Exception e) {
+            throw new ParserException(e, "error parsing '" + name + "'", token.getLineNumber(), parser.getStream().getFilename());
+        }
+    }
+
+    public RenderableNode doParse(Token token, Parser parser) throws ParserException {
         return new Noodle(contextProvider, name).parse(token, parser);
     }
 

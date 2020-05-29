@@ -39,8 +39,8 @@
 </div>
 {% endmacro %}
 
-{% macro _navbarSocial(page, theme) %}
-{% for socialItem in theme.social.getItems() %}
+{% macro _navbarSocial(page, site) %}
+{% for socialItem in site.about.social.getItems() %}
 <div class="navbar-item social-item">
   <a class="icon" href="{{ socialItem.link }}" title="{{ socialItem.label }}">
     <i class="{{ socialItem.icon }}"></i>

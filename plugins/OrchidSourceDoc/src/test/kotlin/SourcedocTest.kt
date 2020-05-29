@@ -24,10 +24,8 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
 
     @BeforeEach
     internal fun setUp() {
-        flag("experimentalSourceDoc", "true")
         testCss()
         testPageStructure()
-        addPageMenus()
     }
 
 // Tests

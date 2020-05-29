@@ -1,0 +1,12 @@
+# The config in this file should always exactly match `config-prod.yml`. This way, we can test a full production build
+# without building in prod environment, which does a lot of additional optimizations we do not necessarily need yet.
+
+services:
+  generators:
+    disabled:
+      - 'javadoc'
+      - 'groovydoc'
+      - 'swiftdoc'
+
+kotlindoc:
+  homePageOnly: true

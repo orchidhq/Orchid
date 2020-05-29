@@ -1,8 +1,0 @@
-staticPages:
-  extraCss:
-    - 'assets/css/plugins.scss'
-  layoutConfig:
-    wrapPageInBox: false
-    wrapTitleInBox: false
-    includeTitle: true
-    includeBreadcrumbs: false

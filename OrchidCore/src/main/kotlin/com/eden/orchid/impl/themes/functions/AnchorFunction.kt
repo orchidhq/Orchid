@@ -47,6 +47,6 @@ class AnchorFunction : TemplateFunction("anchor", true) {
             itemId = title
         }
 
-        return context.linkToPage(page, title, collectionType, collectionId, itemId, customClasses, pageAnchorId)
+        return context.linkToPage(page, title, collectionType, collectionId, itemId, customClasses, pageAnchorId).second
     }
 }

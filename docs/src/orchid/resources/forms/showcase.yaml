@@ -1,0 +1,21 @@
+title: 'Add To Showcase'
+action: 'thank-you'
+attributes:
+  data-netlify: true
+fields:
+  url:
+    label: 'Site URL'
+    type: 'text'
+    required: true
+    span: 'full'
+    order: 1
+  contact_email:
+    label: 'Contact Email (optional)'
+    type: 'text'
+    span: 'auto'
+    order: 2
+  sitename:
+    label: 'Git Repo (optional)'
+    type: 'text'
+    span: 'auto'
+    order: 3

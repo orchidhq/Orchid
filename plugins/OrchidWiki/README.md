@@ -15,6 +15,10 @@ tags:
 Publish searchable and easily-navigable wikis, inspired by the legacy 
 [GitBook CLI](https://github.com/GitbookIO/gitbook), and generate PDFs for offline viewing.
 
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
 ## Demo
 
 - Run [WikiGeneratorTest](https://github.com/orchidhq/orchid/blob/dev/plugins/OrchidWiki/src/test/kotlin/com/eden/orchid/wiki/WikiGeneratorTest.kt) for demo

@@ -7,23 +7,17 @@ import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.TestResults
 import strikt.api.Assertion
 
-fun OrchidIntegrationTest.groovydocSetup(showRunnerLogs: Boolean = false) {
-    sourceDocTestSetup(
-        NewGroovydocGenerator.type,
-        NewGroovydocGenerator.nodeKinds,
-        NewGroovydocGenerator.otherSourceKinds,
-        showRunnerLogs
-    )
-}
+fun OrchidIntegrationTest.groovydocSetup(modules: List<String> = emptyList(), showRunnerLogs: Boolean = false) {
+    val type = NewGroovydocGenerator.type
+    val nodeKinds = NewGroovydocGenerator.nodeKinds
+    val otherSourceKinds = NewGroovydocGenerator.otherSourceKinds
 
-fun OrchidIntegrationTest.groovydocSetup(modules: List<String>, showRunnerLogs: Boolean = false) {
-    sourceDocTestSetup(
-        NewGroovydocGenerator.type,
-        NewGroovydocGenerator.nodeKinds,
-        NewGroovydocGenerator.otherSourceKinds,
-        modules,
-        showRunnerLogs
-    )
+    if(modules.isEmpty()) {
+        singleModuleSetup(type, showRunnerLogs, nodeKinds, otherSourceKinds, null)
+    }
+    else {
+        multiModuleSetup(type, modules, showRunnerLogs, nodeKinds, otherSourceKinds)
+    }
 }
 
 fun Assertion.Builder<TestResults>.assertGroovyPages(baseDir: String = "/groovydoc"): Assertion.Builder<TestResults> {

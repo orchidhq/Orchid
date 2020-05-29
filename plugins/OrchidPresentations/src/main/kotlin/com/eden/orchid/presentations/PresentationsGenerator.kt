@@ -27,12 +27,12 @@ class PresentationsGenerator : OrchidGenerator<PresentationsModel>(GENERATOR_KEY
     override fun startIndexing(context: OrchidContext): PresentationsModel {
         return PresentationsModel(
             getPresentationResources(context, baseDir)
-                .mapValues { getPresentation(key, it.value) }
+                .mapValues { getPresentation(context, key, it.value) }
         )
     }
 
     private fun getPresentationResources(context: OrchidContext, baseDir: String): Map<String, List<OrchidResource>> {
-        val slides = context.getResourceEntries(baseDir, context.compilerExtensions.toTypedArray(), true, LocalResourceSource)
+        val slides = context.getDefaultResourceSource(LocalResourceSource, null).getResourceEntries(context, baseDir, context.compilerExtensions.toTypedArray(), true)
         val slideMap = HashMap<String, ArrayList<OrchidResource>>()
 
         slides.map {
@@ -50,9 +50,9 @@ class PresentationsGenerator : OrchidGenerator<PresentationsModel>(GENERATOR_KEY
         return slideMap
     }
 
-    private fun getPresentation(section: String, resources: List<OrchidResource>): Presentation {
+    private fun getPresentation(context: OrchidContext, section: String, resources: List<OrchidResource>): Presentation {
         val slides = resources
-            .mapIndexed { index, orchidResource -> Slide(orchidResource, index) }
+            .mapIndexed { index, orchidResource -> Slide(context, orchidResource, index) }
             .sortedBy { it.order }
 
         return Presentation(section, slides, "")

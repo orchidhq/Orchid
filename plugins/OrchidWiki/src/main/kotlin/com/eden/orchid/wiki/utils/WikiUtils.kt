@@ -35,7 +35,7 @@ object WikiUtils {
     ): Pair<WikiSummaryPage, List<WikiPage>> {
         val wiki = mutableListOf<WikiPage>()
 
-        val content = summary.compileContent(null)
+        val content = summary.compileContent(context, null)
         val doc = Jsoup.parse(content)
 
         var previous: WikiPage? = null

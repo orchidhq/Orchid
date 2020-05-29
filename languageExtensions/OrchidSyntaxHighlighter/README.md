@@ -14,6 +14,10 @@ Add syntax highlighting to code snippets in your Orchid site. Supports pre-rende
 [Pygments](https://pygments.org/), browser-based highlighting with [PrismJS](https://prismjs.com/), and runnable Kotlin
 code snippets with [Kotlin Playground](https://github.com/JetBrains/kotlin-playground).
 
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
 ## Demo
 
 <details>
@@ -118,4 +122,4 @@ These can be added from Markdown snippets with the following syntax:
        println("Running from Kotlin Playground!")
     }
     ```
-    {theme='darkula' lines='true'}
+    {theme='darcula' lines='true'}

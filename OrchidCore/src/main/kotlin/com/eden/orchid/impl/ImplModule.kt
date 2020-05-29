@@ -1,3 +1,4 @@
+@file:Suppress(SuppressedWarnings.DEPRECATION)
 package com.eden.orchid.impl
 
 import com.eden.orchid.api.OrchidContext
@@ -66,6 +67,7 @@ import com.eden.orchid.impl.themes.functions.AnchorFunction
 import com.eden.orchid.impl.themes.functions.AssetFunction
 import com.eden.orchid.impl.themes.functions.BaseUrlFunction
 import com.eden.orchid.impl.themes.functions.CompileAsFunction
+import com.eden.orchid.impl.themes.functions.ExcerptFunction
 import com.eden.orchid.impl.themes.functions.FindAllFunction
 import com.eden.orchid.impl.themes.functions.FindFunction
 import com.eden.orchid.impl.themes.functions.HomepageUrlFunction
@@ -79,6 +81,7 @@ import com.eden.orchid.impl.themes.functions.RenameFunction
 import com.eden.orchid.impl.themes.functions.ResizeFunction
 import com.eden.orchid.impl.themes.functions.RotateFunction
 import com.eden.orchid.impl.themes.functions.ScaleFunction
+import com.eden.orchid.impl.themes.menus.CollectionPagesMenuItem
 import com.eden.orchid.impl.themes.menus.DividerMenuItem
 import com.eden.orchid.impl.themes.menus.GeneratorPagesMenuItem
 import com.eden.orchid.impl.themes.menus.LinkMenuItem
@@ -89,6 +92,8 @@ import com.eden.orchid.impl.themes.menus.PageSiblingsMenuItem
 import com.eden.orchid.impl.themes.menus.PageSubtreeMenuItem
 import com.eden.orchid.impl.themes.menus.SubmenuMenuItem
 import com.eden.orchid.impl.themes.tags.AccordionTag
+import com.eden.orchid.impl.themes.tags.BodyEndTag
+import com.eden.orchid.impl.themes.tags.BodyStartTag
 import com.eden.orchid.impl.themes.tags.BreadcrumbsTag
 import com.eden.orchid.impl.themes.tags.HeadTag
 import com.eden.orchid.impl.themes.tags.LogTag
@@ -97,19 +102,20 @@ import com.eden.orchid.impl.themes.tags.ScriptsTag
 import com.eden.orchid.impl.themes.tags.StylesTag
 import com.eden.orchid.impl.themes.tags.TabsTag
 import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.SuppressedWarnings
 import com.google.inject.Provides
 import io.github.classgraph.ClassGraph
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import java.io.IOException
 import java.lang.reflect.Modifier
-import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Provider
 import javax.inject.Singleton
 
 @IgnoreModule
+@Suppress(SuppressedWarnings.DEPRECATION)
 class ImplModule(
     private val test: Boolean
 ) : OrchidModule() {
@@ -211,6 +217,7 @@ class ImplModule(
                 LinkMenuItem::class.java,
                 GeneratorPagesMenuItem::class.java,
                 PageMenuItem::class.java,
+                CollectionPagesMenuItem::class.java,
                 PageParentMenuItem::class.java,
                 PageSiblingsMenuItem::class.java,
                 PageChildrenMenuItem::class.java,
@@ -253,6 +260,7 @@ class ImplModule(
                 LinkFunction::class.java,
                 LoadFunction::class.java,
                 LocalDateFunction::class.java,
+                ExcerptFunction::class.java,
 
                 RotateFunction::class.java,
                 ScaleFunction::class.java,
@@ -273,9 +281,13 @@ class ImplModule(
                 LogTag::class.java,
                 BreadcrumbsTag::class.java,
                 HeadTag::class.java,
+                BodyStartTag::class.java,
+                BodyEndTag::class.java,
                 PageTag::class.java,
+
                 ScriptsTag::class.java,
                 StylesTag::class.java,
+
                 AccordionTag::class.java,
                 TabsTag::class.java
             )

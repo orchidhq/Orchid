@@ -2,10 +2,10 @@
 <html>
 <head>
 {% head %}
-{% styles %}
 </head>
 <body>
-{% page %}
-{% scripts %}
+{% body %}
+    {% page %}
+{% endbody %}
 </body>
 </html>

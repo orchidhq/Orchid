@@ -1,18 +1,13 @@
 package com.eden.orchid.languages.asciidoc
 
 import com.eden.orchid.impl.generators.HomepageGenerator
-import com.eden.orchid.strikt.asHtml
-import com.eden.orchid.strikt.innerHtmlMatches
-import com.eden.orchid.strikt.outerHtmlMatches
+import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.pageWasRendered
-import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
-import kotlinx.html.a
 import kotlinx.html.div
 import kotlinx.html.p
 import kotlinx.html.strong
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
@@ -32,17 +27,13 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
         expectThat(execute())
             .pageWasRendered("/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        outerHtmlMatches {
-                            p {
-                                strong {
-                                    +"Markdown Page"
-                                }
-                            }
+                htmlBodyMatches {
+                    p {
+                        strong {
+                            +"Markdown Page"
                         }
                     }
+                }
             }
     }
 
@@ -58,11 +49,9 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
         expectThat(execute())
             .pageWasRendered("/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches { +"" }
-                    }
+                htmlBodyMatches {
+                    +""
+                }
             }
     }
 
@@ -78,19 +67,15 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
         expectThat(execute(AsciidocModule()))
             .pageWasRendered("/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            div("paragraph") {
-                                p {
-                                    strong {
-                                        +"Asciidoc Page"
-                                    }
-                                }
+                htmlBodyMatches {
+                    div("paragraph") {
+                        p {
+                            strong {
+                                +"Asciidoc Page"
                             }
                         }
                     }
+                }
             }
     }
 
@@ -129,25 +114,21 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
         expectThat(execute(AsciidocModule()))
             .pageWasRendered("/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            div("paragraph") {
-                                p {
-                                    strong {
-                                        +"Asciidoc Page"
-                                    }
-                                }
-                            }
-                            // when secure, the contents are not loaded
-                            div("paragraph") {
-                                p {
-                                    +"Included from resource"
-                                }
+                htmlBodyMatches {
+                    div("paragraph") {
+                        p {
+                            strong {
+                                +"Asciidoc Page"
                             }
                         }
                     }
+                    // when secure, the contents are not loaded
+                    div("paragraph") {
+                        p {
+                            +"Included from resource"
+                        }
+                    }
+                }
             }
     }
 
@@ -165,24 +146,20 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
         expectThat(execute(AsciidocModule()))
             .pageWasRendered("/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            div("paragraph") {
-                                p {
-                                    strong {
-                                        +"Asciidoc Page"
-                                    }
-                                }
-                            }
-                            div("paragraph") {
-                                p {
-                                    +"Included from file"
-                                }
+                htmlBodyMatches {
+                    div("paragraph") {
+                        p {
+                            strong {
+                                +"Asciidoc Page"
                             }
                         }
                     }
+                    div("paragraph") {
+                        p {
+                            +"Included from file"
+                        }
+                    }
+                }
             }
     }
 
@@ -206,25 +183,21 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
         expectThat(execute(AsciidocModule()))
             .pageWasRendered("/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            div("paragraph") {
-                                p {
-                                    strong {
-                                        +"Asciidoc Page"
-                                    }
-                                }
-                            }
-                            // when secure, the contents are not loaded
-                            div("paragraph") {
-                                p {
-                                    +"Included from resource"
-                                }
+                htmlBodyMatches {
+                    div("paragraph") {
+                        p {
+                            strong {
+                                +"Asciidoc Page"
                             }
                         }
                     }
+                    // when secure, the contents are not loaded
+                    div("paragraph") {
+                        p {
+                            +"Included from resource"
+                        }
+                    }
+                }
             }
     }
 
@@ -252,36 +225,32 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
         expectThat(execute(AsciidocModule()))
             .pageWasRendered("/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            div("paragraph") {
-                                p {
-                                    strong { +"Asciidoc Page" }
-                                }
-                            }
-                            div("paragraph") {
-                                p { +"before included [tag=includedBlock1]" }
-                            }
-                            div("paragraph") {
-                                p { +"Content in block 1" }
-                            }
-                            div("paragraph") {
-                                p { +"after included [tag=includedBlock1]" }
-                            }
-
-                            div("paragraph") {
-                                p { +"before included [tag=includedBlock2]" }
-                            }
-                            div("paragraph") {
-                                p { +"Content in block 2" }
-                            }
-                            div("paragraph") {
-                                p { +"after included [tag=includedBlock2]" }
-                            }
+                htmlBodyMatches {
+                    div("paragraph") {
+                        p {
+                            strong { +"Asciidoc Page" }
                         }
                     }
+                    div("paragraph") {
+                        p { +"before included [tag=includedBlock1]" }
+                    }
+                    div("paragraph") {
+                        p { +"Content in block 1" }
+                    }
+                    div("paragraph") {
+                        p { +"after included [tag=includedBlock1]" }
+                    }
+
+                    div("paragraph") {
+                        p { +"before included [tag=includedBlock2]" }
+                    }
+                    div("paragraph") {
+                        p { +"Content in block 2" }
+                    }
+                    div("paragraph") {
+                        p { +"after included [tag=includedBlock2]" }
+                    }
+                }
             }
     }
 
@@ -309,36 +278,32 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
         expectThat(execute(AsciidocModule()))
             .pageWasRendered("/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            div("paragraph") {
-                                p {
-                                    strong { +"Asciidoc Page" }
-                                }
-                            }
-                            div("paragraph") {
-                                p { +"before included [tags=includedBlock1;includedBlock2]" }
-                            }
-                            div("paragraph") {
-                                p { +"Content in block 1 Content in block 2" }
-                            }
-                            div("paragraph") {
-                                p { +"after included [tags=includedBlock1;includedBlock2]" }
-                            }
-
-                            div("paragraph") {
-                                p { +"before included [tags=*]" }
-                            }
-                            div("paragraph") {
-                                p { +"Content in block 1 Content in block 2" }
-                            }
-                            div("paragraph") {
-                                p { +"after included [tags=*]" }
-                            }
+                htmlBodyMatches {
+                    div("paragraph") {
+                        p {
+                            strong { +"Asciidoc Page" }
                         }
                     }
+                    div("paragraph") {
+                        p { +"before included [tags=includedBlock1;includedBlock2]" }
+                    }
+                    div("paragraph") {
+                        p { +"Content in block 1 Content in block 2" }
+                    }
+                    div("paragraph") {
+                        p { +"after included [tags=includedBlock1;includedBlock2]" }
+                    }
+
+                    div("paragraph") {
+                        p { +"before included [tags=*]" }
+                    }
+                    div("paragraph") {
+                        p { +"Content in block 1 Content in block 2" }
+                    }
+                    div("paragraph") {
+                        p { +"after included [tags=*]" }
+                    }
+                }
             }
     }
 
@@ -378,60 +343,56 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
         expectThat(execute(AsciidocModule()))
             .pageWasRendered("/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            div("paragraph") {
-                                p {
-                                    strong { +"Asciidoc Page" }
-                                }
-                            }
-                            div("paragraph") {
-                                p { +"before included [lines=1..-1]" }
-                            }
-
-                            div("paragraph") {
-                                p { +"tag::includedBlock1[] Content in block 1 end::includedBlock1[]" }
-                            }
-                            div("paragraph") {
-                                p { +"tag::includedBlock2[] Content in block 2 end::includedBlock2[]" }
-                            }
-                            div("paragraph") {
-                                p { +"after included [lines=1..-1]" }
-                            }
-
-                            div("paragraph") {
-                                p { +"before included [lines=5..7]" }
-                            }
-                            div("paragraph") {
-                                p { +"tag::includedBlock2[] Content in block 2 end::includedBlock2[]" }
-                            }
-                            div("paragraph") {
-                                p { +"after included [lines=5..7]" }
-                            }
-
-                            div("paragraph") {
-                                p { +"before included [lines=5;6..7]" }
-                            }
-                            div("paragraph") {
-                                p { +"tag::includedBlock2[] Content in block 2 end::includedBlock2[]" }
-                            }
-                            div("paragraph") {
-                                p { +"after included [lines=5;6..7]" }
-                            }
-
-                            div("paragraph") {
-                                p { +"before included [lines='5,6..7']" }
-                            }
-                            div("paragraph") {
-                                p { +"tag::includedBlock2[] Content in block 2 end::includedBlock2[]" }
-                            }
-                            div("paragraph") {
-                                p { +"after included [lines='5,6..7']" }
-                            }
+                htmlBodyMatches {
+                    div("paragraph") {
+                        p {
+                            strong { +"Asciidoc Page" }
                         }
                     }
+                    div("paragraph") {
+                        p { +"before included [lines=1..-1]" }
+                    }
+
+                    div("paragraph") {
+                        p { +"tag::includedBlock1[] Content in block 1 end::includedBlock1[]" }
+                    }
+                    div("paragraph") {
+                        p { +"tag::includedBlock2[] Content in block 2 end::includedBlock2[]" }
+                    }
+                    div("paragraph") {
+                        p { +"after included [lines=1..-1]" }
+                    }
+
+                    div("paragraph") {
+                        p { +"before included [lines=5..7]" }
+                    }
+                    div("paragraph") {
+                        p { +"tag::includedBlock2[] Content in block 2 end::includedBlock2[]" }
+                    }
+                    div("paragraph") {
+                        p { +"after included [lines=5..7]" }
+                    }
+
+                    div("paragraph") {
+                        p { +"before included [lines=5;6..7]" }
+                    }
+                    div("paragraph") {
+                        p { +"tag::includedBlock2[] Content in block 2 end::includedBlock2[]" }
+                    }
+                    div("paragraph") {
+                        p { +"after included [lines=5;6..7]" }
+                    }
+
+                    div("paragraph") {
+                        p { +"before included [lines='5,6..7']" }
+                    }
+                    div("paragraph") {
+                        p { +"tag::includedBlock2[] Content in block 2 end::includedBlock2[]" }
+                    }
+                    div("paragraph") {
+                        p { +"after included [lines='5,6..7']" }
+                    }
+                }
             }
     }
 
@@ -449,19 +410,15 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
 
         expectThat(execute(AsciidocModule()))
             .pageWasRendered("/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body") {
-                        innerHtmlMatches {
-                            div("paragraph") {
-                                p {
-                                    strong {
-                                        +"Asciidoc Page"
-                                    }
-                                }
+                htmlBodyMatches {
+                    div("paragraph") {
+                        p {
+                            strong {
+                                +"Asciidoc Page"
                             }
                         }
                     }
+                }
             }
     }
 

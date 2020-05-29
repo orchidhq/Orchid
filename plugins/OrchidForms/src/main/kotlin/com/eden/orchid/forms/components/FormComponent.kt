@@ -2,6 +2,7 @@ package com.eden.orchid.forms.components
 
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.forms.model.Form
 
@@ -14,7 +15,7 @@ class FormComponent : OrchidComponent("form") {
     )
     var form: Form? = null
 
-    override fun loadAssets() {
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
         addCss("assets/css/form.scss")
     }
 }

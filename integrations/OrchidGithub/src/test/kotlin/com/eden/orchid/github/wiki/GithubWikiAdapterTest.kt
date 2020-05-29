@@ -1,12 +1,10 @@
 package com.eden.orchid.github.wiki
 
 import com.eden.orchid.github.GithubModule
-import com.eden.orchid.strikt.asHtml
+import com.eden.orchid.strikt.htmlBodyMatches
 import com.eden.orchid.strikt.nothingElseRendered
-import com.eden.orchid.strikt.outerHtmlMatches
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.strikt.pagesGenerated
-import com.eden.orchid.strikt.select
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.wiki.WikiModule
 import kotlinx.html.a
@@ -40,18 +38,14 @@ class GithubWikiAdapterTest : OrchidIntegrationTest(WikiModule(), GithubModule()
         expectThat(execute())
             .pagesGenerated(6)
             .pageWasRendered("/wiki/wiki-without-sidebar/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body > ul") {
-                        outerHtmlMatches {
-                            ul {
-                                li { a(href = "http://orchid.test/wiki/wiki-without-sidebar/Configuration") { +"Configuration" } }
-                                li { a(href = "http://orchid.test/wiki/wiki-without-sidebar/GettingStarted") { +"Getting Started" } }
-                                li { a(href = "http://orchid.test/wiki/wiki-without-sidebar/Home") { +"Home" } }
-                                li { a(href = "http://orchid.test/wiki/wiki-without-sidebar/Installation") { +"Installation" } }
-                            }
-                        }
+                htmlBodyMatches("body > ul") {
+                    ul {
+                        li { a(href = "http://orchid.test/wiki/wiki-without-sidebar/Configuration") { +"Configuration" } }
+                        li { a(href = "http://orchid.test/wiki/wiki-without-sidebar/GettingStarted") { +"Getting Started" } }
+                        li { a(href = "http://orchid.test/wiki/wiki-without-sidebar/Home") { +"Home" } }
+                        li { a(href = "http://orchid.test/wiki/wiki-without-sidebar/Installation") { +"Installation" } }
                     }
+                }
             }
             .pageWasRendered("/wiki/wiki-without-sidebar/Configuration/index.html")
             .pageWasRendered("/wiki/wiki-without-sidebar/GettingStarted/index.html")
@@ -82,22 +76,18 @@ class GithubWikiAdapterTest : OrchidIntegrationTest(WikiModule(), GithubModule()
         expectThat(execute())
             .pagesGenerated(6)
             .pageWasRendered("/wiki/wiki-with-sidebar/index.html") {
-                get { content }
-                    .asHtml()
-                    .select("body > ul") {
-                        outerHtmlMatches {
+                htmlBodyMatches("body > ul") {
+                    ul {
+                        li { a(href = "http://orchid.test/wiki/wiki-with-sidebar/Home") { +"Home" } }
+                        li {
+                            a(href = "http://orchid.test/wiki/wiki-with-sidebar/GettingStarted") { +"Getting Started" }
                             ul {
-                                li { a(href = "http://orchid.test/wiki/wiki-with-sidebar/Home") { +"Home" } }
-                                li {
-                                    a(href = "http://orchid.test/wiki/wiki-with-sidebar/GettingStarted") { +"Getting Started" }
-                                    ul {
-                                        li { a(href = "http://orchid.test/wiki/wiki-with-sidebar/Installation") { +"Installation" } }
-                                        li { a(href = "http://orchid.test/wiki/wiki-with-sidebar/Configuration") { +"Configuration" } }
-                                    }
-                                }
+                                li { a(href = "http://orchid.test/wiki/wiki-with-sidebar/Installation") { +"Installation" } }
+                                li { a(href = "http://orchid.test/wiki/wiki-with-sidebar/Configuration") { +"Configuration" } }
                             }
                         }
                     }
+                }
             }
             .pageWasRendered("/wiki/wiki-with-sidebar/Configuration/index.html")
             .pageWasRendered("/wiki/wiki-with-sidebar/GettingStarted/index.html")

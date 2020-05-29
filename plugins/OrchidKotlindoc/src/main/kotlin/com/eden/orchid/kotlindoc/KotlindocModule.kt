@@ -1,3 +1,4 @@
+@file:Suppress(SuppressedWarnings.DEPRECATION)
 package com.eden.orchid.kotlindoc
 
 import com.copperleaf.kodiak.kotlin.KotlindocInvokerImpl
@@ -9,13 +10,14 @@ import com.eden.orchid.kotlindoc.menu.AllClassesMenuItemType
 import com.eden.orchid.kotlindoc.menu.AllPackagesMenuItemType
 import com.eden.orchid.kotlindoc.menu.KotlinClassDocLinksMenuItemType
 import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.SuppressedWarnings
 import com.eden.orchid.utilities.addToSet
 import com.google.inject.Provides
 
 class KotlindocModule : OrchidModule() {
 
     override fun configure() {
-        if(OrchidFlags.getInstance().getFlagValue<Boolean?>("experimentalSourceDoc") == true) {
+        if(OrchidFlags.getInstance().getFlagValue<Boolean?>("legacySourceDoc") != true) {
             addToSet<OrchidGenerator<*>, NewKotlindocGenerator>()
         }
         else {

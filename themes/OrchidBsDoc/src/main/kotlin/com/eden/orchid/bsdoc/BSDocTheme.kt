@@ -1,6 +1,5 @@
 package com.eden.orchid.bsdoc
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Archetype
@@ -10,9 +9,10 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.theme.Theme
+import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.assets.CssPage
 import com.eden.orchid.api.theme.components.ComponentHolder
-import com.eden.orchid.api.theme.models.Social
+import com.eden.orchid.api.theme.models.SiteSocial
 import org.json.JSONObject
 import javax.inject.Inject
 
@@ -46,7 +46,14 @@ constructor(
 
     @Option
     @Description("Your social media links.")
-    var social: Social? = null
+    var social: SiteSocial? = null
+        get() {
+            context.deprecationMessage { "Accessing `theme.social` is now deprecated. It should be configured and accessed at `site.about.social` instead" }
+            return field?.takeIf { it.items.isNotEmpty() } ?: context.site.siteInfo.social
+        }
+        set(value) {
+            field = value
+        }
 
     @Option
     @Description("Github project for 'Fork me on Github' ribbon")
@@ -65,10 +72,10 @@ constructor(
     @Description("Components to include in the sidebar, below the page menu.")
     lateinit var sidebar: ComponentHolder
 
-    override fun loadAssets() {
-        // these assets include relative references to font files, which become invalid if the asset it downloaded locally and so need to stay as external assets even in production
-        addCss(CssPage(this, "theme", context.getResourceEntry("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css", null), "bootstrap.min", null))
-        addCss(CssPage(this, "theme", context.getResourceEntry("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", null), "font-awesome.min", null))
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate)  {
+        // these assets include relative references to font files, which become invalid if the asset is downloaded locally and so need to stay as external assets even in production
+        addCss("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css") { download = false }
+        addCss("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css") { download = false }
         addCss("https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.min.css")
         addCss("assets/css/bsdoc.scss")
 
@@ -93,6 +100,6 @@ constructor(
     }
 
     override fun getComponentHolders(): Array<ComponentHolder> {
-        return super.getComponentHolders() + arrayOf(sidebar)
+        return super.getComponentHolders() + sidebar
     }
 }

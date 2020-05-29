@@ -2,6 +2,7 @@ package com.eden.orchid.snippets.tags
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateTag
+import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.pages.OrchidPage
@@ -15,9 +16,14 @@ class SnippetTag : TemplateTag("snippet", Type.Simple, true), SnippetsModel.Snip
     @Description("the snippet name")
     override lateinit var snippetName: String
 
+    @Option
+    @Description("render the raw snippet content without compiling it first")
+    @BooleanDefault(false)
+    var raw: Boolean = false
+
     var snippet: Snippet? = null
 
-    override fun parameters() = arrayOf(::snippetName.name)
+    override fun parameters() = arrayOf(::snippetName.name, ::raw.name)
 
     override fun onRender(context: OrchidContext, page: OrchidPage?) {
         super.onRender(context, page)

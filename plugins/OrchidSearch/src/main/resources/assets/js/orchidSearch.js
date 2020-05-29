@@ -100,9 +100,6 @@
     }
 
     function displaySearchResults(results, cb) {
-        // console.log("displaying results");
-        // console.log(results);
-
         var items = [];
 
         results.map(function (result) {
@@ -220,6 +217,9 @@
                     }
                     shouldLoad = isIndexAllowed;
                 }
+                else {
+                    shouldLoad = indexPage.reference.fileName !== "all.index"
+                }
 
                 if (shouldLoad) {
                     loadIndexPage(indexPage.reference.link,
@@ -246,30 +246,36 @@
     }
 
     function loadIndexPage(url, cb, done) {
-        $.getJSON(url, function (data) {
-            getChildDocuments(data, cb);
+        $.getJSON(url, function (doc) {
+            getAllDocuments(doc, cb)
             done();
         });
     }
 
-    function getChildDocuments(data, cb) {
-        for (var key in data.childrenPages) {
-            if (data.childrenPages.hasOwnProperty(key)) {
-                var doc = data.childrenPages[key];
+    function getAllDocuments(doc, cb) {
+        if (doc.childrenPages) {
+            getChildDocuments(doc, cb);
+        }
+        if (doc.ownPages) {
+            getOwnDocuments(doc, cb)
+        }
+    }
 
-                if (doc.childrenPages) {
-                    getChildDocuments(doc, cb);
-                }
-                else if (doc.ownPages) {
-                    doc.ownPages.map(function (ownPage) {
-                        ownPage.link = ownPage.reference.link;
-                        ownPage.content = stripTags(ownPage.content);
-                        delete ownPage.reference;
-                        cb(ownPage);
-                    });
-                }
+    function getChildDocuments(doc, cb) {
+        for (var key in doc.childrenPages) {
+            if (doc.childrenPages.hasOwnProperty(key)) {
+                getAllDocuments(doc.childrenPages[key], cb);
             }
         }
+    }
+
+    function getOwnDocuments(doc, cb) {
+        doc.ownPages.map(function (ownPage) {
+            ownPage.link = ownPage.reference.link;
+            ownPage.content = stripTags(ownPage.content);
+            delete ownPage.reference;
+            cb(ownPage);
+        });
     }
 
     function stripTags(html) {

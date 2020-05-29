@@ -1,0 +1,11 @@
+<nav class="menu" style="margin-bottom: 1.5rem;">
+  <ul class="menu-list">
+  {% for pluginItem in included %}
+  {% set pageUrl = link(pluginItem.pluginName, 'pages', pluginItem.pluginType) %}
+
+  {% if pageUrl is not empty %}
+    <li><a href="{{ pageUrl }}">{{ pluginItem.pluginName }}</a></li>
+  {% endif %}
+  {% endfor %}
+  </ul>
+</nav>

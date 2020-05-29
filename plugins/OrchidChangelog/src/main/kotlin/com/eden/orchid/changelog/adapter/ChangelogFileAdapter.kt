@@ -9,10 +9,14 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.StringResource
+import com.eden.orchid.api.resources.resourcesource.FlexibleResourceSource
+import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
+import com.eden.orchid.api.resources.resourcesource.flexible
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.changelog.ChangelogGenerator
 import com.eden.orchid.changelog.model.ChangelogVersion
 import com.eden.orchid.utilities.OrchidUtils
+import com.eden.orchid.utilities.SuppressedWarnings
 
 @Archetype(value = ConfigArchetype::class, key = ChangelogGenerator.GENERATOR_KEY)
 class ChangelogFileAdapter : ChangelogAdapter {
@@ -46,11 +50,15 @@ class ChangelogFileAdapter : ChangelogAdapter {
 
     override fun getType() = "file"
 
+    @Suppress(SuppressedWarnings.DEPRECATION)
     override fun loadChangelogEntries(context: OrchidContext): List<ChangelogVersion> {
-        val readme = context.locateLocalResourceEntry(filename, context.compilerExtensions.toTypedArray())
-            ?: context.findClosestFile(baseDir, filename, false, 10)
+        val flexibleResourceSource: FlexibleResourceSource = context
+            .getFlexibleResourceSource(LocalResourceSource, null)
 
-        if(readme == null) {
+        val readme = flexibleResourceSource.locateResourceEntry(context, filename)
+            ?: flexibleResourceSource.findClosestFile(context, filename, baseDir)
+
+        if (readme == null) {
             Clog.w("Changelog file not found")
             return emptyList()
         }
@@ -65,7 +73,7 @@ class ChangelogFileAdapter : ChangelogAdapter {
         val changelogVersions = mutableListOf<ChangelogVersion>()
 
         regex.findAll(content).forEach {
-            if(currentVersion != null) {
+            if (currentVersion != null) {
                 changelogVersions += ChangelogVersion(
                     context,
                     format,

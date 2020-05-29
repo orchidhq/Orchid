@@ -13,6 +13,10 @@ Orchid modules and a set of assertions to check what was rendered. This framewor
 [JUnit5](https://junit.org/junit5/docs/current/user-guide/), with assertions built on the [Strikt](https://strikt.io/)
 assertion library and [kotlinx.html](https://github.com/Kotlin/kotlinx.html).
 
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}
+
 ## Demo
 
 All of Orchid's official plugins are tested with this framework. See any of the tests in the main Orchid repo for demos.
@@ -39,7 +43,7 @@ class CustomPluginTest : OrchidIntegrationTest(
 }
 ```
 
-Each test function typically consists of 3 sections: 
+Each test function typically consists of 3 sections:
 
 1) Arrange test resources and configurations
 2) Execute test to perform an Orchid build
@@ -52,8 +56,10 @@ file to your site's local resources. The first argument is the full file path an
 contents of that page, typically as a Kotlin 
 [multiline string](https://kotlinlang.org/docs/reference/basic-types.html#string-literals).
 
-You can also add options to the `config.yml` with `configObject()`. It accepts a primary key to add options to, and JSON
-snippet for the options at that key (later, this will accept some kind of configuration DSL instead of JSON strings).
+You can also add options to the `config.yml` with the `config { }` DSL. It accepts a DSL json object builder, and values
+are added to the map with `"key" to [value]` syntax. Json array builders use a syntax of `this add [value]`. Valid 
+values for both object or array builders are `String`, `Int`, `Double`, or `Boolean`, but you can also nest `obj { }` or
+ `arr { }` blocks to create nested json structures.
 
 Finally, you can pass command-line flags to the test build `flag()`.
 
@@ -70,18 +76,15 @@ fun test01() {
         |- List item 3
         """.trimMargin()
     )
-    configObject(
-        "wiki", 
-        """
-        |{
-        |  "sections": [
-        |    "section1", 
-        |    "section2"
-        |  ]
-        |}
-        """.trimMargin()
-    )
-    flag("experimentalSourceDoc", "true")
+    config {
+        "wiki" to obj {
+            "sections" to arr {
+                this add "section1"
+                this add "section2"
+            }   
+        }
+    }
+    flag("legacySourceDoc", "true")
     
     ...
 }
@@ -129,8 +132,11 @@ created. The following functions are available:
 
 For each call to `pageWasRendered()`, you must provide an assertion lambda on the located page object. Most commonly, 
 you will call `htmlBodyMatches()` in that callback and provide a `Kotlinx.html` DOM builder to match the HTML body
-contents. The builder is flexible in the order that attributes are listed on each tag, and recursively checks all nested
-HTML structures for equivalence. 
+contents. You may also call `htmlHeadMatches()` to match a DOM builder against the page `HEAD` contents.
+
+These DOM builders are flexible in the order that attributes are listed on each tag, and recursively checks all nested
+HTML structures for equivalence. You can also pass a selector to these methods to match the DOM builder against a 
+specific selector on the page.
 
 ```kotlin
 @Test
@@ -140,7 +146,7 @@ fun test1() {
     expectThat(execute())
         .printResults()
         .pageWasRendered("/index.html") {
-            htmlBodyMatches {
+            htmlBodyMatches("article[role=main]") {
                 h2 {
                     +"Homepage Title"
                 }

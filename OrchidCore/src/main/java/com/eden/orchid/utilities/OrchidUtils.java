@@ -308,56 +308,6 @@ public final class OrchidUtils {
 // Untested or undocumented methods
 //----------------------------------------------------------------------------------------------------------------------
 
-    public static void addExtraAssetsTo(OrchidContext context, String[] extraCss, String[] extraJs, AssetHolder holder, Object source, String sourceKey) {
-        if(!EdenUtils.isEmpty(extraCss)) {
-            Arrays.stream(extraCss)
-                    .map(name -> context.getResourceEntry(name, null) )
-                    .filter(Objects::nonNull)
-                    .map(orchidResource -> new CssPage(
-                            source,
-                            sourceKey,
-                            orchidResource,
-                            orchidResource.getReference().getTitle(),
-                            orchidResource.getReference().getTitle()
-                    ))
-                    .forEach(holder::addCss);
-        }
-        if(!EdenUtils.isEmpty(extraJs)) {
-            Arrays.stream(extraJs)
-                    .map(name -> context.getResourceEntry(name, null) )
-                    .filter(Objects::nonNull)
-                    .map(orchidResource -> new JsPage(
-                            source,
-                            sourceKey,
-                            orchidResource,
-                            orchidResource.getReference().getTitle(),
-                            orchidResource.getReference().getTitle()
-                    ))
-                    .forEach(holder::addJs);
-        }
-    }
-
-    public static <T extends AssetHolder> void addComponentAssets(@Nonnull OrchidPage containingPage, ComponentHolder[] componentHolders, List<T> assets, Function<? super OrchidComponent, ? extends List<T>> getter) {
-        if(containingPage == null) throw new NullPointerException("Page cannot be null");
-
-        if(!EdenUtils.isEmpty(componentHolders)) {
-            for (ComponentHolder componentHolder : componentHolders) {
-                try {
-                    List<OrchidComponent> componentsList = componentHolder.get(containingPage);
-                    if (!EdenUtils.isEmpty(componentsList)) {
-                        componentsList
-                                .stream()
-                                .map(getter)
-                                .forEach(assets::addAll);
-                    }
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
     public static <T> Predicate<T> not(Predicate<T> t) {
         return t.negate();
     }
@@ -413,25 +363,6 @@ public final class OrchidUtils {
             }
             return formatter.toString();
         }
-    }
-
-    public static Stream<String> expandTemplateList(OrchidContext context, final List<String> templates, final String templateBase) {
-        String themePreferredExtension = context.getTheme().getPreferredTemplateExtension();
-        String defaultExtension = context.getDefaultTemplateExtension();
-
-        return templates
-                .stream()
-                .filter(OrchidUtils.not(EdenUtils::isEmpty))
-                .distinct()
-                .flatMap(template -> Stream.of(
-                        "templates/" + template,
-                        "templates/" + template + "." + themePreferredExtension,
-                        "templates/" + template + "." + defaultExtension,
-                        "templates/" + templateBase + "/" + template,
-                        "templates/" + templateBase + "/" + template + "." + themePreferredExtension,
-                        "templates/" + templateBase + "/" + template + "." + defaultExtension
-                        ).distinct()
-                );
     }
 
 // Temporary Directories, which get deleted after Orchid finishes

@@ -6,5 +6,11 @@ images:
     caption: Photo by Jessica Knowlden on Unsplash
 ---
 
+## About
+
 This is the core functionality for an Orchid site. All other plugins include this one automatically. See 
 {{ anchor('here', 'Getting Started') }} for documentation on using Orchid.
+
+## Installation
+
+{% include 'includes/dependencyTabs.peb' %}

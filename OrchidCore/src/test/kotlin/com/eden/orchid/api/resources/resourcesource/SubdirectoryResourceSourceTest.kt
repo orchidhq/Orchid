@@ -3,6 +3,7 @@ package com.eden.orchid.api.resources.resourcesource
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.FileResource
 import com.eden.orchid.strikt.asExpected
+import com.eden.orchid.testhelpers.OrchidUnitTest
 import com.eden.orchid.utilities.readToString
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -15,7 +16,7 @@ import strikt.assertions.isNotNull
 import strikt.assertions.map
 import java.io.File
 
-class SubdirectoryResourceSourceTest {
+class SubdirectoryResourceSourceTest : OrchidUnitTest {
 
     val underTest by lazy {
         SubdirectoryResourceSource(

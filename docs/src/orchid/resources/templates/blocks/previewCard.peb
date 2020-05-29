@@ -1,0 +1,22 @@
+<div class="preview-card {{ (hoverable) ? 'hoverable' : '' }}">
+  <div class="card-container">
+    {% if hoverable %}
+      <div class="card-shadow">
+        <div class="shadow-text">
+          {{ ctaName|default('Click to view') }}
+          <i class="fas fa-angle-double-down"></i>
+        </div>
+      </div>
+    {% endif %}
+    <div class="card-content">
+      {% if mediaUrl is not empty %}
+      <figure class="image is-3by2">
+        <img src="{{ ((mediaUrl.startsWith("http") ? (mediaUrl) : (mediaUrl|asset))) }}">
+        <!-- Image courtesy of unDraw (https://undraw.co/license) -->
+      </figure>
+      {% endif %}
+      <div class="expand"> </div>
+      <h4 class="header-4 has-text-centered">{{ title }}</h4>
+    </div>
+  </div>
+</div>
