@@ -101,13 +101,6 @@ fun runCommand(vararg command: String): String {
 // Create tasks about versions/changelogs
 //----------------------------------------------------------------------------------------------------------------------
 
-val tag by project.tasks.registering {
-    doLast {
-        val version = getProjectVersion(failWithUncommittedChanges = true, failIfNotRelease = true)
-        runCommand("git", "tag", version.toString())
-    }
-}
-
 val getReleaseName by project.tasks.registering {
     doLast {
         println(getProjectVersion(logChanges = false))
