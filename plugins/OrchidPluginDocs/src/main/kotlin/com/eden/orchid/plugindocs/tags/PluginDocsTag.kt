@@ -1,27 +1,26 @@
 package com.eden.orchid.plugindocs.tags
 
 import com.caseyjbrooks.clog.Clog
-import com.copperleaf.krow.KrowTable
-import com.copperleaf.krow.formatters.html.DefaultHtmlAttributes
-import com.copperleaf.krow.formatters.html.HtmlAttributes
-import com.copperleaf.krow.formatters.html.HtmlTableFormatter
-import com.copperleaf.krow.krow
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.options.ArchetypeDescription
-import com.eden.orchid.api.options.OptionHolderDescription
 import com.eden.orchid.api.options.OptionsDescription
 import com.eden.orchid.api.options.OptionsExtractor
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.utilities.SuppressedWarnings
 import com.eden.orchid.utilities.resolve
 import org.apache.commons.lang3.ClassUtils
 
 @Description("Show all options for one of your plugin's classes.", name = "Plugin Documentation")
 class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
+
+    enum class Tabs {
+        overview, all_options, own_options, inherited_options, archetypes
+    }
 
     @Option
     @Description("A fully-qualified class name to render options for.")
@@ -34,6 +33,14 @@ class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
     @Option @BooleanDefault(false)
     @Description("A custom template to use the for tabs tag used internally.")
     var admin: Boolean = false
+
+    @Option
+    @StringDefault("overview", "own_options", "inherited_options", "archetypes")
+    @JvmSuppressWildcards
+    lateinit var enabledTabs: List<String>
+
+    val enabledTabsEnums: List<Tabs> get() = enabledTabs
+        .mapNotNull { kotlin.runCatching { Tabs.valueOf(it) }.getOrNull() }
 
     private val optionsExtractor: OptionsExtractor by lazy { context.resolve<OptionsExtractor>() }
 
@@ -87,6 +94,18 @@ class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
         return stream.sortedBy { it.collectionType }
     }
 
+    fun isTabEnabled(tabName: String): Boolean {
+        return enabledTabsEnums.any { it.name == tabName }
+    }
+
+    fun hasOptions(): Boolean {
+        return hasOwnOptions() || hasInheritedOptions()
+    }
+
+    fun getAllOptions(): List<OptionsDescription> {
+        return getOwnOptions() + getInheritedOptions()
+    }
+
     fun hasOwnOptions(): Boolean {
         return optionsExtractor.hasOptions(classType, true, false)
     }
@@ -133,6 +152,7 @@ class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
     fun toAnchor(archetype: ArchetypeDescription): String {
         return getDescriptionLink(archetype.archetypeType, archetype.displayName)
     }
+
     fun toAnchor(option: OptionsDescription): String {
         val baseLink = getDescriptionLink(option.optionType, option.optionType.simpleName)
         val typeParamLinks: String
@@ -161,8 +181,6 @@ class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
 
         return null
     }
-
-
 }
 
 
