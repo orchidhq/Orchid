@@ -19,7 +19,7 @@ class NetlifyFlags : OrchidFlag() {
 
     @Option
     @JvmField
-    var netlify: Boolean = false
+    var NETLIFY: Boolean = false
 
     @Option
     lateinit var CONTEXT: String
