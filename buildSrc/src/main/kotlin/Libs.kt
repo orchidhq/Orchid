@@ -225,6 +225,8 @@ object Libs {
      */
     const val commons_lang3: String = "org.apache.commons:commons-lang3:" + Versions.commons_lang3
 
+    const val commons_text: String = "org.apache.commons:commons-text:" + Versions.commons_text
+
     /**
      * http://atteo.org/static/evo-inflector
      */

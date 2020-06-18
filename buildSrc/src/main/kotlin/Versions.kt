@@ -52,6 +52,8 @@ object Versions {
 
     const val commons_lang3: String = "3.10"
 
+    const val commons_text: String = "1.8"
+
     const val evo_inflector: String = "1.2.2"
 
     const val thumbnailator: String = "0.4.11"

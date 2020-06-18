@@ -146,7 +146,7 @@ class NetlifyBaseUrlTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
     fun test11() {
         flag("environment", "prod")
         flag("logLevel", "ERROR")
-        flag("netlify", "true")
+        flag("NETLIFY", "true")
 
         flag("DEPLOY_PRIME_URL", "http://www.example.com/branch-deploy")
         flag("DEPLOY_URL", "http://www.example.com/deploy")
@@ -178,7 +178,7 @@ class NetlifyBaseUrlTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
     fun test12() {
         flag("environment", "prod")
         flag("logLevel", "ERROR")
-        flag("netlify", "true")
+        flag("NETLIFY", "true")
 
         flag("DEPLOY_PRIME_URL", "http://www.example.com/branch-deploy")
         flag("DEPLOY_URL", "http://www.example.com/deploy")
@@ -210,7 +210,7 @@ class NetlifyBaseUrlTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
     fun test13() {
         flag("environment", "prod")
         flag("logLevel", "ERROR")
-        flag("netlify", "true")
+        flag("NETLIFY", "true")
 
         flag("DEPLOY_PRIME_URL", "http://www.example.com/branch-deploy")
         flag("DEPLOY_URL", "http://www.example.com/deploy")
@@ -240,7 +240,7 @@ class NetlifyBaseUrlTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
     fun test14() {
         flag("environment", "prod")
         flag("logLevel", "ERROR")
-        flag("netlify", "true")
+        flag("NETLIFY", "true")
 
         flag("DEPLOY_PRIME_URL", "http://www.example.com/branch-deploy")
         flag("DEPLOY_URL", "http://www.example.com/deploy")
@@ -270,7 +270,7 @@ class NetlifyBaseUrlTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
     fun test15() {
         flag("environment", "prod")
         flag("logLevel", "ERROR")
-        flag("netlify", "true")
+        flag("NETLIFY", "true")
 
         flag("DEPLOY_PRIME_URL", "http://www.example.com/branch-deploy")
         flag("DEPLOY_URL", "http://www.example.com/deploy")

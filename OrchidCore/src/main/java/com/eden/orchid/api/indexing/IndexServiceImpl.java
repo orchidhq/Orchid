@@ -108,12 +108,12 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
                                     "] from [{}]: matching page not found",
                             collectionType, collectionId, itemId, from)
             );
-        }
 
-        if (!EdenUtils.isEmpty(title)) {
-            return new Pair<>(false, title);
-        } else {
-            return new Pair<>(false, "");
+            if (!EdenUtils.isEmpty(title)) {
+                return new Pair<>(false, title);
+            } else {
+                return new Pair<>(false, "");
+            }
         }
     }
 

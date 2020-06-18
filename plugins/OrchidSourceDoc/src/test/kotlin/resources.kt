@@ -123,7 +123,7 @@ fun OrchidIntegrationTest.testPageStructure() {
             |<div ${attrs.root.classes} ${attrs.root.tabText} ${attrs.root.style} id="{{ page.sectionId(section) }}">
             |{% for element in section.elements %}
             |  <div ${attrs.element.classes} ${attrs.element.tabText} ${attrs.element.style} id="{{ page.elementId(element) }}">
-            |    <div ${attrs.signature.classes} ${attrs.signature.tabText} ${attrs.signature.style}>{{ __renderSignature(element) }}</div>
+            |    <div ${attrs.signature.classes} ${attrs.signature.tabText} ${attrs.signature.style}>{{ page.renderSignature(element) | raw }}</div>
             |    
             |    {% if depth == 1 %}
             |    <div ${attrs.components.classes} ${attrs.components.tabText} ${attrs.components.style}>
@@ -149,8 +149,6 @@ fun OrchidIntegrationTest.testPageStructure() {
             |{% endfor %}
             |</div>
             |{% endmacro %}
-            |
-            |{% macro __renderSignature(element) %}{% for signatureComponent in element.signature -%}{% if signatureComponent.kind == "typeName" %}{{ anchor(title=signatureComponent.text, itemId=signatureComponent.value) }}{% else %}{{ signatureComponent.text }}{% endif %}{% endfor %}{% endmacro %}
         """.trimMargin()
     )
 }

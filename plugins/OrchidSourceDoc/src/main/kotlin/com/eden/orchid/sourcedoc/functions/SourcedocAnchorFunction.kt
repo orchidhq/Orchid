@@ -1,5 +1,6 @@
 package com.eden.orchid.sourcedoc.functions
 
+import com.copperleaf.kodiak.common.RichTextComponent
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.options.annotations.Description
@@ -7,6 +8,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.sourcedoc.model.SourceDocModel
 import com.eden.orchid.sourcedoc.page.BaseSourceDocPage
+import org.apache.commons.text.StringEscapeUtils
 
 class SourcedocAnchorFunction : TemplateFunction("sourceDocAnchor", true) {
 
@@ -22,16 +24,21 @@ class SourcedocAnchorFunction : TemplateFunction("sourceDocAnchor", true) {
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any {
         return when(page) {
-            is BaseSourceDocPage -> getLinkToSourcedocPage(context, page, title, itemId) // use current page info to compute best match for the target
+            is BaseSourceDocPage -> getLinkToSourcedocPage(
+                context,
+                page,
+                title,
+                itemId
+            ) // use current page info to compute best match for the target
             else -> context.linkToPage(
-                page,       // from
-                    title,  // title
-                    "",     // collectionType
-                    "",     // collectionId
-                    itemId, // itemId
-                    "",     // customClasses
-                    ""      // pageAnchorId
-                ) // treat it as a normal page link (such as to external pages)
+                page,   // from
+                title,  // title
+                "",     // collectionType
+                "",     // collectionId
+                itemId, // itemId
+                "",     // customClasses
+                ""      // pageAnchorId
+            ) // treat it as a normal page link (such as to external pages)
         }
     }
 
@@ -54,9 +61,8 @@ class SourcedocAnchorFunction : TemplateFunction("sourceDocAnchor", true) {
             itemId: String
         ): String {
             val module = SourceDocModel.getModule(context, sourceModuleType, sourceModule)
-            if(module == null) return ""
 
-            val seq = if(sourceModule != sourceModuleType && module.relatedModules.isNotEmpty()) {
+            val seq = if(sourceModule != sourceModuleType && module != null && module.relatedModules.isNotEmpty()) {
                 // multi-module setup
                 sequenceOf(
                     sourceModule,                         // link to own module first
@@ -69,7 +75,6 @@ class SourcedocAnchorFunction : TemplateFunction("sourceDocAnchor", true) {
             }
 
             return seq
-                .filter { it.isNotBlank() }
                 .map { moduleName ->
                     context.linkToPage(
                         sourcePage,                                 // from
@@ -85,6 +90,24 @@ class SourcedocAnchorFunction : TemplateFunction("sourceDocAnchor", true) {
                 .map { it.second }
                 .firstOrNull()
                 ?: title
+        }
+
+        fun List<RichTextComponent>.renderToString(page: BaseSourceDocPage, escapeRawText: Boolean): String {
+            return this
+                .map {
+                    if (it.kind == RichTextComponent.TYPE_NAME) {
+                        getLinkToSourcedocPage(page.context, page, it.text, it.value ?: "")
+                    } else {
+                        // TODO: compile this as Markdown or whatever here, instead of using `compileAs()` in the template
+                        if(escapeRawText) {
+                            StringEscapeUtils.escapeHtml4(it.text)
+                        }
+                        else {
+                            it.text
+                        }
+                    }
+                }
+                .joinToString("")
         }
     }
 

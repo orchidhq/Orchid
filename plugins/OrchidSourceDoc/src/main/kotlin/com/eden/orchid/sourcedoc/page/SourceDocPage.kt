@@ -3,11 +3,12 @@ package com.eden.orchid.sourcedoc.page
 import com.copperleaf.kodiak.common.AutoDocument
 import com.copperleaf.kodiak.common.RichTextComponent.Companion.TYPE_NAME
 import com.copperleaf.kodiak.common.DocElement
+import com.copperleaf.kodiak.common.RichTextComponent
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.components.ComponentHolder
-import com.eden.orchid.sourcedoc.functions.SourcedocAnchorFunction
+import com.eden.orchid.sourcedoc.functions.SourcedocAnchorFunction.Companion.renderToString
 import com.eden.orchid.utilities.OrchidUtils
 
 class SourceDocPage<T : DocElement>(
@@ -67,18 +68,12 @@ class SourceDocPage<T : DocElement>(
         return emptyList()
     }
 
+    fun renderSignature(element: DocElement): String {
+        return element.signature.renderToString(this, true)
+    }
+
     fun renderComment(element: DocElement): String {
-        return element
-            .comment
-            .components
-            .map {
-                if (it.kind == TYPE_NAME) {
-                    SourcedocAnchorFunction.getLinkToSourcedocPage(context, this, it.text, it.value ?: "")
-                } else {
-                    it.text
-                }
-            }
-            .joinToString("")
+        return element.comment.components.renderToString(this, false)
     }
 
     fun sectionId(section: Section): String {
