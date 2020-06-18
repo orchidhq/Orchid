@@ -1,6 +1,5 @@
 package com.eden.orchid.api.theme.assets
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
@@ -10,7 +9,11 @@ import com.eden.orchid.api.resources.resource.InlineResource
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
-import com.eden.orchid.utilities.debugger
+
+private const val ASSET_DESCRIPTION = "The resource to load as an extra stylesheet"
+private const val ATTRS_DESCRIPTION = "Arbitrary attributes to apply to this element when rendered to page"
+private const val INLINED_DESCRIPTION = "Inlines the contents of this stylesheet directly into the page instead of being referenced from a URL."
+private const val DOWNLOAD_DESCRIPTION = "If the resource is external, download it and serve it from the built site so the site doesn't depend on other servers being available."
 
 interface CssPageAttributes {
     var attrs: MutableMap<String, String>
@@ -27,14 +30,16 @@ class CssPage(
 ) : AssetPage(origin, resource, key, title), CssPageAttributes {
 
     @Option
-    @Description("Arbitrary attributes to apply to this element when rendered to page")
+    @Description(ATTRS_DESCRIPTION)
     override lateinit var attrs: MutableMap<String, String>
 
     @Option
+    @Description(INLINED_DESCRIPTION)
     override var inlined: Boolean = false
 
     @Option
     @BooleanDefault(true)
+    @Description(DOWNLOAD_DESCRIPTION)
     override var download: Boolean = true
 
     fun applyAttributes(config: CssPageAttributes) {
@@ -88,18 +93,22 @@ class CssPage(
 }
 
 class ExtraCss : OptionsHolder, CssPageAttributes {
+
     @Option
+    @Description(ASSET_DESCRIPTION)
     lateinit var asset: String
 
     @Option
-    @Description("Arbitrary attributes to apply to this element when rendered to page")
+    @Description(ATTRS_DESCRIPTION)
     override lateinit var attrs: MutableMap<String, String>
 
     @Option
+    @Description(INLINED_DESCRIPTION)
     override var inlined: Boolean = false
 
     @Option
     @BooleanDefault(true)
+    @Description(DOWNLOAD_DESCRIPTION)
     override var download: Boolean = true
 
     override fun toString(): String {

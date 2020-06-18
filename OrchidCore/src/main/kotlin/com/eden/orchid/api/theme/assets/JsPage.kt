@@ -10,6 +10,15 @@ import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
 
+private const val ASSET_DESCRIPTION = "The resource to load as an extra script"
+private const val ATTRS_DESCRIPTION = "Arbitrary attributes to apply to this element when rendered to page"
+private const val ASYNC_DESCRIPTION = "Adds the `async` attribute to the script tag"
+private const val DEFER_DESCRIPTION = "Adds the `defer` attribute to the script tag"
+private const val MODULE_DESCRIPTION = "Adds the `module` attribute to the script tag"
+private const val NOMODULE_DESCRIPTION = "Adds the `nomodule` attribute to the script tag"
+private const val INLINED_DESCRIPTION = "Inlines the contents of this script directly into the page instead of being referenced from a URL."
+private const val DOWNLOAD_DESCRIPTION = "If the resource is external, download it and serve it from the built site so the site doesn't depend on other servers being available."
+
 interface JsPageAttributes {
     var attrs: MutableMap<String, String>
     var async: Boolean
@@ -29,26 +38,32 @@ class JsPage(
 ) : AssetPage(origin, resource, key, title), JsPageAttributes {
 
     @Option
-    @Description("Arbitrary attributes to apply to this element when rendered to page")
+    @Description(ATTRS_DESCRIPTION)
     override lateinit var attrs: MutableMap<String, String>
 
     @Option
+    @Description(ASYNC_DESCRIPTION)
     override var async: Boolean = false
 
     @Option
+    @Description(DEFER_DESCRIPTION)
     override var defer: Boolean = false
 
     @Option
+    @Description(MODULE_DESCRIPTION)
     override var module: Boolean = false
 
     @Option
+    @Description(NOMODULE_DESCRIPTION)
     override var nomodule: Boolean = false
 
     @Option
+    @Description(INLINED_DESCRIPTION)
     override var inlined: Boolean = false
 
     @Option
     @BooleanDefault(true)
+    @Description(DOWNLOAD_DESCRIPTION)
     override var download: Boolean = true
 
     fun applyAttributes(config: JsPageAttributes) {
@@ -155,29 +170,36 @@ class JsPage(
 class ExtraJs : OptionsHolder, JsPageAttributes {
 
     @Option
+    @Description(ASSET_DESCRIPTION)
     lateinit var asset: String
 
     @Option
-    @Description("Arbitrary attributes to apply to this element when rendered to page")
+    @Description(ATTRS_DESCRIPTION)
     override lateinit var attrs: MutableMap<String, String>
 
     @Option
+    @Description(DOWNLOAD_DESCRIPTION)
     override var async: Boolean = false
 
     @Option
+    @Description(DOWNLOAD_DESCRIPTION)
     override var defer: Boolean = false
 
     @Option
+    @Description(DOWNLOAD_DESCRIPTION)
     override var module: Boolean = false
 
     @Option
+    @Description(DOWNLOAD_DESCRIPTION)
     override var nomodule: Boolean = false
 
     @Option
+    @Description(INLINED_DESCRIPTION)
     override var inlined: Boolean = false
 
     @Option
     @BooleanDefault(true)
+    @Description(DOWNLOAD_DESCRIPTION)
     override var download: Boolean = true
 
     override fun toString(): String {

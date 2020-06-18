@@ -19,6 +19,7 @@ dependencies {
     api(Libs.okhttp)
     api(Libs.commons_io)
     api(Libs.commons_lang3)
+    api(Libs.commons_text)
     api(Libs.thumbnailator)
     
     // validation

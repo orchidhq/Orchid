@@ -18,7 +18,7 @@ public final class CoreFlags extends OrchidFlag {
 // Base flags
 //----------------------------------------------------------------------------------------------------------------------
 
-    @Option @StringDefault("/")
+    @Option
     @Description("the base URL to append to generated URLs.")
     public String baseUrl;
 

@@ -46,7 +46,7 @@ class AssetFunction : TemplateFunction("asset", false) {
         return runCatching {
             context.assetManager.createAsset(
                 createAssetManagerDelegate(context, page),
-                context.getDefaultResourceSource(null, null),
+                context.getDefaultResourceSource(null, page?.theme),
                 itemId
             )
         }.getOrNull()
@@ -87,7 +87,7 @@ abstract class BaseImageManipulationFunction(name: String, isSafeString: Boolean
             } else if(input is String) {
                 asset = context.assetManager.createAsset(
                     createAssetManagerDelegate(context, page),
-                    context.getDefaultResourceSource(null, null),
+                    context.getDefaultResourceSource(null, page?.theme),
                     input!!.toString()
                 )
             } else {

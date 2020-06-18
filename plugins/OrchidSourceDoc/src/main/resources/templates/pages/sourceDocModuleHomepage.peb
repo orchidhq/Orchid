@@ -1,7 +1,7 @@
 {{ page.content | raw }}
 
 {% if page.roots is not empty %}
-<p><b>Roots:</b></p>
+<p><b>API Documentation:</b></p>
 <ul>
 {%- for root in page.roots %}
   <li>{{ sourceDocAnchor(title=root, itemId=root) }}</li>

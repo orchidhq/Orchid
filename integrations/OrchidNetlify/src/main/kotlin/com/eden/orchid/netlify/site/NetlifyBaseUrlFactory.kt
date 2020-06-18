@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class NetlifyBaseUrlFactory
 @Inject constructor(
-    @Named("netlify")          private val isRunningOnNetlifyCi: Boolean,
+    @Named("NETLIFY")          private val isRunningOnNetlifyCi: Boolean,
     @Named("CONTEXT")          private val context: String,
     @Named("PULL_REQUEST")     private val isPullRequest: Boolean,
     @Named("DEPLOY_PRIME_URL") private val deployPrimeUrl: String,

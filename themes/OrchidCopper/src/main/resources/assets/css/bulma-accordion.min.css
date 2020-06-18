@@ -151,7 +151,7 @@
 }
 
 .accordions .accordion.is-active .accordion-body {
-    max-height: 100em
+    max-height: 100000em
 }
 
 .accordions .accordion.is-white {

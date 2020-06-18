@@ -14,47 +14,6 @@ particular, assets can be contributed to a page from:
 - components: all components, whether they are the page's components or as widget areas of the theme, are attached to 
     the page and can add assets to that page.
     
-
-## Additional Assets
-
-On anything that adds assets to the Page, you can also define additional assets to be added alongside them. This is 
-added as the `extraCss` or `extraJs` properties of the theme config in `config.yml`, a page's Front Matter, or in a 
-component's config.
-
-These assets take an arbitrary path to a resource, and will automatically compile it according to its file extension and
-render it in the final site for you. 
-
-**Extra Assets attached to a Theme**
-```yaml
-# config.yml
-theme:
-  extraCss:
-    - 'assets/css/custom.scss'
-  extraJs:
-    - 'assets/js/custom.js'
-```
-
-**Extra Assets attached to a Page**
-```yaml
-# pages/page-one.md
-extraCss:
-- 'assets/css/custom.scss'
-extraJs:
-- 'assets/js/custom.js'
-```
-
-**Extra Assets attached to a Component in an Archetype**
-```yaml
-# config.yml
-allPages:
-  components:
-    - type: 'pageContent'
-      extraCss:
-        - 'assets/css/custom.scss'
-      extraJs:
-        - 'assets/js/custom.js'
-```
-
 ## Media files
 
 For assets that are not attached to a page, such as images or downloadable files, you must tell Orchid which folders you
@@ -83,6 +42,84 @@ services:
     binaryExtensions: 
       - 'jpeg'
 ```
+
+## Favicons
+
+Orchid takes care of rendering favicons for you. If you do not provide one yourself, it will use the default Orchid 
+logo. If you have your own favicon you'd like to use, simply drop it in your resources root named `favicon.ico` and 
+Orchid will use that one instead.
+
+## Additional Assets
+
+On anything that adds assets to the Page, you can also define additional assets to be added alongside them. This is 
+added as the `extraCss` or `extraJs` properties of the theme config in `config.yml`, a page's Front Matter, or in a 
+component's config.
+
+These assets take an arbitrary path to a resource, and will automatically compile it according to its file extension and
+render it in the final site for you. 
+
+### Extra Assets attached to a Theme
+
+```yaml
+# config.yml
+theme:
+  extraCss:
+    - 'assets/css/custom.scss'
+  extraJs:
+    - 'assets/js/custom.js'
+```
+
+### Extra Assets attached to a Page
+
+```yaml
+# pages/page-one.md
+extraCss:
+- 'assets/css/custom.scss'
+extraJs:
+- 'assets/js/custom.js'
+```
+
+### Extra Assets attached to a Component in an Archetype
+
+```yaml
+# config.yml
+allPages:
+  components:
+    - type: 'pageContent'
+      extraCss:
+        - 'assets/css/custom.scss'
+      extraJs:
+        - 'assets/js/custom.js'
+```
+
+### Configuring Additional Assets
+
+Depending on the use-case for adding additional assets, they may need some additional configuration. This can be done 
+directly in the extra asset config:
+
+#### Extra JS Configuration
+
+```yaml
+# config.yml
+theme:
+  extraJs:
+    - asset: 'assets/js/custom.js'
+      inlined: true
+```
+
+{% docs className='com.eden.orchid.api.theme.assets.ExtraJs' enabledTabs=['all_options'] %}
+
+#### Extra CSS Configuration
+
+```yaml
+# config.yml
+theme:
+  extraCss:
+    - asset: 'assets/css/custom.scss'
+      download: false
+```
+
+{% docs className='com.eden.orchid.api.theme.assets.ExtraCss' enabledTabs=['all_options'] %}
 
 ## Asset Transformations
 
@@ -173,9 +210,3 @@ end of the entire pipeline; intermediate assets are not created for each filter.
 ![resized asset]({{ 'assets/media/pic01.jpg'|asset|resize(400, 300) }})
 ![resized asset]({{ 'assets/media/pic01.jpg'|asset|resize(400, 300)|rotate(45) }})
 ![resized asset]({{ 'assets/media/pic01.jpg'|asset|resize(400, 300)|rotate(45)|rotate(45) }})
-
-## Favicons
-
-Orchid takes care of rendering favicons for you. If you do not provide one yourself, it will use the default Orchid 
-logo. If you have your own favicon you'd like to use, simply drop it in your resources root named `favicon.ico` and 
-Orchid will use that one instead.
