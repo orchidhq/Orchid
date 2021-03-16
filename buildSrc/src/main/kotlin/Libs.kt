@@ -9,7 +9,6 @@ import kotlin.String
 object Libs {
     /**
      * https://github.com/vsch/flexmark-java
-     * CENTRAL
      */
     const val flexmark: String = "com.vladsch.flexmark:flexmark:" + Versions.com_vladsch_flexmark
     const val flexmark_ext_anchorlink: String = "com.vladsch.flexmark:flexmark-ext-anchorlink:" +
@@ -28,7 +27,6 @@ object Libs {
 
     /**
      * https://kotlinlang.org/
-     * CENTRAL
      */
     const val kotlin_gradle_plugin: String = "org.jetbrains.kotlin:kotlin-gradle-plugin:" +
             Versions.org_jetbrains_kotlin
@@ -42,7 +40,6 @@ object Libs {
 
     /**
      * https://github.com/danfickle/openhtmltopdf
-     * CENTRAL
      */
     const val openhtmltopdf_core: String = "com.openhtmltopdf:openhtmltopdf-core:" +
             Versions.com_openhtmltopdf
@@ -55,7 +52,6 @@ object Libs {
 
     /**
      * https://junit.org/junit5/
-     * CENTRAL
      */
     const val junit_jupiter_api: String = "org.junit.jupiter:junit-jupiter-api:" +
             Versions.org_junit_jupiter
@@ -66,7 +62,6 @@ object Libs {
 
     /**
      * https://copper-leaf.github.io/kodiak
-     * JCENTER,SPRING-LIB-RELEASES
      */
     const val common_formatter: String = "com.eden.kodiak:common-formatter:" +
             Versions.com_eden_kodiak
@@ -83,7 +78,6 @@ object Libs {
 
     /**
      * http://www.nanohttpd.org
-     * CENTRAL
      */
     const val nanohttpd: String = "org.nanohttpd:nanohttpd:" + Versions.org_nanohttpd
     const val nanohttpd_websocket: String = "org.nanohttpd:nanohttpd-websocket:" +
@@ -91,7 +85,6 @@ object Libs {
 
     /**
      * https://copper-leaf.github.io/dokka-json
-     * JCENTER
      */
     const val com_eden_groovydoc_runner: String = "com.eden:groovydoc-runner:" +
             Versions.com_eden_groovydoc_runner
@@ -102,13 +95,11 @@ object Libs {
 
     /**
      * https://javaeden.github.io/Common/Common
-     * JCENTER!
      */
     const val com_eden_common: String = "com.eden:Common:" + Versions.com_eden_common
 
     /**
      * https://www.codacy.com
-     * CENTRAL
      */
     const val codacy_coverage_reporter: String = "com.codacy:codacy-coverage-reporter:" +
             Versions.codacy_coverage_reporter
@@ -121,38 +112,32 @@ object Libs {
 
     /**
      * http://hibernate.org/validator
-     * CENTRAL
      */
     const val hibernate_validator: String = "org.hibernate.validator:hibernate-validator:" +
             Versions.hibernate_validator
     /**
      * http://beanvalidation.org
-     * CENTRAL
      */
     const val validation_api: String = "jakarta.validation:jakarta.validation-api:" + Versions.validation_api
     /**
      * http://el-spec.java.net
-     * CENTRAL
      */
     const val javax_el: String = "org.glassfish:jakarta.el:" + Versions.javax_el
 
     /**
      * http://github.com/univocity/univocity-parsers
-     * CENTRAL
      */
     const val univocity_parsers: String = "com.univocity:univocity-parsers:" +
             Versions.univocity_parsers
 
     /**
      * http://hamcrest.org/JavaHamcrest/
-     * CENTRAL
      */
     const val hamcrest_library: String = "org.hamcrest:hamcrest-library:" +
             Versions.hamcrest_library
 
     /**
      * https://github.com/Kotlin/kotlinx.html
-     * JCENTER + others
      */
     const val kotlinx_html_jvm: String = "org.jetbrains.kotlinx:kotlinx-html-jvm:" +
             Versions.kotlinx_html_jvm
@@ -160,7 +145,6 @@ object Libs {
     /**
      * https://commons.apache.org/proper/commons-lang/
      *  https://commons.apache.org/proper/commons-io/
-     * CENTRAL
      */
     const val commons_lang3: String = "org.apache.commons:commons-lang3:" + Versions.commons_lang3
 
@@ -171,125 +155,106 @@ object Libs {
 
     /**
      * http://atteo.org/static/evo-inflector
-     * CENTRAL
      */
     const val evo_inflector: String = "org.atteo:evo-inflector:" + Versions.evo_inflector
 
     /**
      * https://github.com/coobird/thumbnailator
-     * CENTRAL
      */
     const val thumbnailator: String = "net.coobird:thumbnailator:" + Versions.thumbnailator
 
     /**
      * https://github.com/asciidoctor/asciidoctorj
-     * CENTRAL
      */
     const val asciidoctorj: String = "org.asciidoctor:asciidoctorj:" + Versions.asciidoctorj
 
 
     /**
      * https://github.com/mockito/mockito
-     * CENTRAL
      */
     const val mockito_core: String = "org.mockito:mockito-core:" + Versions.mockito_core
 
     /**
      * https://strikt.io/
-     * CENTRAL
      */
     const val strikt_core: String = "io.strikt:strikt-core:" + Versions.strikt_core
     const val filepeek: String = "com.christophsturm:filepeek:" + Versions.file_peek
 
     /**
      * https://github.com/classgraph/classgraph
-     * CENTRAL
      */
     const val classgraph: String = "io.github.classgraph:classgraph:" + Versions.classgraph
 
     /**
      * http://www.snakeyaml.org
-     * CENTRAL
      */
     const val snakeyaml: String = "org.yaml:snakeyaml:" + Versions.snakeyaml
 
     /**
      * https://github.com/javaee/jaxb-spec
      * https://github.com/eclipse-ee4j/jaxb-api
-     * CENTRAL
      *
      */
     const val jaxb_api: String = "jakarta.xml.bind:jakarta.xml.bind-api:" + Versions.jaxb_api
 
     /**
      * http://plantuml.sourceforge.net
-     * CENTRAL
      */
     const val plantuml: String = "net.sourceforge.plantuml:plantuml:" + Versions.plantuml
 
     /**
      * http://www.pygments.org
-     * CENTRAL
      */
     const val pygments: String = "org.pygments:pygments:" + Versions.pygments
     /**
      * https://www.jython.org/
-     * CENTRAL
      */
     const val jython_standalone: String = "org.python:jython-standalone:" +
             Versions.jython_standalone
 
     /**
      * https://javaeden.github.io/Clog/Clog4j
-     * JCENTER???
      */
     const val clog4j: String = "com.eden:Clog4j:" + Versions.clog4j
 
     /**
      * https://square.github.io/okhttp/
-     * CENTRAL
      */
     const val okhttp: String = "com.squareup.okhttp3:okhttp:" + Versions.okhttp
 
     /**
      * http://pebbletemplates.io
-     * CENTRAL
      */
     const val pebble: String = "io.pebbletemplates:pebble:" + Versions.pebble
 
     /**
      * http://moandjiezana.com/toml/toml4j
-     * CENTRAL
      */
     const val toml4j: String = "com.moandjiezana.toml:toml4j:" + Versions.toml4j
 
     /**
      * https://github.com/google/guice
-     * CENTRAL
      */
     const val guice: String = "com.google.inject:guice:" + Versions.guice
     const val javax_inject: String = "jakarta.inject:jakarta.inject-api:" + Versions.javax_inject
 
     /**
      * https://gitlab.com/jsass/jsass
-     * CENTRAL
      */
     const val jsass: String = "io.bit3:jsass:" + Versions.jsass
 
     /**
      * https://jsoup.org/
-     * CENTRAL
      */
     const val jsoup: String = "org.jsoup:jsoup:" + Versions.jsoup
 
     /**
-     * CENTRAL
+     * Json
      */
     const val json: String = "org.json:json:" + Versions.json
 
     /**
      * https://copper-leaf.github.io/krow
-     * JCENTER
      */
     const val krow: String = "com.eden:krow:" + Versions.krow
 }

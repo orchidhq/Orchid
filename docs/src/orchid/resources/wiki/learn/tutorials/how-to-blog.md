@@ -41,9 +41,9 @@ dependencies {
     orchidCompile "io.github.javaeden.orchid:OrchidPluginDocs:{{ site.version }}"
 }
 
-// 3. Get dependencies from JCenter
+// 3. Get dependencies from MavenCentral
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 // 4. Use the 'FutureImperfect' theme, and set the URL it will have on Github Pages

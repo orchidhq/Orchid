@@ -3,7 +3,8 @@
 buildscript {
     repositories {
         gradlePluginPortal()
-        jcenter()
+        mavenCentral()
+        //jcenter()
     }
     dependencies {
         classpath(Libs.gradle_bintray_plugin)
