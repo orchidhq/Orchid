@@ -11,7 +11,7 @@ import com.eden.orchid.api.util.GitRepoFacade
 import com.eden.orchid.api.util.addFile
 import javax.inject.Inject
 import javax.inject.Named
-import javax.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotBlank
 
 @Description(
     value = "Commit your site directly to Gitlab Pages. It can even keep old versions of your site for versioning documentation.",

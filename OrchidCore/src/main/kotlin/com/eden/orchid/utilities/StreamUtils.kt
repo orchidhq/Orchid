@@ -20,7 +20,7 @@ class InputStreamCollector(private val inputStream: InputStream) : Runnable {
         inputStream
             .bufferedReader()
             .lineSequence()
-            .forEach { output.appendln(it) }
+            .forEach { output.appendLine(it) }
     }
 
     override fun toString(): String {

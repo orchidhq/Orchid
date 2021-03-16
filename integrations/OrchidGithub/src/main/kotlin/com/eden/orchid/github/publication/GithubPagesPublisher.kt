@@ -14,7 +14,7 @@ import java.net.URI
 import java.net.URL
 import javax.inject.Inject
 import javax.inject.Named
-import javax.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotBlank
 
 @Description(
     value = "Commit your site directly to Github Pages. It can even keep old versions of your site for versioning documentation.",

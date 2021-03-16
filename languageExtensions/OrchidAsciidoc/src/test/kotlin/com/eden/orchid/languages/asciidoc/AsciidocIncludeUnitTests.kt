@@ -41,7 +41,7 @@ class AsciidocIncludeUnitTests : OrchidUnitTest {
             |// end::snippets[]
         """.trimMargin()
 
-        val result = underTest.getTaggedSections(input).entries.sortedBy { it.key.min()!! }
+        val result = underTest.getTaggedSections(input).entries.sortedBy { it.key.minOrNull()!! }
 
         expectThat(result)
             .hasSize(3)
@@ -107,7 +107,7 @@ class AsciidocIncludeUnitTests : OrchidUnitTest {
             |// end::snippet-b[]
         """.trimMargin()
 
-        val result = underTest.getTaggedSections(input).entries.sortedBy { it.key.min()!! }
+        val result = underTest.getTaggedSections(input).entries.sortedBy { it.key.minOrNull()!! }
 
         expectThat(result)
             .hasSize(2)

@@ -22,7 +22,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
 import com.eden.orchid.impl.relations.AssetRelation
 import javax.inject.Inject
-import javax.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotBlank
 
 @Description(value = "Render an asset and get its URL.", name = "Asset")
 class AssetFunction : TemplateFunction("asset", false) {

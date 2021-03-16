@@ -23,7 +23,7 @@ import com.eden.orchid.wiki.utils.WikiUtils
 import org.apache.commons.io.FilenameUtils
 import java.io.File
 import javax.inject.Inject
-import javax.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotBlank
 
 class GitlabWikiAdapter
 @Inject

@@ -19,7 +19,7 @@ import com.eden.orchid.api.theme.assets.AssetPage
 import java.util.Arrays
 import javax.inject.Inject
 import javax.inject.Singleton
-import javax.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotBlank
 
 @Singleton
 @Description(
