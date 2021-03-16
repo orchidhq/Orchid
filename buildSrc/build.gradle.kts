@@ -1,5 +1,3 @@
-import java.io.ByteArrayOutputStream
-
 plugins {
     java
     `kotlin-dsl`
@@ -17,7 +15,7 @@ tasks.create("publishPlugins") {
 }
 
 dependencies {
-    runtime(project(":orchidPlugin"))
+    runtimeOnly(project(":orchidPlugin"))
 }
 
 kotlinDslPluginOptions {

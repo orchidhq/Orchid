@@ -1,5 +1,6 @@
 apply from: "$rootDir/gradle/actions/java.gradle"
 apply from: "$rootDir/gradle/actions/publish.gradle"
+apply from: "$rootDir/gradle/actions/repositories.gradle"
 
 dependencies {
 

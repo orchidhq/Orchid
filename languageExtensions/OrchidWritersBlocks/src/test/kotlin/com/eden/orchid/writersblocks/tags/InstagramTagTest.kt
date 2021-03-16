@@ -6,11 +6,13 @@ import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
 import com.eden.orchid.writersblocks.WritersBlocksModule
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.contains
 
+@Disabled("requires authentication, needs fix")
 class InstagramTagTest : OrchidIntegrationTest(
     withGenerator<HomepageGenerator>(),
     WritersBlocksModule()
