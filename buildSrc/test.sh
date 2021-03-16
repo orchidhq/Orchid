@@ -3,8 +3,8 @@ set -e
 
 if [ "$1" = "release" ]; then
   echo "[Gradle Plugin] Test Release"
-  ./gradlew build -Prelease
+  ../gradlew build -b orchidPlugin/build.gradle.kts -Prelease
 else
   echo "[Gradle Plugin] Test Debug"
-  ./gradlew build
+  ../gradlew build -b orchidPlugin/build.gradle.kts
 fi
