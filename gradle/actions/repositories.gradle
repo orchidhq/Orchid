@@ -7,7 +7,6 @@ repositories {
             includeModule("com.eden", "Common")
             includeModule("com.eden", "Clog4j")
             includeModule("com.eden", "Clog")
-            includeModule("com.eden", "krow")
             includeModule("com.eden", "groovydoc-runner")
             includeModule("com.eden", "groovydoc-models")
             includeModule("com.eden", "javadoc-runner")

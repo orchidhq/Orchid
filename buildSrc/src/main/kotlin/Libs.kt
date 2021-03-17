@@ -254,7 +254,9 @@ object Libs {
     const val json: String = "org.json:json:" + Versions.json
 
     /**
-     * https://copper-leaf.github.io/krow
+     * https://github.com/JakeWharton/picnic
      */
-    const val krow: String = "com.eden:krow:" + Versions.krow
+    const val picnic: String = "com.jakewharton.picnic:picnic:" + Versions.picnic;
+
+
 }

@@ -15,7 +15,7 @@ dependencies {
     // core utilities
     api(Libs.com_eden_common)
     api(Libs.clog4j)
-    api(Libs.krow)
+    api(Libs.picnic)
     api(Libs.okhttp)
     api(Libs.commons_io)
     api(Libs.commons_lang3)

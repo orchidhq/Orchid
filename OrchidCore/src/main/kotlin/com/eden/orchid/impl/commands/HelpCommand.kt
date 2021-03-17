@@ -1,7 +1,6 @@
 package com.eden.orchid.impl.commands
 
 import com.caseyjbrooks.clog.Clog
-import com.copperleaf.krow.formatters.html.HtmlTableFormatter
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsExtractor
 import com.eden.orchid.api.options.OptionsHolder
@@ -43,11 +42,12 @@ constructor(
             val description = extractor.describeAllOptions(parsedClass)
             val table = extractor.getDescriptionTable(description)
 
-            val asciiTable = table.print(OrchidUtils.compactTableFormatter)
+            val asciiTable = table.toString();
             Clog.i("\n{}", asciiTable)
 
             if (server != null && server.websocket != null) {
-                var htmlTable = table.print(HtmlTableFormatter())
+                //TODO does this need to be HTML?
+                var htmlTable = table.toString();
                 htmlTable = htmlTable.replace("<table>".toRegex(), "<table class=\"table\">")
                 server.websocket!!.sendMessage("describe", htmlTable)
             }

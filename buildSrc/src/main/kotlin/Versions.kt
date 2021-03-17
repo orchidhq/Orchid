@@ -98,7 +98,7 @@ object Versions {
 
     const val json: String = "20210307"
 
-    const val krow: String = "0.1.13"
+    const val picnic: String = "0.5.0"
 
     /**
      * Current version: "6.4.1"

@@ -1,53 +1,24 @@
 package com.eden.orchid.utilities;
 
 import com.caseyjbrooks.clog.Clog;
-import com.copperleaf.krow.TableFormatter;
-import com.copperleaf.krow.formatters.ascii.AsciiTableFormatter;
-import com.copperleaf.krow.formatters.ascii.CrossingBorder;
-import com.copperleaf.krow.formatters.ascii.NoBorder;
-import com.copperleaf.krow.formatters.ascii.SingleBorder;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OrchidFlags;
-import com.eden.orchid.api.theme.assets.AssetHolder;
-import com.eden.orchid.api.theme.assets.CssPage;
-import com.eden.orchid.api.theme.assets.JsPage;
-import com.eden.orchid.api.theme.components.ComponentHolder;
-import com.eden.orchid.api.theme.components.OrchidComponent;
-import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
 
-import javax.annotation.Nonnull;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Formatter;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
-
-import static com.eden.orchid.utilities.OrchidExtensionsKt.from;
-import static com.eden.orchid.utilities.OrchidExtensionsKt.to;
 
 public final class OrchidUtils {
     
@@ -56,12 +27,6 @@ public final class OrchidUtils {
 
     public static boolean isWindows = File.separator.equals("\\");
     public static int DEFAULT_PRIORITY = 100;
-
-    public static final TableFormatter<String> defaultTableFormatter = (OrchidUtils.isWindows)
-            ? new AsciiTableFormatter(new CrossingBorder())
-            : new AsciiTableFormatter(new SingleBorder());
-
-    public static final TableFormatter<String> compactTableFormatter = new AsciiTableFormatter(new NoBorder());
 
 // Tested and documented methods
 //----------------------------------------------------------------------------------------------------------------------

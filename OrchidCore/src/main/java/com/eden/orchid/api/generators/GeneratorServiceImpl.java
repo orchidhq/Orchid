@@ -1,7 +1,6 @@
 package com.eden.orchid.api.generators;
 
 import com.caseyjbrooks.clog.Clog;
-import com.copperleaf.krow.KrowTable;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
@@ -11,9 +10,9 @@ import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
-import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
+import com.jakewharton.picnic.Table;
 import kotlin.Lazy;
 import kotlin.LazyKt;
 import kotlin.Pair;
@@ -21,13 +20,7 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -213,7 +206,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
     }
 
     @Override
-    public KrowTable getBuildDetail() {
+    public Table getBuildDetail() {
         return metrics.getDetail();
     }
 
