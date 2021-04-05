@@ -1,4 +1,31 @@
 repositories {
-    jcenter()
+    mavenCentral()
     maven { url "https://kotlin.bintray.com/kotlinx" }
+    jcenter() {
+        //TODO fix before shutdown feb 2022!
+        content {
+            includeModule("com.eden", "Common")
+            includeModule("com.eden", "Clog4j")
+            includeModule("com.eden", "Clog")
+            includeModule("com.eden", "groovydoc-runner")
+            includeModule("com.eden", "groovydoc-models")
+            includeModule("com.eden", "javadoc-runner")
+            includeModule("com.eden", "javadoc-models")
+            includeModule("com.eden", "dokka-runner")
+            includeModule("com.eden", "dokka-models")
+            includeModule("com.eden", "swiftdoc-runner")
+            includeModule("com.eden", "swiftdoc-models")
+            includeModule("com.eden.kodiak", "common-models")
+            includeModule("com.eden.kodiak", "common-formatter")
+            includeModule("com.eden.kodiak", "common-runner")
+            includeModule("com.eden.kodiak", "dokka-runner")
+            includeModule("com.eden.kodiak", "dokka-models")
+            includeModule("com.eden.kodiak", "groovydoc-runner")
+            includeModule("com.eden.kodiak", "groovydoc-models")
+            includeModule("com.eden.kodiak", "javadoc-runner")
+            includeModule("com.eden.kodiak", "javadoc-models")
+            includeModule("com.eden.kodiak", "swiftdoc-runner")
+            includeModule("com.eden.kodiak", "swiftdoc-models")
+        }
+    }
 }

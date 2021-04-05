@@ -1,24 +1,21 @@
 package com.eden.orchid.api.options;
 
 import com.caseyjbrooks.clog.Clog;
-import com.copperleaf.krow.KrowTable;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
+import com.jakewharton.picnic.Table;
+import com.jakewharton.picnic.TableSection;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Singleton
 public class OptionsExtractor extends Extractor {
@@ -191,21 +188,24 @@ public class OptionsExtractor extends Extractor {
         return genericClasses;
     }
 
-    public KrowTable getDescriptionTable(OptionHolderDescription optionsHolderDescription) {
-        KrowTable table = new KrowTable();
+    public Table getDescriptionTable(OptionHolderDescription optionsHolderDescription) {
 
         List<OptionsDescription> options = optionsHolderDescription.getOptionsDescriptions();
-
+        Table.Builder builder = new Table.Builder()
+                .setHeader(
+                        new TableSection.Builder()
+                        .addRow("Key", "Type", "Default Value", "Description")
+                        .build()
+                );
+        TableSection.Builder rows = new TableSection.Builder();
         options.forEach(option -> {
-            table.cell("Type", option.getKey(), cell -> {cell.setContent(option.getOptionType().getSimpleName()); return null;});
-            table.cell("Default Value", option.getKey(), cell -> {cell.setContent(option.getDefaultValue()); return null;});
-            table.cell("Description", option.getKey(), cell -> {cell.setContent(option.getDescription()); return null;});
-        });
-
-        table.column("Description", cell -> {cell.setWrapTextAt(45); return null;});
-        table.column("Type", cell -> {cell.setWrapTextAt(15); return null;});
-        table.column("Default Value", cell -> {cell.setWrapTextAt(15); return null;});
-
-        return table;
+            rows.addRow(
+                    option.getKey(),
+                    option.getOptionType().getSimpleName(),
+                    option.getDefaultValue(),
+                    option.getDescription()
+            );
+       });
+       return builder.setBody(rows.build()).build();
     }
 }

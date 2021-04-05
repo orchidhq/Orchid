@@ -6,7 +6,7 @@ import com.eden.orchid.api.publication.AbstractGitPublisher
 import com.eden.orchid.api.util.GitFacade
 import javax.inject.Inject
 import javax.inject.Named
-import javax.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotBlank
 
 @Description(
     value = "Commit your site directly to Gitlab Pages.",

@@ -133,7 +133,7 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
                 context.broadcast(Orchid.Lifecycle.GeneratingStart.fire(this));
                 context.startGeneration();
                 context.broadcast(Orchid.Lifecycle.GeneratingFinish.fire(this));
-                Clog.tag("\nBuild Metrics").log("\n{}", context.getBuildDetail().print(OrchidUtils.defaultTableFormatter));
+                Clog.tag("\nBuild Metrics").log("\n{}", context.getBuildDetail().toString());
                 Clog.noTag().log("Build Complete");
                 Clog.noTag().log(context.getBuildSummary() + "\n");
                 context.broadcast(Orchid.Lifecycle.BuildFinish.fire(this));

@@ -9,6 +9,7 @@ dependencies {
 
     "api"(Libs.hamcrest_library)
     "api"(Libs.strikt_core)
+    "api"(Libs.filepeek) //force to maven central version (> 0.1.2)
     "api"(Libs.mockito_core)
     "api"(Libs.jsoup)
     "api"(Libs.junit_jupiter_api)

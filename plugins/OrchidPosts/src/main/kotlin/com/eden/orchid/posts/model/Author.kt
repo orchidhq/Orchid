@@ -9,8 +9,8 @@ import com.eden.orchid.api.theme.models.Social
 import com.eden.orchid.posts.pages.AuthorPage
 import java.net.URLEncoder
 import java.security.MessageDigest
-import javax.validation.constraints.NotBlank
-import javax.xml.bind.DatatypeConverter
+import jakarta.validation.constraints.NotBlank
+import jakarta.xml.bind.DatatypeConverter
 
 @Validate
 class Author : OptionsHolder {

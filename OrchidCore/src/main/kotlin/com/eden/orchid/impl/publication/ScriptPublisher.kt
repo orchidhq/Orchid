@@ -10,9 +10,7 @@ import com.eden.orchid.api.publication.OrchidPublisher
 import java.io.File
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
-import javax.inject.Named
-import javax.validation.constraints.NotEmpty
+import jakarta.validation.constraints.NotEmpty
 
 @Description(value = "Run arbitrary shell scripts.", name = "Script")
 class ScriptPublisher  : OrchidPublisher("script") {

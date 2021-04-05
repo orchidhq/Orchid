@@ -1,5 +1,5 @@
 plugins {
-    id("com.eden.orchidPlugin")
+    id("io.github.orchid-revival.orchidPlugin")
 }
 apply(from = "$rootDir/gradle/actions/repositories.gradle")
 

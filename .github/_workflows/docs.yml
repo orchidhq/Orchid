@@ -6,11 +6,10 @@ on:
   branches:
     - docs
 
-
 jobs:
   test:
     name: Generate Docs
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - name: Set up JDK

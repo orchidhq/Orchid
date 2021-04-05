@@ -17,7 +17,7 @@ import com.eden.orchid.utilities.titleCase
 import com.eden.orchid.utilities.to
 import org.json.JSONObject
 import javax.inject.Inject
-import javax.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotBlank
 
 @Validate
 class CollectionArchive

@@ -43,7 +43,7 @@ plugins {
     id 'application'
 }
 repositories {
-    jcenter()
+    mavenCentral()
 }
 dependencies {
     compile 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.21'
@@ -161,7 +161,7 @@ dependencies {
 
 // 3. Get dependencies from JCenter and Kotlinx Bintray repo
 repositories {
-    jcenter()
+    mavenCentral()
     maven { url = "https://kotlin.bintray.com/kotlinx/" }
 }
 

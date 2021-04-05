@@ -45,11 +45,11 @@ class KssParser(cssResources: List<OrchidResource>) {
 
         val maxLevels: Int = sections
                 .values
-                .maxBy { it.styleGuidePath.size }!!
+                .maxByOrNull { it.styleGuidePath.size }!!
                 .styleGuidePath.size
         val minLevels: Int  = sections
                 .values
-                .minBy { it.styleGuidePath.size }!!
+                .minByOrNull { it.styleGuidePath.size }!!
                 .styleGuidePath.size
 
         val sectionDepths = TreeMap<Int, MutableList<StyleguideSection>>()

@@ -145,8 +145,8 @@ constructor(
             "key"         -> term.key
             "title"       -> term.title
             "entryCount"  -> term.pages.size
-            "newestEntry" -> term.pages.maxBy { it.publishDate }!!.publishDate
-            "oldestEntry" -> term.pages.minBy { it.publishDate }!!.publishDate
+            "newestEntry" -> term.pages.maxByOrNull { it.publishDate }!!.publishDate
+            "oldestEntry" -> term.pages.minByOrNull { it.publishDate }!!.publishDate
             else          -> {
                 if (term.element.has(key)) {
                     if (term.element.get(key) is String) {

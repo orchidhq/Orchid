@@ -7,6 +7,11 @@
 </p>
 <hr/>
 <p align="center">
+    Orchid-revival project: Under-construction
+</p>
+<hr/>
+<h2>Original readme, to be updated</h2>
+<p align="center">
   <a href="https://bintray.com/javaeden/Orchid/OrchidCore/_latestVersion">
     <img src="https://api.bintray.com/packages/javaeden/Orchid/OrchidCore/images/download.svg" title="Current Version" alt="Current Version">
   </a>

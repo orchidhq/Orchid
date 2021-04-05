@@ -2,7 +2,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.github.javaeden.orchid</groupId>
+    <groupId>io.github.orchid-revival</groupId>
     <artifactId>orchid-maven-plugin</artifactId>
     <version>0.18.0</version>
 
@@ -55,8 +55,9 @@
 
     <distributionManagement>
         <repository>
-            <id>orchid-bintray</id>
-            <url>https://api.bintray.com/maven/javaeden/Orchid/${project.artifactId}/;publish=1;override=1</url>
+            <id>ossrh</id>
+            <name>Central Repository OSSRH</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
 </project>

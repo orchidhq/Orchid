@@ -12,13 +12,13 @@ import org.gradle.plugin.use.PluginDependencySpec
  * YOU are responsible for updating manually the dependency version.
  */
 object Versions {
-    const val com_vladsch_flexmark: String = "0.62.0"
+    const val com_vladsch_flexmark: String = "0.62.2"
 
-    const val org_jetbrains_kotlin: String = "1.3.72"
+    const val org_jetbrains_kotlin: String = "1.4.31"
 
-    const val com_openhtmltopdf: String = "1.0.2"
+    const val com_openhtmltopdf: String = "1.0.6"
 
-    const val org_junit_jupiter: String = "5.6.2"
+    const val org_junit_jupiter: String = "5.7.1"
 
     const val com_eden_kodiak: String = "0.5.1"
 
@@ -38,65 +38,67 @@ object Versions {
 
     const val gradle_bintray_plugin: String = "1.8.5"
 
-    const val hibernate_validator: String = "6.1.5.Final"
+    const val hibernate_validator: String = "7.0.1.Final"
 
     const val jython_standalone: String = "2.7.2"
 
-    const val univocity_parsers: String = "2.8.4"
+    const val univocity_parsers: String = "2.9.1"
 
     const val hamcrest_library: String = "2.2"
 
     const val kotlinx_html_jvm: String = "0.7.1"
 
-    const val validation_api: String = "2.0.1.Final"
+    const val validation_api: String = "3.0.0"
 
-    const val commons_lang3: String = "3.10"
+    const val commons_lang3: String = "3.12.0"
 
-    const val commons_text: String = "1.8"
+    const val commons_text: String = "1.9"
 
     const val evo_inflector: String = "1.2.2"
 
-    const val thumbnailator: String = "0.4.11"
+    const val thumbnailator: String = "0.4.14"
 
-    const val asciidoctorj: String = "2.3.0"
+    const val asciidoctorj: String = "2.4.3"
 
-    const val javax_inject: String = "1"
+    const val javax_inject: String = "1.0.3"
 
-    const val mockito_core: String = "3.3.3"
+    const val mockito_core: String = "3.8.0"
 
-    const val strikt_core: String = "0.26.1"
+    const val strikt_core: String = "0.29.0"
 
-    const val classgraph: String = "4.8.47"
+    const val file_peek: String = "0.1.3"
 
-    const val commons_io: String = "2.6"
+    const val classgraph: String = "4.8.102"
 
-    const val snakeyaml: String = "1.26"
+    const val commons_io: String = "2.8.0"
 
-    const val javax_el: String = "3.0.1-b11"
+    const val snakeyaml: String = "1.28"
 
-    const val jaxb_api: String = "2.3.1"
+    const val javax_el: String = "4.0.1"
 
-    const val plantuml: String = "1.2020.10" // available: "8059"
+    const val jaxb_api: String = "3.0.0"
 
-    const val pygments: String = "2.4.2" // available: "2.6.1"
+    const val plantuml: String = "1.2021.2"
+
+    const val pygments: String = "2.5.2" //2.6.X breaks tests
 
     const val clog4j: String = "2.0.7"
 
-    const val okhttp: String = "4.7.2"
+    const val okhttp: String = "4.9.1"
 
-    const val pebble: String = "3.1.4"
+    const val pebble: String = "3.1.5"
 
     const val toml4j: String = "0.7.2"
 
-    const val guice: String = "4.2.3"
+    const val guice: String = "5.0.1"
 
-    const val jsass: String = "5.10.3"
+    const val jsass: String = "5.10.4"
 
     const val jsoup: String = "1.13.1"
 
-    const val json: String = "20180813"
+    const val json: String = "20210307"
 
-    const val krow: String = "0.1.13"
+    const val picnic: String = "0.5.0"
 
     /**
      * Current version: "6.4.1"

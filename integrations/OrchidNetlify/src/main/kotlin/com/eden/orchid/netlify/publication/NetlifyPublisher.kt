@@ -24,8 +24,8 @@ import java.time.Instant
 import java.util.ArrayList
 import javax.inject.Inject
 import javax.inject.Named
-import javax.validation.ValidationException
-import javax.validation.constraints.NotBlank
+import jakarta.validation.ValidationException
+import jakarta.validation.constraints.NotBlank
 
 @Description(value = "Upload your site directly to Netlify, while using your favorite CI platform.", name = "Netlify")
 class NetlifyPublisher @Inject

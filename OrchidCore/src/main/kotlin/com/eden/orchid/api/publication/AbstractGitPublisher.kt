@@ -13,9 +13,9 @@ import com.eden.orchid.utilities.OrchidUtils.DEFAULT_PRIORITY
 import com.eden.orchid.utilities.SuppressedWarnings
 import javax.inject.Inject
 import javax.inject.Named
-import javax.validation.constraints.Email
-import javax.validation.constraints.NotBlank
-import javax.validation.constraints.NotNull
+import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
 
 abstract class AbstractGitPublisher
 @Inject

@@ -16,4 +16,5 @@ dependencies {
     testImplementation(Libs.junit_jupiter_params)
     testRuntimeOnly(Libs.junit_jupiter_engine)
     implementation(Libs.kotlin_stdlib_jdk8)
+    implementation(Libs.kotlin_reflect)
 }

@@ -13,7 +13,7 @@ version = rootProject.version
 
 pluginBundle {
     website = "https://orchid.run/"
-    vcsUrl = "https://github.com/orchidhq/orchid"
+    vcsUrl = "https://github.com/orchid-revival/Orchid"
     description = "A convenient DSL for setting up Orchid with your Gradle projects"
     tags = listOf("orchid", "javadoc")
 

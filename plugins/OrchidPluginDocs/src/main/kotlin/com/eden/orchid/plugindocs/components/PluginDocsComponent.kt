@@ -62,7 +62,7 @@ class PluginDocsComponent : OrchidComponent("pluginDocs") {
     private fun addPackageClasses(classList: MutableSet<String>) {
         ClassGraph()
                 .enableClassInfo()
-                .whitelistPackages(*packageNames)
+                .acceptPackages(*packageNames)
                 .scan()
                 .allStandardClasses
                 .loadClasses()

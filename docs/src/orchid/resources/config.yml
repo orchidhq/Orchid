@@ -10,15 +10,15 @@ site:
         - link: '/'
           label: 'Home'
           icon: 'fas fa-home'
-        - link: 'https://github.com/orchidhq/orchid'
+        - link: 'https://github.com/orchid-revival/Orchid'
           label: 'Github'
           icon: 'fab fa-github'
-        - link: 'https://twitter.com/OrchidSSG'
-          label: 'Twitter'
-          icon: 'fab fa-twitter'
-        - link: 'https://gitter.im/JavaEden/Orchid'
-          label: 'Gitter'
-          icon: 'fab fa-gitter'
+#        - link: 'https://twitter.com/OrchidSSG'
+#         label: 'Twitter'
+#          icon: 'fab fa-twitter'
+#        - link: 'https://gitter.im/JavaEden/Orchid'
+#          label: 'Gitter'
+#          icon: 'fab fa-gitter'
 
 theme:
   primaryColor: '#7E80CF'
@@ -86,5 +86,5 @@ services:
   publications:
     stages:
       - type: githubReleases
-        repo: 'orchidhq/orchid'
+        repo: 'orchid-revival/Orchid'
         commitish: 'master'
