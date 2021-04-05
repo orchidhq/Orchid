@@ -15,7 +15,6 @@ jobs:
       matrix:
         jdk_version: ['8', '9', '11']
         os: [ubuntu-latest, windows-latest, macOS-latest]
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK
@@ -24,4 +23,11 @@ jobs:
         distribution: 'adopt'
         java-version: ${{ matrix.jdk_version }}
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew build -Prelease
+    - name: Build maven
+      run:  |
+        export GRADLE_PROJECT_RELEASE_NAME=$(./gradlew getReleaseName -Prelease --quiet)
+        cd buildSrc/orchidMavenPlugin
+        ./mvnw versions:set -DnewVersion=$GRADLE_PROJECT_RELEASE_NAME
+        ./mvnw package
+        |

@@ -42,6 +42,10 @@ fun getProjectVersion(
     val isRelease = hasProperty("release")
     val hasUncommittedChanges = hasUncommittedChanges()
 
+    if(latestTagName.length < 6) {
+        latestTagName = "0.0.1"
+    }
+
     var (major, minor, patch) = latestTagName
         .split('.')
         .map { it.trim().toInt() }
