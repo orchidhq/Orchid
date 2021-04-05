@@ -5,8 +5,6 @@ on:
     branches:
     - master
 
-
-
 jobs:
   test:
     name: Check ${{ matrix.os }} JDK ${{ matrix.jdk_version }} For Release
