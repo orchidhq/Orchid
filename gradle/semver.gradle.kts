@@ -35,7 +35,7 @@ fun getProjectVersion(
     failIfNotRelease: Boolean = false,
     snapshotSuffix: String = "-SNAPSHOT"
 ): ProjectVersion {
-    val latestTagName = getLatestTagName()
+    var latestTagName = getLatestTagName()
     val latestTagSha = getLatestTagSha()
     val currentSha = getCurrentSha()
     val commitsSinceLastTag = getCommitsSinceLastTag(latestTagName)
