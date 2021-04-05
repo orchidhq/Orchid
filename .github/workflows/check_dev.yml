@@ -1,15 +1,13 @@
-name: Check
+name: Check Release
 
 on:
-  push:
+  pull_request:
     branches:
     - dev
-    - features/*
-    - defects/*
 
 jobs:
   test:
-    name: Check ${{ matrix.os }} JDK ${{ matrix.jdk_version }}
+    name: Check ${{ matrix.os }} JDK ${{ matrix.jdk_version }} For Release
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

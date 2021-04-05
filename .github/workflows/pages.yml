@@ -1,0 +1,24 @@
+name: Build and deploy docs
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy-docs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: 8
+    - name: Build with Gradle
+      run: ./gradlew assemble :docs:orchidBuild -PorchidEnvironment=prod -Prelease
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@4.1.1
+      with:
+        branch: gh-pages # The branch the action should deploy to.
+        folder: docs/build/docs/orchid # The folder the action should deploy.
