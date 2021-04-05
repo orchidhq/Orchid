@@ -43,7 +43,7 @@ fun getProjectVersion(
     val hasUncommittedChanges = hasUncommittedChanges()
 
     if(latestTagName.length < 6) {
-        latestTagName = "0.5.5"
+        latestTagName = "0.18.0"
     }
 
     var (major, minor, patch) = latestTagName
