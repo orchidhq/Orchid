@@ -1,6 +1,6 @@
 site:
   theme: Copper
-  baseUrl: netlify
+  baseUrl: https://orchid-revival.github.io/Orchid/
   about:
     siteName: Orchid
     siteDescription: Build and deploy beautiful documentation sites that grow with you
