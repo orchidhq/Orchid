@@ -21,7 +21,7 @@ apply(from = "$rootDir/gradle/semver.gradle.kts")
 apply(from = "$rootDir/gradle/actions/repositories.gradle")
 
 //val delegate: org.gradle.kotlin.dsl.support.delegates.ProjectDelegate = this
-group = "io.github.javaeden.orchid"
+group = "io.github.orchid-revival"
 
 buildSrcVersions {
     versionsOnlyMode = null

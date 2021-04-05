@@ -28,9 +28,7 @@ val PomExtraFragment = {
     </developers>
 }
 
-ThisBuild / organization        := "io.github.javaeden.orchid"
-ThisBuild / bintrayOrganization := Some("javaeden")
-ThisBuild / bintrayRepository   := "orchid"
+ThisBuild / organization        := "io.github.orchid-revival.orchid"
 ThisBuild / version             := BuildVersion
 ThisBuild / resolvers           += Resolver.mavenLocal
 ThisBuild / resolvers           += Resolver.jcenterRepo

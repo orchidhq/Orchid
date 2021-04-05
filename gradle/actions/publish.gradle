@@ -1,12 +1,11 @@
-apply plugin: 'com.jfrog.bintray'
 apply plugin: 'maven-publish'
 
 afterEvaluate { project ->
     def pomConfig = {
         scm {
-            url 'https://github.com/orchidhq/orchid.git'
-            connection 'https://github.com/orchidhq/orchid.git'
-            developerConnection 'https://github.com/orchidhq/orchid.git'
+            url 'https://github.com/orchid-revival/Orchid'
+            connection 'https://github.com/orchid-revival/Orchid.git'
+            developerConnection 'https://github.com/orchid-revival/Orchid'
         }
         licenses {
             license {
@@ -17,9 +16,9 @@ afterEvaluate { project ->
         }
         developers {
             developer {
-                id 'JavaEden'
-                name 'Casey Brooks'
-                email 'cjbrooks12@gmail.com'
+                id 'SnakeSVx'
+                name 'Stijn Vlaes'
+                email 'stijn.sv@gmail.com'
             }
         }
     }
@@ -35,45 +34,24 @@ afterEvaluate { project ->
                     def root = asNode()
                     root.appendNode('description', 'A modern, extensible, theme-ready Javadoc site generator')
                     root.appendNode('name', 'Orchid')
-                    root.appendNode('url', 'https://javaeden.github.io/Orchid/latest/core/')
+                    root.appendNode('url', 'https://github.com/orchid-revival/Orchid')
                     root.children().last() + pomConfig
                 }
             }
         }
     }
 
-    bintray {
-        user = "${project.properties['bintray_username']}"
-        key = "${project.properties['bintray_apiKey']}"
-        publications = ['OrchidPublication']
+}
 
-        dryRun = project.hasProperty('dryDeploy')
-        publish = !project.hasProperty('dryDeploy')
-        override = true
-
-        pkg {
-            repo = "${rootProject.name}"
-            name = "${project.name}"
-            userOrg = 'javaeden'
-            licenses = ['LGPL-3.0']
-            vcsUrl = 'https://github.com/orchidhq/orchid.git'
-
-            version {
-                name = "${project.version}"
-                desc = "Orchid ${project.name} ${project.version}"
-                released = new Date()
-
-                gpg {
-                    sign = true
-                }
-                mavenCentralSync {
-                    sync = (project.hasProperty('includeMavenCentralSync'))
-                    user = "${project.properties['mavenCentral_username']}"
-                    password = "${project.properties['mavenCentral_password']}"
-                }
+publishing {
+    repositories {
+        maven {
+            name = "OSSRH"
+            url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
             }
         }
     }
 }
-
-project.tasks.publish.dependsOn bintrayUpload
