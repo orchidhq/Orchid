@@ -21,4 +21,4 @@ jobs:
       with:
         java-version: ${{ matrix.jdk_version }}
     - name: Build with Gradle
-      run: ./gradlew build -Prelease -PorchidEnvironment=prod --dry-run
+      run: ./gradlew build -Prelease -PorchidEnvironment=prod

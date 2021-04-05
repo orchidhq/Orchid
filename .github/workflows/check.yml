@@ -23,4 +23,4 @@ jobs:
       with:
         java-version: ${{ matrix.jdk_version }}
     - name: Build with Gradle
-      run: ./gradlew build --dry-run
+      run: ./gradlew build
