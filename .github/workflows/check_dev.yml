@@ -22,11 +22,9 @@ jobs:
         distribution: 'adopt'
         java-version: ${{ matrix.jdk_version }}
     - name: Build with Gradle
-      run: ./gradlew build -Prelease
+      run: ./gradlew build
     - name: Build maven
       run:  |
-        export GRADLE_PROJECT_RELEASE_NAME=$(./gradlew getReleaseName -Prelease --quiet)
         cd buildSrc/orchidMavenPlugin
-        ./mvnw versions:set -DnewVersion=$GRADLE_PROJECT_RELEASE_NAME
         ./mvnw package
         |

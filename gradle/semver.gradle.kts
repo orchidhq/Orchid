@@ -35,16 +35,12 @@ fun getProjectVersion(
     failIfNotRelease: Boolean = false,
     snapshotSuffix: String = "-SNAPSHOT"
 ): ProjectVersion {
-    var latestTagName = getLatestTagName()
+    val latestTagName = getLatestTagName()
     val latestTagSha = getLatestTagSha()
     val currentSha = getCurrentSha()
     val commitsSinceLastTag = getCommitsSinceLastTag(latestTagName)
     val isRelease = hasProperty("release")
     val hasUncommittedChanges = hasUncommittedChanges()
-
-    if(latestTagName.length < 6) {
-        latestTagName = "0.0.1"
-    }
 
     var (major, minor, patch) = latestTagName
         .split('.')
