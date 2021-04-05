@@ -6,14 +6,14 @@ on:
     - dev
     - features/*
     - defects/*
-
+    -
 jobs:
   test:
     name: Check ${{ matrix.os }} JDK ${{ matrix.jdk_version }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        jdk_version: ['8', '9', '11']
+        jdk_version: ['8', '11', '15']
         os: [ubuntu-latest, windows-latest, macOS-latest]
     steps:
     - uses: actions/checkout@v2
@@ -23,9 +23,8 @@ jobs:
         distribution: 'adopt'
         java-version: ${{ matrix.jdk_version }}
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew build -Prelease
     - name: Build maven
-      run:  |
+      run: |
         cd buildSrc/orchidMavenPlugin
         ./mvnw package
-        |
