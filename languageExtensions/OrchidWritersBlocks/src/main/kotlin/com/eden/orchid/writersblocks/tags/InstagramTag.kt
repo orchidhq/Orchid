@@ -4,14 +4,22 @@ import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.utilities.resolve
+import com.eden.orchid.writersblocks.tags.InstagramTag.Companion.DEPRECATION_MESSAGE
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URLEncoder
 
+@Deprecated(DEPRECATION_MESSAGE)
 @Description("Embed an Instagram post in your content.", name = "Instagram")
 class InstagramTag : TemplateTag("instagram", Type.Simple, true) {
+
+    companion object {
+        const val DEPRECATION_MESSAGE = "Changes to the Instagram oEmbed API have rendered the Orchid Instagram tag " +
+                "infeasible. It is advised to use the Embed Button instead. View the documentation here: " +
+                "https://developers.facebook.com/docs/instagram/embed-button"
+    }
 
     @Option
     @Description("The Id of an Instagram post to link to.")
@@ -22,25 +30,7 @@ class InstagramTag : TemplateTag("instagram", Type.Simple, true) {
     override fun parameters() = arrayOf(::id.name)
 
     val embeddedPost: String? by lazy {
-        val postUrl = "http://instagr.am/p/$id"
-        val requestUrl = "https://api.instagram.com/oembed?url=${URLEncoder.encode(postUrl, "UTF-8")}"
-
-        val request = Request.Builder().url(requestUrl.trim()).build()
-
-        try {
-            val response = client.newCall(request).execute()
-
-            if (response.isSuccessful) {
-                val body = response.body?.string() ?: ""
-                JSONObject(body).getString("html")
-            }
-            else {
-                null
-            }
-        }
-        catch (e: IOException) {
-            e.printStackTrace()
-            null
-        }
+        context.deprecationMessage { DEPRECATION_MESSAGE }
+        ""
     }
 }
