@@ -14,29 +14,29 @@ import org.gradle.plugin.use.PluginDependencySpec
 object Versions {
     const val com_vladsch_flexmark: String = "0.62.2"
 
-    const val org_jetbrains_kotlin: String = "1.3.72" // available: "1.5.10"
+    const val org_jetbrains_kotlin: String = "1.3.72" // available: "1.5.10" (target the first Orchid re-release for 1.4.32)
 
     const val com_openhtmltopdf: String = "1.0.8"
 
     const val org_junit_jupiter: String = "5.7.2"
 
-    const val com_eden_kodiak: String = "0.5.1"
+    const val com_eden_kodiak: String = "0.5.1" // (artifact has new coordinates, requires Kotlin 1.4.32)
 
-    const val org_nanohttpd: String = "2.3.1"
+    const val org_nanohttpd: String = "2.3.1" // (future: replace with ktor CIO server)
 
-    const val com_eden_groovydoc_runner: String = "0.2.4"
+    const val com_eden_groovydoc_runner: String = "0.2.4" // (remove legacy sourcedoc code with this dependency)
 
-    const val com_eden_javadoc_runner: String = "0.2.4"
+    const val com_eden_javadoc_runner: String = "0.2.4" // (remove legacy sourcedoc code with this dependency)
 
-    const val com_eden_dokka_runner: String = "0.2.4"
+    const val com_eden_dokka_runner: String = "0.2.4" // (remove legacy sourcedoc code with this dependency)
 
-    const val com_eden_common: String = "1.12.1" // available: "2.0.0"
+    const val com_eden_common: String = "1.12.1" // available: "2.0.0" (artifact has new coordinates, requires Kotlin 1.4.32. Needs update to remove internal org.json and clog dependencies)
 
     const val de_fayard_buildsrcversions_gradle_plugin: String = "0.7.0"
 
-    const val codacy_coverage_reporter: String = "7.1.0"
+    const val codacy_coverage_reporter: String = "7.1.0" // (future: build Orchid plugin to read jacoco reports and generate badges itself, so we don't need to send data to Codacy)
 
-    const val gradle_bintray_plugin: String = "1.8.5"
+    const val gradle_bintray_plugin: String = "1.8.5" // (remove, can't publish to Bintray anymore)
 
     const val hibernate_validator: String = "6.1.5.Final" // available: "7.0.1.Final"
 
@@ -56,7 +56,7 @@ object Versions {
 
     const val thumbnailator: String = "0.4.14"
 
-    const val asciidoctorj: String = "2.3.0" // available: "2.5.1"
+    const val asciidoctorj: String = "2.3.0" // available: "2.5.1" (has deprecated APIs)
 
     const val commons_text: String = "1.9"
 
@@ -64,11 +64,11 @@ object Versions {
 
     const val mockito_core: String = "3.3.3" // available: "3.10.0"
 
-    const val strikt_core: String = "0.26.1" // available: "0.31.0"
+    const val strikt_core: String = "0.26.1" // available: "0.31.0" (requires Kotlin 1.4.32)
 
-    const val classgraph: String = "4.8.47" // available: "4.8.106"
+    const val classgraph: String = "4.8.47" // available: "4.8.106" (has deprecated APIs)
 
-    const val commons_io: String = "2.6" // available: "20030203.000550"
+    const val commons_io: String = "2.9.0"
 
     const val snakeyaml: String = "1.28"
 
@@ -78,11 +78,11 @@ object Versions {
 
     const val plantuml: String = "1.2021.7"
 
-    const val pygments: String = "2.4.2" // available: "2.6.1"
+    const val pygments: String = "2.4.2" // available: "2.6.1" (has errors when running)
 
     const val clog4j: String = "2.0.7"
 
-    const val okhttp: String = "4.7.2" // available: "4.9.1"
+    const val okhttp: String = "4.7.2" // available: "4.9.1" (requires Kotlin 1.4.32)
 
     const val pebble: String = "3.1.5"
 
@@ -90,11 +90,11 @@ object Versions {
 
     const val guice: String = "5.0.1"
 
-    const val jsass: String = "5.10.3" // available: "5.10.4"
+    const val jsass: String = "5.10.3" // available: "5.10.4" (has warnings when running)
 
     const val jsoup: String = "1.13.1"
 
-    const val json: String = "20180813" // available: "20210307"
+    const val json: String = "20180813" // available: "20210307" (can't update until eden common dependency is updated)
 
     const val krow: String = "0.1.13"
 
