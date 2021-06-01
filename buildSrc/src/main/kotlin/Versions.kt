@@ -12,13 +12,13 @@ import org.gradle.plugin.use.PluginDependencySpec
  * YOU are responsible for updating manually the dependency version.
  */
 object Versions {
-    const val com_vladsch_flexmark: String = "0.62.0" // available: "0.62.2"
+    const val com_vladsch_flexmark: String = "0.62.2"
 
     const val org_jetbrains_kotlin: String = "1.3.72" // available: "1.5.10"
 
-    const val com_openhtmltopdf: String = "1.0.2" // available: "1.0.8"
+    const val com_openhtmltopdf: String = "1.0.8"
 
-    const val org_junit_jupiter: String = "5.6.2" // available: "5.7.2"
+    const val org_junit_jupiter: String = "5.7.2"
 
     const val com_eden_kodiak: String = "0.5.1"
 
@@ -54,7 +54,7 @@ object Versions {
 
     const val evo_inflector: String = "1.2.2"
 
-    const val thumbnailator: String = "0.4.11" // available: "0.4.14"
+    const val thumbnailator: String = "0.4.14"
 
     const val asciidoctorj: String = "2.3.0" // available: "2.5.1"
 
@@ -84,7 +84,7 @@ object Versions {
 
     const val okhttp: String = "4.7.2" // available: "4.9.1"
 
-    const val pebble: String = "3.1.4" // available: "3.1.5"
+    const val pebble: String = "3.1.5"
 
     const val toml4j: String = "0.7.2"
 
