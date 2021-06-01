@@ -12,13 +12,13 @@ import org.gradle.plugin.use.PluginDependencySpec
  * YOU are responsible for updating manually the dependency version.
  */
 object Versions {
-    const val com_vladsch_flexmark: String = "0.62.0"
+    const val com_vladsch_flexmark: String = "0.62.0" // available: "0.62.2"
 
-    const val org_jetbrains_kotlin: String = "1.3.72"
+    const val org_jetbrains_kotlin: String = "1.3.72" // available: "1.5.10"
 
-    const val com_openhtmltopdf: String = "1.0.2"
+    const val com_openhtmltopdf: String = "1.0.2" // available: "1.0.8"
 
-    const val org_junit_jupiter: String = "5.6.2"
+    const val org_junit_jupiter: String = "5.6.2" // available: "5.7.2"
 
     const val com_eden_kodiak: String = "0.5.1"
 
@@ -30,7 +30,7 @@ object Versions {
 
     const val com_eden_dokka_runner: String = "0.2.4"
 
-    const val com_eden_common: String = "1.12.1"
+    const val com_eden_common: String = "1.12.1" // available: "2.0.0"
 
     const val de_fayard_buildsrcversions_gradle_plugin: String = "0.7.0"
 
@@ -38,11 +38,11 @@ object Versions {
 
     const val gradle_bintray_plugin: String = "1.8.5"
 
-    const val hibernate_validator: String = "6.1.5.Final"
+    const val hibernate_validator: String = "6.1.5.Final" // available: "7.0.1.Final"
 
     const val jython_standalone: String = "2.7.2"
 
-    const val univocity_parsers: String = "2.8.4"
+    const val univocity_parsers: String = "2.8.4" // available: "2.9.1"
 
     const val hamcrest_library: String = "2.2"
 
@@ -50,27 +50,27 @@ object Versions {
 
     const val validation_api: String = "2.0.1.Final"
 
-    const val commons_lang3: String = "3.10"
-
-    const val commons_text: String = "1.8"
+    const val commons_lang3: String = "3.10" // available: "3.12.0"
 
     const val evo_inflector: String = "1.2.2"
 
-    const val thumbnailator: String = "0.4.11"
+    const val thumbnailator: String = "0.4.11" // available: "0.4.14"
 
-    const val asciidoctorj: String = "2.3.0"
+    const val asciidoctorj: String = "2.3.0" // available: "2.5.1"
+
+    const val commons_text: String = "1.8" // available: "1.9"
 
     const val javax_inject: String = "1"
 
-    const val mockito_core: String = "3.3.3"
+    const val mockito_core: String = "3.3.3" // available: "3.10.0"
 
-    const val strikt_core: String = "0.26.1"
+    const val strikt_core: String = "0.26.1" // available: "0.31.0"
 
-    const val classgraph: String = "4.8.47"
+    const val classgraph: String = "4.8.47" // available: "4.8.106"
 
-    const val commons_io: String = "2.6"
+    const val commons_io: String = "2.6" // available: "20030203.000550"
 
-    const val snakeyaml: String = "1.26"
+    const val snakeyaml: String = "1.26" // available: "1.28"
 
     const val javax_el: String = "3.0.1-b11"
 
@@ -82,19 +82,19 @@ object Versions {
 
     const val clog4j: String = "2.0.7"
 
-    const val okhttp: String = "4.7.2"
+    const val okhttp: String = "4.7.2" // available: "4.9.1"
 
-    const val pebble: String = "3.1.4"
+    const val pebble: String = "3.1.4" // available: "3.1.5"
 
     const val toml4j: String = "0.7.2"
 
-    const val guice: String = "4.2.3"
+    const val guice: String = "4.2.3" // available: "5.0.1"
 
-    const val jsass: String = "5.10.3"
+    const val jsass: String = "5.10.3" // available: "5.10.4"
 
     const val jsoup: String = "1.13.1"
 
-    const val json: String = "20180813"
+    const val json: String = "20180813" // available: "20210307"
 
     const val krow: String = "0.1.13"
 
@@ -103,7 +103,7 @@ object Versions {
      * See issue 19: How to update Gradle itself?
      * https://github.com/jmfayard/buildSrcVersions/issues/19
      */
-    const val gradleLatestVersion: String = "6.4.1"
+    const val gradleLatestVersion: String = "7.0.2"
 }
 
 /**

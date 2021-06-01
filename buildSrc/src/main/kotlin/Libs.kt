@@ -68,15 +68,27 @@ object Libs {
     const val kotlin_stdlib_jdk8: String = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:" +
             Versions.org_jetbrains_kotlin
 
+    /**
+     * https://github.com/danfickle/openhtmltopdf
+     */
     const val openhtmltopdf_core: String = "com.openhtmltopdf:openhtmltopdf-core:" +
             Versions.com_openhtmltopdf
 
+    /**
+     * https://github.com/danfickle/openhtmltopdf
+     */
     const val openhtmltopdf_pdfbox: String = "com.openhtmltopdf:openhtmltopdf-pdfbox:" +
             Versions.com_openhtmltopdf
 
+    /**
+     * https://github.com/danfickle/openhtmltopdf
+     */
     const val openhtmltopdf_slf4j: String = "com.openhtmltopdf:openhtmltopdf-slf4j:" +
             Versions.com_openhtmltopdf
 
+    /**
+     * https://github.com/danfickle/openhtmltopdf
+     */
     const val openhtmltopdf_svg_support: String = "com.openhtmltopdf:openhtmltopdf-svg-support:" +
             Versions.com_openhtmltopdf
 
@@ -210,7 +222,7 @@ object Libs {
             Versions.hamcrest_library
 
     /**
-     * https://github.com/Kotlin/kotlinx.html
+     * 0.7.3
      */
     const val kotlinx_html_jvm: String = "org.jetbrains.kotlinx:kotlinx-html-jvm:" +
             Versions.kotlinx_html_jvm
@@ -224,8 +236,6 @@ object Libs {
      * https://commons.apache.org/proper/commons-lang/
      */
     const val commons_lang3: String = "org.apache.commons:commons-lang3:" + Versions.commons_lang3
-
-    const val commons_text: String = "org.apache.commons:commons-text:" + Versions.commons_text
 
     /**
      * http://atteo.org/static/evo-inflector
@@ -242,6 +252,14 @@ object Libs {
      */
     const val asciidoctorj: String = "org.asciidoctor:asciidoctorj:" + Versions.asciidoctorj
 
+    /**
+     * https://commons.apache.org/proper/commons-text
+     */
+    const val commons_text: String = "org.apache.commons:commons-text:" + Versions.commons_text
+
+    /**
+     * http://code.google.com/p/atinject/
+     */
     const val javax_inject: String = "javax.inject:javax.inject:" + Versions.javax_inject
 
     /**
@@ -259,9 +277,6 @@ object Libs {
      */
     const val classgraph: String = "io.github.classgraph:classgraph:" + Versions.classgraph
 
-    /**
-     * https://commons.apache.org/proper/commons-io/
-     */
     const val commons_io: String = "commons-io:commons-io:" + Versions.commons_io
 
     /**
@@ -324,6 +339,9 @@ object Libs {
      */
     const val jsoup: String = "org.jsoup:jsoup:" + Versions.jsoup
 
+    /**
+     * https://github.com/douglascrockford/JSON-java
+     */
     const val json: String = "org.json:json:" + Versions.json
 
     /**
