@@ -32,7 +32,7 @@ object Versions {
 
     const val com_eden_common: String = "1.12.1" // available: "2.0.0" (artifact has new coordinates, requires Kotlin 1.4.32. Needs update to remove internal org.json and clog dependencies)
 
-    const val de_fayard_buildsrcversions_gradle_plugin: String = "0.7.0"
+    const val de_fayard_buildsrcversions_gradle_plugin: String = "0.7.0" // replace with Gradle 7 Dependency Catalogs (https://docs.gradle.org/7.0/userguide/platforms.html#sub:central-declaration-of-dependencies)
 
     const val codacy_coverage_reporter: String = "7.1.0" // (future: build Orchid plugin to read jacoco reports and generate badges itself, so we don't need to send data to Codacy)
 
