@@ -42,7 +42,7 @@ object Versions {
 
     const val jython_standalone: String = "2.7.2"
 
-    const val univocity_parsers: String = "2.8.4" // available: "2.9.1"
+    const val univocity_parsers: String = "2.9.1"
 
     const val hamcrest_library: String = "2.2"
 
@@ -50,7 +50,7 @@ object Versions {
 
     const val validation_api: String = "2.0.1.Final"
 
-    const val commons_lang3: String = "3.10" // available: "3.12.0"
+    const val commons_lang3: String = "3.12.0"
 
     const val evo_inflector: String = "1.2.2"
 
@@ -58,7 +58,7 @@ object Versions {
 
     const val asciidoctorj: String = "2.3.0" // available: "2.5.1"
 
-    const val commons_text: String = "1.8" // available: "1.9"
+    const val commons_text: String = "1.9"
 
     const val javax_inject: String = "1"
 
@@ -70,13 +70,13 @@ object Versions {
 
     const val commons_io: String = "2.6" // available: "20030203.000550"
 
-    const val snakeyaml: String = "1.26" // available: "1.28"
+    const val snakeyaml: String = "1.28"
 
     const val javax_el: String = "3.0.1-b11"
 
     const val jaxb_api: String = "2.3.1"
 
-    const val plantuml: String = "1.2020.10" // available: "8059"
+    const val plantuml: String = "1.2021.7"
 
     const val pygments: String = "2.4.2" // available: "2.6.1"
 
