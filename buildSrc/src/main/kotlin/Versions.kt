@@ -88,7 +88,7 @@ object Versions {
 
     const val toml4j: String = "0.7.2"
 
-    const val guice: String = "4.2.3" // available: "5.0.1"
+    const val guice: String = "5.0.1"
 
     const val jsass: String = "5.10.3" // available: "5.10.4"
 
