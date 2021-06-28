@@ -1,6 +1,6 @@
 package com.eden.orchid.swiftdoc.swift
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.swiftdoc.swift.members.SwiftClassMethod
 import com.eden.orchid.swiftdoc.swift.members.SwiftClassVar
 import com.eden.orchid.swiftdoc.swift.members.SwiftCommentMark

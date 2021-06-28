@@ -1,9 +1,8 @@
 package com.eden.orchid.api.registration;
 
-import com.caseyjbrooks.clog.Clog;
+import clog.Clog;
 import com.eden.common.util.EdenUtils;
 import io.github.classgraph.ClassGraph;
-import kotlin.text.StringsKt;
 
 import java.lang.reflect.Modifier;
 import java.util.jar.Manifest;
@@ -59,7 +58,8 @@ public class ClasspathModuleInstaller extends OrchidModule {
         );
 
         moduleLog.append("\n");
-        Clog.tag("Auto-loaded modules").log(moduleLog.toString());
+        Clog.d("Auto-loaded modules");
+        Clog.d(moduleLog.toString());
     }
 
     private boolean isInstantiable(Class<?> matchingClass) {

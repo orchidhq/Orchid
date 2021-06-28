@@ -1,6 +1,6 @@
 package com.eden.orchid.netlify.site
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.tasks.OrchidTask

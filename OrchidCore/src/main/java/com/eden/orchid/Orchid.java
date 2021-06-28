@@ -1,14 +1,12 @@
 package com.eden.orchid;
 
-import com.caseyjbrooks.clog.Clog;
-import com.eden.common.util.EdenUtils;
+import clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.OrchidSecurityManager;
 import com.eden.orchid.api.OrchidService;
 import com.eden.orchid.api.events.OrchidEvent;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.OrchidFlags;
-import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -17,9 +15,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This is the main entry point to the Orchid build process. It does little more than create a OrchidContextImpl for Orchid to runTask
@@ -72,7 +68,8 @@ public final class Orchid {
                 }
             }
             moduleLog += "\n";
-            Clog.tag("Using the following modules").log(moduleLog);
+            Clog.d("Using the following modules");
+            Clog.d(moduleLog);
 
             Injector injector = Guice.createInjector(modules);
 
@@ -80,7 +77,8 @@ public final class Orchid {
             flagLog += "\n--------------------\n";
             flagLog += OrchidFlags.getInstance().printFlags();
             flagLog += "\n";
-            Clog.tag("Flag values").log(flagLog);
+            Clog.d("Flag values");
+            Clog.d(flagLog);
 
             context = injector.getInstance(OrchidContext.class);
 

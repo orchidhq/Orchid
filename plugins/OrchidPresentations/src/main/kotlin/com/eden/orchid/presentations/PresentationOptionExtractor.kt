@@ -1,6 +1,6 @@
 package com.eden.orchid.presentations
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.converters.StringConverter
 import com.eden.orchid.api.options.OptionExtractor

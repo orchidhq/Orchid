@@ -1,6 +1,6 @@
 package com.eden.orchid.plugindocs.tags
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.generators.OrchidCollection

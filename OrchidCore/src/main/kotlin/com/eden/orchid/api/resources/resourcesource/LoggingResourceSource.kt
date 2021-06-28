@@ -1,9 +1,9 @@
 package com.eden.orchid.api.resources.resourcesource
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
+import clog.dsl.tag
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.OrchidResource
-import com.eden.orchid.utilities.OrchidUtils
 
 class LoggingResourceSource(
     private val delegate: OrchidResourceSource,

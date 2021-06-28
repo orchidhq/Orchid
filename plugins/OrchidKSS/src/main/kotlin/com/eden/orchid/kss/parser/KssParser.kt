@@ -1,6 +1,6 @@
 package com.eden.orchid.kss.parser
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.api.resources.resource.OrchidResource
 import java.util.TreeMap
 import java.util.regex.Pattern

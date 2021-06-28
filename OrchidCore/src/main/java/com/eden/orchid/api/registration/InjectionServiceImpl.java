@@ -1,6 +1,5 @@
 package com.eden.orchid.api.registration;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
@@ -71,7 +70,7 @@ public class InjectionServiceImpl implements InjectionService {
     public void popInjector(String name) {
         if(!injectorStack.peek().getFirst().equals(name)) {
             throw new IllegalArgumentException(
-                    Clog.format("Attempt to pop injector failed: given {}, top injector of stack was {}", name, injectorStack.peek().getFirst())
+                    "Attempt to pop injector failed: given " + name + ", top injector of stack was " + injectorStack.peek().getFirst()
             );
         }
 

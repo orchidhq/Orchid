@@ -1,12 +1,11 @@
-import org.gradle.kotlin.dsl.apply
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 plugins {
     idea
     java
+    kotlin("jvm")
+    jacoco
 }
-
-apply(from = "$rootDir/gradle/actions/kotlin.gradle")
-apply(from = "$rootDir/gradle/actions/testing.gradle")
 
 dependencies {
     testImplementation("org.hamcrest:hamcrest-library:2.2") // remove this
@@ -20,6 +19,13 @@ dependencies {
 tasks.withType<JavaCompile> {
     sourceCompatibility = Config.javaVersion
     targetCompatibility = Config.javaVersion
+}
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions.useIR = true
+    kotlinOptions {
+        jvmTarget = Config.javaVersion
+        freeCompilerArgs = listOf("-Xjvm-default=compatibility", "-Xopt-in=kotlin.RequiresOptIn")
+    }
 }
 
 tasks.withType<Jar>() {
@@ -46,3 +52,33 @@ java {
 
 val javadoc by tasks
 javadoc.onlyIf { false }
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+    testLogging {
+        showStandardStreams = true
+        exceptionFormat = TestExceptionFormat.FULL
+    }
+    reports {
+        junitXml.isEnabled = true
+        html.isEnabled = true
+    }
+}
+tasks.withType<JacocoReport> {
+    reports {
+        xml.isEnabled = true
+        html.isEnabled = true
+    }
+}
+val check by tasks
+val jacocoTestReport by tasks
+check.dependsOn(jacocoTestReport)
+
+val checkForExtensionFile by tasks.registering {
+    doLast {
+        if(!file("${project.projectDir}/README.md").exists()) {
+            error("Project ${project.name} needs a README.")
+        }
+    }
+}
+check.dependsOn(checkForExtensionFile)

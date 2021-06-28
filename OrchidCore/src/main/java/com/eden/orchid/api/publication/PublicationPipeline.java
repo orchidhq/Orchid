@@ -1,6 +1,6 @@
 package com.eden.orchid.api.publication;
 
-import com.caseyjbrooks.clog.Clog;
+import clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.components.ModularList;
 
@@ -56,7 +56,8 @@ public final class PublicationPipeline extends ModularList<PublicationPipeline, 
                 moduleLog.append("\n * " + publisher.getType());
             }
             moduleLog.append("\n");
-            Clog.tag("Some publishing stages failed validation, cannot deploy").log(moduleLog.toString());
+            Clog.log("Some publishing stages failed validation, cannot deploy");
+            Clog.log(moduleLog.toString());
             success = false;
         }
         else {

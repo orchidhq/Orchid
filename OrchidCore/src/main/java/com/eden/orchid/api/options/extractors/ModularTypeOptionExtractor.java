@@ -1,15 +1,16 @@
 package com.eden.orchid.api.options.extractors;
 
-import com.caseyjbrooks.clog.Clog;
+import clog.Clog;
+import clog.dsl.UtilsKt;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.FlexibleMapConverter;
 import com.eden.orchid.api.options.OptionExtractor;
 import com.eden.orchid.api.options.annotations.ImpliedKey;
 import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.theme.components.ModularType;
-import javax.inject.Provider;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -96,7 +97,7 @@ public final class ModularTypeOptionExtractor extends OptionExtractor<ModularTyp
 
         if(t == null) {
             throw new IllegalArgumentException(
-                    Clog.format(
+                    UtilsKt.format(Clog.INSTANCE,
                             "No sensible default found for ModularType {} {} in class {}",
                             field.getType().getSimpleName(), field.getName(), field.getDeclaringClass().getSimpleName()
                     )

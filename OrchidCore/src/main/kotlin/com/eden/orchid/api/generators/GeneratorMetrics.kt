@@ -1,9 +1,13 @@
 package com.eden.orchid.api.generators
 
-import com.eden.orchid.utilities.makeMillisReadable
-import java.util.Comparator
-import java.util.function.LongConsumer
+import kotlin.math.floor
+import kotlin.time.Duration
+import kotlin.time.DurationUnit
+import kotlin.time.ExperimentalTime
+import kotlin.time.milliseconds
+import kotlin.time.toDuration
 
+@OptIn(ExperimentalTime::class)
 class GeneratorMetrics
 @JvmOverloads
 constructor(
@@ -20,37 +24,32 @@ constructor(
     // Get formatted values
     //----------------------------------------------------------------------------------------------------------------------
 
-    internal val indexingTime: String
-        get() = (indexingEndTime - indexingStartTime).makeMillisReadable()
+    internal val indexingTime: Duration
+        get() = (indexingEndTime - indexingStartTime).toDuration(DurationUnit.MILLISECONDS)
 
-    internal val generatingTime: String
-        get() = (generatingEndTime - generatingStartTime).makeMillisReadable()
+    internal val generatingTime: Duration
+        get() = (generatingEndTime - generatingStartTime).toDuration(DurationUnit.MILLISECONDS)
 
-    internal val totalTime: String
-        get() = (generatingEndTime - indexingStartTime).makeMillisReadable()
+    internal val totalTime: Duration
+        get() = (generatingEndTime - indexingStartTime).toDuration(DurationUnit.MILLISECONDS)
 
-    internal val meanPageTime: String
+    internal val meanPageTime: Duration
         get() = if (pageGenerationTimes.size > 0) {
             pageGenerationTimes
-                .stream()
-                .collect(
-                    { Averager() },
-                    { obj, i -> obj.accept(i) },
-                    { obj, other -> obj.combine(other) }
-                )
                 .average()
-                .makeMillisReadable()
+                .toDuration(DurationUnit.MILLISECONDS)
         } else {
-            "N/A"
+            0.milliseconds
         }
 
-    internal val medianPageTime: String
+    internal val medianPageTime: Duration
         get() {
             if (pageGenerationTimes.size > 0) {
                 pageGenerationTimes.sortWith(Comparator.naturalOrder())
-                return pageGenerationTimes[Math.floor((pageGenerationTimes.size / 2).toDouble()).toInt()].makeMillisReadable()
+                val medianIndex = floor((pageGenerationTimes.size / 2).toDouble()).toInt()
+                return pageGenerationTimes[medianIndex].toDuration(DurationUnit.MILLISECONDS)
             } else {
-                return "N/A"
+                return 0.milliseconds
             }
         }
 
@@ -83,25 +82,6 @@ constructor(
         generatingStartTime = Math.min(generatingStartTime, metric.generatingStartTime)
         generatingEndTime = Math.max(generatingEndTime, metric.generatingEndTime)
         pageGenerationTimes.addAll(metric.getPageGenerationTimes()!!)
-    }
-
-    internal class Averager : LongConsumer {
-        private var total: Long = 0
-        private var count: Long = 0
-
-        fun average(): Double {
-            return if (count > 0) total.toDouble() / count else 0.0
-        }
-
-        override fun accept(i: Long) {
-            total += i
-            count++
-        }
-
-        fun combine(other: Averager) {
-            total += other.total
-            count += other.count
-        }
     }
 
     fun getPageGenerationTimes(): List<Long>? {

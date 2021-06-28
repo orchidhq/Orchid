@@ -1,6 +1,5 @@
 package com.eden.orchid.api.indexing;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
@@ -93,20 +92,19 @@ public final class IndexServiceImpl implements IndexService, OrchidEventListener
             }
 
             if (!EdenUtils.isEmpty(title) && !EdenUtils.isEmpty(customClasses)) {
-                return new Pair<>(true, Clog.format("<a href=\"#{$1}\" class=\"#{$3}\">#{$2}</a>", link, title, customClasses));
+                return new Pair<>(true, "<a href=\"" + link + "\" class=\"" + customClasses + "\">" + title + "</a>");
             } else if (!EdenUtils.isEmpty(title)) {
-                return new Pair<>(true, Clog.format("<a href=\"#{$1}\">#{$2}</a>", link, title));
+                return new Pair<>(true, "<a href=\"" + link + "\">" + title + "</a>");
             } else {
-                return new Pair<>(true, Clog.format("<a href=\"#{$1}\">#{$1}</a>", link));
+                return new Pair<>(true, "<a href=\"" + link + "\">" + link + "</a>");
             }
         } else {
             context.diagnosisMessage(() ->
-                    Clog.format("Error creating anchor to [" +
-                                    "collectionType={}, " +
-                                    "collectionId={}, " +
-                                    "itemId={}" +
-                                    "] from [{}]: matching page not found",
-                            collectionType, collectionId, itemId, from)
+                    "Error creating anchor to [" +
+                            "collectionType=" + collectionType + ", " +
+                            "collectionId=" + collectionId + ", " +
+                            "itemId=" + itemId +
+                            "] from [" + from + "]: matching page not found"
             );
 
             if (!EdenUtils.isEmpty(title)) {

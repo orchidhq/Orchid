@@ -1,6 +1,7 @@
 package com.eden.orchid.api.server;
 
-import com.caseyjbrooks.clog.Clog;
+import clog.Clog;
+import clog.dsl.UtilsKt;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsHolder;
@@ -90,7 +91,7 @@ public final class OrchidWebserver extends NanoHTTPD {
     }
 
     public String getServerRunningMessage() {
-        return Clog.format("Webserver Running at {}", context.getBaseUrl());
+        return "Webserver Running at " + context.getBaseUrl() + "";
     }
 
     private void findRoutes(OrchidController controller) {
@@ -188,32 +189,32 @@ public final class OrchidWebserver extends NanoHTTPD {
         Class<?>[] methodParameters = method.getParameterTypes();
         if (hasParamsClass) {
             if (methodParameters.length != pathParams.size() + 2) {
-                throw new IllegalArgumentException(Clog.format("Controller action [{}@{}] must accept a first parameter of type [OrchidRequest], a second parameter of {}, followed by {} [String] parameters for the path parameters", controllerClass, controllerAction, paramsClass.getName(), pathParams.size()));
+                throw new IllegalArgumentException(UtilsKt.format(Clog.INSTANCE, "Controller action [{}@{}] must accept a first parameter of type [OrchidRequest], a second parameter of {}, followed by {} [String] parameters for the path parameters", controllerClass, controllerAction, paramsClass.getName(), pathParams.size()));
             }
         } else {
             if (methodParameters.length != pathParams.size() + 1) {
-                throw new IllegalArgumentException(Clog.format("Controller action [{}@{}] must accept a first parameter of type [OrchidRequest], followed by {} [String] parameters for the path parameters", controllerClass, controllerAction, pathParams.size()));
+                throw new IllegalArgumentException(UtilsKt.format(Clog.INSTANCE, "Controller action [{}@{}] must accept a first parameter of type [OrchidRequest], followed by {} [String] parameters for the path parameters", controllerClass, controllerAction, pathParams.size()));
             }
         }
         for (int i = 0; i < methodParameters.length; i++) {
             switch (i) {
                 case 0:
                     if (!methodParameters[i].equals(OrchidRequest.class)) {
-                        throw new IllegalArgumentException(Clog.format("Controller action [{}@{}]\'s first argument must be of type [OrchidRequest]"));
+                        throw new IllegalArgumentException(UtilsKt.format(Clog.INSTANCE, "Controller action [{}@{}]'s first argument must be of type [OrchidRequest]", controllerClass, controllerAction));
                     }
                     break;
 
                 case 1:
                     if (hasParamsClass) {
                         if (!methodParameters[i].equals(paramsClass)) {
-                            throw new IllegalArgumentException(Clog.format("Controller action [{}@{}]\'s second argument must be of type [{}]", paramsClass.getName()));
+                            throw new IllegalArgumentException(UtilsKt.format(Clog.INSTANCE, "Controller action [{}@{}]'s second argument must be of type [{}]", controllerClass, controllerAction, paramsClass.getName()));
                         }
                         break;
                     }
 
                 default:
                     if (!methodParameters[i].equals(String.class)) {
-                        throw new IllegalArgumentException("Controller action [{}@{}]\'s path parameters must be accepted as type [String]");
+                        throw new IllegalArgumentException(UtilsKt.format(Clog.INSTANCE, "Controller action [{}@{}]'s path parameters must be accepted as type [String]", controllerClass, controllerAction));
                     }
                     break;
             }

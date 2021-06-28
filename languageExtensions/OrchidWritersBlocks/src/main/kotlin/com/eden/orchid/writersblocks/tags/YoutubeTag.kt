@@ -1,8 +1,7 @@
 package com.eden.orchid.writersblocks.tags
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.api.compilers.TemplateTag
-import com.eden.orchid.api.options.annotations.AllOptions
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
@@ -54,7 +53,7 @@ class YoutubeTag : TemplateTag("youtube", Type.Simple, true) {
                     ))
                 }
             } catch (e: DateTimeParseException) {
-                Clog.e(e.message, e)
+                Clog.e(e)
             }
         }
 

@@ -1,6 +1,6 @@
 package com.eden.orchid.groovydoc.helpers
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.copperleaf.groovydoc.json.GroovydocInvoker
 import com.copperleaf.groovydoc.json.GroovydocInvokerImpl
 import com.copperleaf.groovydoc.json.models.GroovydocRootdoc

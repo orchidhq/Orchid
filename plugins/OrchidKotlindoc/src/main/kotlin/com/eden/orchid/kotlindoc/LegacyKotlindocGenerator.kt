@@ -1,6 +1,6 @@
 package com.eden.orchid.kotlindoc
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.copperleaf.dokka.json.models.KotlinPackageDoc
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection

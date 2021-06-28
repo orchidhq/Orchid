@@ -1,6 +1,6 @@
 package com.eden.orchid.groovydoc
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.copperleaf.groovydoc.json.models.GroovydocPackageDoc
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection

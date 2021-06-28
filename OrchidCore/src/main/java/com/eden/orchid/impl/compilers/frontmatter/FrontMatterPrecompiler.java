@@ -1,6 +1,6 @@
 package com.eden.orchid.impl.compilers.frontmatter;
 
-import com.caseyjbrooks.clog.Clog;
+import clog.Clog;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;

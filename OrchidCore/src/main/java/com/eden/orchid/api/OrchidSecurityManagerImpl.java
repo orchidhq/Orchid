@@ -1,6 +1,5 @@
 package com.eden.orchid.api;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.eden.orchid.utilities.SuppressedWarnings;
 import org.apache.commons.io.FileUtils;
@@ -104,7 +103,7 @@ public class OrchidSecurityManagerImpl extends OrchidSecurityManager {
             }
 
             if (!inWritableDirs) {
-                throw new SecurityException(Clog.format("Modifying file outside source, destination, and temp directories: {}", normalizedFilename));
+                throw new SecurityException("Modifying file outside source, destination, and temp directories: " + normalizedFilename);
             }
         }
     }
@@ -122,7 +121,7 @@ public class OrchidSecurityManagerImpl extends OrchidSecurityManager {
             }
 
             if (!inReadableDirs) {
-                throw new SecurityException(Clog.format("Reading file outside source, destination, current working, and temp directories: {}", normalizedFilename));
+                throw new SecurityException("Reading file outside source, destination, current working, and temp directories: " + normalizedFilename);
             }
         }
     }

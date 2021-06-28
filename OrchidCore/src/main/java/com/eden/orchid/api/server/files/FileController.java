@@ -1,6 +1,6 @@
 package com.eden.orchid.api.server.files;
 
-import com.caseyjbrooks.clog.Clog;
+import clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.indexing.OrchidRootIndex;
 import com.eden.orchid.api.server.OrchidFileController;

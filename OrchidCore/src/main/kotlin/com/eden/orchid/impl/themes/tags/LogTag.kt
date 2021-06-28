@@ -1,6 +1,7 @@
 package com.eden.orchid.impl.themes.tags
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
+import clog.dsl.tag
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateTag

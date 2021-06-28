@@ -1,6 +1,8 @@
 package com.eden.orchid.impl.tasks
 
-import com.copperleaf.krow.krow
+import com.copperleaf.krow.builder.bodyRow
+import com.copperleaf.krow.builder.column
+import com.copperleaf.krow.builder.krow
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OrchidFlags
@@ -35,64 +37,72 @@ constructor(
     }
 
     private fun printUsage(): String? {
-        return krow {
-            showHeaders = false
-            showLeaders = false
+        return OrchidUtils.defaultTableFormatter.print(krow {
+            includeHeaderRow = false
+            includeLeadingColumn = false
 
-            cell("key", "value") {
-                content =
-                    "  (orchid) <" + OrchidFlags.getInstance().positionalFlags.joinToString("> <") + "> [--<flag> <flag value>]"
-                paddingLeft = 4
+            header {
+                column("value") {
+                    this.width = 80
+                }
             }
-            table {
-                wrapTextAt = 80
+
+            bodyRow("key") {
+                cellAt("value") {
+                    content = "  (orchid) <" + OrchidFlags.getInstance().positionalFlags.joinToString("> <") + "> [--<flag> <flag value>]"
+                }
             }
-        }.print(OrchidUtils.compactTableFormatter)
+        })
     }
 
     private fun printTasks(): String? {
-        return krow {
-            showHeaders = false
-            showLeaders = false
+        return OrchidUtils.defaultTableFormatter.print(krow {
+            includeHeaderRow = false
+            includeLeadingColumn = false
+
+            header {
+                column("key") {}
+                column("description") {}
+            }
 
             for (task in tasks.get()) {
-                cell("key", task.name) {
-                    content = task.name
-                    paddingLeft = 4
-                }
-                cell("description", task.name) {
-                    content = task.description
+                bodyRow(task.name) {
+                    cellAt("key") {
+                        content = task.name
+                    }
+                    cellAt("description") {
+                        content = task.description
+                    }
                 }
             }
-            table {
-                wrapTextAt = 80
-            }
-
-        }.print(OrchidUtils.compactTableFormatter)
+        })
     }
 
     private fun printOptions(): String? {
-        return krow {
-            showHeaders = false
-            showLeaders = false
+        return OrchidUtils.defaultTableFormatter.print(krow {
+            includeHeaderRow = false
+            includeLeadingColumn = false
+
+            header {
+                column("key") {}
+                column("description") {}
+            }
 
             for (flag in OrchidFlags.getInstance().describeFlags().values) {
-                cell("key", flag.key) {
-                    var flagText = "--" + flag.key
-                    if (!EdenUtils.isEmpty(flag.aliases)) {
-                        flagText += ", -" + flag.aliases.joinToString(", -")
+                bodyRow(flag.key) {
+                    cellAt("key") {
+                        var flagText = "--" + flag.key
+                        if (!EdenUtils.isEmpty(flag.aliases)) {
+                            flagText += ", -" + flag.aliases.joinToString(", -")
+                        }
+                        content = flagText
                     }
-                    content = flagText
-                    paddingLeft = 4
-                }
-                cell("description", flag.key) {
-                    content = flag.description
+                    cellAt("description") {
+                        content = flag.description
+                    }
                 }
             }
-            table {
-                wrapTextAt = 80
-            }
-        }.print(OrchidUtils.compactTableFormatter)
+        })
     }
 
 }

@@ -1,19 +1,15 @@
 package com.eden.orchid.testhelpers
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.StandardModule
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.OrchidSecurityManager
 import com.eden.orchid.api.options.OrchidFlags
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.resources.resource.OrchidResource
-import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource
-import com.eden.orchid.api.resources.resourcesource.PluginResourceSource
 import com.eden.orchid.impl.compilers.markdown.FlexmarkModule
 import com.eden.orchid.impl.compilers.pebble.PebbleModule
-import com.eden.orchid.impl.resources.resourcesource.PluginJarResourceSource
 import com.google.inject.Guice
-import java.util.HashMap
 
 class TestOrchid {
 
@@ -88,7 +84,8 @@ class TestOrchid {
             moduleLog += "\n * " + module.javaClass.name
         }
         moduleLog += "\n"
-        Clog.tag("Running test with the following modules").log(moduleLog)
+        Clog.d("Running test with the following modules")
+        Clog.d(moduleLog)
 
         val injector = Guice.createInjector(modules)
 
@@ -96,7 +93,8 @@ class TestOrchid {
         flagLog += "\n--------------------\n"
         flagLog += OrchidFlags.getInstance().printFlags()
         flagLog += "\n"
-        Clog.tag("Flag values").log(flagLog)
+        Clog.d("Flag values")
+        Clog.d(flagLog)
 
         val context = injector.getInstance(OrchidContext::class.java)
 

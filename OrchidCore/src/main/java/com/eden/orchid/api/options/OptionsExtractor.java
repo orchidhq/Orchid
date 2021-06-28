@@ -1,7 +1,6 @@
 package com.eden.orchid.api.options;
 
-import com.caseyjbrooks.clog.Clog;
-import com.copperleaf.krow.KrowTable;
+import clog.Clog;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
@@ -189,23 +188,5 @@ public class OptionsExtractor extends Extractor {
         }
 
         return genericClasses;
-    }
-
-    public KrowTable getDescriptionTable(OptionHolderDescription optionsHolderDescription) {
-        KrowTable table = new KrowTable();
-
-        List<OptionsDescription> options = optionsHolderDescription.getOptionsDescriptions();
-
-        options.forEach(option -> {
-            table.cell("Type", option.getKey(), cell -> {cell.setContent(option.getOptionType().getSimpleName()); return null;});
-            table.cell("Default Value", option.getKey(), cell -> {cell.setContent(option.getDefaultValue()); return null;});
-            table.cell("Description", option.getKey(), cell -> {cell.setContent(option.getDescription()); return null;});
-        });
-
-        table.column("Description", cell -> {cell.setWrapTextAt(45); return null;});
-        table.column("Type", cell -> {cell.setWrapTextAt(15); return null;});
-        table.column("Default Value", cell -> {cell.setWrapTextAt(15); return null;});
-
-        return table;
     }
 }

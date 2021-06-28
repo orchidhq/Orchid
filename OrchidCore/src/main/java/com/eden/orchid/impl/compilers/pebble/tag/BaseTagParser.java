@@ -1,11 +1,9 @@
 package com.eden.orchid.impl.compilers.pebble.tag;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsExtractor;
 import com.eden.orchid.api.options.OptionsHolder;
-import javax.inject.Provider;
 import com.mitchellbosecke.pebble.error.ParserException;
 import com.mitchellbosecke.pebble.lexer.Token;
 import com.mitchellbosecke.pebble.lexer.TokenStream;
@@ -18,6 +16,7 @@ import com.mitchellbosecke.pebble.parser.Parser;
 import com.mitchellbosecke.pebble.template.EvaluationContextImpl;
 import com.mitchellbosecke.pebble.template.PebbleTemplateImpl;
 
+import javax.inject.Provider;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -83,7 +82,7 @@ public abstract class BaseTagParser {
                         paramExpressionMap.put(paramKey, parsedExpression);
                     }
                     else {
-                        throw new ParserException(null, Clog.format("Could not parse parameter {}.", paramNameToken.getValue()), stream.current().getLineNumber(), "");
+                        throw new ParserException(null, "Could not parse parameter " + paramNameToken.getValue() + ".", stream.current().getLineNumber(), "");
                     }
                 }
             }

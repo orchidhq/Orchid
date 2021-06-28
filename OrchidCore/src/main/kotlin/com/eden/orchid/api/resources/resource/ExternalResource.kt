@@ -1,6 +1,6 @@
 package com.eden.orchid.api.resources.resource
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.asInputStream
 import okhttp3.OkHttpClient

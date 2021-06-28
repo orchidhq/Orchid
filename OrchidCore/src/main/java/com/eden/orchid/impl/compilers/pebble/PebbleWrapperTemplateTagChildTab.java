@@ -1,18 +1,14 @@
 package com.eden.orchid.impl.compilers.pebble;
 
-import com.caseyjbrooks.clog.Clog;
+import clog.Clog;
+import clog.dsl.UtilsKt;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateTag;
 import com.eden.orchid.impl.compilers.pebble.tag.BaseTagParser;
-import com.eden.orchid.impl.compilers.pebble.tag.ContentTagParser;
-import com.eden.orchid.impl.compilers.pebble.tag.SimpleTagParser;
-import com.eden.orchid.impl.compilers.pebble.tag.TabbedTagParser;
 import com.mitchellbosecke.pebble.error.ParserException;
 import com.mitchellbosecke.pebble.error.PebbleException;
-import com.mitchellbosecke.pebble.extension.NodeVisitor;
 import com.mitchellbosecke.pebble.lexer.Token;
 import com.mitchellbosecke.pebble.lexer.TokenStream;
-import com.mitchellbosecke.pebble.node.AbstractRenderableNode;
 import com.mitchellbosecke.pebble.node.RenderableNode;
 import com.mitchellbosecke.pebble.node.expression.Expression;
 import com.mitchellbosecke.pebble.parser.Parser;
@@ -94,7 +90,7 @@ public final class PebbleWrapperTemplateTagChildTab implements TokenParser {
             Object maybeParentTag = context.getScopeChain().get("__parentTabbedTag");
 
             if(maybeParentTag == null || !(maybeParentTag instanceof TemplateTag)) {
-                throw new PebbleException(null, Clog.format("Child tab '{}' can only be used as a child of a TabbedTag", name));
+                throw new PebbleException(null, UtilsKt.format(Clog.INSTANCE, "Child tab '{}' can only be used as a child of a TabbedTag", name));
             }
 
             TemplateTag parentTag = (TemplateTag) maybeParentTag;
@@ -107,7 +103,7 @@ public final class PebbleWrapperTemplateTagChildTab implements TokenParser {
             TemplateTag.Tab childTabInstance = parentTag.getNewTab(tabName, bodyContent);
 
             if(!childTabInstance.getType().equals(this.name)) {
-                throw new PebbleException(null, Clog.format("Parent tab can only have children tabs of type '{}', got {}", childTabInstance.getName(), name));
+                throw new PebbleException(null, UtilsKt.format(Clog.INSTANCE, "Parent tab can only have children tabs of type '{}', got {}", childTabInstance.getName(), name));
             }
 
             childTabInstance.extractOptions(contextProvider.get(), paramsMap);

@@ -1,6 +1,6 @@
 package com.eden.orchid.github.publication
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
@@ -54,7 +54,7 @@ constructor(
         val model: ChangelogModel = context.resolve()
 
         val version = model.getVersion(context.site.version)
-        val url = Clog.format("https://api.github.com/repos/{}/releases", repo)
+        val url = "https://api.github.com/repos/$repo/releases"
         val request = Request.Builder().url(url)
             .header("Authorization", "token $githubToken")
             .post(

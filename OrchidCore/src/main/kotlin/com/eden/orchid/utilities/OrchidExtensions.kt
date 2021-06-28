@@ -1,6 +1,7 @@
 package com.eden.orchid.utilities
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
+import clog.dsl.tag
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
@@ -11,7 +12,6 @@ import com.google.inject.binder.LinkedBindingBuilder
 import org.apache.commons.lang3.StringUtils
 import java.io.ByteArrayInputStream
 import java.io.InputStream
-import java.util.ArrayList
 import java.util.regex.Pattern
 import java.util.stream.Stream
 import kotlin.reflect.KClass
@@ -263,33 +263,6 @@ inline fun <reified T : Any> OrchidContext.resolve(named: String): T {
 
 inline fun <reified T : Any> OrchidContext.resolveSet(): Set<T> {
     return this.resolveSet(T::class.java)
-}
-
-fun Number.makeMillisReadable(): String {
-    val lMillis = this.toDouble()
-    val hours: Int
-    val minutes: Int
-    val seconds: Int
-    val millis: Int
-    val sTime: String
-    seconds = (lMillis / 1000).toInt() % 60
-    millis = (lMillis % 1000).toInt()
-    if (seconds > 0) {
-        minutes = (lMillis / 1000.0 / 60.0).toInt() % 60
-        if (minutes > 0) {
-            hours = (lMillis / 1000.0 / 60.0 / 60.0).toInt() % 24
-            if (hours > 0) {
-                sTime = hours.toString() + "h " + minutes + "m " + seconds + "s " + millis + "ms"
-            } else {
-                sTime = minutes.toString() + "m " + seconds + "s " + millis + "ms"
-            }
-        } else {
-            sTime = seconds.toString() + "s " + millis + "ms"
-        }
-    } else {
-        sTime = millis.toString() + "ms"
-    }
-    return sTime
 }
 
 fun findPageByServerPath(pages: Stream<OrchidPage>, path: String): OrchidPage? {

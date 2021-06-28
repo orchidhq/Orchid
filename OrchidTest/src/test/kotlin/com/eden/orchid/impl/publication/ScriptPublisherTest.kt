@@ -1,8 +1,8 @@
 package com.eden.orchid.impl.publication
 
-import com.caseyjbrooks.clog.Clog
-import com.caseyjbrooks.clog.ClogLogger
-import com.caseyjbrooks.clog.ClogProfile
+import clog.Clog
+import clog.ClogLogger
+import clog.ClogProfile
 import com.eden.orchid.strikt.nothingElseRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import org.junit.jupiter.api.AfterEach

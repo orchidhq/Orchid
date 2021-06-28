@@ -1,12 +1,12 @@
 package com.eden.orchid.netlify.publication
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
+import clog.dsl.format
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.publication.OrchidPublisher
 import com.eden.orchid.utilities.OrchidUtils
-import com.eden.orchid.utilities.makeMillisReadable
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -21,12 +21,16 @@ import java.net.URL
 import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.Instant
-import java.util.ArrayList
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Named
 import javax.validation.ValidationException
 import javax.validation.constraints.NotBlank
+import kotlin.time.ExperimentalTime
+import kotlin.time.milliseconds
+import kotlin.time.toDuration
 
+@OptIn(ExperimentalTime::class)
 @Description(value = "Upload your site directly to Netlify, while using your favorite CI platform.", name = "Netlify")
 class NetlifyPublisher @Inject
 constructor(
@@ -159,7 +163,7 @@ constructor(
                 return response.copy(requiredFiles = requiredFiles)
             }
             else {
-                Clog.d("        Deploy still processing, trying again in {}", 5000.makeMillisReadable())
+                Clog.d("        Deploy still processing, trying again in {}", 5000.milliseconds)
                 Thread.sleep(5000)
             }
         }
@@ -247,7 +251,7 @@ constructor(
             // if we are nearing the rate limit, pause down a bit until it resets
             if ((rateLimitRemaining * 1.0 / rateLimitLimit * 1.0) < 0.1) {
                 val totalMillis = Math.abs(d.toMillis())
-                Clog.d("        Rate limit running low, sleeping for {}", totalMillis.makeMillisReadable())
+                Clog.d("        Rate limit running low, sleeping for {}", totalMillis.toDuration(TimeUnit.MILLISECONDS))
                 Thread.sleep(totalMillis)
             }
         } catch (e: Exception) { }

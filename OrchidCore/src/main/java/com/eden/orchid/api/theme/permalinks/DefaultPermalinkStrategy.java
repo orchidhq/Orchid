@@ -1,6 +1,5 @@
 package com.eden.orchid.api.theme.permalinks;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
@@ -74,7 +73,7 @@ public final class DefaultPermalinkStrategy implements PermalinkStrategy {
 
     private void getReplacement(StringBuffer resultingUrl, OrchidPage page, String pieceKey) {
         if (EdenUtils.isEmpty(pieceKey)) {
-            throw new IllegalArgumentException(Clog.format("Permalink key cannot be empty (on page {})", page.getTitle()));
+            throw new IllegalArgumentException("Permalink key cannot be empty (on page ${page.getTitle()})");
         }
 
         String resultingPiece = null;
@@ -85,7 +84,7 @@ public final class DefaultPermalinkStrategy implements PermalinkStrategy {
             }
         }
         if (resultingPiece == null) {
-            throw new IllegalArgumentException(Clog.format("'{}' is not a valid permalink key", pieceKey));
+            throw new IllegalArgumentException("'" + pieceKey + "' is not a valid permalink key");
         }
 
         resultingUrl.append(OrchidUtils.toSlug(resultingPiece));

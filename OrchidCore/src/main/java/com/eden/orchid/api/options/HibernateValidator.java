@@ -1,6 +1,6 @@
 package com.eden.orchid.api.options;
 
-import com.caseyjbrooks.clog.Clog;
+import clog.Clog;
 import com.eden.common.util.EdenUtils;
 
 import javax.inject.Inject;

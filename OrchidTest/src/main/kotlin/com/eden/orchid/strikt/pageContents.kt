@@ -1,6 +1,6 @@
 package com.eden.orchid.strikt
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.testhelpers.TestRenderer
 import com.eden.orchid.utilities.applyIf
 import kotlinx.html.BODY

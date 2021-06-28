@@ -1,6 +1,5 @@
 package com.eden.orchid.api.server;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.utilities.OrchidUtils;
 
 import java.io.IOException;
@@ -30,7 +29,7 @@ public final class ServerUtils {
             return socket.getLocalPort();
         }
         else {
-            throw new IllegalStateException(Clog.format("Could not find a free port to allocate within range #{$1}-#{$2}.", rangeMin, rangeMax));
+            throw new IllegalStateException("Could not find a free port to allocate within range " + rangeMin + "-" + rangeMax + ".");
         }
     }
 

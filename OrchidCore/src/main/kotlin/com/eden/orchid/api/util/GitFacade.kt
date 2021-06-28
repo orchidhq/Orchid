@@ -1,8 +1,8 @@
 package com.eden.orchid.api.util
 
-import com.caseyjbrooks.clog.Clog
-import com.eden.orchid.utilities.InputStreamIgnorer
-import com.eden.orchid.utilities.InputStreamPrinter
+import clog.Clog
+import clog.dsl.tag
+import com.eden.common.util.IOStreamUtils
 import com.eden.orchid.utilities.OrchidUtils
 import com.google.inject.ImplementedBy
 import org.apache.commons.io.FileUtils
@@ -142,10 +142,11 @@ class CliGitRepoFacade(
             .directory(repoDir.toFile())
             .start()
 
-        val streamHandler = if(verbose)
-            InputStreamPrinter(process.inputStream, null) { it.replace(remoteUrl, displayedRemoteUrl) }
+        val streamHandler: Runnable = if(verbose)
+//            IOStreamUtils.InputStreamPrinter(process.inputStream, null) { it.replace(remoteUrl, displayedRemoteUrl) }
+            IOStreamUtils.InputStreamPrinter(process.inputStream, null) // TODO: update common-core to allow scrubbing lines
         else
-            InputStreamIgnorer(process.inputStream)
+            IOStreamUtils.InputStreamIgnorer(process.inputStream)
 
         val executor = Executors.newSingleThreadExecutor()
         executor.submit(streamHandler)

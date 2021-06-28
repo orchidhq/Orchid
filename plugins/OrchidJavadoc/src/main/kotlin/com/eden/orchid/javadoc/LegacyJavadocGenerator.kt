@@ -1,6 +1,6 @@
 package com.eden.orchid.javadoc
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.copperleaf.javadoc.json.models.JavaPackageDoc
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection

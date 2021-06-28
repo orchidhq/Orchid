@@ -1,14 +1,13 @@
 package com.eden.orchid.api.options.archetypes
 
-import com.caseyjbrooks.clog.Clog
-import com.eden.common.util.EdenUtils
+import clog.Clog
+import clog.dsl.format
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionArchetype
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.theme.assets.AssetPage
 import com.eden.orchid.utilities.OrchidUtils
-
 import javax.inject.Inject
 
 @Description(
@@ -27,7 +26,6 @@ constructor(
         var data: Map<String, Any?>? = null
 
         if (target is AssetPage) {
-
             val metadataFilename = Clog.format(
                 "{}/{}/{}",
                 OrchidUtils.normalizePath(archetypeKey),
@@ -35,7 +33,7 @@ constructor(
                 OrchidUtils.normalizePath(target.resource.reference.originalFileName)
             )
 
-            if (!EdenUtils.isEmpty(metadataFilename)) {
+            if (metadataFilename.isNotBlank()) {
                 data = context.getDataResourceSource(LocalResourceSource).getDatafile(context, metadataFilename)
             }
         }

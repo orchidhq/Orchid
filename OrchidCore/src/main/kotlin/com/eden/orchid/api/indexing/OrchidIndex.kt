@@ -1,6 +1,5 @@
 package com.eden.orchid.api.indexing
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.theme.pages.OrchidPage
@@ -8,7 +7,6 @@ import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.ArrayList
 import java.util.Arrays
 
 open class OrchidIndex(val parent: OrchidIndex?, val ownKey: String) {
@@ -169,11 +167,7 @@ open class OrchidIndex(val parent: OrchidIndex?, val ownKey: String) {
     }
 
     override fun toString(): String {
-        return Clog.format("index [{}] with {} own pages and {} child indices",
-                this.ownKey,
-                ownPages.size,
-                childrenPages.size
-        )
+        return "index [${this.ownKey}] with ${ownPages.size} own pages and ${childrenPages.size} child indices"
     }
 
 // Factory methods
