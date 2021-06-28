@@ -135,14 +135,14 @@ class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
 
         if(admin) {
             val link = "${context.baseUrl}/admin/describe?className=${className.name}"
-            return Clog.format("<a href=\"#{$1}\">#{$2}</a>", link, title)
+            return "<a href=\"${link}\">${title}</a>"
         }
         else {
             val page = context.findPage(null, null, className.name)
 
             if (page != null) {
                 val link = page.link
-                return Clog.format("<a href=\"#{$1}\">#{$2}</a>", link, title)
+                return "<a href=\"${link}\">${title}</a>"
             }
         }
 
