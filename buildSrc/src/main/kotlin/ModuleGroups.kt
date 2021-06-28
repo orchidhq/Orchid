@@ -1,16 +1,16 @@
 
 object ModuleGroups {
-    val topLevelModules: List<Module> = listOf(
+    val topLevelModules: Array<Module> = arrayOf(
         Modules.OrchidCore,
         Modules.OrchidTest
     )
 
-    val all: List<Module> by lazy {
+    val all: Array<Module> by lazy {
         ModuleGroups.topLevelModules + LanguageExtensions.all + Integrations.all + Plugins.all + Themes.all
     }
 
     object LanguageExtensions {
-        val all: List<Module> = listOf(
+        val all: Array<Module> = arrayOf(
             Modules.OrchidAsciidoc,
             Modules.OrchidBible,
             Modules.OrchidDiagrams,
@@ -20,7 +20,7 @@ object ModuleGroups {
     }
 
     object Integrations {
-        val all: List<Module> = listOf(
+        val all: Array<Module> = arrayOf(
             Modules.OrchidAzure,
             Modules.OrchidBitbucket,
             Modules.OrchidGithub,
@@ -30,7 +30,7 @@ object ModuleGroups {
     }
 
     object Plugins {
-        val all: List<Module> = listOf(
+        val all: Array<Module> = arrayOf(
             Modules.OrchidChangelog,
             Modules.OrchidForms,
             Modules.OrchidGroovydoc,
@@ -53,7 +53,7 @@ object ModuleGroups {
     }
 
     object Themes {
-        val all: List<Module> = listOf(
+        val all: Array<Module> = arrayOf(
             Modules.OrchidBsDoc,
             Modules.OrchidCopper,
             Modules.OrchidEditorial,
@@ -62,7 +62,7 @@ object ModuleGroups {
     }
 
     object Bundles {
-        val all: List<Module> = listOf(
+        val all: Array<Module> = arrayOf(
             Modules.OrchidAll,
             Modules.OrchidBlog,
             Modules.OrchidDocs,

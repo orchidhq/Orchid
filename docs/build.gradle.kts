@@ -1,13 +1,15 @@
 plugins {
+    java
+    kotlin("jvm")
+    `copper-leaf-base`
+    `copper-leaf-version`
+    `copper-leaf-lint`
     id("com.eden.orchidPlugin")
 }
-apply(from = "$rootDir/gradle/actions/repositories.gradle")
-
-version = rootProject.version
 
 dependencies {
     // generate own documentation with Orchid
-    orchidRuntimeOnly(ModuleGroups.all)
+    ModuleGroups.all.map { orchidRuntimeOnly(project(it.path)) }
 }
 
 // Orchid setup
@@ -24,5 +26,5 @@ val orchidServe by tasks
 
 build.dependsOn(orchidBuild)
 orchidBuild.mustRunAfter(check)
-orchidBuild.dependsOn(*ModuleGroups.all.tasksNamed("assemble"))
-orchidServe.dependsOn(*ModuleGroups.all.tasksNamed("assemble"))
+orchidBuild.dependsOn(ModuleGroups.all.tasksNamed("assemble"))
+orchidServe.dependsOn(ModuleGroups.all.tasksNamed("assemble"))

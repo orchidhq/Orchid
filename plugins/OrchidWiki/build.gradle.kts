@@ -1,12 +1,20 @@
-apply(from = "$rootDir/gradle/groups/mainProjects.gradle")
-apply(from = "$rootDir/gradle/groups/pluginProjects.gradle")
+plugins {
+    java
+    kotlin("jvm")
+    `copper-leaf-base`
+    `copper-leaf-version`
+    `copper-leaf-lint`
+    `copper-leaf-publish`
+    `orchid-main-projects`
+}
 
 dependencies {
-    implementation(Libs.jsoup)
+    implementation(Modules.OrchidCore)
+    testImplementation(Modules.OrchidTest)
 
     // for PDF wiki generation
-    implementation(Libs.openhtmltopdf_core)
-    implementation(Libs.openhtmltopdf_pdfbox)
-    implementation(Libs.openhtmltopdf_slf4j)
-    implementation(Libs.openhtmltopdf_svg_support)
+    implementation("com.openhtmltopdf:openhtmltopdf-core:1.0.8")
+    implementation("com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.8")
+    implementation("com.openhtmltopdf:openhtmltopdf-slf4j:1.0.8")
+    implementation("com.openhtmltopdf:openhtmltopdf-svg-support:1.0.8")
 }

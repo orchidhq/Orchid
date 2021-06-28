@@ -1,36 +1,53 @@
-// Configure build, dependencies, output jar, and Java compatibility
-//------------------------------------------------------------------------------
-buildscript {
-    repositories {
-        gradlePluginPortal()
-        jcenter()
-    }
-    dependencies {
-        classpath(Libs.gradle_bintray_plugin)
-        classpath(Libs.kotlin_gradle_plugin)
-    }
-}
-
 plugins {
-    base
+    `copper-leaf-base`
+    `copper-leaf-version`
     jacoco
-    id("de.fayard.buildSrcVersions") version "0.7.0"
-}
-apply(from = "$rootDir/gradle/semver.gradle.kts")
-apply(from = "$rootDir/gradle/actions/repositories.gradle")
-
-//val delegate: org.gradle.kotlin.dsl.support.delegates.ProjectDelegate = this
-group = "io.github.javaeden.orchid"
-
-buildSrcVersions {
-    versionsOnlyMode = null
-    versionsOnlyFile = null
 }
 
 // Add check to make sure every release version has a Changelog file
 //----------------------------------------------------------------------------------------------------------------------
+
+fun ProjectVersion.toFile(): File {
+    return project.file("$rootDir/docs/src/orchid/resources/changelog/$shortVersion/$releaseVersion.md")
+}
+
+val checkForChangelogFile by project.tasks.registering {
+    doLast {
+        if (project.hasProperty("release")) {
+            val version = getProjectVersion(logChanges = false)
+            val changelogFile = version.toFile()
+
+            if (!changelogFile.exists()) {
+                throw java.io.FileNotFoundException("There is no changelog entry for this version, expected '${changelogFile.absolutePath}' to exist.")
+            }
+        }
+    }
+}
+
+val createChangelogFile by project.tasks.registering {
+    doLast {
+        val version = getProjectVersion()
+        val changelogFile = version.toFile()
+
+        project.mkdir(changelogFile.parentFile)
+        changelogFile.writeText(
+            """
+            |---
+            |---
+            |
+            |- ${version.commits.joinToString(separator = "\n- ")}
+            |
+            |## Breaking Changes
+            |
+            |- 
+            |
+            """.trimMargin()
+        )
+    }
+}
+
 val check by tasks
-check.dependsOn("checkForChangelogFile")
+check.dependsOn(checkForChangelogFile)
 
 val archiveDocumentation by tasks.registering(Zip::class) {
     from("${project(":docs").buildDir}/docs/orchid")
@@ -44,38 +61,4 @@ val archiveDocumentation by tasks.registering(Zip::class) {
 
 val publish by tasks.registering {
     dependsOn(archiveDocumentation)
-}
-
-// Code Coverage Reports
-//----------------------------------------------------------------------------------------------------------------------
-
-val codacy: Configuration by configurations.creating
-dependencies {
-    codacy(Libs.codacy_coverage_reporter)
-}
-
-val codeCoverageReport by tasks.registering(JacocoReport::class) {
-    dependsOn(*ModuleGroups.all.tasksNamed("test"))
-    executionData(fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec"))
-    sourceSets(*ModuleGroups.all(project).sourceSetsNamed("main"))
-
-    reports {
-        xml.isEnabled = true
-        html.isEnabled = false
-        csv.isEnabled = false
-    }
-}
-
-val sendCoverageToCodacy by tasks.registering(JavaExec::class) {
-    dependsOn(codeCoverageReport)
-    main = "com.codacy.CodacyCoverageReporter"
-    classpath = codacy
-
-    args = listOf(
-        "report",
-        "-l",
-        "Java",
-        "-r",
-        "${buildDir}/reports/jacoco/codeCoverageReport/codeCoverageReport.xml"
-    )
 }
