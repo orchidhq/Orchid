@@ -1,8 +1,0 @@
-<div class="orchid-sourcedoc">
-{% include 'includes/groovydoc/package/summary' %}
-{% include 'includes/groovydoc/package/classes' %}
-
-{% if page.innerPackages|length > 0 %}
-    {% include 'includes/groovydoc/package/childPackages' %}
-{% endif %}
-</div>

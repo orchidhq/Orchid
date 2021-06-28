@@ -36,15 +36,6 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
     private val permalinkStrategy: PermalinkStrategy
 ) : OrchidGenerator<SourceDocModel>(key, Stage.CONTENT) {
 
-    companion object {
-        const val deprecationWarning = """
-            This SourceDoc generator is being deprecated in favor of a new, more unified, 
-            and more modular code-documentation plugin, OrchidSourceDoc. The new system 
-            is enabled by default, and the legacy system must be enabled with the `--legacySourceDoc` CLI flag. Legacy 
-            generators will be removed in the next major version.
-        """
-    }
-
     private val cacheDir: Path by lazy { OrchidUtils.getCacheDir("sourcedoc-$key") }
     private val outputDir: Path by lazy { OrchidUtils.getTempDir("sourcedoc-$key", true) }
 
