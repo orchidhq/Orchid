@@ -1,0 +1,10 @@
+<script
+  src="http://gist-it.appspot.com/https://github.com/{{
+    tag.owner
+  }}/{{
+    tag.repository
+  }}/raw/{{
+    tag.branch
+  }}/{{
+    tag.file
+  }}?footer=no{% if tag.slice is not empty %}&slice={{ tag.slice }}{% endif %}"></script>

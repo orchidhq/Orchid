@@ -7,12 +7,7 @@ import com.eden.orchid.utilities.addToSet
 import com.eden.orchid.writersblocks.functions.EncodeSpacesFunction
 import com.eden.orchid.writersblocks.functions.Nl2brFunction
 import com.eden.orchid.writersblocks.functions.PluralizeFunction
-import com.eden.orchid.writersblocks.tags.AlertTag
-import com.eden.orchid.writersblocks.tags.GistTag
-import com.eden.orchid.writersblocks.tags.InstagramTag
-import com.eden.orchid.writersblocks.tags.SpotifyTag
-import com.eden.orchid.writersblocks.tags.TwitterTag
-import com.eden.orchid.writersblocks.tags.YoutubeTag
+import com.eden.orchid.writersblocks.tags.*
 
 class WritersBlocksModule : OrchidModule() {
 
@@ -26,6 +21,7 @@ class WritersBlocksModule : OrchidModule() {
         )
         addToSet<TemplateTag>(
             AlertTag::class,
+            GistItTag::class,
             GistTag::class,
             InstagramTag::class,
             SpotifyTag::class,
