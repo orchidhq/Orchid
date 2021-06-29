@@ -1,6 +1,6 @@
 package com.eden.orchid.github.menu
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OrchidFlags
@@ -35,13 +35,15 @@ class GithubMenuItem : OrchidMenuFactory("github") {
         val githubPage = loadGithubPage(context, context.resolve(OkHttpClient::class.java))
 
         return if (githubPage.first && githubPage.second != null) {
-            listOf(MenuItem.Builder(context) {
-                page(githubPage.second)
+            listOf(
+                MenuItem.Builder(context) {
+                    page(githubPage.second)
 
-                if(this@GithubMenuItem.title.isNotBlank()) {
-                    title(this@GithubMenuItem.title)
-                }
-            }.build())
+                    if (this@GithubMenuItem.title.isNotBlank()) {
+                        title(this@GithubMenuItem.title)
+                    }
+                }.build()
+            )
         } else {
             emptyList()
         }
@@ -82,7 +84,6 @@ class GithubMenuItem : OrchidMenuFactory("github") {
             }
         } catch (e: Exception) {
         }
-
 
         return Pair(false, null)
     }

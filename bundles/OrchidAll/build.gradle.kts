@@ -1,9 +1,19 @@
-apply(from = "$rootDir/gradle/groups/bundleProjects.gradle")
+plugins {
+    java
+    kotlin("jvm")
+    `copper-leaf-base`
+    `copper-leaf-version`
+    `copper-leaf-lint`
+    `copper-leaf-publish`
+    `orchid-main-projects`
+}
 
 dependencies {
     implementation(Modules.OrchidCore)
-    implementation(ModuleGroups.Plugins.all)
-    implementation(ModuleGroups.Themes.all)
-    implementation(ModuleGroups.LanguageExtensions.all)
-    implementation(ModuleGroups.Integrations.all)
+    testImplementation(Modules.OrchidTest)
+
+    implementation(*ModuleGroups.Plugins.all)
+    implementation(*ModuleGroups.Themes.all)
+    implementation(*ModuleGroups.LanguageExtensions.all)
+    implementation(*ModuleGroups.Integrations.all)
 }

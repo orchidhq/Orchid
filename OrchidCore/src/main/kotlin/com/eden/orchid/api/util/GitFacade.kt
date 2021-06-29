@@ -1,8 +1,8 @@
 package com.eden.orchid.api.util
 
-import com.caseyjbrooks.clog.Clog
-import com.eden.orchid.utilities.InputStreamIgnorer
-import com.eden.orchid.utilities.InputStreamPrinter
+import clog.Clog
+import clog.dsl.tag
+import com.eden.common.util.IOStreamUtils
 import com.eden.orchid.utilities.OrchidUtils
 import com.google.inject.ImplementedBy
 import org.apache.commons.io.FileUtils
@@ -19,8 +19,18 @@ import javax.inject.Named
 
 @ImplementedBy(CliGitFacade::class)
 interface GitFacade {
-    fun init(remoteUrl: String, displayedRemoteUrl: String, remoteBranch: String, verbose: Boolean = true): GitRepoFacade
-    fun clone(remoteUrl: String, displayedRemoteUrl: String, remoteBranch: String, verbose: Boolean = true): GitRepoFacade
+    fun init(
+        remoteUrl: String,
+        displayedRemoteUrl: String,
+        remoteBranch: String,
+        verbose: Boolean = true
+    ): GitRepoFacade
+    fun clone(
+        remoteUrl: String,
+        displayedRemoteUrl: String,
+        remoteBranch: String,
+        verbose: Boolean = true
+    ): GitRepoFacade
 }
 
 interface GitRepoFacade {
@@ -31,11 +41,10 @@ interface GitRepoFacade {
     fun cloneRepo(): GitRepoFacade
     fun commit(commitUsername: String, commitEmail: String, commitMessage: String): GitRepoFacade
     fun push(force: Boolean): GitRepoFacade
-
 }
 
 // CLI Git Facade
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
 class CliGitFacade
 @Inject
@@ -44,7 +53,12 @@ constructor(
     private val destinationDir: String
 ) : GitFacade {
 
-    override fun init(remoteUrl: String, displayedRemoteUrl: String, remoteBranch: String, verbose: Boolean): GitRepoFacade {
+    override fun init(
+        remoteUrl: String,
+        displayedRemoteUrl: String,
+        remoteBranch: String,
+        verbose: Boolean
+    ): GitRepoFacade {
         val repoDir = OrchidUtils.getTempDir(destinationDir, "git", true)
         val repo = CliGitRepoFacade(
             repoDir,
@@ -57,7 +71,12 @@ constructor(
         return repo
     }
 
-    override fun clone(remoteUrl: String, displayedRemoteUrl: String, remoteBranch: String, verbose: Boolean): GitRepoFacade {
+    override fun clone(
+        remoteUrl: String,
+        displayedRemoteUrl: String,
+        remoteBranch: String,
+        verbose: Boolean
+    ): GitRepoFacade {
         val repoDir = OrchidUtils.getTempDir(destinationDir, "git", true)
         val repo = CliGitRepoFacade(
             repoDir,
@@ -127,13 +146,13 @@ class CliGitRepoFacade(
     }
 
 // Execute Git commands
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     private fun gitCommand(vararg command: String) {
         // display git command without printing potentially sensitive info
         val displayedCommand = command.joinToString().replace(remoteUrl, displayedRemoteUrl)
 
-        if(verbose) Clog.tag("GIT").d(displayedCommand)
+        if (verbose) Clog.tag("GIT").d(displayedCommand)
 
         // synchronously run Git command
         val process = ProcessBuilder()
@@ -142,10 +161,12 @@ class CliGitRepoFacade(
             .directory(repoDir.toFile())
             .start()
 
-        val streamHandler = if(verbose)
-            InputStreamPrinter(process.inputStream, null) { it.replace(remoteUrl, displayedRemoteUrl) }
+        val streamHandler: Runnable = if (verbose)
+//            IOStreamUtils.InputStreamPrinter(process.inputStream, null) { it.replace(remoteUrl, displayedRemoteUrl) }
+        // TODO: update common-core to allow scrubbing lines
+            IOStreamUtils.InputStreamPrinter(process.inputStream, null)
         else
-            InputStreamIgnorer(process.inputStream)
+            IOStreamUtils.InputStreamIgnorer(process.inputStream)
 
         val executor = Executors.newSingleThreadExecutor()
         executor.submit(streamHandler)
@@ -153,15 +174,14 @@ class CliGitRepoFacade(
         executor.shutdown()
 
         // throw error if the command did not return exit code 0
-        if(exitValue != 0) {
+        if (exitValue != 0) {
             throw IOException("Git command [$displayedCommand] failed with exit code $exitValue")
         }
     }
-
 }
 
 // Helpers
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
 fun GitRepoFacade.makeSubDir(subfolder: String): Path {
     return repoDir.resolve(subfolder)
@@ -181,7 +201,7 @@ fun GitRepoFacade.delete(subdirectory: Path? = null) {
             if (file.isDirectory && file.name == ".git")
 
             // recursively delete the directory and its files
-            else if (file.isDirectory) FileUtils.deleteDirectory(file)
+                else if (file.isDirectory) FileUtils.deleteDirectory(file)
 
             // delete the file as normal
             else if (file.isFile) file.delete()
@@ -194,7 +214,7 @@ fun GitRepoFacade.addFile(filename: String, content: String) {
 }
 
 // Helper Classes
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 class CopyDir(private val sourceDir: Path, private val targetDir: Path) : SimpleFileVisitor<Path>() {
 
     override fun visitFile(file: Path, attributes: BasicFileAttributes): FileVisitResult {
@@ -212,7 +232,7 @@ class CopyDir(private val sourceDir: Path, private val targetDir: Path) : Simple
     override fun preVisitDirectory(dir: Path, attributes: BasicFileAttributes): FileVisitResult {
         try {
             val newDir = targetDir.resolve(sourceDir.relativize(dir))
-            if(!Files.exists(newDir)) {
+            if (!Files.exists(newDir)) {
                 Files.createDirectory(newDir)
             }
         } catch (e: IOException) {

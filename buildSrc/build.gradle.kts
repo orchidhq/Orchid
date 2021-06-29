@@ -1,23 +1,23 @@
-import java.io.ByteArrayOutputStream
-
 plugins {
     java
     `kotlin-dsl`
 }
-apply(from = "${rootProject.rootDir}/../gradle/semver.gradle.kts")
-
-allprojects {
-    apply(from = "${rootProject.rootDir}/../gradle/actions/repositories.gradle")
-}
-
 group = "com.eden"
 
 tasks.create("publishPlugins") {
     doLast {}
 }
 
+repositories {
+    gradlePluginPortal()
+    mavenCentral()
+}
+
 dependencies {
     runtime(project(":orchidPlugin"))
+
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32")
+    implementation("org.jlleitschuh.gradle:ktlint-gradle:10.0.0")
 }
 
 kotlinDslPluginOptions {

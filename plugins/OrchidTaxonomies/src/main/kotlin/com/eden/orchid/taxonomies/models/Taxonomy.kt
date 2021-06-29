@@ -20,7 +20,7 @@ import javax.inject.Inject
 class Taxonomy
 @Inject
 constructor(
-        val context: OrchidContext
+    val context: OrchidContext
 ) : OptionsHolder {
 
     val terms = HashMap<String, Term>()
@@ -47,14 +47,16 @@ constructor(
     var single: Boolean = false
 
     @Option
-    @Description("If `single` is false, you may still use singular properties of a page to be included as that " +
+    @Description(
+        "If `single` is false, you may still use singular properties of a page to be included as that " +
             "page's only Term, by setting it as the `singleKey`. For example, 'categories' may not be a singular " +
             "Taxonomy, but a page may have a singular property of 'category' that should still be captured."
     )
     lateinit var singleKey: String
 
     @Option
-    @Description("If true, pages selected by this taxonomy will have their parent page be set as the term archive, " +
+    @Description(
+        "If true, pages selected by this taxonomy will have their parent page be set as the term archive, " +
             "creating a complete breadcrumb hierarchy. \n\n" +
             "**WARNING**: This will override the parent page set by the plugin that originally produced the page, " +
             "effectively replacing its normal hierarchy with this taxonomy's hierarchy."
@@ -108,10 +110,8 @@ constructor(
                             compareBy { getTermValue(it, prop) }
                         else
                             comparator!!.thenBy { getTermValue(it, prop) }
-
                     }
-                }
-                else {
+                } else {
                     comparator = compareBy { it.title }
                 }
 
@@ -142,20 +142,18 @@ constructor(
 
     private fun getTermValue(term: Term, key: String): Comparable<*> {
         return when (key) {
-            "key"         -> term.key
-            "title"       -> term.title
-            "entryCount"  -> term.pages.size
-            "newestEntry" -> term.pages.maxBy { it.publishDate }!!.publishDate
-            "oldestEntry" -> term.pages.minBy { it.publishDate }!!.publishDate
-            else          -> {
+            "key" -> term.key
+            "title" -> term.title
+            "entryCount" -> term.pages.size
+            "newestEntry" -> term.pages.maxByOrNull { it.publishDate }!!.publishDate
+            "oldestEntry" -> term.pages.maxByOrNull { it.publishDate }!!.publishDate
+            else -> {
                 if (term.element.has(key)) {
                     if (term.element.get(key) is String) {
                         term.element.getString(key)
-                    }
-                    else if (term.element.get(key) is Number) {
+                    } else if (term.element.get(key) is Number) {
                         term.element.getNumber(key)
-                    }
-                    else if (term.element.get(key) is Boolean) {
+                    } else if (term.element.get(key) is Boolean) {
                         term.element.getBoolean(key)
                     }
                 }
@@ -169,5 +167,4 @@ constructor(
     fun query(pointer: String): JSONElement? {
         return JSONElement(JSONObject(allData)).query(pointer)
     }
-
 }

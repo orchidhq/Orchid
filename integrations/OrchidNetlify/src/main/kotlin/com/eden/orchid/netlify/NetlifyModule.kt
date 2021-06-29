@@ -13,6 +13,4 @@ class NetlifyModule : OrchidModule() {
         addToSet<OrchidPublisher, NetlifyPublisher>()
         addToSet<BaseUrlFactory, NetlifyBaseUrlFactory>()
     }
-
 }
-

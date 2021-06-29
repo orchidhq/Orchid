@@ -87,7 +87,6 @@ class HardcodedResourceSourceTest : OrchidUnitTest {
             .containsExactlyInAnyOrder(expectedFilenames.split(",").map { it.trim() })
     }
 
-
     companion object {
         fun createStringResource(context: OrchidContext, name: String, content: String = name): OrchidResource {
             return StringResource(
@@ -96,5 +95,4 @@ class HardcodedResourceSourceTest : OrchidUnitTest {
             )
         }
     }
-
 }

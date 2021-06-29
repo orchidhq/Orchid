@@ -57,6 +57,4 @@ constructor() : OptionsHolder {
         get() {
             return if (!EdenUtils.isEmpty(title)) title else key from { camelCase() } to { titleCase() }
         }
-
 }
-

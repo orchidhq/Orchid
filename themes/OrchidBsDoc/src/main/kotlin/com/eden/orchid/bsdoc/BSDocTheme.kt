@@ -10,18 +10,17 @@ import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.api.theme.assets.AssetManagerDelegate
-import com.eden.orchid.api.theme.assets.CssPage
 import com.eden.orchid.api.theme.components.ComponentHolder
 import com.eden.orchid.api.theme.models.SiteSocial
 import org.json.JSONObject
 import javax.inject.Inject
 
-@Description("A theme based on the Bootstrap 3 documentation, and good for code documentation.", name="BsDoc")
+@Description("A theme based on the Bootstrap 3 documentation, and good for code documentation.", name = "BsDoc")
 @Archetype(value = ConfigArchetype::class, key = "BsDoc")
 class BSDocTheme
 @Inject
 constructor(
-        context: OrchidContext
+    context: OrchidContext
 ) : Theme(context, "BsDoc") {
 
     @Option
@@ -72,7 +71,7 @@ constructor(
     @Description("Components to include in the sidebar, below the page menu.")
     lateinit var sidebar: ComponentHolder
 
-    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate)  {
+    override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
         // these assets include relative references to font files, which become invalid if the asset is downloaded locally and so need to stay as external assets even in production
         addCss("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css") { download = false }
         addCss("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css") { download = false }

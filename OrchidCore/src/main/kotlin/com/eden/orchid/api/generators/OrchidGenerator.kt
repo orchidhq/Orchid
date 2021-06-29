@@ -26,13 +26,16 @@ constructor(
     @Option
     @Description(
         "Set a theme to be used only when rendering pages from this Generator. This can be a String to use " +
-                "that theme's default options set in `config.yml`, or an object with a `key` property to use those " +
-                "specific options for the theme."
+            "that theme's default options set in `config.yml`, or an object with a `key` property to use those " +
+            "specific options for the theme."
     )
     lateinit var theme: ThemeRelation
 
     @Option
-    @Description("Set the default layout to be used for all Pages from this Generator. Pages can specify their own " + "layouts, which take precedence over the Generator layout.")
+    @Description(
+        "Set the default layout to be used for all Pages from this Generator. Pages can specify their own " +
+            "layouts, which take precedence over the Generator layout."
+    )
     lateinit var layout: String
 
     @AllOptions

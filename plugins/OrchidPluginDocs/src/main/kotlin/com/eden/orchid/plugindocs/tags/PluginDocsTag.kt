@@ -1,6 +1,5 @@
 package com.eden.orchid.plugindocs.tags
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.generators.OrchidCollection
@@ -77,16 +76,13 @@ class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
 
         if (!EdenUtils.isEmpty(collectionType) && !EdenUtils.isEmpty(collectionId)) {
             stream = stream.filter { collection -> collectionType == collection.collectionType }
-        }
-        else if (!EdenUtils.isEmpty(collectionType)) {
+        } else if (!EdenUtils.isEmpty(collectionType)) {
             stream = stream.filter { collection -> collectionType == collection.collectionType }
-        }
-        else if (!EdenUtils.isEmpty(collectionId)) {
+        } else if (!EdenUtils.isEmpty(collectionId)) {
             val estimatedCollection = stream.firstOrNull()
             if (estimatedCollection != null) {
                 stream = stream.filter { collection -> estimatedCollection.collectionType == collection.collectionType }
-            }
-            else {
+            } else {
                 stream = this.context.collections.filter { it != null }
             }
         }
@@ -133,16 +129,15 @@ class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
     private fun getDescriptionLink(o: Any, title: String): String {
         val className = o as? Class<*> ?: o.javaClass
 
-        if(admin) {
+        if (admin) {
             val link = "${context.baseUrl}/admin/describe?className=${className.name}"
-            return Clog.format("<a href=\"#{$1}\">#{$2}</a>", link, title)
-        }
-        else {
+            return "<a href=\"${link}\">$title</a>"
+        } else {
             val page = context.findPage(null, null, className.name)
 
             if (page != null) {
                 val link = page.link
-                return Clog.format("<a href=\"#{$1}\">#{$2}</a>", link, title)
+                return "<a href=\"${link}\">$title</a>"
             }
         }
 
@@ -159,11 +154,10 @@ class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
 
         if (!EdenUtils.isEmpty(option.optionTypeParameters)) {
             typeParamLinks = option.optionTypeParameters
-                    .filterNotNull()
-                    .map { getDescriptionLink(it, it.simpleName) }
-                    .joinToString(separator = ", ", prefix = "&lt;", postfix = "&gt;")
-        }
-        else {
+                .filterNotNull()
+                .map { getDescriptionLink(it, it.simpleName) }
+                .joinToString(separator = ", ", prefix = "&lt;", postfix = "&gt;")
+        } else {
             typeParamLinks = ""
         }
 
@@ -174,14 +168,9 @@ class PluginDocsTag : TemplateTag("docs", Type.Simple, true) {
     fun <T> provide(): T? {
         try {
             return context.resolve(classType) as? T
-        }
-        catch (e: Exception) {
-
+        } catch (e: Exception) {
         }
 
         return null
     }
 }
-
-
-

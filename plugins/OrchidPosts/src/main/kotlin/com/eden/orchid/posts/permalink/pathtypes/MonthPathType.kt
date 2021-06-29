@@ -17,8 +17,5 @@ constructor() : PermalinkPathType() {
         return if (page is PostPage) {
             "${page.month}"
         } else "${page.publishDate.monthValue}"
-
     }
-
 }
-

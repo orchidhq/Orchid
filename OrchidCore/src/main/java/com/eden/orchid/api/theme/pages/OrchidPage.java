@@ -1,6 +1,6 @@
 package com.eden.orchid.api.theme.pages;
 
-import com.caseyjbrooks.clog.Clog;
+import clog.Clog;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;

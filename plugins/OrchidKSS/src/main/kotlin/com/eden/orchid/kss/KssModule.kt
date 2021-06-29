@@ -13,8 +13,8 @@ class KssModule : OrchidModule() {
         withResources(20)
         addToSet<OrchidGenerator<*>, KssGenerator>()
         addToSet<OrchidMenuFactory>(
-                StyleguidePagesMenuItemType::class,
-                StyleguideSectionsMenuItemType::class)
+            StyleguidePagesMenuItemType::class,
+            StyleguideSectionsMenuItemType::class
+        )
     }
 }
-

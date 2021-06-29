@@ -4,10 +4,8 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.Relation
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.assets.AssetPage
-import com.eden.orchid.api.theme.pages.OrchidPage
 import javax.inject.Inject
 
 class AssetRelation

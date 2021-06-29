@@ -4,7 +4,6 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.snippets.models.SnippetConfig
 
@@ -26,7 +25,7 @@ class FileSnippetsAdapter : SnippetsAdapter {
     @Description("Whether to search recursively")
     var recursive: Boolean = false
 
-    override fun addSnippets(context: OrchidContext) : Sequence<SnippetConfig> = sequence {
+    override fun addSnippets(context: OrchidContext): Sequence<SnippetConfig> = sequence {
         baseDirs.forEach { baseDir ->
             addSnippetsInDir(context, baseDir)
         }

@@ -90,7 +90,8 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
     @DisplayName("External links are ignored")
     fun test08() {
         resource(
-            "wiki/summary.md", """
+            "wiki/summary.md",
+            """
             * [Page One](page-one.md)
             * [Page Two](https://www.example.com/)
             """.trimIndent()
@@ -117,7 +118,8 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
     @DisplayName("Files named index are treated as the index of that directory, rather than including 'index' in the path.")
     fun test09() {
         resource(
-            "wiki/summary.md", """
+            "wiki/summary.md",
+            """
             |* [Page One](page-one.md)
             |  * [Page Two](page-two/index.md)
             |  * [Page Three](page-two/page-three.md)
@@ -133,5 +135,4 @@ class WikiGeneratorTest : OrchidIntegrationTest(WikiModule()) {
             .pageWasRendered("/wiki/page-two/index.html")
             .pageWasRendered("/wiki/page-two/page-three/index.html")
     }
-
 }

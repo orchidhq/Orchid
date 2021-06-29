@@ -1,6 +1,6 @@
 package com.eden.orchid.api.server.files;
 
-import com.caseyjbrooks.clog.Clog;
+import clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.server.OrchidResponse;
 import fi.iki.elonen.NanoHTTPD;

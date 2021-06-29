@@ -1,6 +1,5 @@
 package com.eden.orchid.api.theme.pages
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.site.OrchidSite
 import com.eden.orchid.api.site.OrchidSiteImpl
@@ -101,6 +100,7 @@ class OrchidReferenceTest : OrchidUnitTest {
     }
 
     @ParameterizedTest
+    /* ktlint-disable max-line-length */
     @CsvSource(
         // | original URL                                  | path          | filename | extension | id  | query |
         // absolute URLs
@@ -121,8 +121,16 @@ class OrchidReferenceTest : OrchidUnitTest {
         "/example/index.js                                 , example       , index    , js        ,     ,                   ",
         "/example/index.html                               , example       , index    , html      ,     ,                   "
     )
+    /* ktlint-enable max-line-length */
     @Suppress(SuppressedWarnings.UNUSED_PARAMETER)
-    fun testParsingExternalUrls(original: String, path: String?, fileName: String?, extension: String?, id: String?, query: String?) {
+    fun testParsingExternalUrls(
+        original: String,
+        path: String?,
+        fileName: String?,
+        extension: String?,
+        id: String?,
+        query: String?
+    ) {
         val ref = OrchidReference.fromUrl(context, "", original)
 
         enableLogging()
@@ -134,5 +142,4 @@ class OrchidReferenceTest : OrchidUnitTest {
             get { this.query }.isEqualTo(query)
         }
     }
-
 }

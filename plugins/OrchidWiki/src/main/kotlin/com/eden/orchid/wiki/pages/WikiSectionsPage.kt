@@ -14,12 +14,11 @@ import com.eden.orchid.wiki.model.WikiModel
     Archetype(value = ConfigArchetype::class, key = "${WikiGenerator.GENERATOR_KEY}.wikiPages")
 )
 @Description(value = "A landing page detailing all wiki sections.", name = "Wiki Sections")
-class WikiSectionsPage(val model: WikiModel, resource: OrchidResource, title: String)
-    : OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "wikiSections", title) {
+class WikiSectionsPage(val model: WikiModel, resource: OrchidResource, title: String) :
+    OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "wikiSections", title) {
 
     val sectionPages: List<WikiSummaryPage>
         get() {
             return model.sections.values.map { it.summaryPage }
         }
-
 }

@@ -18,7 +18,7 @@ class ExcerptFunction : TemplateFunction("excerpt", false) {
     @StringDefault("<!--more-->")
     @Description(
         "The shortcode used to manually set the breakpoint for a page summary, otherwise the summary is the " +
-                "first 240 characters of the post."
+            "first 240 characters of the post."
     )
     lateinit var excerptSeparator: String
 
@@ -27,8 +27,7 @@ class ExcerptFunction : TemplateFunction("excerpt", false) {
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         if (input != null && input is OrchidPage) {
             return getExcerpt(input as OrchidPage)
-        }
-        else if (page != null) {
+        } else if (page != null) {
             return getExcerpt(page)
         }
 
@@ -42,17 +41,14 @@ class ExcerptFunction : TemplateFunction("excerpt", false) {
 
         return if (pattern.matcher(content).find()) {
             pattern.split(content)[0].stripTags()
-        }
-        else {
+        } else {
             return content.stripTags().let {
                 if (it.length > 240) { it.substring(0, 240) + "..." } else { it }
             }
         }
     }
 
-    private fun String.stripTags() : String {
+    private fun String.stripTags(): String {
         return this.replace("(<.*?>)|(&.*?;)|([ ]{2,})".toRegex(), "")
     }
 }
-
-

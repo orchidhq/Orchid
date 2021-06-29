@@ -1,6 +1,6 @@
 package com.eden.orchid.impl.compilers.parsers
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.api.compilers.OrchidParser
 import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.archetypes.ConfigArchetype

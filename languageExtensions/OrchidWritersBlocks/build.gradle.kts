@@ -1,6 +1,16 @@
-apply(from = "$rootDir/gradle/groups/mainProjects.gradle")
-apply(from = "$rootDir/gradle/groups/pluginProjects.gradle")
+plugins {
+    java
+    kotlin("jvm")
+    `copper-leaf-base`
+    `copper-leaf-version`
+    `copper-leaf-lint`
+    `copper-leaf-publish`
+    `orchid-main-projects`
+}
 
 dependencies {
-    implementation(Libs.evo_inflector)
+    implementation(Modules.OrchidCore)
+    testImplementation(Modules.OrchidTest)
+
+    implementation("org.atteo:evo-inflector:1.2.2")
 }

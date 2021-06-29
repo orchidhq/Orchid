@@ -27,5 +27,4 @@ constructor(
         websocket = OrchidWebsocket(context, port)
         websocketPort = websocket!!.listeningPort
     }
-
 }

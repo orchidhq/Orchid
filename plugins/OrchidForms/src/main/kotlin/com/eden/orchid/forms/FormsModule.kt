@@ -29,12 +29,12 @@ class FormsModule : OrchidModule() {
         addToSet<TemplateTag, FormTag>()
         addToSet<OrchidController, FormsController>()
         addToSet<FormField>(
-                CheckboxField::class,
-                RadioButtonsField::class,
-                DropdownField::class,
-                HiddenField::class,
-                TextareaField::class,
-                TextField::class)
+            CheckboxField::class,
+            RadioButtonsField::class,
+            DropdownField::class,
+            HiddenField::class,
+            TextareaField::class,
+            TextField::class
+        )
     }
-
 }

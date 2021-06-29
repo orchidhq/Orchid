@@ -13,5 +13,4 @@ class AzureFlags : OrchidFlag() {
     @StringDefault("")
     @Description("Your Azure DevOps Personal Access Token.")
     lateinit var azureToken: String
-
 }

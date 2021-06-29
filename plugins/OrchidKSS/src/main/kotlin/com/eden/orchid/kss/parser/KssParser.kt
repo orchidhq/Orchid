@@ -1,6 +1,6 @@
 package com.eden.orchid.kss.parser
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.api.resources.resource.OrchidResource
 import java.util.TreeMap
 import java.util.regex.Pattern
@@ -24,7 +24,7 @@ class KssParser(cssResources: List<OrchidResource>) {
             if (hasStyleguideReference(block)) {
                 val section = StyleguideSection(block, fileName)
 
-                if(sections.containsKey(section.styleGuideReference)) {
+                if (sections.containsKey(section.styleGuideReference)) {
                     Clog.w("Duplicate Styleguide section: ${section.styleGuideReference}")
                 }
 
@@ -44,13 +44,13 @@ class KssParser(cssResources: List<OrchidResource>) {
         }
 
         val maxLevels: Int = sections
-                .values
-                .maxBy { it.styleGuidePath.size }!!
-                .styleGuidePath.size
-        val minLevels: Int  = sections
-                .values
-                .minBy { it.styleGuidePath.size }!!
-                .styleGuidePath.size
+            .values
+            .maxByOrNull { it.styleGuidePath.size }!!
+            .styleGuidePath.size
+        val minLevels: Int = sections
+            .values
+            .maxByOrNull { it.styleGuidePath.size }!!
+            .styleGuidePath.size
 
         val sectionDepths = TreeMap<Int, MutableList<StyleguideSection>>()
         for (section in sections.values) {
@@ -96,4 +96,3 @@ class KssParser(cssResources: List<OrchidResource>) {
         val STYLEGUIDE_PATTERN = Pattern.compile("(?i)(?<!No )Styleguide [0-9A-Za-z ]+")
     }
 }
-

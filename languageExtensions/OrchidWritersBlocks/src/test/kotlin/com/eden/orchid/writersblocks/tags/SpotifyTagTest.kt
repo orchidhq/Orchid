@@ -35,7 +35,7 @@ class SpotifyTagTest : OrchidIntegrationTest(
                     div("spotify-embed") {
                         div {
                             iframe {
-                                src="https://open.spotify.com/embed/track/0Vkk4vLcrUTYODEiuV9ECP"
+                                src = "https://open.spotify.com/embed/track/0Vkk4vLcrUTYODEiuV9ECP"
                                 attributes["allow"] = "encrypted-media"
                             }
                         }

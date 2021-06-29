@@ -29,5 +29,4 @@ class KssGeneratorTest : OrchidIntegrationTest(KssModule()) {
             .pageWasRendered("/styleguide/1/1/index.html")
             .pageWasRendered("/styleguide/1/1/2/index.html")
     }
-
 }

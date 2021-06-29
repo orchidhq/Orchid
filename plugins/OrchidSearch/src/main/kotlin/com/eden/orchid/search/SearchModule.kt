@@ -17,5 +17,4 @@ class SearchModule : OrchidModule() {
             AlgoliaDocSearchComponent::class
         )
     }
-
 }

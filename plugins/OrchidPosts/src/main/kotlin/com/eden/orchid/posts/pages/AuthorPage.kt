@@ -15,13 +15,13 @@ import com.eden.orchid.posts.model.PostsModel
 import com.eden.orchid.utilities.OrchidUtils
 
 @Archetypes(
-        Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.allPages"),
-        Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.authorPages")
+    Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.allPages"),
+    Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.authorPages")
 )
 @Description(value = "An 'about' page for an author in your blog.", name = "Author")
 class AuthorPage(
-        resource: OrchidResource,
-        val author: Author
+    resource: OrchidResource,
+    val author: Author
 ) : OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "postAuthor", author.name) {
 
     @Option
@@ -34,6 +34,4 @@ class AuthorPage(
     override fun getTemplates(): List<String> {
         return listOf("$key-${OrchidUtils.toSlug(author.name)}")
     }
-
 }
-

@@ -41,21 +41,24 @@ class AsciidocIncludeUnitTests : OrchidUnitTest {
             |// end::snippets[]
         """.trimMargin()
 
-        val result = underTest.getTaggedSections(input).entries.sortedBy { it.key.min()!! }
+        val result = underTest.getTaggedSections(input).entries.sortedBy { it.key.minOrNull()!! }
 
         expectThat(result)
             .hasSize(3)
-            .and { this[0]
-                .and { get { key }.isEqualTo("snippet-a") }
-                .and { get { value }.containsExactly("snippet a") }
+            .and {
+                this[0]
+                    .and { get { key }.isEqualTo("snippet-a") }
+                    .and { get { value }.containsExactly("snippet a") }
             }
-            .and { this[1]
-                .and { get { key }.isEqualTo("snippet-b") }
-                .and { get { value }.containsExactly("snippet b") }
+            .and {
+                this[1]
+                    .and { get { key }.isEqualTo("snippet-b") }
+                    .and { get { value }.containsExactly("snippet b") }
             }
-            .and { this[2]
-                .and { get { key }.isEqualTo("snippets") }
-                .and { get { value }.containsExactly("") }
+            .and {
+                this[2]
+                    .and { get { key }.isEqualTo("snippets") }
+                    .and { get { value }.containsExactly("") }
             }
 
         expectThat(underTest.getIncludedTags(input, "snippet-a", false))
@@ -94,7 +97,10 @@ class AsciidocIncludeUnitTests : OrchidUnitTest {
     }
 
     @Test
-    @DisplayName("Test that tagged sections can be found with basic regex. Parent sections that are not closed properly are not included")
+    @DisplayName(
+        "Test that tagged sections can be found with basic regex. Parent sections that are not closed " +
+            "properly are not included"
+    )
     fun test02() {
         val input = """
             |// tag::snippets[]
@@ -107,17 +113,19 @@ class AsciidocIncludeUnitTests : OrchidUnitTest {
             |// end::snippet-b[]
         """.trimMargin()
 
-        val result = underTest.getTaggedSections(input).entries.sortedBy { it.key.min()!! }
+        val result = underTest.getTaggedSections(input).entries.sortedBy { it.key.minOrNull()!! }
 
         expectThat(result)
             .hasSize(2)
-            .and { this[0]
-                .and { get { key }.isEqualTo("snippet-a") }
-                .and { get { value }.containsExactly("snippet a") }
+            .and {
+                this[0]
+                    .and { get { key }.isEqualTo("snippet-a") }
+                    .and { get { value }.containsExactly("snippet a") }
             }
-            .and { this[1]
-                .and { get { key }.isEqualTo("snippet-b") }
-                .and { get { value }.containsExactly("snippet b") }
+            .and {
+                this[1]
+                    .and { get { key }.isEqualTo("snippet-b") }
+                    .and { get { value }.containsExactly("snippet b") }
             }
     }
 
@@ -130,17 +138,27 @@ class AsciidocIncludeUnitTests : OrchidUnitTest {
             "three" to listOf("g", "h", "i")
         )
 
-        expectThat(underTest.getActualTags(taggedSections, "*", false)).containsExactlyInAnyOrder("one", "two", "three")
-        expectThat(underTest.getActualTags(taggedSections, "one", false)).containsExactlyInAnyOrder("one")
-        expectThat(underTest.getActualTags(taggedSections, "one;two", false)).containsExactlyInAnyOrder("one", "two")
-        expectThat(underTest.getActualTags(taggedSections, "one,three", false)).containsExactlyInAnyOrder("one", "three")
-        expectThat(underTest.getActualTags(taggedSections, "one,four", false)).containsExactlyInAnyOrder("one")
+        expectThat(underTest.getActualTags(taggedSections, "*", false))
+            .containsExactlyInAnyOrder("one", "two", "three")
+        expectThat(underTest.getActualTags(taggedSections, "one", false))
+            .containsExactlyInAnyOrder("one")
+        expectThat(underTest.getActualTags(taggedSections, "one;two", false))
+            .containsExactlyInAnyOrder("one", "two")
+        expectThat(underTest.getActualTags(taggedSections, "one,three", false))
+            .containsExactlyInAnyOrder("one", "three")
+        expectThat(underTest.getActualTags(taggedSections, "one,four", false))
+            .containsExactlyInAnyOrder("one")
 
-        expectThat(underTest.getActualTags(taggedSections, "*", true)).containsExactlyInAnyOrder()
-        expectThat(underTest.getActualTags(taggedSections, "one", true)).containsExactlyInAnyOrder("one")
-        expectThat(underTest.getActualTags(taggedSections, "one;two", true)).containsExactlyInAnyOrder()
-        expectThat(underTest.getActualTags(taggedSections, "one,three", true)).containsExactlyInAnyOrder()
-        expectThat(underTest.getActualTags(taggedSections, "one,four", true)).containsExactlyInAnyOrder()
+        expectThat(underTest.getActualTags(taggedSections, "*", true))
+            .containsExactlyInAnyOrder()
+        expectThat(underTest.getActualTags(taggedSections, "one", true))
+            .containsExactlyInAnyOrder("one")
+        expectThat(underTest.getActualTags(taggedSections, "one;two", true))
+            .containsExactlyInAnyOrder()
+        expectThat(underTest.getActualTags(taggedSections, "one,three", true))
+            .containsExactlyInAnyOrder()
+        expectThat(underTest.getActualTags(taggedSections, "one,four", true))
+            .containsExactlyInAnyOrder()
 
         expectThat(underTest.getTagContent(taggedSections, listOf("one")))
             .isEqualTo(

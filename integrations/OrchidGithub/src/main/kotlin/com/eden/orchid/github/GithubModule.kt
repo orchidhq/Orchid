@@ -15,10 +15,9 @@ class GithubModule : OrchidModule() {
     override fun configure() {
         addToSet<OrchidPublisher>(
             GithubPagesPublisher::class,
-            GithubReleasesPublisher::class)
+            GithubReleasesPublisher::class
+        )
         addToSet<WikiAdapter, GithubWikiAdapter>()
         addToSet<OrchidMenuFactory, GithubMenuItem>()
     }
-
 }
-

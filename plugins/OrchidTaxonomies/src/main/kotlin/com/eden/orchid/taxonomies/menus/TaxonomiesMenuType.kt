@@ -36,6 +36,4 @@ class TaxonomiesMenuType : OrchidMenuFactory("taxonomies") {
 
         return items
     }
-
 }
-

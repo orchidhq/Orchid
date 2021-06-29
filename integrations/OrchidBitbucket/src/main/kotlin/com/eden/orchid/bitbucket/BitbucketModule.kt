@@ -11,6 +11,4 @@ class BitbucketModule : OrchidModule() {
         addToSet<OrchidPublisher, BitbucketCloudPublisher>()
 //        addToSet<WikiAdapter, BitbucketWikiAdapter>()
     }
-
 }
-

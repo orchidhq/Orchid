@@ -26,14 +26,14 @@ class TaxonomyTermMenuType : OrchidMenuFactory("taxonomyTerm") {
     @Option
     @Description(
         "Whether to have the menu link out to the Term landing page, or include child menu items with " +
-                "links out to the Term's associated pages."
+            "links out to the Term's associated pages."
     )
     var includePages = false
 
     @Option
     @Description(
         "If `includePages` is true, whether to keep the associated pages as children of a single menu item, " +
-                "or expand them all to the root."
+            "or expand them all to the root."
     )
     var pagesAtRoot = false
 
@@ -74,6 +74,4 @@ class TaxonomyTermMenuType : OrchidMenuFactory("taxonomyTerm") {
 
         return items
     }
-
 }
-

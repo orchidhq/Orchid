@@ -14,7 +14,7 @@ import strikt.assertions.isEqualTo
 class ScssTest : OrchidIntegrationTest(withGenerator<AssetsGenerator>()) {
 
 // SCSS
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test that SCSS syntax works normally")
@@ -300,8 +300,8 @@ class ScssTest : OrchidIntegrationTest(withGenerator<AssetsGenerator>()) {
     @Test
     @DisplayName(
         "Test absolute imports. Imports that start with `/` will not be loaded relative to the defailt " +
-                "`assets/css` directory or its current location in the import hierarchy, but instead at that exact path " +
-                "in the site resources. Relative imports from there follow the new hierarchy."
+            "`assets/css` directory or its current location in the import hierarchy, but instead at that exact path " +
+            "in the site resources. Relative imports from there follow the new hierarchy."
     )
     fun test08() {
         resource(
@@ -419,7 +419,7 @@ class ScssTest : OrchidIntegrationTest(withGenerator<AssetsGenerator>()) {
     }
 
 // Sass
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test that SASS syntax works normally")
@@ -844,7 +844,7 @@ class ScssTest : OrchidIntegrationTest(withGenerator<AssetsGenerator>()) {
     }
 
 // Check and Log
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     private fun TestResults.checkAndLog(filename: String, expected: String) {
         expectThat(this)
@@ -853,5 +853,4 @@ class ScssTest : OrchidIntegrationTest(withGenerator<AssetsGenerator>()) {
                     .isEqualTo(expected.replace("\\s".toRegex(), ""))
             }
     }
-
 }

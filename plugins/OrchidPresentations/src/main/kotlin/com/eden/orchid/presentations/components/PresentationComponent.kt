@@ -51,5 +51,4 @@ class PresentationComponent : OrchidComponent("presentation") {
         addJs("assets/extensions/scale/deck_scale.js")
         addJs("assets/initDeck.js")
     }
-
 }

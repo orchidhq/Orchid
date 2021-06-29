@@ -1,6 +1,6 @@
 package com.eden.orchid.posts
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.FolderCollection
@@ -43,16 +43,16 @@ constructor(
         const val GENERATOR_KEY = "posts"
         // Accept both   YEAR - MONTH - DAY - TITLE   or  YEAR - DAY_OF_YEAR - TITLE  
         val pageTitleRegex = Pattern.compile("(\\d{4})-(?:(\\d{1,2})-(\\d{1,2})|(\\d{3}))-([\\w-]+)")
-        enum class PageTitleGrp {ALL, YEAR, MONTH, DAY, DAY_OF_YEAR, TITLE}
+        enum class PageTitleGrp { ALL, YEAR, MONTH, DAY, DAY_OF_YEAR, TITLE }
     }
 
     @Option
     @ImpliedKey(typeKey = "name")
     @Description(
         "A list of Author objects denoting the 'regular' or known authors of the blog. Authors can also be " +
-                "set up from a resource in the `authorsBaseDir`. All known authors will have a page generated for them " +
-                "and will be linked to the pages they author. Guest authors may be set up directly in the post " +
-                "configuration, but they will not have their own pages."
+            "set up from a resource in the `authorsBaseDir`. All known authors will have a page generated for them " +
+            "and will be linked to the pages they author. Guest authors may be set up directly in the post " +
+            "configuration, but they will not have their own pages."
     )
     lateinit var authors: List<Author>
 
@@ -60,9 +60,9 @@ constructor(
     @ImpliedKey(typeKey = "key")
     @Description(
         "An array of Category configurations, which may be just the path of the category or a full " +
-                "configuration object. Categories are strictly hierarchical, which is denoted by the category path. If a " +
-                "category does not have an entry for its parent category, an error is thrown and Posts generation " +
-                "will not continue."
+            "configuration object. Categories are strictly hierarchical, which is denoted by the category path. If a " +
+            "category does not have an entry for its parent category, an error is thrown and Posts generation " +
+            "will not continue."
     )
     lateinit var categories: MutableList<CategoryModel>
 
@@ -160,16 +160,16 @@ constructor(
                 val post = PostPage(entry, categoryModel, title)
 
                 if (post.publishDate.toLocalDate().isToday()) {
-                    if (matcher.group(PageTitleGrp.DAY_OF_YEAR.ordinal).isNullOrEmpty() )
+                    if (matcher.group(PageTitleGrp.DAY_OF_YEAR.ordinal).isNullOrEmpty())
                         post.publishDate = LocalDate.of(
-                                Integer.parseInt(matcher.group(PageTitleGrp.YEAR.ordinal)),
-                                Integer.parseInt(matcher.group(PageTitleGrp.MONTH.ordinal)),
-                                Integer.parseInt(matcher.group(PageTitleGrp.DAY.ordinal))
+                            Integer.parseInt(matcher.group(PageTitleGrp.YEAR.ordinal)),
+                            Integer.parseInt(matcher.group(PageTitleGrp.MONTH.ordinal)),
+                            Integer.parseInt(matcher.group(PageTitleGrp.DAY.ordinal))
                         ).atStartOfDay()
                     else
                         post.publishDate = LocalDate.ofYearDay(
-                                Integer.parseInt(matcher.group(PageTitleGrp.YEAR.ordinal)),
-                                Integer.parseInt(matcher.group(PageTitleGrp.DAY_OF_YEAR.ordinal))
+                            Integer.parseInt(matcher.group(PageTitleGrp.YEAR.ordinal)),
+                            Integer.parseInt(matcher.group(PageTitleGrp.DAY_OF_YEAR.ordinal))
                         ).atStartOfDay()
                 }
 
@@ -255,4 +255,3 @@ constructor(
         return null
     }
 }
-

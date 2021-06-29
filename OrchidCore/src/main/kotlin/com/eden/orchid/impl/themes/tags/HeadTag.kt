@@ -4,7 +4,7 @@ import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.options.annotations.Description
 
 // Template Section Tabs
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
 @Description(value = "Render content into the HTML `<head>`.", name = "Head")
 class HeadTag : TemplateTag("head", Type.Simple, true)
@@ -19,7 +19,7 @@ class BodyEndTag : TemplateTag("endbody", Type.Simple, true)
 class PageTag : TemplateTag("page", Type.Simple, true)
 
 // Deprecated Template Section Tabs
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
 @Description(value = "Render all style tags to the page.", name = "Styles")
 @Deprecated("The `{% styles %}` tag is deprecated and now does nothing, as it is now included as part of the `{% head %}` tag.")

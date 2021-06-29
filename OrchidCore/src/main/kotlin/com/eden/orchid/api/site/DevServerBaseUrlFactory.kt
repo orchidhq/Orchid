@@ -12,5 +12,5 @@ constructor(
 ) : BaseUrlFactory("devServer", 100) {
 
     override fun isEnabled(context: OrchidContext): Boolean = context.taskType == TaskType.SERVE
-    override fun getBaseUrl(context: OrchidContext): String = "http://localhost:${port}/"
+    override fun getBaseUrl(context: OrchidContext): String = "http://localhost:$port/"
 }

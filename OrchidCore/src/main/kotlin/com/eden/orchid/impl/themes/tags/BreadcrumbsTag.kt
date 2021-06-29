@@ -12,5 +12,4 @@ class BreadcrumbsTag : TemplateTag("breadcrumbs", Type.Simple, true) {
     override fun parameters() = emptyArray<String>()
 
     val breadcrumbs: List<Breadcrumb> get() = context.resolve<BreadcrumbStrategy>().getBreadcrumbs(page)
-
 }

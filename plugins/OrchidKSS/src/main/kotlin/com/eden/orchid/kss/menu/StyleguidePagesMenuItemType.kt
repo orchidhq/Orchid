@@ -55,4 +55,3 @@ class StyleguidePagesMenuItemType : OrchidMenuFactory("styleguide") {
             .build()
     }
 }
-

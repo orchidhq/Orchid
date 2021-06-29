@@ -6,23 +6,23 @@ interface AssetHolder {
 
     fun addAssets()
 
-    fun withNamespace(namespace: String?, cb: ()->Unit) {
+    fun withNamespace(namespace: String?, cb: () -> Unit) {
         getAssetHolder().withNamespace(namespace, cb)
     }
 
-    fun addJs(jsAsset: JsPage, configure: JsPage.()->Unit = {}): JsPage {
+    fun addJs(jsAsset: JsPage, configure: JsPage.() -> Unit = {}): JsPage {
         return getAssetHolder().addJs(jsAsset).also(configure)
     }
 
-    fun addJs(jsAsset: String, configure: JsPage.()->Unit = {}): JsPage {
+    fun addJs(jsAsset: String, configure: JsPage.() -> Unit = {}): JsPage {
         return getAssetHolder().addJs(jsAsset).also(configure)
     }
 
-    fun addCss(cssAsset: CssPage, configure: CssPage.()->Unit = {}): CssPage {
+    fun addCss(cssAsset: CssPage, configure: CssPage.() -> Unit = {}): CssPage {
         return getAssetHolder().addCss(cssAsset).also(configure)
     }
 
-    fun addCss(cssAsset: String, configure: CssPage.()->Unit = {}): CssPage {
+    fun addCss(cssAsset: String, configure: CssPage.() -> Unit = {}): CssPage {
         return getAssetHolder().addCss(cssAsset).also(configure)
     }
 

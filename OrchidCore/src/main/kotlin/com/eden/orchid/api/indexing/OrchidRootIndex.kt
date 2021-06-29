@@ -1,6 +1,6 @@
 package com.eden.orchid.api.indexing
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidGenerator
@@ -22,7 +22,7 @@ class OrchidRootIndex(val context: OrchidContext, ownKey: String) : OrchidIndex(
     fun addChildIndex(key: String, index: OrchidIndex, model: OrchidGenerator.Model) {
         allIndexedPages[key] = index to model
 
-        if(key != ExternalIndexGenerator.GENERATOR_KEY) {
+        if (key != ExternalIndexGenerator.GENERATOR_KEY) {
             for (page in index.allPages) {
                 this.addToIndex(page.reference.path, page)
             }
@@ -54,7 +54,7 @@ class OrchidRootIndex(val context: OrchidContext, ownKey: String) : OrchidIndex(
     }
 
 // Helper Methods
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     fun findChildPages(page: OrchidPage): List<OrchidPage> {
         val index = findIndex(page.reference.path)
@@ -116,7 +116,7 @@ class OrchidRootIndex(val context: OrchidContext, ownKey: String) : OrchidIndex(
             .values
             .stream()
             .flatMap { it.first.allPages.stream() }
-            .filter {  page ->
+            .filter { page ->
                 val outputPath = OrchidUtils.normalizePath(page.reference.path)
                 val outputName = if (EdenUtils.isEmpty(OrchidUtils.normalizePath(page.reference.outputExtension))) {
                     OrchidUtils.normalizePath(page.reference.fileName)
@@ -133,5 +133,4 @@ class OrchidRootIndex(val context: OrchidContext, ownKey: String) : OrchidIndex(
             .findFirst()
             .orElse(null)
     }
-
 }

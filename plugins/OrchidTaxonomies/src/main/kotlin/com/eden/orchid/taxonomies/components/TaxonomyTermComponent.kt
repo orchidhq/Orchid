@@ -33,4 +33,3 @@ class TaxonomyTermComponent : OrchidComponent("taxonomyTerm") {
             return taxonomy?.terms?.get(termType)
         }
 }
-

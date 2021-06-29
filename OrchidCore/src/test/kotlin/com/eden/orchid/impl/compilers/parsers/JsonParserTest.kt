@@ -1,6 +1,5 @@
 package com.eden.orchid.impl.compilers.parsers
 
-import com.eden.orchid.testhelpers.BaseOrchidTest
 import com.eden.orchid.testhelpers.OrchidUnitTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -25,8 +24,8 @@ class JsonParserTest : OrchidUnitTest {
             """.trimMargin()
 
         expectCatching {
-                underTest.parse("json", input)
-            }.isSuccess()
+            underTest.parse("json", input)
+        }.isSuccess()
     }
 
     @Test
@@ -38,7 +37,7 @@ class JsonParserTest : OrchidUnitTest {
             """.trimMargin()
 
         expectCatching {
-                underTest.parse("json", input)
-            }.isSuccess()
+            underTest.parse("json", input)
+        }.isSuccess()
     }
 }

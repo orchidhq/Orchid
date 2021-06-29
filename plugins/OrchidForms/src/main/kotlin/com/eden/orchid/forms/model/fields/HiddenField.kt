@@ -4,7 +4,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.forms.model.FormField
 
-@Description("A hidden field, to submit data with the form without showing the user.", name="Hidden")
+@Description("A hidden field, to submit data with the form without showing the user.", name = "Hidden")
 class HiddenField : FormField(arrayOf("hidden")) {
 
     @Option
@@ -14,5 +14,4 @@ class HiddenField : FormField(arrayOf("hidden")) {
     override fun getTemplates(): List<String> {
         return super.getTemplates().toMutableList()
     }
-
 }

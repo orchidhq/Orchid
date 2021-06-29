@@ -1,6 +1,5 @@
 package com.eden.orchid.sourcedoc.menu
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
@@ -79,7 +78,6 @@ class SourceDocPagesMenuItemType : OrchidMenuFactory("sourcedocPages") {
                             .build()
                     }
             }
-
         } catch (e: Exception) {
             e.printStackTrace()
             emptyList()
@@ -91,14 +89,16 @@ class SourceDocPagesMenuItemType : OrchidMenuFactory("sourcedocPages") {
             ItemTitleType.NAME -> page.title
             ItemTitleType.ID -> page.element.id
         }
-        if(transform.isNotBlank()) {
-            itemTitle = context.compile(page.resource, transformAs, transform, mapOf(
-                "title" to itemTitle,
-                "page" to page,
-                "element" to page.element
-            ))
+        if (transform.isNotBlank()) {
+            itemTitle = context.compile(
+                page.resource, transformAs, transform,
+                mapOf(
+                    "title" to itemTitle,
+                    "page" to page,
+                    "element" to page.element
+                )
+            )
         }
         it.title(itemTitle)
     }
-
 }

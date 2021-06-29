@@ -9,8 +9,8 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 
 @Description(
     "The siblings of a page in your site, referenced from a Collection. If no page query is given, will use " +
-            "the current page. The siblings of a page are defined as the children of the parent Index, not necessarily " +
-            "the Index at the parent Page.",
+        "the current page. The siblings of a page are defined as the children of the parent Index, not necessarily " +
+        "the Index at the parent Page.",
     name = "Page Siblings"
 )
 class PageSiblingsMenuItem : OrchidMenuFactory("pageSiblings") {

@@ -1,6 +1,6 @@
 package com.eden.orchid.impl.compilers.pebble.tag;
 
-import com.caseyjbrooks.clog.Clog;
+import clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.compilers.TemplateTag;

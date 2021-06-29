@@ -49,7 +49,7 @@ class CssPage(
     }
 
     override fun configureReferences() {
-        reference = OrchidReference(resource.reference)// copy reference so we can update it
+        reference = OrchidReference(resource.reference) // copy reference so we can update it
         reference.isUsePrettyUrl = false
 
         if (resource is ExternalResource) {

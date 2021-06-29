@@ -328,7 +328,7 @@ class ImplModule(
     }
 
 // Create Admin lists
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     private fun getServicesAdminList(contextProvider: Provider<OrchidContext>): AdminList {
         return object : AdminList {
@@ -357,5 +357,4 @@ class ImplModule(
             }
         }
     }
-
 }

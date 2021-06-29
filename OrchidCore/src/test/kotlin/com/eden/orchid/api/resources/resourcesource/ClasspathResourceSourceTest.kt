@@ -72,5 +72,4 @@ class ClasspathResourceSourceTest : OrchidUnitTest {
             underTest.getResourceEntries(context, "", null, false)
         }
     }
-
 }

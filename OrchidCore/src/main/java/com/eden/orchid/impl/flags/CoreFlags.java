@@ -1,6 +1,7 @@
 package com.eden.orchid.impl.flags;
 
-import com.caseyjbrooks.clog.Clog;
+import clog.Clog;
+import clog.dsl.ConfigurationKt;
 import com.eden.orchid.api.options.OrchidFlag;
 import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
@@ -88,7 +89,7 @@ public final class CoreFlags extends OrchidFlag {
     @Override
     public Map<String, Value> getParsedFlags() {
         if(!environment.equals("test")) {
-            Clog.getInstance().setMinPriority(logLevel);
+            ConfigurationKt.setMinPriority(Clog.INSTANCE, logLevel);
         }
 
         // resolve absolute dir for source dir

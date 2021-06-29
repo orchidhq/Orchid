@@ -30,6 +30,4 @@ open class TermArchivePage(
             "${this.key}-${taxonomy.key}"
         )
     }
-
 }
-

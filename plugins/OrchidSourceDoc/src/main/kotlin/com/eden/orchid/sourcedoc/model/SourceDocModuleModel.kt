@@ -17,5 +17,4 @@ class SourceDocModuleModel(
     val allPages by lazy {
         listOf(homepage) + nodes.values.flatten()
     }
-
 }

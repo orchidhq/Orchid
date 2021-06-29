@@ -1,6 +1,6 @@
 package com.eden.orchid.github.wiki
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
@@ -77,7 +77,7 @@ constructor(
             createSummaryFileFromPages(repo, section, wikiPageFiles)
         }
 
-        if(footerFile != null) {
+        if (footerFile != null) {
             addFooterComponent(wikiContent.second, footerFile!!)
         }
 
@@ -85,7 +85,7 @@ constructor(
     }
 
 // Cloning Wiki
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     private val displayedRemoteUrl: String
         get() = "https://$githubUrl/$repo.wiki.git"
@@ -94,7 +94,7 @@ constructor(
         get() = "https://$githubUrl/$repo.wiki.git"
 
 // Formatting Wiki files to Orchid's wiki format
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     private fun createSummaryFileFromSidebar(
         repo: GitRepoFacade,
@@ -116,11 +116,10 @@ constructor(
                 filePath == linkTarget
             }
 
-            if(referencedFile == null) {
+            if (referencedFile == null) {
                 Clog.w("Page referenced in Github Wiki $repo, $linkTarget does not exist")
                 StringResource(OrchidReference(context, "wiki/${section.key}/$linkTarget/index.md"), linkName)
-            }
-            else {
+            } else {
                 FileResource(
                     OrchidReference(
                         context,
@@ -159,5 +158,4 @@ constructor(
 //            )
 //        }
     }
-
 }

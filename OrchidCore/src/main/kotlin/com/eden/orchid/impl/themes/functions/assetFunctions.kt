@@ -1,6 +1,6 @@
 package com.eden.orchid.impl.themes.functions
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.options.annotations.BooleanDefault
@@ -9,20 +9,16 @@ import com.eden.orchid.api.options.annotations.DoubleDefault
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-import com.eden.orchid.api.options.annotations.Validate
-import com.eden.orchid.api.resources.resource.OrchidResource
-import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
-import com.eden.orchid.api.theme.assets.AssetPage
 import com.eden.orchid.api.resources.thumbnails.Renameable
 import com.eden.orchid.api.resources.thumbnails.Resizable
 import com.eden.orchid.api.resources.thumbnails.Rotateable
 import com.eden.orchid.api.resources.thumbnails.Scalable
 import com.eden.orchid.api.theme.assets.AssetManagerDelegate
+import com.eden.orchid.api.theme.assets.AssetPage
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
 import com.eden.orchid.impl.relations.AssetRelation
 import javax.inject.Inject
-import javax.validation.constraints.NotBlank
 
 @Description(value = "Render an asset and get its URL.", name = "Asset")
 class AssetFunction : TemplateFunction("asset", false) {
@@ -34,10 +30,9 @@ class AssetFunction : TemplateFunction("asset", false) {
     override fun parameters() = arrayOf(::itemId.name)
 
     private fun createAssetManagerDelegate(context: OrchidContext, page: OrchidPage?): AssetManagerDelegate {
-        return if(page != null) {
+        return if (page != null) {
             AssetManagerDelegate(context, page, "page", null)
-        }
-        else {
+        } else {
             AssetManagerDelegate(context, this, name, null)
         }
     }
@@ -54,7 +49,7 @@ class AssetFunction : TemplateFunction("asset", false) {
 }
 
 // Standard image manipulation functions
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
 @Description(
     value = "Lookup and return an asset. The asset will not be rendered until its link is requested.",
@@ -66,10 +61,9 @@ abstract class BaseImageManipulationFunction(name: String, isSafeString: Boolean
     var input: Any? = null
 
     private fun createAssetManagerDelegate(context: OrchidContext, page: OrchidPage?): AssetManagerDelegate {
-        return if(page != null) {
+        return if (page != null) {
             AssetManagerDelegate(context, page, "page", null)
-        }
-        else {
+        } else {
             AssetManagerDelegate(context, this, name, null)
         }
     }
@@ -84,7 +78,7 @@ abstract class BaseImageManipulationFunction(name: String, isSafeString: Boolean
                 // always create a new asset from the relation, since the original is probably already rendered and we
                 // want to manipulate the asset and render it differently
                 asset = (input as AssetRelation).load()
-            } else if(input is String) {
+            } else if (input is String) {
                 asset = context.assetManager.createAsset(
                     createAssetManagerDelegate(context, page),
                     context.getDefaultResourceSource(null, page?.theme),
@@ -98,7 +92,11 @@ abstract class BaseImageManipulationFunction(name: String, isSafeString: Boolean
         return null
     }
 
-    protected inline fun <reified T> applyInternal(context: OrchidContext, page: OrchidPage?, transformation: (AssetPage, T) -> Unit): Any? {
+    protected inline fun <reified T> applyInternal(
+        context: OrchidContext,
+        page: OrchidPage?,
+        transformation: (AssetPage, T) -> Unit
+    ): Any? {
         if (input != null) {
             val asset: AssetPage? = getAssetPage(context, page)
 
@@ -175,12 +173,12 @@ class ResizeFunction : BaseImageManipulationFunction("resize") {
     @StringDefault("fit")
     @Description(
         "`exact` to stretch image to fit, or `fit` to maintain aspect ratio. Alternatively, you can crop " +
-                "the image to the specified dimensions by setting a mode with the cropping position, one of " +
-                "[" +
-                "`tl`, `tc`, `tr`, " +
-                "`cl`, `c`, `cr`, " +
-                "`bl`, `bc`, `br`" +
-                "]"
+            "the image to the specified dimensions by setting a mode with the cropping position, one of " +
+            "[" +
+            "`tl`, `tc`, `tr`, " +
+            "`cl`, `c`, `cr`, " +
+            "`bl`, `bc`, `br`" +
+            "]"
     )
     lateinit var mode: Resizable.Mode
 
@@ -227,6 +225,6 @@ class ImageFunction : BaseImageManipulationFunction("img", true) {
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         val asset: AssetPage? = getAssetPage(context, page)
 
-        return """ <img src="${asset?.link}" alt="${alt}"> """
+        return """ <img src="${asset?.link}" alt="$alt"> """
     }
 }

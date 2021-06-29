@@ -1,6 +1,7 @@
 package com.eden.orchid.api.options;
 
-import com.caseyjbrooks.clog.Clog;
+import clog.Clog;
+import clog.dsl.UtilsKt;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.registration.OrchidModule;
 import com.google.inject.binder.AnnotatedBindingBuilder;
@@ -82,7 +83,7 @@ public final class OrchidFlags {
 
     private void addFlag(Map<String, String> allFlags, String key, String alias) {
         if (allFlags.containsKey(alias)) {
-            throw new IllegalArgumentException(Clog.format("A flag with key {} already exists! Currently mapping {}, intended mapping {}.", alias, allFlags.get(alias), key));
+            throw new IllegalArgumentException(UtilsKt.format(Clog.INSTANCE, "A flag with key {} already exists! Currently mapping {}, intended mapping {}.", alias, allFlags.get(alias), key));
         }
         allFlags.put(alias, key);
     }

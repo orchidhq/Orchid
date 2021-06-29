@@ -13,5 +13,4 @@ class BitbucketFlags : OrchidFlag() {
     @StringDefault("")
     @Description("Your Bitbucket Personal Access Token.")
     lateinit var bitbucketToken: String
-
 }

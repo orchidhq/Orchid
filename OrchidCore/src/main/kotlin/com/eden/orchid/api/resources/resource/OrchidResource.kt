@@ -108,7 +108,7 @@ abstract class OrchidResource(
         }
 
     // Freeable Resource Impl
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
     protected fun loadContent() {
         val rawContent = getContentStream().readToString()
         if (rawContent != null) {

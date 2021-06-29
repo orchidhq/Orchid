@@ -31,5 +31,4 @@ class GitRepoResourceSource(
     ): List<OrchidResource> {
         return delegate.getResourceEntries(context, dirName, fileExtensions, recursive)
     }
-
 }

@@ -20,7 +20,7 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
     @Test
     @DisplayName(
         "Taxonomies creates archive pages based on the pages from other generators. Setting taxonomies as a " +
-                "string value uses all category defaults."
+            "string value uses all category defaults."
     )
     fun test01() {
         configObject("taxonomies", """{"taxonomies": ["tags"]}""")
@@ -42,8 +42,8 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
     @Test
     @DisplayName(
         "Taxonomies creates archive pages based on the pages from other generators. Rather than a list for " +
-                "the categories, you can use a single Object, where each key points to the options for the value, to " +
-                "query easily."
+            "the categories, you can use a single Object, where each key points to the options for the value, to " +
+            "query easily."
     )
     fun test03() {
         configObject("taxonomies", """{"taxonomies": {"tags": {}}}""")
@@ -65,7 +65,7 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
     @Test
     @DisplayName(
         "Values for taxonomy terms can be gotten through page configs, or implicitly from static data set " +
-                "up by the page's generator."
+            "up by the page's generator."
     )
     fun test04() {
         configObject("posts", """{"categories": ["category1", "category2"]}""")
@@ -140,7 +140,7 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
     @Test
     @DisplayName(
         "The Taxonomies generator finishes successfully when there are no resources for it, when using " +
-                "multiple categories."
+            "multiple categories."
     )
     fun test06() {
         configObject("posts", """{"categories": ["category1", "category2"]}""")
@@ -182,7 +182,8 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
     @DisplayName("Many disparate collections can be merged into the same collection archive.")
     fun test08() {
         configObject(
-            "taxonomies", """
+            "taxonomies",
+            """
             |{
             |   "collectionArchives": [
             |       {
@@ -228,5 +229,4 @@ class TaxonomiesGeneratorTest : OrchidIntegrationTest(PostsModule(), PagesModule
             }
             .nothingElseRendered()
     }
-
 }

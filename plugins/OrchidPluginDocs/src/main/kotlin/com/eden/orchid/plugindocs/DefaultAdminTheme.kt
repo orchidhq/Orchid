@@ -2,7 +2,6 @@ package com.eden.orchid.plugindocs
 
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
-import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.theme.AdminTheme
 import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import javax.inject.Inject
@@ -38,5 +37,4 @@ constructor(
         delegate.addJs("https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.16/js/uikit.min.js")
         delegate.addJs("https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.16/js/uikit-icons.min.js")
     }
-
 }

@@ -10,7 +10,6 @@ import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.presentations.model.Presentation
 import com.eden.orchid.presentations.model.PresentationsModel
 import com.eden.orchid.presentations.model.Slide
-import javax.inject.Inject
 
 @Description("Embed presentations and slide-decks in your pages using Deck.js.", name = "Presentations")
 class PresentationsGenerator : OrchidGenerator<PresentationsModel>(GENERATOR_KEY, Stage.CONTENT) {
@@ -58,4 +57,3 @@ class PresentationsGenerator : OrchidGenerator<PresentationsModel>(GENERATOR_KEY
         return Presentation(section, slides, "")
     }
 }
-

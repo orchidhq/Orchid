@@ -4,7 +4,6 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.resources.resource.ExternalResource
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.snippets.models.SnippetConfig
@@ -14,9 +13,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
 @Description("Download a remote file over HTTP and locate snippets on that page either through regex or a CSS selector")
-class RemoteSnippetsAdapter(
-
-) : SnippetsAdapter {
+class RemoteSnippetsAdapter() : SnippetsAdapter {
 
     override fun getType(): String = "remote"
 
@@ -51,7 +48,7 @@ class RemoteSnippetsAdapter(
 
         val doc = Jsoup.parse(bodyString)
 
-        return if(selectors.isNotEmpty()) {
+        return if (selectors.isNotEmpty()) {
             loadSelectorsAsSnippets(
                 context,
                 doc,

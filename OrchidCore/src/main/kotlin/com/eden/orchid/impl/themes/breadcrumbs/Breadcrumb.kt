@@ -3,8 +3,8 @@ package com.eden.orchid.impl.themes.breadcrumbs
 import com.eden.orchid.api.theme.pages.OrchidPage
 
 class Breadcrumb(
-        val page: OrchidPage?,
-        var title: String = page?.title ?: ""
+    val page: OrchidPage?,
+    var title: String = page?.title ?: ""
 ) {
 
     val link: String?
@@ -26,5 +26,4 @@ class Breadcrumb(
     fun activeClass(page: OrchidPage, className: String = "active"): String {
         return if (isActive(page)) className else ""
     }
-
 }

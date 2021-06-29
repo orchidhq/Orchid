@@ -8,13 +8,10 @@ interface OrchidUnitTest : BaseOrchidTest {
     @BeforeEach
     @JvmDefault
     fun unitTestSetUp() {
-
     }
 
     @AfterEach
     @JvmDefault
     fun unitTestTearDown() {
-
     }
-
 }

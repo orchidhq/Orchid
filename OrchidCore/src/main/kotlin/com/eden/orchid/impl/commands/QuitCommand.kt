@@ -14,4 +14,3 @@ class QuitCommand : OrchidCommand("quit", 1000) {
         context.broadcast(Orchid.Lifecycle.EndSession.fire(this))
     }
 }
-

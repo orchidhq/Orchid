@@ -1,6 +1,5 @@
 package com.eden.orchid.impl.compilers.sass
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenPair
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.OrchidResource
@@ -42,7 +41,8 @@ constructor(private val context: OrchidContext) : Importer {
         }
 
         for (availableFile in availableFiles) {
-            val importedResource = context.getDefaultResourceSource(null, context.theme).getResourceEntry(context, availableFile)
+            val importedResource =
+                context.getDefaultResourceSource(null, context.theme).getResourceEntry(context, availableFile)
 
             if (importedResource != null) {
                 var content = importedResource.content
@@ -60,7 +60,8 @@ constructor(private val context: OrchidContext) : Importer {
                         FilenameUtils.removeExtension("$currentDirectory/$cleanedCurrentImportName")
                     )
                     val relativeUri = "" + OrchidUtils.normalizePath(
-                        FilenameUtils.removeExtension("$currentDirectory/$cleanedCurrentImportName").split("/").last() + preferredInputExtension.ext
+                        FilenameUtils.removeExtension("$currentDirectory/$cleanedCurrentImportName").split("/")
+                            .last() + preferredInputExtension.ext
                     )
 
                     if (importedResource.reference.extension == "sass") {
@@ -73,7 +74,6 @@ constructor(private val context: OrchidContext) : Importer {
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-
             }
         }
 
@@ -130,9 +130,8 @@ constructor(private val context: OrchidContext) : Importer {
         )
     }
 
-
 // helpers
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     private fun cleanInputName(import: String): Pair<Boolean, String> {
         return Pair(
@@ -145,7 +144,7 @@ constructor(private val context: OrchidContext) : Importer {
         return when (FilenameUtils.getExtension(input)) {
             SassCompiler.CompilerSyntax.SCSS.ext -> SassCompiler.CompilerSyntax.SCSS
             SassCompiler.CompilerSyntax.SASS.ext -> SassCompiler.CompilerSyntax.SASS
-            else                                 -> SassCompiler.CompilerSyntax.UNSPECIFIED
+            else -> SassCompiler.CompilerSyntax.UNSPECIFIED
         }
     }
 
@@ -158,14 +157,12 @@ constructor(private val context: OrchidContext) : Importer {
 
         val importDirectory = splitPath(import).first
 
-        return if(isAbsolute) {
+        return if (isAbsolute) {
             importDirectory
-        }
-        else {
-            if(importDirectory.isBlank()) {
+        } else {
+            if (importDirectory.isBlank()) {
                 OrchidUtils.normalizePath(baseDirectory)
-            }
-            else {
+            } else {
                 OrchidUtils.normalizePath("$baseDirectory/$importDirectory")
             }
         }
@@ -183,7 +180,6 @@ constructor(private val context: OrchidContext) : Importer {
         //
         // In the future, there will hopefully be the `sass2scss()` native function will be exported by jsass, so the
         // content passed here can just be converted to SCSS, instead of compiled fully to CSS and included.
-        return context.compile(resource, "sass", Clog.format("// CONTEXT={}\n{}", baseUri, input), null)
+        return context.compile(resource, "sass", "// CONTEXT=${baseUri}\n$input", null)
     }
-
 }

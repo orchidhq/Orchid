@@ -32,7 +32,7 @@ constructor() : OrchidParser() {
         } catch (e: Exception) {
             val errorMessage = e.message ?: ""
 
-            if(!errorMessage.startsWith(JSON_OBJECT_MESSAGE_PREFIX)) {
+            if (!errorMessage.startsWith(JSON_OBJECT_MESSAGE_PREFIX)) {
                 // this is a syntax error, not simply that we are parsing an array
                 logJsonSyntaxError(extension, input, errorMessage)
                 return null

@@ -1,7 +1,7 @@
 package com.eden.orchid.api.generators;
 
-import com.caseyjbrooks.clog.Clog;
-import com.copperleaf.krow.KrowTable;
+import clog.Clog;
+import com.copperleaf.krow.model.Krow;
 import com.eden.common.json.JSONElement;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.Orchid;
@@ -11,7 +11,6 @@ import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
-import com.eden.orchid.api.theme.Theme;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import kotlin.Lazy;
@@ -21,8 +20,6 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -169,7 +166,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
         metrics.startGeneratingGenerator(generator.getKey());
         OrchidGenerator.Model generatorModel = context.getIndex().getChildIndex(generator.getKey());
         if (generatorModel == null) {
-            throw new IllegalStateException(Clog.format("Generator {} did not have a model registered!", generator.getKey()));
+            throw new IllegalStateException("Generator " + generator.getKey() + " did not have a model registered!");
         }
 
         generator.startGeneration(context, (T) generatorModel);
@@ -213,7 +210,7 @@ public final class GeneratorServiceImpl implements GeneratorService {
     }
 
     @Override
-    public KrowTable getBuildDetail() {
+    public Krow.Table getBuildDetail() {
         return metrics.getDetail();
     }
 

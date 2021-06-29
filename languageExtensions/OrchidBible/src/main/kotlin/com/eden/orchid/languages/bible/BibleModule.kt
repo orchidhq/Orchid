@@ -12,5 +12,4 @@ class BibleModule : OrchidModule() {
 
         addToSet<OrchidComponent, ReftaggerComponent>()
     }
-
 }

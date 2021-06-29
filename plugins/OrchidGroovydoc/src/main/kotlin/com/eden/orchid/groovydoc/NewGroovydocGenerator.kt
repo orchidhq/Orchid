@@ -9,7 +9,6 @@ import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
 import com.eden.orchid.groovydoc.models.GroovyDocModuleConfig
 import com.eden.orchid.sourcedoc.SourcedocGenerator
 import javax.inject.Inject
-import javax.inject.Named
 
 class NewGroovydocGenerator
 @Inject

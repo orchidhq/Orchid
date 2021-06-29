@@ -22,7 +22,9 @@ class HighlightTag : TemplateTag("highlight", Type.Content, true) {
         try {
             val interpreter = PythonInterpreter()
 
-            val pygmentsScript: OrchidResource? = context.getDefaultResourceSource(null, null).getResourceEntry(context, "scripts/pygments/pygments.py")
+            val pygmentsScript: OrchidResource? = context
+                .getDefaultResourceSource(null, null)
+                .getResourceEntry(context, "scripts/pygments/pygments.py")
             val pythonScript = pygmentsScript?.content ?: ""
 
             // Set a variable with the content you want to work with
@@ -35,12 +37,10 @@ class HighlightTag : TemplateTag("highlight", Type.Content, true) {
 
             // replace newlines with <br> tag, and spaces between tags with &nbsp; to preserve original structure
             return result.encodeSpaces()
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
         return input
     }
-
 }

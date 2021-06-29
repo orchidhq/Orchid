@@ -1,6 +1,6 @@
 package com.eden.orchid.api.tasks;
 
-import com.caseyjbrooks.clog.Clog;
+import clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.events.On;
@@ -133,9 +133,10 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
                 context.broadcast(Orchid.Lifecycle.GeneratingStart.fire(this));
                 context.startGeneration();
                 context.broadcast(Orchid.Lifecycle.GeneratingFinish.fire(this));
-                Clog.tag("\nBuild Metrics").log("\n{}", context.getBuildDetail().print(OrchidUtils.defaultTableFormatter));
-                Clog.noTag().log("Build Complete");
-                Clog.noTag().log(context.getBuildSummary() + "\n");
+                Clog.d("Build Metrics");
+                Clog.d(OrchidUtils.defaultTableFormatter.print(context.getBuildDetail()));
+                Clog.i("Build Complete");
+                Clog.i(context.getBuildSummary() + "\n");
                 context.broadcast(Orchid.Lifecycle.BuildFinish.fire(this));
                 lastBuild = System.currentTimeMillis();
                 context.setState(Orchid.State.IDLE);
@@ -163,11 +164,11 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     public boolean deploy(boolean dryDeploy) {
         initOptions();
         context.setState(Orchid.State.DEPLOYING);
-        Clog.noTag().log("\n\nDeploy Starting...\n");
+        Clog.i("\n\nDeploy Starting...\n");
         context.broadcast(Orchid.Lifecycle.DeployStart.fire(this));
         boolean success = context.publishAll(dryDeploy);
         context.broadcast(Orchid.Lifecycle.DeployFinish.fire(this, success));
-        Clog.noTag().log("Deploy complete\n");
+        Clog.i("Deploy complete\n");
         context.setState(Orchid.State.IDLE);
         return success;
     }
@@ -185,8 +186,8 @@ public final class TaskServiceImpl implements TaskService, OrchidEventListener {
     @On(Orchid.Lifecycle.BuildFinish.class)
     public void onBuildFinish(Orchid.Lifecycle.BuildFinish event) {
         if (server != null && server.getServer() != null) {
-            Clog.noTag().log(server.getServer().getServerRunningMessage());
-            Clog.noTag().log("Hit [CTRL-C] to stop the server and quit Orchid\n");
+            Clog.i(server.getServer().getServerRunningMessage());
+            Clog.i("Hit [CTRL-C] to stop the server and quit Orchid\n");
         }
     }
 

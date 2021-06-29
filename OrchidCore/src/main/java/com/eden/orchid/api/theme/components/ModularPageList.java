@@ -1,14 +1,9 @@
 package com.eden.orchid.api.theme.components;
 
-import com.caseyjbrooks.clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.theme.pages.OrchidPage;
-import kotlin.PreconditionsKt;
-import kotlin.coroutines.intrinsics.IntrinsicsKt;
 
 import javax.annotation.Nonnull;
-import javax.inject.Provider;
-
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +36,7 @@ public abstract class ModularPageList<
 
     @Override
     protected String getLogMessage() {
-        return Clog.format("(on page '{}' at {})", containingPage.getTitle(), containingPage.getLink());
+        return "(on page '" + containingPage.getTitle() + "' at " + containingPage.getLink() + ")";
     }
 
     @Override

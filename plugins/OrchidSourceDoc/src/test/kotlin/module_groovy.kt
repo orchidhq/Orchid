@@ -12,10 +12,9 @@ fun OrchidIntegrationTest.groovydocSetup(modules: List<String> = emptyList(), sh
     val nodeKinds = NewGroovydocGenerator.nodeKinds
     val otherSourceKinds = NewGroovydocGenerator.otherSourceKinds
 
-    if(modules.isEmpty()) {
+    if (modules.isEmpty()) {
         singleModuleSetup(type, showRunnerLogs, nodeKinds, otherSourceKinds, null)
-    }
-    else {
+    } else {
         multiModuleSetup(type, modules, showRunnerLogs, nodeKinds, otherSourceKinds)
     }
 }
@@ -44,15 +43,14 @@ fun Assertion.Builder<TestResults>.assertGroovyPages(baseDirs: List<String>): As
 }
 
 fun Assertion.Builder<TestResults>.assertGroovyCollections(baseDirs: List<String> = emptyList()): Assertion.Builder<TestResults> {
-    return if(baseDirs.isNotEmpty()) {
+    return if (baseDirs.isNotEmpty()) {
         baseDirs.fold(this) { acc, dir ->
             acc
                 .collectionWasCreated(NewGroovydocGenerator.GENERATOR_KEY, dir)
                 .collectionWasCreated(NewGroovydocGenerator.GENERATOR_KEY, "$dir-classes")
                 .collectionWasCreated(NewGroovydocGenerator.GENERATOR_KEY, "$dir-packages")
         }.collectionWasCreated(NewGroovydocGenerator.GENERATOR_KEY, "modules")
-    }
-    else {
+    } else {
         this
             .collectionWasCreated(NewGroovydocGenerator.GENERATOR_KEY, "modules")
             .collectionWasCreated(NewGroovydocGenerator.GENERATOR_KEY, NewGroovydocGenerator.GENERATOR_KEY)

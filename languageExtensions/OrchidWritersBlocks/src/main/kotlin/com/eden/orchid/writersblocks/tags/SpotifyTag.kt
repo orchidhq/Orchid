@@ -5,7 +5,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 
 @Description("Embed a Spotify track or playlist in your page.", name = "Spotify")
-class SpotifyTag  : TemplateTag("spotify", Type.Simple, true) {
+class SpotifyTag : TemplateTag("spotify", Type.Simple, true) {
 
     @Option
     @Description("The Spotify object type: track | playlist")

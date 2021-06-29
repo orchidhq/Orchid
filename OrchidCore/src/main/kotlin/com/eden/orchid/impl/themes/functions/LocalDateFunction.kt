@@ -23,7 +23,6 @@ class LocalDateFunction : TemplateFunction("localDate", true) {
     @Description("The date format to display the date as.")
     lateinit var format: String
 
-
     override fun parameters() = arrayOf(::input.name, ::format.name)
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {

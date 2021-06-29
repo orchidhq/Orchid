@@ -15,7 +15,7 @@ class NetlifyFlags : OrchidFlag() {
     lateinit var netlifyToken: String
 
 // Environment variable flags set on Netlify's CI build platform
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Option
     @JvmField

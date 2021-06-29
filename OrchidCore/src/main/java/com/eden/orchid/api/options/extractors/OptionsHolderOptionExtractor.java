@@ -1,6 +1,6 @@
 package com.eden.orchid.api.options.extractors;
 
-import com.caseyjbrooks.clog.Clog;
+import clog.Clog;
 import com.eden.common.util.EdenPair;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.converters.FlexibleMapConverter;

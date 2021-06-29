@@ -56,5 +56,4 @@ class PostsCollectionTest : OrchidUnitTest {
         expectThat(PostsUtils.parseLatestPostCollectionId(input.trim()))
             .isNull()
     }
-
 }

@@ -40,4 +40,3 @@ class StyleguideSectionsMenuItemType : OrchidMenuFactory("styleguideSections") {
         return menuItems
     }
 }
-

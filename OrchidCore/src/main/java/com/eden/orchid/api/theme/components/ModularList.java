@@ -1,6 +1,6 @@
 package com.eden.orchid.api.theme.components;
 
-import com.caseyjbrooks.clog.Clog;
+import clog.Clog;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import kotlin.collections.CollectionsKt;

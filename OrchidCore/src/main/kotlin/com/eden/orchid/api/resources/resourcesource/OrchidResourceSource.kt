@@ -10,16 +10,20 @@ interface OrchidResourceSource : Comparable<OrchidResourceSource> {
 
     fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource?
 
-    fun getResourceEntries(context: OrchidContext, dirName: String, fileExtensions: Array<String>?, recursive: Boolean): List<OrchidResource>
+    fun getResourceEntries(
+        context: OrchidContext,
+        dirName: String,
+        fileExtensions: Array<String>?,
+        recursive: Boolean
+    ): List<OrchidResource>
 
     override fun compareTo(other: OrchidResourceSource): Int {
         val scopePriorityDifference = scope.scopePriority.compareTo(other.scope.scopePriority)
-        return if(scopePriorityDifference != 0) scopePriorityDifference
+        return if (scopePriorityDifference != 0) scopePriorityDifference
         else priority.compareTo(other.priority)
     }
 
     interface Scope {
         val scopePriority: Int
     }
-
 }

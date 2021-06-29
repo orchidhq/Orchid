@@ -16,5 +16,4 @@ class PresentationsModule : OrchidModule() {
         addToSet<OrchidComponent, PresentationComponent>()
         addToSet<OptionExtractor<*>, PresentationOptionExtractor>()
     }
-
 }

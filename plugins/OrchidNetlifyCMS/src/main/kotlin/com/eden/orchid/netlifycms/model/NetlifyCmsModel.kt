@@ -5,7 +5,6 @@ import com.eden.orchid.api.compilers.TemplateTag
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.tasks.TaskService
-import com.eden.orchid.api.theme.assets.AssetHolder
 import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
@@ -89,10 +88,8 @@ class NetlifyCmsModel(
             addCss("assets/css/fs-backend.min.css")
             addJs("assets/js/fs-backend.min.js")
             addJs("inline:fs-cms-registration.js:CMS.registerBackend(\"orchid-server\", FileSystemBackendClass)")
-        }
-        else if (useNetlifyIdentityWidget) {
+        } else if (useNetlifyIdentityWidget) {
             addJs("https://identity.netlify.com/v1/netlify-identity-widget.js")
         }
     }
-
 }

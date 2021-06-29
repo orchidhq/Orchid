@@ -1,7 +1,6 @@
 package com.eden.orchid.languages.asciidoc
 
-import com.caseyjbrooks.clog.Clog
-import com.eden.orchid.api.OrchidContext
+import clog.Clog
 import com.eden.orchid.api.compilers.OrchidCompiler
 import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.Description
@@ -14,7 +13,6 @@ import com.eden.orchid.languages.asciidoc.extensions.AsciidocIncludeProcessor
 import org.asciidoctor.Asciidoctor
 import org.asciidoctor.Options
 import org.asciidoctor.SafeMode
-import org.asciidoctor.jruby.internal.JRubyAsciidoctor
 import org.asciidoctor.log.LogHandler
 import org.asciidoctor.log.LogRecord
 import org.asciidoctor.log.Severity
@@ -23,7 +21,6 @@ import java.io.OutputStreamWriter
 import java.io.StringReader
 import javax.inject.Inject
 import javax.inject.Named
-import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
@@ -50,18 +47,23 @@ constructor(
         }
     }
 
-    override fun compile(os: OutputStream, resource: OrchidResource?, extension: String, input: String, data: MutableMap<String, Any>?) {
+    override fun compile(
+        os: OutputStream,
+        resource: OrchidResource?,
+        extension: String,
+        input: String,
+        data: MutableMap<String, Any>?
+    ) {
         val reader = StringReader(input)
         val writer = OutputStreamWriter(os)
 
         val options = Options()
         options.setSafe(safeMode)
         // files can be included relative to the default resources directory
-        if(resource is FileResource) {
+        if (resource is FileResource) {
             // file resources set their base dir to the file's own base dir, so relative includes are resolved properly
             options.setBaseDir(resource.file.absoluteFile.parentFile.absolutePath)
-        }
-        else {
+        } else {
             // otherwise, use the default resources dir
             options.setBaseDir(resourcesDir)
         }

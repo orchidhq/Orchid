@@ -1,6 +1,6 @@
 package com.eden.orchid.changelog.publication
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.publication.OrchidPublisher
@@ -29,5 +29,4 @@ class RequiredChangelogVersionPublisher : OrchidPublisher("requireChangelogVersi
     override fun publish(context: OrchidContext) {
         // do nothing, we just want to validate the pipeline
     }
-
 }

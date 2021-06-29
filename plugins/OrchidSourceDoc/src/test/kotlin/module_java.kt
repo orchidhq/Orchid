@@ -12,10 +12,9 @@ fun OrchidIntegrationTest.javadocSetup(modules: List<String> = emptyList(), show
     val nodeKinds = NewJavadocGenerator.nodeKinds
     val otherSourceKinds = NewJavadocGenerator.otherSourceKinds
 
-    if(modules.isEmpty()) {
+    if (modules.isEmpty()) {
         singleModuleSetup(type, showRunnerLogs, nodeKinds, otherSourceKinds, null)
-    }
-    else {
+    } else {
         multiModuleSetup(type, modules, showRunnerLogs, nodeKinds, otherSourceKinds)
     }
 }
@@ -38,15 +37,14 @@ fun Assertion.Builder<TestResults>.assertJavaPages(baseDirs: List<String>): Asse
 }
 
 fun Assertion.Builder<TestResults>.assertJavaCollections(baseDirs: List<String> = emptyList()): Assertion.Builder<TestResults> {
-    return if(baseDirs.isNotEmpty()) {
+    return if (baseDirs.isNotEmpty()) {
         baseDirs.fold(this) { acc, dir ->
             acc
                 .collectionWasCreated(NewJavadocGenerator.GENERATOR_KEY, dir)
                 .collectionWasCreated(NewJavadocGenerator.GENERATOR_KEY, "$dir-classes")
                 .collectionWasCreated(NewJavadocGenerator.GENERATOR_KEY, "$dir-packages")
         }.collectionWasCreated(NewJavadocGenerator.GENERATOR_KEY, "modules")
-    }
-    else {
+    } else {
         this
             .collectionWasCreated(NewJavadocGenerator.GENERATOR_KEY, "modules")
             .collectionWasCreated(NewJavadocGenerator.GENERATOR_KEY, NewJavadocGenerator.GENERATOR_KEY)

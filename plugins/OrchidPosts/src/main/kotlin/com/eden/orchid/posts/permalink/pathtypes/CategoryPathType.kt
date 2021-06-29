@@ -20,6 +20,4 @@ constructor() : PermalinkPathType() {
 
         return null
     }
-
 }
-

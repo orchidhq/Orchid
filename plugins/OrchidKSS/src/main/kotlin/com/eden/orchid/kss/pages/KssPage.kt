@@ -42,5 +42,4 @@ class KssPage(
     fun hasStylesheet(): Boolean {
         return !EdenUtils.isEmpty(styleguideSection.stylesheet) || !EdenUtils.isEmpty(stylesheet)
     }
-
 }

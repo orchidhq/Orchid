@@ -3,8 +3,6 @@ package com.eden.orchid.strikt
 import com.eden.orchid.testhelpers.TestRenderer
 import com.eden.orchid.testhelpers.TestResults
 import strikt.api.Assertion
-import strikt.api.DescribeableBuilder
-import strikt.api.expectThat
 
 /**
  * Assert that the site built cleanly, no exceptions were thrown, and that at least one page was rendered.

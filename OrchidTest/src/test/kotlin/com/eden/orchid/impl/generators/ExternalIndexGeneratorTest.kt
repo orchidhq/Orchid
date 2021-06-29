@@ -49,7 +49,9 @@ class ExternalIndexGeneratorTest : OrchidIntegrationTest(
     @Test
     @DisplayName("The ExternalIndexGenerator loads indices from `services.generators.externalIndices` for backward-compatibility")
     fun test02() {
-        configObject("services", """
+        configObject(
+            "services",
+            """
             {
                 "generators": {
                     "externalIndices": [
@@ -57,11 +59,15 @@ class ExternalIndexGeneratorTest : OrchidIntegrationTest(
                     ]
                 }
             }
-        """.trimIndent())
+            """.trimIndent()
+        )
 
-        resource("homepage.peb", """
+        resource(
+            "homepage.peb",
+            """
             {{ link("Introspection") }}
-        """.trimIndent())
+            """.trimIndent()
+        )
 
         expectThat(execute())
             .pageWasRendered("/index.html") {

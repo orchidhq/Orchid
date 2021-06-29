@@ -1,6 +1,6 @@
 package com.eden.orchid.impl.site
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.tasks.OrchidTask
@@ -59,7 +59,7 @@ class BaseUrlTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>(), Pa
     }
 
 // Test using base URLs set from CLI flag
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test rending URLs using test-default base URL")
@@ -171,7 +171,7 @@ class BaseUrlTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>(), Pa
     }
 
 // Test using base URLs set as a String from config.yml
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test rending URLs using test-default base URL")
@@ -318,7 +318,7 @@ class BaseUrlTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>(), Pa
     }
 
 // Test using base URLs set as a String from config.yml
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test rending URLs using test-default base URL")

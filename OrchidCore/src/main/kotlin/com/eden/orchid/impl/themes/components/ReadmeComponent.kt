@@ -2,7 +2,6 @@ package com.eden.orchid.impl.themes.components
 
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
-import com.eden.orchid.api.resources.resourcesource.flexible
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.utilities.SuppressedWarnings
 

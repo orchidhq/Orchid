@@ -38,86 +38,124 @@ class ContentTagTest : OrchidIntegrationTest(ContentTagModule(), withGenerator<H
         @JvmStatic
         fun params() = sequence<Arguments> {
             // simple tag, no content
-            yield(Arguments.of(
-                "{% hello %}{% endhello %}",
-                "hello world"
-            ))
-            yield(Arguments.of(
-                "{% hello 'sir' %}{% endhello %}",
-                "hello sir"
-            ))
-            yield(Arguments.of(
-                "{% hello 'sir' 'and goodbye!' %}{% endhello %}",
-                "hello sir  and goodbye!"
-            ))
-            yield(Arguments.of(
-                "{% hello 'sir' closing='and goodbye!' %}{% endhello %}",
-                "hello sir  and goodbye!"
-            ))
-            yield(Arguments.of(
-                "{% hello greeting='sir' %}{% endhello %}",
-                "hello sir"
-            ))
-            yield(Arguments.of(
-                "{% hello greeting='sir' closing=' and goodbye!' %}{% endhello %}",
-                "hello sir  and goodbye!"
-            ))
+            yield(
+                Arguments.of(
+                    "{% hello %}{% endhello %}",
+                    "hello world"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello 'sir' %}{% endhello %}",
+                    "hello sir"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello 'sir' 'and goodbye!' %}{% endhello %}",
+                    "hello sir  and goodbye!"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello 'sir' closing='and goodbye!' %}{% endhello %}",
+                    "hello sir  and goodbye!"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello greeting='sir' %}{% endhello %}",
+                    "hello sir"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello greeting='sir' closing=' and goodbye!' %}{% endhello %}",
+                    "hello sir  and goodbye!"
+                )
+            )
 
             // simple tag, content with no filters
-            yield(Arguments.of(
-                "{% hello %}from all of us{% endhello %}",
-                "hello world from all of us"
-            ))
-            yield(Arguments.of(
-                "{% hello 'sir' %}from all of us{% endhello %}",
-                "hello sir from all of us"
-            ))
-            yield(Arguments.of(
-                "{% hello 'sir' 'and goodbye!' %}from all of us{% endhello %}",
-                "hello sir from all of us and goodbye!"
-            ))
-            yield(Arguments.of(
-                "{% hello 'sir' closing='and goodbye!' %}from all of us{% endhello %}",
-                "hello sir from all of us and goodbye!"
-            ))
-            yield(Arguments.of(
-                "{% hello greeting='sir' %}from all of us{% endhello %}",
-                "hello sir from all of us"
-            ))
-            yield(Arguments.of(
-                "{% hello greeting='sir' closing='and goodbye!' %}from all of us{% endhello %}",
-                "hello sir from all of us and goodbye!"
-            ))
+            yield(
+                Arguments.of(
+                    "{% hello %}from all of us{% endhello %}",
+                    "hello world from all of us"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello 'sir' %}from all of us{% endhello %}",
+                    "hello sir from all of us"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello 'sir' 'and goodbye!' %}from all of us{% endhello %}",
+                    "hello sir from all of us and goodbye!"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello 'sir' closing='and goodbye!' %}from all of us{% endhello %}",
+                    "hello sir from all of us and goodbye!"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello greeting='sir' %}from all of us{% endhello %}",
+                    "hello sir from all of us"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello greeting='sir' closing='and goodbye!' %}from all of us{% endhello %}",
+                    "hello sir from all of us and goodbye!"
+                )
+            )
 
             // simple tag, content with filters
-            yield(Arguments.of(
-                "{% hello :: upper %}from all of us{% endhello %}",
-                "hello world FROM ALL OF US"
-            ))
-            yield(Arguments.of(
-                "{% hello 'sir' :: upper %}from all of us{% endhello %}",
-                "hello sir FROM ALL OF US"
-            ))
-            yield(Arguments.of(
-                "{% hello 'sir' 'and goodbye!' :: upper %}from all of us{% endhello %}",
-                "hello sir FROM ALL OF US and goodbye!"
-            ))
-            yield(Arguments.of(
-                "{% hello 'sir' closing='and goodbye!' :: upper %}from all of us{% endhello %}",
-                "hello sir FROM ALL OF US and goodbye!"
-            ))
-            yield(Arguments.of(
-                "{% hello greeting='sir' :: upper %}from all of us{% endhello %}",
-                "hello sir FROM ALL OF US"
-            ))
-            yield(Arguments.of(
-                "{% hello greeting='sir' closing='and goodbye!' :: upper %}from all of us{% endhello %}",
-                "hello sir FROM ALL OF US and goodbye!"
-            ))
-            yield(Arguments.of(
-                "{% hello greeting='sir' closing='and goodbye!' template='althello' :: upper %}from all of us{% endhello %}",
-                "alt sir FROM ALL OF US and goodbye!"
-            ))
+            yield(
+                Arguments.of(
+                    "{% hello :: upper %}from all of us{% endhello %}",
+                    "hello world FROM ALL OF US"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello 'sir' :: upper %}from all of us{% endhello %}",
+                    "hello sir FROM ALL OF US"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello 'sir' 'and goodbye!' :: upper %}from all of us{% endhello %}",
+                    "hello sir FROM ALL OF US and goodbye!"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello 'sir' closing='and goodbye!' :: upper %}from all of us{% endhello %}",
+                    "hello sir FROM ALL OF US and goodbye!"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello greeting='sir' :: upper %}from all of us{% endhello %}",
+                    "hello sir FROM ALL OF US"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello greeting='sir' closing='and goodbye!' :: upper %}from all of us{% endhello %}",
+                    "hello sir FROM ALL OF US and goodbye!"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello greeting='sir' closing='and goodbye!' template='althello' :: upper %}from all of us{% endhello %}",
+                    "alt sir FROM ALL OF US and goodbye!"
+                )
+            )
         }.asIterable()
     }
 }
@@ -132,7 +170,6 @@ class ContentHelloTag : TemplateTag("hello", Type.Content, true) {
     lateinit var closing: String
 
     override fun parameters() = arrayOf(::greeting.name, ::closing.name)
-
 }
 
 @IgnoreModule

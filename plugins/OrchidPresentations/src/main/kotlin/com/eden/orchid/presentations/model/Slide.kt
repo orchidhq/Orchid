@@ -17,11 +17,10 @@ class Slide(
     init {
         val resourcePath = slideContent.reference.path
         val regex = slideOrderRegex.toRegex().matchEntire(resourcePath)
-        if(regex != null) {
+        if (regex != null) {
             this.order = Integer.parseInt(regex.groups[1]!!.value)
             this.id = regex.groups[2]!!.value
-        }
-        else {
+        } else {
             this.order = order
             this.id = slideContent.reference.originalFileName
         }
@@ -32,4 +31,3 @@ class Slide(
             return slideContent.compileContent(context, null)
         }
 }
-

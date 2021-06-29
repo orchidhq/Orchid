@@ -2,7 +2,6 @@ package com.eden.orchid.kss
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
@@ -30,7 +29,8 @@ class KssGenerator : OrchidGenerator<KssModel>(GENERATOR_KEY, Stage.CONTENT) {
     var sections: Array<String> = emptyArray()
 
     @Option
-    @Description("The stylesheet URL that you are documenting. This is included in the example markup within a Shadow" +
+    @Description(
+        "The stylesheet URL that you are documenting. This is included in the example markup within a Shadow" +
             "element (if the brower supports it)."
     )
     lateinit var stylesheet: String
@@ -40,8 +40,7 @@ class KssGenerator : OrchidGenerator<KssModel>(GENERATOR_KEY, Stage.CONTENT) {
 
         if (EdenUtils.isEmpty(sections)) {
             indexedSections.put(null, getStyleguidePages(context, null))
-        }
-        else {
+        } else {
             for (section in sections) {
                 indexedSections.put(section, getStyleguidePages(context, section))
             }
@@ -58,7 +57,7 @@ class KssGenerator : OrchidGenerator<KssModel>(GENERATOR_KEY, Stage.CONTENT) {
 
         val pages = ArrayList<KssPage>()
 
-        val resources = context.getDefaultResourceSource(LocalResourceSource, null) .getResourceEntries(context, sectionBaseDir, arrayOf("css", "sass", "scss", "less"), true)
+        val resources = context.getDefaultResourceSource(LocalResourceSource, null).getResourceEntries(context, sectionBaseDir, arrayOf("css", "sass", "scss", "less"), true)
         val parser = KssParser(resources)
         parser.sections.values.forEach {
             val page = KssPage(context, it)

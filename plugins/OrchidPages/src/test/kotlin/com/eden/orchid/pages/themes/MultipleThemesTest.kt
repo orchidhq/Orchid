@@ -55,7 +55,7 @@ class MultipleThemesTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
     }
 
 // Test using base URLs set from CLI flag
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test switching themes with theme in generator and in page")

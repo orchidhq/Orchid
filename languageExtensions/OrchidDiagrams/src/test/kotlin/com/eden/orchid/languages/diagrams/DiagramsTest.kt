@@ -38,7 +38,10 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
     }
 
     @Test
-    @DisplayName("Test that PlantUml syntax is not supported when the module is not included. Homepage file will not be found at all.")
+    @DisplayName(
+        "Test that PlantUml syntax is not supported when the module is not included. Homepage file will not " +
+            "be found at all."
+    )
     fun test02() {
         resource(
             "homepage.uml",
@@ -165,7 +168,5 @@ class DiagramsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
                         matches().matchCountIs(3)
                     }
             }
-
     }
-
 }

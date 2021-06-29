@@ -1,6 +1,6 @@
 package com.eden.orchid.api.events
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import java.lang.reflect.Method
@@ -102,10 +102,8 @@ constructor(
         for (inProgress in eventsInProgress) {
             if (event.javaClass == inProgress) {
                 throw IllegalStateException(
-                    Clog.format(
-                        "The event \'#{$1}\' is already in progress, it cannot be emitted again until this cycle has finished.",
-                        event.javaClass.toString()
-                    )
+                    "The event \'${event.javaClass}\' is already in progress, it cannot be emitted again until " +
+                        "this cycle has finished."
                 )
             }
         }
@@ -118,7 +116,6 @@ constructor(
             } catch (e: Exception) {
                 throw RuntimeException(e)
             }
-
         }
         eventsInProgress.removeAt(eventsInProgress.size - 1)
     }

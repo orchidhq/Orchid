@@ -9,7 +9,7 @@ import com.eden.orchid.api.theme.components.OrchidComponent
 
 @Description(
     "Add the Kotlin Playground to your pages, to convert Kotlin code snippets into interactive, embedded " +
-            "development playgrounds.",
+        "development playgrounds.",
     name = "Kotlin Playground"
 )
 class ReftaggerComponent : OrchidComponent("reftagger", true) {
@@ -86,4 +86,3 @@ class ReftaggerComponent : OrchidComponent("reftagger", true) {
         return true
     }
 }
-

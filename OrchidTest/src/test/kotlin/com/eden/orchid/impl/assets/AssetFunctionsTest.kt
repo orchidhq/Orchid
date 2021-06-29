@@ -224,5 +224,4 @@ class AssetFunctionsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
             .pageWasRendered("/404.html") {}
             .nothingElseRendered()
     }
-
 }

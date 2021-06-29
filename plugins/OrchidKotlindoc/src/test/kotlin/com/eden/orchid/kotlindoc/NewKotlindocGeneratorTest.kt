@@ -60,5 +60,4 @@ class NewKotlindocGeneratorTest : OrchidIntegrationTest(KotlindocModule(), Sourc
             .pageWasRendered("/favicon.ico")
             .nothingElseRendered()
     }
-
 }

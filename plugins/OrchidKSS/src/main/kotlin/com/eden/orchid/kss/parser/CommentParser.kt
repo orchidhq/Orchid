@@ -110,6 +110,4 @@ class CommentParser {
             return input.replace("\\s*$".toRegex(), "")
         }
     }
-
 }
-

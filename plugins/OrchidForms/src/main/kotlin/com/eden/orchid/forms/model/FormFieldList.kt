@@ -3,8 +3,6 @@ package com.eden.orchid.forms.model
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.theme.components.ModularPageList
 import java.util.function.Function
-import javax.inject.Provider
-import javax.inject.Inject
 
 class FormFieldList : ModularPageList<FormFieldList, FormField>(Function { getFieldInputTypes(it) }) {
 
@@ -15,13 +13,15 @@ class FormFieldList : ModularPageList<FormFieldList, FormField>(Function { getFi
     }
 
     fun addExtraField(extraFieldKey: String, fieldName: String, fieldValue: String) {
-        if(!extraFields.containsKey(extraFieldKey)) {
-            add(mapOf(
+        if (!extraFields.containsKey(extraFieldKey)) {
+            add(
+                mapOf(
                     "type" to "hidden",
                     "key" to fieldName,
                     "value" to fieldValue,
                     "order" to Integer.MAX_VALUE
-            ))
+                )
+            )
 
             extraFields[extraFieldKey] = true
         }
@@ -42,5 +42,4 @@ class FormFieldList : ModularPageList<FormFieldList, FormField>(Function { getFi
             return fieldTypes
         }
     }
-
 }

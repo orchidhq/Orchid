@@ -15,8 +15,8 @@ import javax.inject.Inject
 class FormOptionExtractor
 @Inject
 constructor(
-        private val contextProvider: Provider<OrchidContext>,
-        private val converter: StringConverter
+    private val contextProvider: Provider<OrchidContext>,
+    private val converter: StringConverter
 ) : OptionExtractor<Form>(1000) {
 
     override fun acceptsClass(clazz: Class<*>): Boolean {
@@ -30,11 +30,9 @@ constructor(
             return sourceObject
         } else if (sourceObject is JSONObject) {
             return Form(contextProvider.get(), "", sourceObject.toMap())
-        }
-        else if (sourceObject is Map<*, *>) {
+        } else if (sourceObject is Map<*, *>) {
             return Form(contextProvider.get(), "", sourceObject as? Map<String, Any> ?: emptyMap())
-        }
-        else {
+        } else {
             val value = converter.convert(String::class.java, sourceObject)
             if (value.first) {
                 return formsModel.getForm(value.second)
@@ -47,5 +45,4 @@ constructor(
     override fun getDefaultValue(field: Field): Form? {
         return null
     }
-
 }

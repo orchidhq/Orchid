@@ -14,4 +14,3 @@ class BuildCommand : OrchidCommand("build") {
         context.build()
     }
 }
-

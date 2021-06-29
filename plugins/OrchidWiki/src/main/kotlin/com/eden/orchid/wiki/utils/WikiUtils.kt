@@ -1,6 +1,6 @@
 package com.eden.orchid.wiki.utils
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.OrchidResource
@@ -21,7 +21,7 @@ import org.jsoup.Jsoup
 object WikiUtils {
 
 // Wiki Creation Helpers
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     /**
      * Compile a summary file and traverse it to convert its links to wiki pages. For each link found, let a consumer
@@ -146,7 +146,7 @@ object WikiUtils {
     }
 
 // Generator Helpers
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     fun linkWikiPages(summaryPage: WikiSummaryPage, wiki: List<WikiPage>) {
         // set up inter-page references properly
@@ -193,10 +193,9 @@ object WikiUtils {
 
             i++
 
-            if(imageAsset != null) {
+            if (imageAsset != null) {
                 img.attr("src", imageAsset.link)
-            }
-            else {
+            } else {
                 Clog.w("image asset referenced in wiki not found: {}", imageTarget)
             }
         }

@@ -37,5 +37,4 @@ class InlineResourceSourceTest : OrchidUnitTest {
             .get { getContentStream().readToString()?.trim() }
             .isEqualTo(expectedContents)
     }
-
 }

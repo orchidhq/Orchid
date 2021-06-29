@@ -13,5 +13,4 @@ class GithubFlags : OrchidFlag() {
     @StringDefault("")
     @Description("Your Github Personal Access Token.")
     lateinit var githubToken: String
-
 }

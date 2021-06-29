@@ -29,6 +29,5 @@ class LinkFunction : TemplateFunction("link", true) {
         return if (foundPage != null) {
             foundPage.link
         } else ""
-
     }
 }

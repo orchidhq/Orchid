@@ -19,6 +19,4 @@ constructor() : PermalinkPathType() {
         else if (page is TermArchivePage) page.taxonomy.key
         else null
     }
-
 }
-

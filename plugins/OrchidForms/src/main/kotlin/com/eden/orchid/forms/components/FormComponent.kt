@@ -10,7 +10,8 @@ import com.eden.orchid.forms.model.Form
 class FormComponent : OrchidComponent("form") {
 
     @Option
-    @Description("The Form to render. Can be either a key to an indexed form definition, or a complete form " +
+    @Description(
+        "The Form to render. Can be either a key to an indexed form definition, or a complete form " +
             "definition for a one-off use."
     )
     var form: Form? = null

@@ -1,6 +1,6 @@
 package com.eden.orchid.sourcedoc.model
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
@@ -15,10 +15,10 @@ class SourceDocModel(
     }
 
     companion object {
-        fun getModel(context: OrchidContext, moduleType: String) : SourceDocModel? {
+        fun getModel(context: OrchidContext, moduleType: String): SourceDocModel? {
             return context.resolve(SourceDocModel::class.java, moduleType) ?: context.resolve(SourceDocModel::class.java)
         }
-        fun getModule(context: OrchidContext, moduleType: String, module: String) : SourceDocModuleModel? {
+        fun getModule(context: OrchidContext, moduleType: String, module: String): SourceDocModuleModel? {
             val model = getModel(context, moduleType)
 
             // no model, return early
@@ -34,5 +34,4 @@ class SourceDocModel(
             }
         }
     }
-
 }

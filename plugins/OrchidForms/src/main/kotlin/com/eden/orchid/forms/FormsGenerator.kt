@@ -9,8 +9,9 @@ import com.eden.orchid.forms.model.Form
 import com.eden.orchid.forms.model.FormsModel
 import com.eden.orchid.utilities.OrchidUtils
 
-@Description("Indexes form definitions so they can be easily referenced from components on different pages.",
-        name = "Forms"
+@Description(
+    "Indexes form definitions so they can be easily referenced from components on different pages.",
+    name = "Forms"
 )
 class FormsGenerator : OrchidGenerator<FormsModel>(GENERATOR_KEY, Stage.CONTENT) {
 
@@ -29,7 +30,7 @@ class FormsGenerator : OrchidGenerator<FormsModel>(GENERATOR_KEY, Stage.CONTENT)
         return FormsModel(forms)
     }
 
-    private fun getFormsByDatafiles(context: OrchidContext) : List<Form> {
+    private fun getFormsByDatafiles(context: OrchidContext): List<Form> {
         return context
             .getDefaultResourceSource(null, null)
             .getResourceEntries(
@@ -45,5 +46,4 @@ class FormsGenerator : OrchidGenerator<FormsModel>(GENERATOR_KEY, Stage.CONTENT)
                 Form(context, key, fileData)
             }
     }
-
 }

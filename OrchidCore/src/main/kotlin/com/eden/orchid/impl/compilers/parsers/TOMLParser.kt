@@ -30,8 +30,7 @@ constructor() : OrchidParser() {
         try {
             val toml = Toml().read(input)
             return toml.toMap()
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             val errorMessage = e.message ?: ""
 
             val lineNumber = "^.*?line (\\d+):.*$"

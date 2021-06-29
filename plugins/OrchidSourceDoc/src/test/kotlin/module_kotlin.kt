@@ -12,10 +12,9 @@ fun OrchidIntegrationTest.kotlindocSetup(modules: List<String> = emptyList(), sh
     val nodeKinds = NewKotlindocGenerator.nodeKinds
     val otherSourceKinds = NewKotlindocGenerator.otherSourceKinds
 
-    if(modules.isEmpty()) {
+    if (modules.isEmpty()) {
         singleModuleSetup(type, showRunnerLogs, nodeKinds, otherSourceKinds, null)
-    }
-    else {
+    } else {
         multiModuleSetup(type, modules, showRunnerLogs, nodeKinds, otherSourceKinds)
     }
 }

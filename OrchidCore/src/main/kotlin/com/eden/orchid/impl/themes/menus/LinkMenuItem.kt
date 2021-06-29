@@ -22,7 +22,7 @@ class LinkMenuItem : OrchidMenuFactory("link") {
     @Option
     @Description(
         "The URL of this menu item. A URL of `/` links to the root of your site. A URL starting with a '#'" +
-                "will link to an anchor on the current page."
+            "will link to an anchor on the current page."
     )
     lateinit var url: String
 

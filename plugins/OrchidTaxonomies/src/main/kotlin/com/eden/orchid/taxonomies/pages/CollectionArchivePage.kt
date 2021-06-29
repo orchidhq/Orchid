@@ -25,8 +25,8 @@ open class CollectionArchivePage(
     override fun getTemplates(): List<String> {
         return mutableListOf<String>().also {
             it.add("${this.key}-${collectionArchive.key}")
-            if(collectionArchive.collectionType.isNotBlank()) {
-                if(collectionArchive.collectionId.isNotBlank()) {
+            if (collectionArchive.collectionType.isNotBlank()) {
+                if (collectionArchive.collectionId.isNotBlank()) {
                     it.add("${this.key}-${collectionArchive.collectionType}-${collectionArchive.collectionId}")
                 }
 
@@ -34,6 +34,4 @@ open class CollectionArchivePage(
             }
         }
     }
-
 }
-

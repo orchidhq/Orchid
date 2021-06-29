@@ -22,5 +22,4 @@ constructor(
             throw Exception("deployment failed, check logs for details")
         }
     }
-
 }

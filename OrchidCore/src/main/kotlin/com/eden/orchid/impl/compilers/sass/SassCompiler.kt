@@ -1,6 +1,6 @@
 package com.eden.orchid.impl.compilers.sass
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.compilers.OrchidCompiler
 import com.eden.orchid.api.options.annotations.Archetype
@@ -37,7 +37,13 @@ constructor(
         return "css"
     }
 
-    override fun compile(os: OutputStream, resource: OrchidResource?, extension: String, input: String, data: MutableMap<String, Any>?) {
+    override fun compile(
+        os: OutputStream,
+        resource: OrchidResource?,
+        extension: String,
+        input: String,
+        data: MutableMap<String, Any>?
+    ) {
         val options = Options()
         options.importers.add(importer)
         options.setIsIndentedSyntaxSrc(false)

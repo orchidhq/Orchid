@@ -27,8 +27,12 @@ class StringConversion {
         }
 
         return listOf(
-                DynamicTest.dynamicTest("oneTwoThree") { expectThat(splitter("oneTwoThree", null)).isEqualTo("One Two Three") },
-                DynamicTest.dynamicTest("oneTwoThree (mapped)") { expectThat(splitter("oneTwoThree") { it.toUpperCase() }).isEqualTo("ONE TWO THREE") }
+            DynamicTest.dynamicTest("oneTwoThree") {
+                expectThat(splitter("oneTwoThree", null)).isEqualTo("One Two Three")
+            },
+            DynamicTest.dynamicTest("oneTwoThree (mapped)") {
+                expectThat(splitter("oneTwoThree") { it.toUpperCase() }).isEqualTo("ONE TWO THREE")
+            }
         )
     }
 
@@ -42,8 +46,17 @@ class StringConversion {
         }
 
         return listOf(
-                DynamicTest.dynamicTest("one_two_three") { expectThat(splitter("one_two_three", null)).isEqualTo("One Two Three") },
-                DynamicTest.dynamicTest("one_two_three (mapped)") { expectThat(splitter("one_two_three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE") }
+            DynamicTest.dynamicTest("one_two_three") {
+                expectThat(
+                    splitter(
+                        "one_two_three",
+                        null
+                    )
+                ).isEqualTo("One Two Three")
+            },
+            DynamicTest.dynamicTest("one_two_three (mapped)") {
+                expectThat(splitter("one_two_three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE")
+            }
         )
     }
 
@@ -57,8 +70,17 @@ class StringConversion {
         }
 
         return listOf(
-                DynamicTest.dynamicTest("one-two-three") { expectThat(splitter("one-two-three", null)).isEqualTo("One Two Three") },
-                DynamicTest.dynamicTest("one-two-three (mapped)") { expectThat(splitter("one-two-three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE") }
+            DynamicTest.dynamicTest("one-two-three") {
+                expectThat(
+                    splitter(
+                        "one-two-three",
+                        null
+                    )
+                ).isEqualTo("One Two Three")
+            },
+            DynamicTest.dynamicTest("one-two-three (mapped)") {
+                expectThat(splitter("one-two-three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE")
+            }
         )
     }
 
@@ -72,8 +94,17 @@ class StringConversion {
         }
 
         return listOf(
-                DynamicTest.dynamicTest("one two three") { expectThat(splitter("one two three", null)).isEqualTo("One Two Three") },
-                DynamicTest.dynamicTest("one two three (mapped)") { expectThat(splitter("one two three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE") }
+            DynamicTest.dynamicTest("one two three") {
+                expectThat(
+                    splitter(
+                        "one two three",
+                        null
+                    )
+                ).isEqualTo("One Two Three")
+            },
+            DynamicTest.dynamicTest("one two three (mapped)") {
+                expectThat(splitter("one two three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE")
+            }
         )
     }
 
@@ -87,39 +118,183 @@ class StringConversion {
         }
 
         return listOf(
-                DynamicTest.dynamicTest("one two three") { expectThat(splitter("one two three", null)).isEqualTo("One Two Three") },
-                DynamicTest.dynamicTest("one-two-three") { expectThat(splitter("one-two-three", null)).isEqualTo("One Two Three") },
-                DynamicTest.dynamicTest("one_two_three") { expectThat(splitter("one_two_three", null)).isEqualTo("One Two Three") },
-                DynamicTest.dynamicTest("oneTwoThree") { expectThat(splitter("oneTwoThree", null)).isEqualTo("One Two Three") },
-                DynamicTest.dynamicTest("one two-three") { expectThat(splitter("one two-three", null)).isEqualTo("One Two Three") },
-                DynamicTest.dynamicTest("one two_three") { expectThat(splitter("one two_three", null)).isEqualTo("One Two Three") },
-                DynamicTest.dynamicTest("one twoThree") { expectThat(splitter("one twoThree", null)).isEqualTo("One Two Three") },
-                DynamicTest.dynamicTest("one-two three") { expectThat(splitter("one-two three", null)).isEqualTo("One Two Three") },
-                DynamicTest.dynamicTest("one-two_three") { expectThat(splitter("one-two_three", null)).isEqualTo("One Two Three") },
-                DynamicTest.dynamicTest("one-twoThree") { expectThat(splitter("one-twoThree", null)).isEqualTo("One Two Three") },
-                DynamicTest.dynamicTest("one_two three") { expectThat(splitter("one_two three", null)).isEqualTo("One Two Three") },
-                DynamicTest.dynamicTest("one_two-three") { expectThat(splitter("one_two-three", null)).isEqualTo("One Two Three") },
-                DynamicTest.dynamicTest("one_twoThree") { expectThat(splitter("one_twoThree", null)).isEqualTo("One Two Three") },
-                DynamicTest.dynamicTest("oneTwo three") { expectThat(splitter("oneTwo three", null)).isEqualTo("One Two Three") },
-                DynamicTest.dynamicTest("oneTwo-three") { expectThat(splitter("oneTwo-three", null)).isEqualTo("One Two Three") },
-                DynamicTest.dynamicTest("oneTwo_three") { expectThat(splitter("oneTwo_three", null)).isEqualTo("One Two Three") },
+            DynamicTest.dynamicTest("one two three") {
+                expectThat(
+                    splitter(
+                        "one two three",
+                        null
+                    )
+                ).isEqualTo("One Two Three")
+            },
+            DynamicTest.dynamicTest("one-two-three") {
+                expectThat(
+                    splitter(
+                        "one-two-three",
+                        null
+                    )
+                ).isEqualTo("One Two Three")
+            },
+            DynamicTest.dynamicTest("one_two_three") {
+                expectThat(
+                    splitter(
+                        "one_two_three",
+                        null
+                    )
+                ).isEqualTo("One Two Three")
+            },
+            DynamicTest.dynamicTest("oneTwoThree") {
+                expectThat(
+                    splitter(
+                        "oneTwoThree",
+                        null
+                    )
+                ).isEqualTo("One Two Three")
+            },
+            DynamicTest.dynamicTest("one two-three") {
+                expectThat(
+                    splitter(
+                        "one two-three",
+                        null
+                    )
+                ).isEqualTo("One Two Three")
+            },
+            DynamicTest.dynamicTest("one two_three") {
+                expectThat(
+                    splitter(
+                        "one two_three",
+                        null
+                    )
+                ).isEqualTo("One Two Three")
+            },
+            DynamicTest.dynamicTest("one twoThree") {
+                expectThat(
+                    splitter(
+                        "one twoThree",
+                        null
+                    )
+                ).isEqualTo("One Two Three")
+            },
+            DynamicTest.dynamicTest("one-two three") {
+                expectThat(
+                    splitter(
+                        "one-two three",
+                        null
+                    )
+                ).isEqualTo("One Two Three")
+            },
+            DynamicTest.dynamicTest("one-two_three") {
+                expectThat(
+                    splitter(
+                        "one-two_three",
+                        null
+                    )
+                ).isEqualTo("One Two Three")
+            },
+            DynamicTest.dynamicTest("one-twoThree") {
+                expectThat(
+                    splitter(
+                        "one-twoThree",
+                        null
+                    )
+                ).isEqualTo("One Two Three")
+            },
+            DynamicTest.dynamicTest("one_two three") {
+                expectThat(
+                    splitter(
+                        "one_two three",
+                        null
+                    )
+                ).isEqualTo("One Two Three")
+            },
+            DynamicTest.dynamicTest("one_two-three") {
+                expectThat(
+                    splitter(
+                        "one_two-three",
+                        null
+                    )
+                ).isEqualTo("One Two Three")
+            },
+            DynamicTest.dynamicTest("one_twoThree") {
+                expectThat(
+                    splitter(
+                        "one_twoThree",
+                        null
+                    )
+                ).isEqualTo("One Two Three")
+            },
+            DynamicTest.dynamicTest("oneTwo three") {
+                expectThat(
+                    splitter(
+                        "oneTwo three",
+                        null
+                    )
+                ).isEqualTo("One Two Three")
+            },
+            DynamicTest.dynamicTest("oneTwo-three") {
+                expectThat(
+                    splitter(
+                        "oneTwo-three",
+                        null
+                    )
+                ).isEqualTo("One Two Three")
+            },
+            DynamicTest.dynamicTest("oneTwo_three") {
+                expectThat(
+                    splitter(
+                        "oneTwo_three",
+                        null
+                    )
+                ).isEqualTo("One Two Three")
+            },
 
-                DynamicTest.dynamicTest("one two three (mapped)") { expectThat(splitter("one two three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE") },
-                DynamicTest.dynamicTest("one-two-three (mapped)") { expectThat(splitter("one-two-three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE") },
-                DynamicTest.dynamicTest("one_two_three (mapped)") { expectThat(splitter("one_two_three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE") },
-                DynamicTest.dynamicTest("oneTwoThree (mapped)") { expectThat(splitter("oneTwoThree") { it.toUpperCase() }).isEqualTo("ONE TWO THREE") },
-                DynamicTest.dynamicTest("one two-three (mapped)") { expectThat(splitter("one two-three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE") },
-                DynamicTest.dynamicTest("one two_three (mapped)") { expectThat(splitter("one two_three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE") },
-                DynamicTest.dynamicTest("one twoThree (mapped)") { expectThat(splitter("one twoThree") { it.toUpperCase() }).isEqualTo("ONE TWO THREE") },
-                DynamicTest.dynamicTest("one-two three (mapped)") { expectThat(splitter("one-two three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE") },
-                DynamicTest.dynamicTest("one-two_three (mapped)") { expectThat(splitter("one-two_three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE") },
-                DynamicTest.dynamicTest("one-twoThree (mapped)") { expectThat(splitter("one-twoThree") { it.toUpperCase() }).isEqualTo("ONE TWO THREE") },
-                DynamicTest.dynamicTest("one_two three (mapped)") { expectThat(splitter("one_two three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE") },
-                DynamicTest.dynamicTest("one_two-three (mapped)") { expectThat(splitter("one_two-three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE") },
-                DynamicTest.dynamicTest("one_twoThree (mapped)") { expectThat(splitter("one_twoThree") { it.toUpperCase() }).isEqualTo("ONE TWO THREE") },
-                DynamicTest.dynamicTest("oneTwo three (mapped)") { expectThat(splitter("oneTwo three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE") },
-                DynamicTest.dynamicTest("oneTwo-three (mapped)") { expectThat(splitter("oneTwo-three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE") },
-                DynamicTest.dynamicTest("oneTwo_three (mapped)") { expectThat(splitter("oneTwo_three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE") }
+            DynamicTest.dynamicTest("one two three (mapped)") {
+                expectThat(splitter("one two three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE")
+            },
+            DynamicTest.dynamicTest("one-two-three (mapped)") {
+                expectThat(splitter("one-two-three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE")
+            },
+            DynamicTest.dynamicTest("one_two_three (mapped)") {
+                expectThat(splitter("one_two_three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE")
+            },
+            DynamicTest.dynamicTest("oneTwoThree (mapped)") {
+                expectThat(splitter("oneTwoThree") { it.toUpperCase() }).isEqualTo("ONE TWO THREE")
+            },
+            DynamicTest.dynamicTest("one two-three (mapped)") {
+                expectThat(splitter("one two-three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE")
+            },
+            DynamicTest.dynamicTest("one two_three (mapped)") {
+                expectThat(splitter("one two_three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE")
+            },
+            DynamicTest.dynamicTest("one twoThree (mapped)") {
+                expectThat(splitter("one twoThree") { it.toUpperCase() }).isEqualTo("ONE TWO THREE")
+            },
+            DynamicTest.dynamicTest("one-two three (mapped)") {
+                expectThat(splitter("one-two three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE")
+            },
+            DynamicTest.dynamicTest("one-two_three (mapped)") {
+                expectThat(splitter("one-two_three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE")
+            },
+            DynamicTest.dynamicTest("one-twoThree (mapped)") {
+                expectThat(splitter("one-twoThree") { it.toUpperCase() }).isEqualTo("ONE TWO THREE")
+            },
+            DynamicTest.dynamicTest("one_two three (mapped)") {
+                expectThat(splitter("one_two three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE")
+            },
+            DynamicTest.dynamicTest("one_two-three (mapped)") {
+                expectThat(splitter("one_two-three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE")
+            },
+            DynamicTest.dynamicTest("one_twoThree (mapped)") {
+                expectThat(splitter("one_twoThree") { it.toUpperCase() }).isEqualTo("ONE TWO THREE")
+            },
+            DynamicTest.dynamicTest("oneTwo three (mapped)") {
+                expectThat(splitter("oneTwo three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE")
+            },
+            DynamicTest.dynamicTest("oneTwo-three (mapped)") {
+                expectThat(splitter("oneTwo-three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE")
+            },
+            DynamicTest.dynamicTest("oneTwo_three (mapped)") {
+                expectThat(splitter("oneTwo_three") { it.toUpperCase() }).isEqualTo("ONE TWO THREE")
+            }
         )
     }
 
@@ -133,8 +308,12 @@ class StringConversion {
         }
 
         return listOf(
-                DynamicTest.dynamicTest("oneTwoThree") { expectThat(joiner("oneTwoThree", null)).isEqualTo("OneTwoThree") },
-                DynamicTest.dynamicTest("oneTwoThree (mapped)") { expectThat(joiner("oneTwoThree") { it + it }).isEqualTo("OneoneTwotwoThreethree") }
+            DynamicTest.dynamicTest("oneTwoThree") {
+                expectThat(joiner("oneTwoThree", null)).isEqualTo("OneTwoThree")
+            },
+            DynamicTest.dynamicTest("oneTwoThree (mapped)") {
+                expectThat(joiner("oneTwoThree") { it + it }).isEqualTo("OneoneTwotwoThreethree")
+            }
         )
     }
 
@@ -148,8 +327,12 @@ class StringConversion {
         }
 
         return listOf(
-                DynamicTest.dynamicTest("oneTwoThree") { expectThat(joiner("oneTwoThree", null)).isEqualTo("oneTwoThree") },
-                DynamicTest.dynamicTest("oneTwoThree (mapped)") { expectThat(joiner("oneTwoThree") { it + it }).isEqualTo("oneoneTwotwoThreethree") }
+            DynamicTest.dynamicTest("oneTwoThree") {
+                expectThat(joiner("oneTwoThree", null)).isEqualTo("oneTwoThree")
+            },
+            DynamicTest.dynamicTest("oneTwoThree (mapped)") {
+                expectThat(joiner("oneTwoThree") { it + it }).isEqualTo("oneoneTwotwoThreethree")
+            }
         )
     }
 
@@ -163,8 +346,17 @@ class StringConversion {
         }
 
         return listOf(
-                DynamicTest.dynamicTest("oneTwoThree") { expectThat(joiner("oneTwoThree", null)).isEqualTo("one Two Three") },
-                DynamicTest.dynamicTest("oneTwoThree (mapped)") { expectThat(joiner("oneTwoThree") { it + it }).isEqualTo("oneone TwoTwo ThreeThree") }
+            DynamicTest.dynamicTest("oneTwoThree") {
+                expectThat(
+                    joiner(
+                        "oneTwoThree",
+                        null
+                    )
+                ).isEqualTo("one Two Three")
+            },
+            DynamicTest.dynamicTest("oneTwoThree (mapped)") {
+                expectThat(joiner("oneTwoThree") { it + it }).isEqualTo("oneone TwoTwo ThreeThree")
+            }
         )
     }
 
@@ -178,8 +370,17 @@ class StringConversion {
         }
 
         return listOf(
-                DynamicTest.dynamicTest("oneTwoThree") { expectThat(joiner("oneTwoThree", null)).isEqualTo("ONE_TWO_THREE") },
-                DynamicTest.dynamicTest("oneTwoThree (mapped)") { expectThat(joiner("oneTwoThree") { it + it }).isEqualTo("ONEONE_TWOTWO_THREETHREE") }
+            DynamicTest.dynamicTest("oneTwoThree") {
+                expectThat(
+                    joiner(
+                        "oneTwoThree",
+                        null
+                    )
+                ).isEqualTo("ONE_TWO_THREE")
+            },
+            DynamicTest.dynamicTest("oneTwoThree (mapped)") {
+                expectThat(joiner("oneTwoThree") { it + it }).isEqualTo("ONEONE_TWOTWO_THREETHREE")
+            }
         )
     }
 
@@ -193,8 +394,17 @@ class StringConversion {
         }
 
         return listOf(
-                DynamicTest.dynamicTest("oneTwoThree") { expectThat(joiner("oneTwoThree", null)).isEqualTo("one-Two-Three") },
-                DynamicTest.dynamicTest("oneTwoThree (mapped)") { expectThat(joiner("oneTwoThree") { it + it }).isEqualTo("oneone-TwoTwo-ThreeThree") }
+            DynamicTest.dynamicTest("oneTwoThree") {
+                expectThat(
+                    joiner(
+                        "oneTwoThree",
+                        null
+                    )
+                ).isEqualTo("one-Two-Three")
+            },
+            DynamicTest.dynamicTest("oneTwoThree (mapped)") {
+                expectThat(joiner("oneTwoThree") { it + it }).isEqualTo("oneone-TwoTwo-ThreeThree")
+            }
         )
     }
 
@@ -208,8 +418,17 @@ class StringConversion {
         }
 
         return listOf(
-                DynamicTest.dynamicTest("oneTwoThree") { expectThat(joiner("oneTwoThree", null)).isEqualTo("one-two-three") },
-                DynamicTest.dynamicTest("oneTwoThree (mapped)") { expectThat(joiner("oneTwoThree") { it + it }).isEqualTo("oneone-twotwo-threethree") }
+            DynamicTest.dynamicTest("oneTwoThree") {
+                expectThat(
+                    joiner(
+                        "oneTwoThree",
+                        null
+                    )
+                ).isEqualTo("one-two-three")
+            },
+            DynamicTest.dynamicTest("oneTwoThree (mapped)") {
+                expectThat(joiner("oneTwoThree") { it + it }).isEqualTo("oneone-twotwo-threethree")
+            }
         )
     }
 
@@ -223,9 +442,17 @@ class StringConversion {
         }
 
         return listOf(
-                DynamicTest.dynamicTest("oneTwoThree") { expectThat(joiner("oneTwoThree", null)).isEqualTo("One Two Three") },
-                DynamicTest.dynamicTest("oneTwoThree (mapped)") { expectThat(joiner("oneTwoThree") { it + it }).isEqualTo("Oneone TwoTwo ThreeThree") }
+            DynamicTest.dynamicTest("oneTwoThree") {
+                expectThat(
+                    joiner(
+                        "oneTwoThree",
+                        null
+                    )
+                ).isEqualTo("One Two Three")
+            },
+            DynamicTest.dynamicTest("oneTwoThree (mapped)") {
+                expectThat(joiner("oneTwoThree") { it + it }).isEqualTo("Oneone TwoTwo ThreeThree")
+            }
         )
     }
-
 }

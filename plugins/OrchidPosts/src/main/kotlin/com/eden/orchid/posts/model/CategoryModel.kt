@@ -19,8 +19,8 @@ import com.eden.orchid.utilities.to
 import javax.inject.Inject
 
 @Archetypes(
-        Archetype(value = ConfigArchetype::class, key = PostsGenerator.GENERATOR_KEY),
-        Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.defaultConfig")
+    Archetype(value = ConfigArchetype::class, key = PostsGenerator.GENERATOR_KEY),
+    Archetype(value = ConfigArchetype::class, key = "${PostsGenerator.GENERATOR_KEY}.defaultConfig")
 )
 class CategoryModel
 @Inject
@@ -35,7 +35,8 @@ constructor(val context: OrchidContext) : OptionsHolder {
 
     @Option
     @StringDefault(":category/:year/:month/:day/:slug")
-    @Description("The permalink structure to use for the blog posts in this category. Permalinks may be " +
+    @Description(
+        "The permalink structure to use for the blog posts in this category. Permalinks may be " +
             "overridden on any individual post."
     )
     lateinit var permalink: String
@@ -53,8 +54,7 @@ constructor(val context: OrchidContext) : OptionsHolder {
             val categoryPath = key!!.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             key = categoryPath.last()
             path = OrchidUtils.normalizePath(categoryPath.joinToString("/"))
-        }
-        else {
+        } else {
             key = null
             path = ""
         }
@@ -62,14 +62,10 @@ constructor(val context: OrchidContext) : OptionsHolder {
 
         title = if (!EdenUtils.isEmpty(title)) {
             title
-        }
-        else if (!EdenUtils.isEmpty(key)) {
+        } else if (!EdenUtils.isEmpty(key)) {
             key!!.from { camelCase() } to { titleCase() }
-        }
-        else {
+        } else {
             "Blog"
         }
     }
-
-
 }

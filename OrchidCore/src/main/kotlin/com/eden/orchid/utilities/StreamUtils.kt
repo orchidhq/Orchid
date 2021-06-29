@@ -1,64 +1,13 @@
 package com.eden.orchid.utilities
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.tasks.TaskService
-import java.io.BufferedReader
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 import java.io.PipedInputStream
 import java.io.PipedOutputStream
-
-class InputStreamCollector(private val inputStream: InputStream) : Runnable {
-
-    var output = StringBuffer()
-
-    override fun run() {
-        output = StringBuffer()
-        inputStream
-            .bufferedReader()
-            .lineSequence()
-            .forEach { output.appendln(it) }
-    }
-
-    override fun toString(): String {
-        return output.toString()
-    }
-}
-
-class InputStreamPrinter
-@JvmOverloads
-constructor(
-    private val inputStream: InputStream,
-    val tag: String? = null,
-    val transform: ((String) -> String)? = null
-) : Runnable {
-
-    override fun run() {
-        inputStream
-            .bufferedReader()
-            .lineSequence()
-            .forEach {
-                val actualMessage = transform?.invoke(it) ?: it
-                if (tag != null) {
-                    Clog.tag(tag).log(actualMessage)
-                } else {
-                    Clog.noTag().log(actualMessage)
-                }
-            }
-    }
-}
-
-class InputStreamIgnorer(private val inputStream: InputStream) : Runnable {
-    override fun run() {
-        inputStream
-            .bufferedReader()
-            .lineSequence()
-            .forEach { /* do nothing with it */ }
-    }
-}
 
 fun convertOutputStream(context: OrchidContext, writer: (OutputStream) -> Unit): InputStream {
     if (context.taskType == TaskService.TaskType.SERVE) {

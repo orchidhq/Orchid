@@ -1,6 +1,7 @@
 package com.eden.orchid.testhelpers
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
+import clog.dsl.setMinPriority
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 
@@ -20,12 +21,11 @@ interface BaseOrchidTest {
 
     @JvmDefault
     fun disableLogging() {
-        Clog.getInstance().setMinPriority(Clog.Priority.FATAL)
+        Clog.setMinPriority(Clog.Priority.FATAL)
     }
 
     @JvmDefault
     fun enableLogging() {
-        Clog.getInstance().setMinPriority(Clog.Priority.VERBOSE)
+        Clog.setMinPriority(Clog.Priority.VERBOSE)
     }
-
 }

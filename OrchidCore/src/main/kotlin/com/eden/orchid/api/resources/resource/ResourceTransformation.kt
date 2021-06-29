@@ -27,8 +27,12 @@ constructor(
         get() = transform(super.content, contentPreTransformations)
 
     private fun <T> transform(input: T, transformations: List<(T) -> T>): T {
-        return if (transformations.isEmpty()) input else transformations.reduce { a, b -> { o: T -> b.invoke(a.invoke(o)) } }.invoke(
+        return if (transformations.isEmpty()) {
             input
-        )
+        } else {
+            transformations
+                .reduce { a, b -> { o: T -> b.invoke(a.invoke(o)) } }
+                .invoke(input)
+        }
     }
 }

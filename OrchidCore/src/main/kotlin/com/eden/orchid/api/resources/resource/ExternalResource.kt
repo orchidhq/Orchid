@@ -1,6 +1,6 @@
 package com.eden.orchid.api.resources.resource
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.asInputStream
 import okhttp3.OkHttpClient
@@ -22,7 +22,7 @@ class ExternalResource(
     var downloadInProdOnly = true
     var download: Boolean = false
 
-    val shouldDownload: Boolean get() = if(downloadInProdOnly) isProd && download else download
+    val shouldDownload: Boolean get() = if (downloadInProdOnly) isProd && download else download
 
     override fun shouldPrecompile(): Boolean {
         return if (shouldDownload) {
@@ -51,7 +51,10 @@ class ExternalResource(
             }
             return null
         } else {
-            throw UnsupportedOperationException("This method is not allowed on ExternalResource when it is not set to download")
+            throw UnsupportedOperationException(
+                "This method is not allowed on ExternalResource when it is not set " +
+                    "to download"
+            )
         }
     }
 
@@ -69,7 +72,10 @@ class ExternalResource(
         get() = if (shouldDownload) {
             super.content
         } else {
-            throw UnsupportedOperationException("This method is not allowed on ExternalResource when it is not set to download")
+            throw UnsupportedOperationException(
+                "This method is not allowed on ExternalResource when it is not set " +
+                    "to download"
+            )
         }
 
     override val embeddedData: Map<String, Any?>

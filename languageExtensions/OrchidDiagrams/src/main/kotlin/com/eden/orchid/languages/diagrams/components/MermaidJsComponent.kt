@@ -6,8 +6,9 @@ import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.components.OrchidComponent
 
-@Description("Convert MermaidJS code snippets into diagrams in your browser.",
-        name = "Mermaid"
+@Description(
+    "Convert MermaidJS code snippets into diagrams in your browser.",
+    name = "Mermaid"
 )
 class MermaidJsComponent : OrchidComponent("mermaid", true) {
 
@@ -17,7 +18,8 @@ class MermaidJsComponent : OrchidComponent("mermaid", true) {
     lateinit var mermaidSource: String
 
     @Option
-    @Description("Select which elements on the page are converted. Defaults to markdown code blocks with the " +
+    @Description(
+        "Select which elements on the page are converted. Defaults to markdown code blocks with the " +
             "`mermaid` language."
     )
     @StringDefault("pre code[class='language-mermaid']")

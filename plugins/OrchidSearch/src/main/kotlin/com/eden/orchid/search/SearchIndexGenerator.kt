@@ -40,7 +40,7 @@ class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KE
 
     override fun startGeneration(context: OrchidContext, model: Model) {
         generateSiteIndexFiles(context)
-        if(createSinglePageIndexFiles) {
+        if (createSinglePageIndexFiles) {
             generatePageIndexFiles(context)
         }
     }
@@ -52,7 +52,7 @@ class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KE
         val enabledGeneratorKeys = context.getGeneratorKeys(includeFrom, excludeFrom)
 
         context.index.allIndexedPages.filter { it.key in enabledGeneratorKeys }.forEach { (key, value) ->
-            if(key === ExternalIndexGenerator.GENERATOR_KEY) return@forEach // don't create search indices for externally-indexed pages
+            if (key === ExternalIndexGenerator.GENERATOR_KEY) return@forEach // don't create search indices for externally-indexed pages
 
             val jsonElement = JSONElement(value.first.toJSON(true, false))
             val reference = OrchidReference(context, "meta/$key.index.json")
@@ -94,5 +94,4 @@ class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KE
             context.render(pageIndex)
         }
     }
-
 }

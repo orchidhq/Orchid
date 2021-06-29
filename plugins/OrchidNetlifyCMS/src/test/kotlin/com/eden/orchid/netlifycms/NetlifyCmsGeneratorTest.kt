@@ -20,5 +20,4 @@ class NetlifyCmsGeneratorTest : OrchidIntegrationTest(NetlifyCmsModule(), withGe
             .pageWasRendered("/admin/index.html")
             .pageWasRendered("/admin/config.yml")
     }
-
 }

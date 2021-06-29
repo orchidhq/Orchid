@@ -1,6 +1,6 @@
 package com.eden.orchid.snippets.adapter
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
@@ -94,12 +94,12 @@ class EmbeddedSnippetsAdapter : SnippetsAdapter {
             } else if (tagEndMatch != null) {
                 val snippetName = tagEndMatch.groupValues[patternNameGroup].trim()
 
-                val lastSnippet = if(tagStack.isNotEmpty()) {
+                val lastSnippet = if (tagStack.isNotEmpty()) {
                     tagStack.removeAt(tagStack.lastIndex)
                 } else null
 
-                if(lastSnippet != null) {
-                    if(snippetName.isEmpty() || lastSnippet.name == snippetName) {
+                if (lastSnippet != null) {
+                    if (snippetName.isEmpty() || lastSnippet.name == snippetName) {
                         val snippetResource = StringResource(
                             OrchidReference(resource.reference),
                             lastSnippet.lines.joinToString(separator = "\n").trimIndent()
@@ -113,8 +113,7 @@ class EmbeddedSnippetsAdapter : SnippetsAdapter {
                                 snippetResource
                             )
                         )
-                    }
-                    else {
+                    } else {
                         Clog.e("Mismatched snippet groups at line $lineIndex: expected close of '${lastSnippet.name}', found '$snippetName'")
                     }
                 }

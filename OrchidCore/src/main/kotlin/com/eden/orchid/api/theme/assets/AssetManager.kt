@@ -27,7 +27,7 @@ interface AssetManager {
      * @param asset the asset to lookup and convert into an AssetPage
      * @param origin the origin AssetManagerDelegate that is creating this asset
      *
-     * @return a new page. Do not render directly, first get the actual page (potentially cached) from [.getActualAsset].
+     * @return a new page. Do not render directly, first get the actual page (potentially cached) from [getActualAsset].
      */
     fun createAsset(origin: AssetManagerDelegate, resourceSource: OrchidResourceSource, asset: String): AssetPage
 
@@ -41,7 +41,12 @@ interface AssetManager {
      *
      * @return a new page. Do not render directly, first get the actual page (potentially cached) from [.getActualCss].
      */
-    fun createCss(origin: AssetManagerDelegate, resourceSource: OrchidResourceSource, asset: String, configure: CssPageAttributes? = null): CssPage
+    fun createCss(
+        origin: AssetManagerDelegate,
+        resourceSource: OrchidResourceSource,
+        asset: String,
+        configure: CssPageAttributes? = null
+    ): CssPage
 
     /**
      * Create a new JsPage. After creation, it should be configured by the caller, then checked against the
@@ -53,7 +58,12 @@ interface AssetManager {
      *
      * @return a new page. Do not render directly, first get the actual page (potentially cached) from [.createJs].
      */
-    fun createJs(origin: AssetManagerDelegate, resourceSource: OrchidResourceSource, asset: String, configure: JsPageAttributes? = null): JsPage
+    fun createJs(
+        origin: AssetManagerDelegate,
+        resourceSource: OrchidResourceSource,
+        asset: String,
+        configure: JsPageAttributes? = null
+    ): JsPage
 
     /**
      * Checks the given asset against the cache. If any asset matches the provided asset, return that instance instead.
@@ -68,7 +78,8 @@ interface AssetManager {
      * different asset and will not interfere with the original.
      *
      * @param asset the asset to check against the cache
-     * @param renderImmediately if the asset is not cached, whether it should be rendered before returning to this method
+     * @param renderImmediately if the asset is not cached, whether it should be rendered before returning to this
+     *  method
      * @return the actual asset to refer to, which may or may not be the same instance that was passed in.
      */
     fun getActualAsset(origin: AssetManagerDelegate, asset: AssetPage, renderImmediately: Boolean): AssetPage

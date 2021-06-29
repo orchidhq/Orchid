@@ -1,7 +1,0 @@
-{# @pebvariable name="page" type="com.eden.orchid.groovydoc.pages.GroovydocPackagePage" #}
-
-<p><b>Package <code>{{ page.packageDoc.name }}</code></b></p>
-
-<div class="package-description">
-{{ page.content | raw }}
-</div>

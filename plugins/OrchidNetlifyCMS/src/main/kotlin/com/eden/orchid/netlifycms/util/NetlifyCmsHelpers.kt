@@ -42,33 +42,32 @@ fun OptionsDescription.toNetlifyCmsField(context: OrchidContext, recursionDepth:
 
             field.put("typeKey", "type")
             field.put(
-                    "types",
-                    itemTypes
-                            .map {
-                                val options = extractor.describeAllOptions(it::class.java)
+                "types",
+                itemTypes
+                    .map {
+                        val options = extractor.describeAllOptions(it::class.java)
 
-                                val itemType = JSONObject()
-                                itemType.put("label", options.descriptiveName)
-                                itemType.put("name", (it as ModularListItem<*, *>).getType())
-                                itemType.put("description", options.classDescription)
-                                itemType.put("widget", "object")
+                        val itemType = JSONObject()
+                        itemType.put("label", options.descriptiveName)
+                        itemType.put("name", (it as ModularListItem<*, *>).getType())
+                        itemType.put("description", options.classDescription)
+                        itemType.put("widget", "object")
 
-                                val fields = JSONArray()
+                        val fields = JSONArray()
 
-                                options.optionsDescriptions.forEach { option ->
-                                    if (recursionDepth > 0) {
-                                        fields.put(option.toNetlifyCmsField(context, recursionDepth - 1))
-                                    }
-                                }
-
-                                itemType.put("fields", fields)
-
-                                itemType
+                        options.optionsDescriptions.forEach { option ->
+                            if (recursionDepth > 0) {
+                                fields.put(option.toNetlifyCmsField(context, recursionDepth - 1))
                             }
+                        }
+
+                        itemType.put("fields", fields)
+
+                        itemType
+                    }
             )
         }
-    }
-    else if (OptionsHolder::class.java.isAssignableFrom(this.optionType)) {
+    } else if (OptionsHolder::class.java.isAssignableFrom(this.optionType)) {
         val options = extractor.describeAllOptions(this.optionType)
 
         val fields = JSONArray()
@@ -79,8 +78,7 @@ fun OptionsDescription.toNetlifyCmsField(context: OrchidContext, recursionDepth:
         }
 
         field.put("fields", fields)
-    }
-    else if (List::class.java.isAssignableFrom(this.optionType) && this.optionTypeParameters.first() != String::class.java) {
+    } else if (List::class.java.isAssignableFrom(this.optionType) && this.optionTypeParameters.first() != String::class.java) {
         val options = extractor.describeAllOptions(this.optionTypeParameters.first())
 
         val fields = JSONArray()
@@ -91,8 +89,7 @@ fun OptionsDescription.toNetlifyCmsField(context: OrchidContext, recursionDepth:
         }
 
         field.put("fields", fields)
-    }
-    else if (this.optionType.isArray && this.optionType.componentType != String::class.java) {
+    } else if (this.optionType.isArray && this.optionType.componentType != String::class.java) {
         val options = extractor.describeAllOptions(this.optionType.componentType)
 
         val fields = JSONArray()
@@ -147,28 +144,27 @@ private fun getRequiredField(fieldName: String): JSONObject {
     if (fieldName == "body") {
         field.put("label", "Page Content")
         field.put("widget", "markdown")
-    }
-    else if (fieldName == "title") {
+    } else if (fieldName == "title") {
         field.put("label", "Title")
         field.put("widget", "string")
     }
-    return field;
+    return field
 }
 
 private fun OptionsDescription.getWidgetType(): String {
     return when {
-        Number::class.java.isAssignableFrom(this.optionType)        -> "number"
-        Boolean::class.java.isAssignableFrom(this.optionType)       -> "boolean"
-        ModularList::class.java.isAssignableFrom(this.optionType)   -> "list"
+        Number::class.java.isAssignableFrom(this.optionType) -> "number"
+        Boolean::class.java.isAssignableFrom(this.optionType) -> "boolean"
+        ModularList::class.java.isAssignableFrom(this.optionType) -> "list"
         OptionsHolder::class.java.isAssignableFrom(this.optionType) -> "object"
-        List::class.java.isAssignableFrom(this.optionType)          -> "list"
-        this.optionType.isArray                                     -> "list"
-        this.optionType == LocalDate::class.java                    -> "date"
-        this.optionType == LocalTime::class.java                    -> "datetime"
-        this.optionType == LocalDateTime::class.java                -> "datetime"
-        this.optionType == AssetRelation::class.java                -> "image"
-        this.optionType == String::class.java                       -> "string"
-        else                                                        -> "string"
+        List::class.java.isAssignableFrom(this.optionType) -> "list"
+        this.optionType.isArray -> "list"
+        this.optionType == LocalDate::class.java -> "date"
+        this.optionType == LocalTime::class.java -> "datetime"
+        this.optionType == LocalDateTime::class.java -> "datetime"
+        this.optionType == AssetRelation::class.java -> "image"
+        this.optionType == String::class.java -> "string"
+        else -> "string"
     }
 }
 
@@ -177,17 +173,16 @@ fun getModularListItemClass(modularListClass: Class<*>): Class<*>? {
     var currentSuperclass: Class<*>? = modularListClass
     var genericSuperclass: ParameterizedType? = null
 
-    while(currentSuperclass != null) {
-        if(currentSuperclass.genericSuperclass is ParameterizedType) {
+    while (currentSuperclass != null) {
+        if (currentSuperclass.genericSuperclass is ParameterizedType) {
             genericSuperclass = currentSuperclass.genericSuperclass as ParameterizedType
             break
-        }
-        else {
+        } else {
             currentSuperclass = currentSuperclass.superclass
         }
     }
 
-    if(genericSuperclass != null) {
+    if (genericSuperclass != null) {
         for (typeArg in genericSuperclass.actualTypeArguments) {
             val className = typeArg.typeName
             val clazz = Class.forName(className)

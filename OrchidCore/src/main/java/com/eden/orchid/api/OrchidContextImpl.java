@@ -1,8 +1,7 @@
 package com.eden.orchid.api;
 
-import com.caseyjbrooks.clog.Clog;
-import com.eden.common.json.JSONElement;
-import com.eden.common.util.EdenUtils;
+import clog.Clog;
+import clog.dsl.ConfigurationKt;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.compilers.CompilerService;
 import com.eden.orchid.api.events.EventService;
@@ -16,8 +15,6 @@ import com.eden.orchid.api.resources.ResourceService;
 import com.eden.orchid.api.site.OrchidSite;
 import com.eden.orchid.api.tasks.TaskService;
 import com.eden.orchid.api.theme.ThemeService;
-import com.eden.orchid.utilities.SuppressedWarnings;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -142,20 +139,20 @@ public final class OrchidContextImpl implements OrchidContext {
     @Override
     public void diagnosisMessage(Supplier<String> messageSupplier) {
         if(diagnose) {
-            Clog.tag("diagnosis").e(messageSupplier.get());
+            ConfigurationKt.tag(Clog.INSTANCE, "diagnosis").e(messageSupplier.get());
         }
         else {
-            Clog.tag("diagnosis").w("Orchid detected potential issues with this build. Run again with the `--diagnose` flag to get more info.");
+            ConfigurationKt.tag(Clog.INSTANCE, "diagnosis").w("Orchid detected potential issues with this build. Run again with the `--diagnose` flag to get more info.");
         }
     }
 
     @Override
     public void deprecationMessage(Supplier<String> messageSupplier) {
         if(diagnose) {
-            Clog.tag("deprecation").w(messageSupplier.get());
+            ConfigurationKt.tag(Clog.INSTANCE, "deprecation").w(messageSupplier.get());
         }
         else {
-            Clog.tag("diagnosis").w("Deprecated features were used in this build. Run again with the `--diagnose` flag to get more info.");
+            ConfigurationKt.tag(Clog.INSTANCE, "diagnosis").w("Deprecated features were used in this build. Run again with the `--diagnose` flag to get more info.");
         }
     }
 }

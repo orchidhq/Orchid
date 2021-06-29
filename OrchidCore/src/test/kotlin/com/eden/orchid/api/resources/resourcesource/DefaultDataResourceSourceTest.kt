@@ -7,7 +7,6 @@ import com.eden.orchid.api.theme.Theme
 import com.eden.orchid.strikt.asExpected
 import com.eden.orchid.testhelpers.OrchidUnitTest
 import com.eden.orchid.utilities.readToString
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.mockito.Mockito.`when`
@@ -76,10 +75,9 @@ class DefaultDataResourceSourceTest : OrchidUnitTest {
             .getResourceEntry(context, input)
             .asExpected()
             .and {
-                if(expectNullResource) {
+                if (expectNullResource) {
                     isNull()
-                }
-                else {
+                } else {
                     isNotNull()
                         .get { getContentStream().readToString()?.trim() }
                         .isEqualTo(expectedContents)
@@ -110,20 +108,23 @@ class DefaultDataResourceSourceTest : OrchidUnitTest {
         "pages, 'res3', false, 'templates/res3.md'",
         "pages, 'res6', false, 'templates/pages/res6.peb'"
     )
-    fun testSubdirGetResourceEntry(templateSubdir: String, input: String, expectNullResource: Boolean, expectedContents: String) {
+    fun testSubdirGetResourceEntry(
+        templateSubdir: String,
+        input: String,
+        expectNullResource: Boolean,
+        expectedContents: String
+    ) {
         underTest
             .getResourceEntry(context, templateSubdir, listOf(input))
             .asExpected()
             .and {
-                if(expectNullResource) {
+                if (expectNullResource) {
                     isNull()
-                }
-                else {
+                } else {
                     isNotNull()
                         .get { getContentStream().readToString()?.trim() }
                         .isEqualTo(expectedContents)
                 }
             }
     }
-
 }

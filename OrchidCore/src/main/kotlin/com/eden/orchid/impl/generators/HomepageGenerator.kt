@@ -1,8 +1,6 @@
 package com.eden.orchid.impl.generators
 
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.generators.FileCollection
-import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.generators.modelOf
 import com.eden.orchid.api.options.annotations.Description
@@ -10,7 +8,6 @@ import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
-import com.eden.orchid.api.resources.resourcesource.flexible
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 
@@ -67,5 +64,4 @@ class HomepageGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, 
 
         override val itemIds = listOf("home", "Home")
     }
-
 }

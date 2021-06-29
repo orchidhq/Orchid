@@ -1,6 +1,6 @@
 package com.eden.orchid.presentations
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.converters.StringConverter
 import com.eden.orchid.api.options.OptionExtractor
@@ -14,8 +14,8 @@ import javax.inject.Provider
 class PresentationOptionExtractor
 @Inject
 constructor(
-        private val converter: StringConverter,
-        private val contextProvider: Provider<OrchidContext>
+    private val converter: StringConverter,
+    private val contextProvider: Provider<OrchidContext>
 ) : OptionExtractor<Presentation>(1000) {
 
     override fun acceptsClass(clazz: Class<*>): Boolean {
@@ -45,5 +45,4 @@ constructor(
     override fun getDefaultValue(field: Field): Presentation? {
         return null
     }
-
 }

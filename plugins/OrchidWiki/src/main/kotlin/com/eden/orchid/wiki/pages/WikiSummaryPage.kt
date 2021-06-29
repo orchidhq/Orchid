@@ -16,8 +16,8 @@ import com.eden.orchid.wiki.WikiSectionArchetype
     Archetype(value = ConfigArchetype::class, key = "${WikiGenerator.GENERATOR_KEY}.wikiPages")
 )
 @Description(value = "The landing page for a wiki section.", name = "Wiki Summary")
-class WikiSummaryPage(val section: String?, resource: OrchidResource, title: String)
-    : OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "wikiSummary", title) {
+class WikiSummaryPage(val section: String?, resource: OrchidResource, title: String) :
+    OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "wikiSummary", title) {
 
     var sectionsPage: WikiSectionsPage? = null
 
@@ -27,6 +27,5 @@ class WikiSummaryPage(val section: String?, resource: OrchidResource, title: Str
     }
 
     override fun initialize(title: String?) {
-
     }
 }

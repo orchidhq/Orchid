@@ -21,10 +21,9 @@ fun OrchidPage.getTermValues(taxonomy: String): List<String> {
     try {
         val method = this.javaClass.getMethod("get${taxonomy.capitalize()}")
         val result = method.invoke(this)
-        if(result is List<*>) {
+        if (result is List<*>) {
             return result as List<String>
-        }
-        else if(result is Array<*>) {
+        } else if (result is Array<*>) {
             return (result as Array<String>).toList()
         }
     } catch (e: Exception) {

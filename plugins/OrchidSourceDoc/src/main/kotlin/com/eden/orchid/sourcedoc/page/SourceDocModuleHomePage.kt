@@ -23,7 +23,7 @@ class SourceDocModuleHomePage(
 
     override fun getTemplates(): List<String> {
         return mutableListOf<String>().also {
-            if(moduleGroup.isNotBlank()) {
+            if (moduleGroup.isNotBlank()) {
                 it.add("${generator.key}Module-$moduleGroup")
             }
             it.add("${generator.key}Module")

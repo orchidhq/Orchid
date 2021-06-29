@@ -23,7 +23,7 @@ class SourcedocAnchorFunction : TemplateFunction("sourceDocAnchor", true) {
     override fun parameters(): Array<String> = arrayOf(::title.name, ::itemId.name)
 
     override fun apply(context: OrchidContext, page: OrchidPage?): Any {
-        return when(page) {
+        return when (page) {
             is BaseSourceDocPage -> getLinkToSourcedocPage(
                 context,
                 page,
@@ -31,13 +31,13 @@ class SourcedocAnchorFunction : TemplateFunction("sourceDocAnchor", true) {
                 itemId
             ) // use current page info to compute best match for the target
             else -> context.linkToPage(
-                page,   // from
-                title,  // title
-                "",     // collectionType
-                "",     // collectionId
+                page, // from
+                title, // title
+                "", // collectionType
+                "", // collectionId
                 itemId, // itemId
-                "",     // customClasses
-                ""      // pageAnchorId
+                "", // customClasses
+                "" // pageAnchorId
             ) // treat it as a normal page link (such as to external pages)
         }
     }
@@ -62,14 +62,13 @@ class SourcedocAnchorFunction : TemplateFunction("sourceDocAnchor", true) {
         ): String {
             val module = SourceDocModel.getModule(context, sourceModuleType, sourceModule)
 
-            val seq = if(sourceModule != sourceModuleType && module != null && module.relatedModules.isNotEmpty()) {
+            val seq = if (sourceModule != sourceModuleType && module != null && module.relatedModules.isNotEmpty()) {
                 // multi-module setup
                 sequenceOf(
-                    sourceModule,                         // link to own module first
+                    sourceModule, // link to own module first
                     *module.relatedModules.toTypedArray() // link to related modules next
                 )
-            }
-            else {
+            } else {
                 // single-module setup
                 sequenceOf(sourceModule)
             }
@@ -77,13 +76,13 @@ class SourcedocAnchorFunction : TemplateFunction("sourceDocAnchor", true) {
             return seq
                 .map { moduleName ->
                     context.linkToPage(
-                        sourcePage,                                 // from
-                        title,                                      // title
-                        sourceModuleType,                           // collectionType
-                        moduleName,                                 // collectionId
+                        sourcePage, // from
+                        title, // title
+                        sourceModuleType, // collectionType
+                        moduleName, // collectionId
                         itemId.takeIf { it.isNotBlank() } ?: title, // itemId
-                        "",                                         // customClasses
-                        ""                                          // pageAnchorId
+                        "", // customClasses
+                        "" // pageAnchorId
                     )
                 }
                 .filter { it.first }
@@ -99,10 +98,9 @@ class SourcedocAnchorFunction : TemplateFunction("sourceDocAnchor", true) {
                         getLinkToSourcedocPage(page.context, page, it.text, it.value ?: "")
                     } else {
                         // TODO: compile this as Markdown or whatever here, instead of using `compileAs()` in the template
-                        if(escapeRawText) {
+                        if (escapeRawText) {
                             StringEscapeUtils.escapeHtml4(it.text)
-                        }
-                        else {
+                        } else {
                             it.text
                         }
                     }
@@ -110,5 +108,4 @@ class SourcedocAnchorFunction : TemplateFunction("sourceDocAnchor", true) {
                 .joinToString("")
         }
     }
-
 }

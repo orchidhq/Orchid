@@ -43,7 +43,6 @@ class DelegatingResourceSource(
             .forEach { entries[it.reference.originalFullFileName] = it }
 
         return entries.values.toList()
-
     }
 
     override fun equals(other: Any?): Boolean {

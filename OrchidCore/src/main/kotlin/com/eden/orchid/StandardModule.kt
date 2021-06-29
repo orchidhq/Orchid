@@ -92,7 +92,14 @@ class StandardModule private constructor(
         }
 
         override fun toString(): String {
-            return "StandardModule.StandardModuleBuilder(args=" + java.util.Arrays.deepToString(this.args) + ", flags=" + this.flags + ", includeCoreApi=" + this.includeCoreApi + ", includeCoreImpl=" + this.includeCoreImpl + ", includeFlags=" + this.includeFlags + ", includeClasspath=" + this.includeClasspath + ")"
+            return "StandardModule.StandardModuleBuilder(args=" +
+                java.util.Arrays.deepToString(this.args) +
+                ", flags=" + this.flags +
+                ", includeCoreApi=" + this.includeCoreApi +
+                ", includeCoreImpl=" + this.includeCoreImpl +
+                ", includeFlags=" + this.includeFlags +
+                ", includeClasspath=" + this.includeClasspath +
+                ")"
         }
     }
 

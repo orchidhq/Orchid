@@ -1,6 +1,6 @@
 package com.eden.orchid.netlify.site
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.registration.OrchidModule
 import com.eden.orchid.api.tasks.OrchidTask
@@ -33,7 +33,7 @@ class NetlifyBaseUrlTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
     }
 
 // Ensure default url formats still work when also using Netlify URL factory
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test rending URLs using test-default base URL")
@@ -139,7 +139,7 @@ class NetlifyBaseUrlTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
     }
 
 // Test Netlify base URL factory is working properly
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test rending URLs using a default Netlify URL")

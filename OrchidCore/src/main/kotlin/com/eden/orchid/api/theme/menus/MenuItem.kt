@@ -1,6 +1,5 @@
 package com.eden.orchid.api.theme.menus
 
-import com.caseyjbrooks.clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.indexing.OrchidIndex
@@ -99,7 +98,7 @@ class MenuItem private constructor(
     }
 
 // Builder
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     class Builder(val context: OrchidContext) {
         var children: MutableList<MenuItem.Builder>? = null
@@ -217,5 +216,4 @@ class MenuItem private constructor(
             )
         }
     }
-
 }

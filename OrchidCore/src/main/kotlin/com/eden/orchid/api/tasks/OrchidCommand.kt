@@ -16,5 +16,4 @@ constructor(
     abstract fun parameters(): Array<String>
 
     abstract fun run(context: OrchidContext, commandName: String)
-
 }

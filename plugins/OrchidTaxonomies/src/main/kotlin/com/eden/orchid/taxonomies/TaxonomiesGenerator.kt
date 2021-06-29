@@ -80,7 +80,7 @@ constructor(
             }
         }
 
-        if(collectionArchives.isNotEmpty()) {
+        if (collectionArchives.isNotEmpty()) {
             collectionArchives.forEach outerLoop@{ collectionArchive ->
                 model.putCollectionArchive(collectionArchive)
             }
@@ -115,7 +115,7 @@ constructor(
     }
 
 // Archive Page Helpers
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     // build all pages for each taxonomy
     private fun buildAllTaxonomiesPages(context: OrchidContext, model: TaxonomiesModel): List<OrchidPage> {
@@ -228,15 +228,13 @@ constructor(
     ): List<OrchidPage> {
         val allArchivePages: List<Any?>
 
-        allArchivePages = if(collectionArchive.collectionType.isNotBlank()) {
+        allArchivePages = if (collectionArchive.collectionType.isNotBlank()) {
             context.findAll(collectionArchive.collectionType, collectionArchive.collectionId, null)
-        }
-        else if(collectionArchive.merge.isNotEmpty()) {
+        } else if (collectionArchive.merge.isNotEmpty()) {
             collectionArchive.merge.flatMap {
                 context.findAll(it.collectionType, it.collectionId, null)
             }
-        }
-        else {
+        } else {
             emptyList()
         }
 
@@ -281,7 +279,7 @@ constructor(
     }
 
 // Other Utils
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     private fun linkPages(pages: List<OrchidPage>) {
         var i = 0
@@ -315,5 +313,4 @@ constructor(
 
         return null
     }
-
 }

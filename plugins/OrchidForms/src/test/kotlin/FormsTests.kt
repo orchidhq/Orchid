@@ -26,7 +26,7 @@ import strikt.api.expectThat
 class FormsTests : OrchidIntegrationTest(FormsModule(), PluginDocsModule(), withGenerator<HomepageGenerator>()) {
 
 // Test methods of registering forms
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test rendering a form that was pre-indexed (built-in contact form)")
@@ -401,7 +401,7 @@ class FormsTests : OrchidIntegrationTest(FormsModule(), PluginDocsModule(), with
     }
 
 // Test default rendering of each form field type
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test rendering a checkbox fields")
@@ -662,5 +662,4 @@ class FormsTests : OrchidIntegrationTest(FormsModule(), PluginDocsModule(), with
                 }
             }
     }
-
 }

@@ -1,18 +1,19 @@
 package com.eden.orchid.impl.compilers.clog
 
-import com.caseyjbrooks.clog.Clog
-import com.caseyjbrooks.clog.ClogLogger
-import com.caseyjbrooks.clog.DefaultLogger
-import com.caseyjbrooks.clog.parseltongue.Parseltongue
+import clog.Clog
+import clog.ClogProfile
+import clog.api.ClogFilter
+import clog.api.ClogLogger
+import clog.dsl.addLogger
+import clog.dsl.addTagToBlacklist
+import clog.dsl.tag
+import clog.impl.DefaultTagProvider
 import com.eden.orchid.Orchid
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateFunction
 import com.eden.orchid.api.events.On
 import com.eden.orchid.api.events.OrchidEventListener
 import com.eden.orchid.utilities.SuppressedWarnings
-import java.util.Arrays
-import java.util.HashMap
-import java.util.HashSet
 import java.util.logging.Handler
 import java.util.logging.Level
 import java.util.logging.LogManager
@@ -37,27 +38,24 @@ constructor(
 
     @On(Orchid.Lifecycle.InitComplete::class)
     fun onInitComplete(event: Orchid.Lifecycle.InitComplete) {
-        Clog.getInstance().addLogger(Clog.KEY_W, warningLogger)
-        Clog.getInstance().addLogger(Clog.KEY_E, errorLogger)
-        Clog.getInstance().addLogger(Clog.KEY_WTF, fatalLogger)
-    }
-
-    @On(Orchid.Lifecycle.OnStart::class)
-    fun onStart(event: Orchid.Lifecycle.OnStart) {
-        val formatter = Clog.getInstance().formatter
-        if (formatter is Parseltongue) {
-            val incantations = templateTagsProvider.get()
-                .map { templateTag ->
-                    ClogIncantationWrapper(
-                        contextProvider,
-                        templateTag.name,
-                        Arrays.asList(*templateTag.parameters()),
-                        templateTag.javaClass
-                    )
-                }
-
-            formatter.addSpells(*incantations.toTypedArray())
-        }
+        Clog.addLogger(
+            warningLogger,
+            object : ClogFilter {
+                override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean = priority >= Clog.Priority.WARNING
+            }
+        )
+        Clog.addLogger(
+            errorLogger,
+            object : ClogFilter {
+                override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean = priority >= Clog.Priority.ERROR
+            }
+        )
+        Clog.addLogger(
+            fatalLogger,
+            object : ClogFilter {
+                override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean = priority >= Clog.Priority.FATAL
+            }
+        )
     }
 
     @On(Orchid.Lifecycle.BuildFinish::class)
@@ -85,7 +83,7 @@ constructor(
 
         @JvmStatic
         fun registerJavaLoggingHandler() {
-            //reset() will remove all default handlers
+            // reset() will remove all default handlers
             LogManager.getLogManager().reset()
             val rootLogger = LogManager.getLogManager().getLogger("")
 
@@ -93,13 +91,13 @@ constructor(
             rootLogger.addHandler(ClogJavaLoggingHandler())
 
             // ignore annoying Hibernate Validator and JSass messages
-            Clog.getInstance().addTagToBlacklist("org.hibernate.validator.internal.util.Version")
-            Clog.getInstance().addTagToBlacklist("io.bit3.jsass.adapter.NativeLoader")
+            Clog.addTagToBlacklist("org.hibernate.validator.internal.util.Version")
+            Clog.addTagToBlacklist("io.bit3.jsass.adapter.NativeLoader")
 
             // Ignore Pebble internal logging
-            Clog.getInstance().addTagToBlacklist("com.mitchellbosecke.pebble.lexer.LexerImpl")
-            Clog.getInstance().addTagToBlacklist("com.mitchellbosecke.pebble.lexer.TemplateSource")
-            Clog.getInstance().addTagToBlacklist("com.mitchellbosecke.pebble.PebbleEngine")
+            Clog.addTagToBlacklist("com.mitchellbosecke.pebble.lexer.LexerImpl")
+            Clog.addTagToBlacklist("com.mitchellbosecke.pebble.lexer.TemplateSource")
+            Clog.addTagToBlacklist("com.mitchellbosecke.pebble.PebbleEngine")
         }
     }
 }
@@ -112,43 +110,34 @@ private class AbstractLogCollector(
     val loggerPriority: Clog.Priority
 ) : ClogLogger {
 
-    val messages: MutableMap<String, MutableSet<LogMessage>> = HashMap()
+    private val messages: MutableMap<String?, MutableSet<LogMessage>> = HashMap()
 
-    override fun priority(): Clog.Priority = loggerPriority
-
-    override fun isActive(): Boolean = true
-
-    override fun log(tag: String, message: String): Int {
+    override fun log(priority: Clog.Priority, tag: String?, message: String) {
         messages.getOrPut(tag) { HashSet() }.add(LogMessage(message, null))
         if (!contextProvider.get().state.isWorkingState) {
             printAllMessages()
         }
-
-        return 0
     }
 
-    override fun log(tag: String, message: String, throwable: Throwable): Int {
-        messages.getOrPut(tag) { HashSet() }.add(LogMessage(message, null))
+    override fun logException(priority: Clog.Priority, tag: String?, throwable: Throwable) {
+        messages.getOrPut(tag) { HashSet() }.add(LogMessage("", throwable))
         if (!contextProvider.get().state.isWorkingState) {
             printAllMessages()
         }
-
-        return 0
     }
 
     fun printAllMessages() {
-        if (messages.size > 0) {
-            val logger = DefaultLogger(priority())
-
-            logger.log("", headerMessage)
+        if (messages.isNotEmpty()) {
+            ClogProfile(tagProvider = DefaultTagProvider("")).log(headerMessage)
 
             messages.forEach { tag, logMessages ->
-                logger.log(tag, "")
+                val logger = ClogProfile(tagProvider = DefaultTagProvider(tag))
+                logger.log("")
                 logMessages.forEach { message ->
                     if (message.throwable != null) {
-                        logger.log("", "    - " + message.message, message.throwable)
+                        logger.log("    - " + message.message, message.throwable)
                     } else {
-                        logger.log("", "    - " + message.message)
+                        logger.log("    - " + message.message)
                     }
                 }
                 println("")

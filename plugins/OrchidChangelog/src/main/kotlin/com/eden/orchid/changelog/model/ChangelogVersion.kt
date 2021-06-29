@@ -79,7 +79,7 @@ class ChangelogVersion(
         }
         json.put("components", JSONObject(versionComponents.mapValues { it.value.first }))
 
-        if(includeReleaseNotes) {
+        if (includeReleaseNotes) {
             json.put("releaseNotes", this.content)
         }
 
@@ -87,7 +87,7 @@ class ChangelogVersion(
     }
 
 // Map Implementation
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     fun has(key: String): Boolean {
         return allData.containsKey(key)
@@ -100,6 +100,4 @@ class ChangelogVersion(
     fun query(key: String): Any? {
         return JSONElement(JSONObject(allData)).query(key)?.element
     }
-
 }
-

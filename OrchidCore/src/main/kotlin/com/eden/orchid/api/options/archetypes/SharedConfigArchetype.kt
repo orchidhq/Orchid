@@ -9,7 +9,8 @@ import org.json.JSONObject
 import javax.inject.Inject
 
 @Description(
-    value = "Configure this item with additional options merged in from `config.yml`. The configuration object is dynamically loaded from the `from` key of the source data",
+    value = "Configure this item with additional options merged in from `config.yml`. The configuration object is " +
+        "dynamically loaded from the `from` key of the source data",
     name = "Shared Config"
 )
 class SharedConfigArchetype
@@ -24,7 +25,7 @@ constructor(
     override fun getOptions(target: Any, archetypeKey: String): Map<String, Any>? {
         val actualFrom = from.filter { it.isNotBlank() }
 
-        if(actualFrom.isEmpty()) return null
+        if (actualFrom.isEmpty()) return null
 
         val optionsObjects = actualFrom
             .map { context.query(it) }

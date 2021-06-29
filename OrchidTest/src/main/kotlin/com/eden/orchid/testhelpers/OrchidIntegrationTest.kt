@@ -1,6 +1,5 @@
 package com.eden.orchid.testhelpers
 
-import com.eden.common.json.JSONElement
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.registration.OrchidModule
@@ -9,7 +8,6 @@ import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.SuppressedWarnings
-import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -107,7 +105,7 @@ open class OrchidIntegrationTest(
     }
 
 // Execute test runner
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     private fun getTestOrchid(vararg modules: OrchidModule): TestOrchid {
         return TestOrchid()
@@ -127,5 +125,4 @@ open class OrchidIntegrationTest(
     protected fun getContext(vararg modules: OrchidModule): OrchidContext {
         return getTestOrchid(*modules).getContext()
     }
-
 }

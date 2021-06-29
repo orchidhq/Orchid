@@ -18,10 +18,14 @@ import strikt.api.expectThat
 class GithubWikiAdapterTest : OrchidIntegrationTest(WikiModule(), GithubModule()) {
 
     @Test
-    @DisplayName("Wikis can be imported from Github. If no _Sidebar file is present, files will be listed alphabetically.")
+    @DisplayName(
+        "Wikis can be imported from Github. If no _Sidebar file is present, files will be listed " +
+            "alphabetically."
+    )
     fun test01() {
         configObject(
-            "wiki", """
+            "wiki",
+            """
             {
                 "sections": {
                     "wiki-without-sidebar": {
@@ -40,10 +44,26 @@ class GithubWikiAdapterTest : OrchidIntegrationTest(WikiModule(), GithubModule()
             .pageWasRendered("/wiki/wiki-without-sidebar/index.html") {
                 htmlBodyMatches("body > ul") {
                     ul {
-                        li { a(href = "http://orchid.test/wiki/wiki-without-sidebar/Configuration") { +"Configuration" } }
-                        li { a(href = "http://orchid.test/wiki/wiki-without-sidebar/GettingStarted") { +"Getting Started" } }
-                        li { a(href = "http://orchid.test/wiki/wiki-without-sidebar/Home") { +"Home" } }
-                        li { a(href = "http://orchid.test/wiki/wiki-without-sidebar/Installation") { +"Installation" } }
+                        li {
+                            a(href = "http://orchid.test/wiki/wiki-without-sidebar/Configuration") {
+                                +"Configuration"
+                            }
+                        }
+                        li {
+                            a(href = "http://orchid.test/wiki/wiki-without-sidebar/GettingStarted") {
+                                +"Getting Started"
+                            }
+                        }
+                        li {
+                            a(href = "http://orchid.test/wiki/wiki-without-sidebar/Home") {
+                                +"Home"
+                            }
+                        }
+                        li {
+                            a(href = "http://orchid.test/wiki/wiki-without-sidebar/Installation") {
+                                +"Installation"
+                            }
+                        }
                     }
                 }
             }
@@ -56,10 +76,14 @@ class GithubWikiAdapterTest : OrchidIntegrationTest(WikiModule(), GithubModule()
     }
 
     @Test
-    @DisplayName("Wikis can be imported from Github. If a _Sidebar file is present, it will be used as the Summary page.")
+    @DisplayName(
+        "Wikis can be imported from Github. If a _Sidebar file is present, it will be used as the Summary " +
+            "page."
+    )
     fun test02() {
         configObject(
-            "wiki", """
+            "wiki",
+            """
             {
                 "sections": {
                     "wiki-with-sidebar": {
@@ -78,12 +102,26 @@ class GithubWikiAdapterTest : OrchidIntegrationTest(WikiModule(), GithubModule()
             .pageWasRendered("/wiki/wiki-with-sidebar/index.html") {
                 htmlBodyMatches("body > ul") {
                     ul {
-                        li { a(href = "http://orchid.test/wiki/wiki-with-sidebar/Home") { +"Home" } }
                         li {
-                            a(href = "http://orchid.test/wiki/wiki-with-sidebar/GettingStarted") { +"Getting Started" }
+                            a(href = "http://orchid.test/wiki/wiki-with-sidebar/Home") {
+                                +"Home"
+                            }
+                        }
+                        li {
+                            a(href = "http://orchid.test/wiki/wiki-with-sidebar/GettingStarted") {
+                                +"Getting Started"
+                            }
                             ul {
-                                li { a(href = "http://orchid.test/wiki/wiki-with-sidebar/Installation") { +"Installation" } }
-                                li { a(href = "http://orchid.test/wiki/wiki-with-sidebar/Configuration") { +"Configuration" } }
+                                li {
+                                    a(href = "http://orchid.test/wiki/wiki-with-sidebar/Installation") {
+                                        +"Installation"
+                                    }
+                                }
+                                li {
+                                    a(href = "http://orchid.test/wiki/wiki-with-sidebar/Configuration") {
+                                        +"Configuration"
+                                    }
+                                }
                             }
                         }
                     }
@@ -96,5 +134,4 @@ class GithubWikiAdapterTest : OrchidIntegrationTest(WikiModule(), GithubModule()
             .pageWasRendered("/favicon.ico")
             .nothingElseRendered()
     }
-
 }

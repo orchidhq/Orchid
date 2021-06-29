@@ -12,16 +12,19 @@ import java.io.InputStream
 import java.util.regex.Pattern
 
 class WikiBookResource(
-        reference: OrchidReference,
-        val section: WikiSection
+    reference: OrchidReference,
+    val section: WikiSection
 ) : OrchidResource(reference) {
 
     override fun getContentStream(): InputStream {
         val wikiBookTemplate = reference.context.getTemplateResourceSource(null, reference.context.theme).getResourceEntry(reference.context, "wiki/book")!!
-        val pdfOutput = wikiBookTemplate.compileContent(reference.context, mapOf(
-            "section" to section,
-            "resource" to this@WikiBookResource
-        ))
+        val pdfOutput = wikiBookTemplate.compileContent(
+            reference.context,
+            mapOf(
+                "section" to section,
+                "resource" to this@WikiBookResource
+            )
+        )
 
         val doc = Jsoup.parse(pdfOutput)
         val pdfDoc = W3CDom().fromJsoup(doc)

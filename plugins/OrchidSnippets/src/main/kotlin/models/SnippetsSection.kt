@@ -31,5 +31,4 @@ class SnippetsSection : OptionsHolder {
                 )
             }
     }
-
 }

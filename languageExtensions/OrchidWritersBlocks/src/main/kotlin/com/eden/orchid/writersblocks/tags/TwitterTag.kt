@@ -22,7 +22,8 @@ class TwitterTag : TemplateTag("twitter", Type.Simple, true) {
     lateinit var id: String
 
     @Option
-    @Description("The type of Twitter timeline to display. One of [likes, lists, collection, grid, moment, or " +
+    @Description(
+        "The type of Twitter timeline to display. One of [likes, lists, collection, grid, moment, or " +
             "profile]."
     )
     lateinit var timelineType: String
@@ -59,15 +60,12 @@ class TwitterTag : TemplateTag("twitter", Type.Simple, true) {
             if (response.isSuccessful) {
                 val body = response.body?.string() ?: ""
                 JSONObject(body).getString("html")
-            }
-            else {
+            } else {
                 null
             }
-        }
-        catch (e: IOException) {
+        } catch (e: IOException) {
             e.printStackTrace()
             null
         }
     }
-
 }

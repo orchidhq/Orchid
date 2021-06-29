@@ -7,7 +7,7 @@ import com.eden.orchid.pages.pages.StaticPage
 
 @Description(
     "A Static Page Group Collection is a specialized Folder collection for a single page Group. A page is " +
-            "matched from a this collection with an 'itemId' matching the page's title."
+        "matched from a this collection with an 'itemId' matching the page's title."
 )
 class StaticPageGroupCollection(
     generator: PagesGenerator,

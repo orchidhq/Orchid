@@ -1,25 +1,15 @@
 package com.eden.orchid.utilities;
 
-import com.caseyjbrooks.clog.Clog;
-import com.copperleaf.krow.TableFormatter;
+import com.copperleaf.krow.formatters.TableFormatter;
 import com.copperleaf.krow.formatters.ascii.AsciiTableFormatter;
-import com.copperleaf.krow.formatters.ascii.CrossingBorder;
-import com.copperleaf.krow.formatters.ascii.NoBorder;
-import com.copperleaf.krow.formatters.ascii.SingleBorder;
+import com.copperleaf.krow.utils.CrossingBorder;
+import com.copperleaf.krow.utils.SingleBorder;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OrchidFlags;
-import com.eden.orchid.api.theme.assets.AssetHolder;
-import com.eden.orchid.api.theme.assets.CssPage;
-import com.eden.orchid.api.theme.assets.JsPage;
-import com.eden.orchid.api.theme.components.ComponentHolder;
-import com.eden.orchid.api.theme.components.OrchidComponent;
-import com.eden.orchid.api.theme.pages.OrchidPage;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
 
-import javax.annotation.Nonnull;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -46,11 +36,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import static com.eden.orchid.utilities.OrchidExtensionsKt.from;
-import static com.eden.orchid.utilities.OrchidExtensionsKt.to;
-
 public final class OrchidUtils {
-    
+
 // constants
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -60,8 +47,6 @@ public final class OrchidUtils {
     public static final TableFormatter<String> defaultTableFormatter = (OrchidUtils.isWindows)
             ? new AsciiTableFormatter(new CrossingBorder())
             : new AsciiTableFormatter(new SingleBorder());
-
-    public static final TableFormatter<String> compactTableFormatter = new AsciiTableFormatter(new NoBorder());
 
 // Tested and documented methods
 //----------------------------------------------------------------------------------------------------------------------
@@ -74,7 +59,7 @@ public final class OrchidUtils {
      * Removes the base directory from a file path. Leading slashes are also removed from the resulting file path.
      *
      * @param sourcePath The original file path
-     * @param baseDir the base directory that should be removed from the original file path
+     * @param baseDir    the base directory that should be removed from the original file path
      * @return the file path relative to the base directory
      */
     public static String getRelativeFilename(String sourcePath, String baseDir) {
@@ -86,8 +71,7 @@ public final class OrchidUtils {
 
                 if (relative.startsWith("/")) {
                     relative = relative.substring(1);
-                }
-                else if (relative.startsWith("\\")) {
+                } else if (relative.startsWith("\\")) {
                     relative = relative.substring(1);
                 }
 
@@ -139,57 +123,52 @@ public final class OrchidUtils {
         for (int i = 0; i < args.length; i++) {
             String arg = (args[i] != null) ? args[i] : "";
 
-            if(arg.startsWith("--")) {
+            if (arg.startsWith("--")) {
                 // full flag name
                 String flag = arg.replace("--", "");
-                if(validNames == null || validNames.containsKey(flag)) {
-                    if(valuesParsed == 0 && currentFlag != null) {
+                if (validNames == null || validNames.containsKey(flag)) {
+                    if (valuesParsed == 0 && currentFlag != null) {
                         // the previous flag had no values, mark it as true
                         addArgValue(namedArgs, currentFlag, "true");
                     }
                     currentFlag = flag;
                     valuesParsed = 0;
 
+                } else {
+                    throw new IllegalArgumentException("Unrecognized flag: --" + flag);
                 }
-                else {
-                    throw new IllegalArgumentException(Clog.format("Unrecognized flag: --{}", flag));
-                }
-            }
-            else if(arg.startsWith("-")) {
+            } else if (arg.startsWith("-")) {
                 // aliased flag name
                 String flag = arg.replace("-", "");
-                if(validNames != null && validAliases != null && validAliases.containsKey(flag)) {
-                    if(valuesParsed == 0 && currentFlag != null) {
+                if (validNames != null && validAliases != null && validAliases.containsKey(flag)) {
+                    if (valuesParsed == 0 && currentFlag != null) {
                         // the previous flag had no values, mark it as true
                         addArgValue(namedArgs, currentFlag, "true");
                     }
                     currentFlag = validAliases.get(flag);
                     valuesParsed = 0;
+                } else {
+                    throw new IllegalArgumentException("Unrecognized flag: -" + flag);
                 }
-                else {
-                    throw new IllegalArgumentException(Clog.format("Unrecognized flag: -{}", flag));
-                }
-            }
-            else {
-                if(currentFlag != null) {
+            } else {
+                if (currentFlag != null) {
                     // named flag values
                     addArgValue(namedArgs, currentFlag, arg);
                     valuesParsed++;
-                }
-                else {
+                } else {
                     // positional flag values
                     positionalArgs.add(arg);
                 }
             }
         }
 
-        if(valuesParsed == 0 && currentFlag != null) {
+        if (valuesParsed == 0 && currentFlag != null) {
             // the final flag had no values, mark it as true
             addArgValue(namedArgs, currentFlag, "true");
         }
 
         // add positional args to named args map. Positional args override named args
-        if(positionalArgs.size() > 0 && positionalNames.size() >= positionalArgs.size()) {
+        if (positionalArgs.size() > 0 && positionalNames.size() >= positionalArgs.size()) {
             for (int i = 0; i < positionalArgs.size(); i++) {
                 addArgValue(namedArgs, positionalNames.get(i), positionalArgs.get(i));
             }
@@ -197,22 +176,20 @@ public final class OrchidUtils {
 
         Iterator<String> it = namedArgs.keySet().iterator();
 
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             String key = it.next();
             Object value = namedArgs.get(key);
 
             boolean removeObject = false;
-            if(value == null) {
+            if (value == null) {
                 removeObject = true;
-            }
-            else if(value instanceof String && EdenUtils.isEmpty((String)value)) {
+            } else if (value instanceof String && EdenUtils.isEmpty((String) value)) {
                 removeObject = true;
-            }
-            else if(value instanceof Collection && EdenUtils.isEmpty((Collection)value)) {
+            } else if (value instanceof Collection && EdenUtils.isEmpty((Collection) value)) {
                 removeObject = true;
             }
 
-            if(removeObject) {
+            if (removeObject) {
                 it.remove();
             }
         }
@@ -221,11 +198,10 @@ public final class OrchidUtils {
     }
 
     private static void addArgValue(Map<String, Object> namedArgs, String key, String value) {
-        if(!namedArgs.containsKey(key)) {
+        if (!namedArgs.containsKey(key)) {
             namedArgs.put(key, value);
-        }
-        else {
-            if(!(namedArgs.get(key) instanceof List)) {
+        } else {
+            if (!(namedArgs.get(key) instanceof List)) {
                 List<Object> listValues = new ArrayList<>();
                 listValues.add(namedArgs.get(key));
                 namedArgs.put(key, listValues);
@@ -259,7 +235,7 @@ public final class OrchidUtils {
      * @param pathPiece the input to 'slugify'
      * @return the URL-safe slug
      */
-    public static String toSlug(String pathPiece){
+    public static String toSlug(String pathPiece) {
         String s = pathPiece.replaceAll("\\s+", "-").toLowerCase();
         s = s.replaceAll("[^\\w-_/]", "");
         return s;
@@ -290,11 +266,11 @@ public final class OrchidUtils {
      * Returns the first item in a list if possible, returning null otherwise.
      *
      * @param items the list
-     * @param <T> the type of items in the list
+     * @param <T>   the type of items in the list
      * @return the first item in the list if the list is not null and not empty, null otherwise
      */
     public static <T> T first(List<T> items) {
-        if(items != null && items.size() > 0) {
+        if (items != null && items.size() > 0) {
             return items.get(0);
         }
 
@@ -329,8 +305,8 @@ public final class OrchidUtils {
     }
 
     public static <T, U> boolean inArray(T item, U[] items, BiPredicate<T, U> condition) {
-        for(U test : items) {
-            if(condition.test(item, test)) {
+        for (U test : items) {
+            if (condition.test(item, test)) {
                 return true;
             }
         }
@@ -351,7 +327,7 @@ public final class OrchidUtils {
 
         try (InputStream is = stream) {
             final byte[] buffer = new byte[1024];
-            for (int read = 0; (read = is.read(buffer)) != -1;) {
+            for (int read = 0; (read = is.read(buffer)) != -1; ) {
                 messageDigest.update(buffer, 0, read);
             }
         }
@@ -383,7 +359,7 @@ public final class OrchidUtils {
     public static Path getTempDir(String baseDir, String dirName, boolean asSiblingToBase) throws IOException {
         Path sourceDir = Paths.get(baseDir);
 
-        if(asSiblingToBase) {
+        if (asSiblingToBase) {
             sourceDir = sourceDir.getParent();
         }
 
@@ -394,8 +370,7 @@ public final class OrchidUtils {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
                 FileUtils.deleteDirectory(targetDir.toFile());
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }));

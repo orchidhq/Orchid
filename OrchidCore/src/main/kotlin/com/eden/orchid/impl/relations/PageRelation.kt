@@ -11,7 +11,7 @@ import javax.inject.Inject
 class PageRelation
 @Inject
 constructor(
-        context: OrchidContext
+    context: OrchidContext
 ) : Relation<OrchidPage>(context) {
 
     @Option
@@ -27,12 +27,10 @@ constructor(
     lateinit var collectionId: String
 
     override fun load(): OrchidPage? {
-        if(listOf(collectionType, collectionId, itemId).any { it.isNotBlank() }) {
+        if (listOf(collectionType, collectionId, itemId).any { it.isNotBlank() }) {
             return context.findPage(this.collectionType, this.collectionId, this.itemId)
-        }
-        else {
+        } else {
             return null
         }
     }
-
 }

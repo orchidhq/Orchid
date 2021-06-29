@@ -26,17 +26,19 @@ class SnippetsModule : OrchidModule() {
         addToSet<SnippetsAdapter>(
             FileSnippetsAdapter::class,
             EmbeddedSnippetsAdapter::class,
-            RemoteSnippetsAdapter::class)
+            RemoteSnippetsAdapter::class
+        )
 
         addToSet<TemplateFunction, SnippetFunction>()
         addToSet<TemplateTag>(
             SnippetTag::class,
-            SnippetsTag::class)
+            SnippetsTag::class
+        )
         addToSet<OrchidComponent>(
             SnippetComponent::class,
-            SnippetsComponent::class)
+            SnippetsComponent::class
+        )
 
         addToSet<OrchidController, SnippetsController>()
     }
 }
-

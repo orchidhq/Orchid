@@ -43,5 +43,4 @@ class NewJavadocGeneratorTest : OrchidIntegrationTest(JavadocModule(), SourceDoc
             .pageWasRendered("/favicon.ico")
             .nothingElseRendered()
     }
-
 }

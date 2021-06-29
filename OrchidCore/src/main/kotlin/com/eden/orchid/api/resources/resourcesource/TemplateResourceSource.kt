@@ -3,7 +3,7 @@ package com.eden.orchid.api.resources.resourcesource
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.OrchidResource
 
-interface TemplateResourceSource: OrchidResourceSource {
+interface TemplateResourceSource : OrchidResourceSource {
 
     /**
      * Splits [fileName] by comma (`,`) and passes the resulting template list through to

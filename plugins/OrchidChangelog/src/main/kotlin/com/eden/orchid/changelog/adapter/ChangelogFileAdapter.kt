@@ -1,6 +1,6 @@
 package com.eden.orchid.changelog.adapter
 
-import com.caseyjbrooks.clog.Clog
+import clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.Description
@@ -11,11 +11,9 @@ import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.resources.resourcesource.FlexibleResourceSource
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
-import com.eden.orchid.api.resources.resourcesource.flexible
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.changelog.ChangelogGenerator
 import com.eden.orchid.changelog.model.ChangelogVersion
-import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.utilities.SuppressedWarnings
 
 @Archetype(value = ConfigArchetype::class, key = ChangelogGenerator.GENERATOR_KEY)
@@ -80,7 +78,7 @@ class ChangelogFileAdapter : ChangelogAdapter {
                     currentVersion!!.trim(),
                     currentVersionReleaseDate?.trim(),
                     StringResource(
-                        OrchidReference(context, "${currentVersion}.${readme.reference.extension}"),
+                        OrchidReference(context, "$currentVersion.${readme.reference.extension}"),
                         content.substring(previousIndex, it.range.first)
                     )
                 )
@@ -97,7 +95,7 @@ class ChangelogFileAdapter : ChangelogAdapter {
             currentVersion!!.trim(),
             currentVersionReleaseDate?.trim(),
             StringResource(
-                OrchidReference(context, "${currentVersion}.${readme.reference.extension}"),
+                OrchidReference(context, "$currentVersion.${readme.reference.extension}"),
                 content.substring(previousIndex)
             )
         )

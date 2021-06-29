@@ -15,5 +15,4 @@ class RadioButtonsField : FormField(arrayOf("radio")) {
     override fun getTemplates(): List<String> {
         return super.getTemplates().toMutableList()
     }
-
 }

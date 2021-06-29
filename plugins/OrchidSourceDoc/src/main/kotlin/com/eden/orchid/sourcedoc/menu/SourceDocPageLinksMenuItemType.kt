@@ -14,7 +14,7 @@ import java.util.ArrayList
 
 @Description(
     "Links to the different sections within a Javadoc Class page, optionally with their items nested " +
-            "underneath them.",
+        "underneath them.",
     name = "Javadoc Class Sections"
 )
 class SourceDocPageLinksMenuItemType : OrchidMenuFactory("sourcedocPageLinks") {
@@ -27,7 +27,7 @@ class SourceDocPageLinksMenuItemType : OrchidMenuFactory("sourcedocPageLinks") {
     @BooleanDefault(false)
     @Description(
         "Whether to include the items for each section. For example, including a menu item for each " +
-                "individual constructor as children of `Constructors` or just a link to the `Constructors` section."
+            "individual constructor as children of `Constructors` or just a link to the `Constructors` section."
     )
     var includeItems: Boolean = false
 

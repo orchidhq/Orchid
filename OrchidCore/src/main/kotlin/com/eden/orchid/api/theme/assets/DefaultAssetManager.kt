@@ -1,10 +1,8 @@
 package com.eden.orchid.api.theme.assets
 
 import com.eden.orchid.api.resources.resource.OrchidResource
-import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.resources.resource.ThumbnailResource
 import com.eden.orchid.api.resources.resourcesource.OrchidResourceSource
-import com.eden.orchid.api.theme.pages.OrchidReference
 import java.util.stream.Stream
 import javax.inject.Singleton
 
@@ -34,7 +32,12 @@ class DefaultAssetManager : AssetManager {
         ).also { it.configureReferences() }
     }
 
-    override fun createCss(origin: AssetManagerDelegate, resourceSource: OrchidResourceSource, asset: String, configure: CssPageAttributes?): CssPage {
+    override fun createCss(
+        origin: AssetManagerDelegate,
+        resourceSource: OrchidResourceSource,
+        asset: String,
+        configure: CssPageAttributes?
+    ): CssPage {
         val requestedResource: OrchidResource? = resourceSource.getResourceEntry(origin.context, asset)
 
         checkNotNull(requestedResource) { "requested asset '$asset' could not be found" }
@@ -45,14 +48,19 @@ class DefaultAssetManager : AssetManager {
             "css",
             requestedResource.reference.title
         ).also {
-            if(configure != null) {
+            if (configure != null) {
                 it.applyAttributes(configure)
             }
             it.configureReferences()
         }
     }
 
-    override fun createJs(origin: AssetManagerDelegate, resourceSource: OrchidResourceSource, asset: String, configure: JsPageAttributes?): JsPage {
+    override fun createJs(
+        origin: AssetManagerDelegate,
+        resourceSource: OrchidResourceSource,
+        asset: String,
+        configure: JsPageAttributes?
+    ): JsPage {
         val requestedResource: OrchidResource? = resourceSource.getResourceEntry(origin.context, asset)
 
         checkNotNull(requestedResource) { "requested asset '$asset' could not be found" }
@@ -63,7 +71,7 @@ class DefaultAssetManager : AssetManager {
             "js",
             requestedResource.reference.title
         ).also {
-            if(configure != null) {
+            if (configure != null) {
                 it.applyAttributes(configure)
             }
             it.configureReferences()

@@ -10,5 +10,4 @@ class EnvironmentVariableArchetype : OptionArchetype {
         val vars = System.getenv()
         return vars as Map<String, Any>
     }
-
 }

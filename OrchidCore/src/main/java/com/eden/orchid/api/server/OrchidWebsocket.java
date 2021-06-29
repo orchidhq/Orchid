@@ -1,6 +1,6 @@
 package com.eden.orchid.api.server;
 
-import com.caseyjbrooks.clog.Clog;
+import clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import fi.iki.elonen.NanoWSD;
 
