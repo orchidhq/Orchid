@@ -12,10 +12,9 @@ fun OrchidIntegrationTest.swiftdocSetup(modules: List<String> = emptyList(), sho
     val nodeKinds = NewSwiftdocGenerator.nodeKinds
     val otherSourceKinds = NewSwiftdocGenerator.otherSourceKinds
 
-    if(modules.isEmpty()) {
+    if (modules.isEmpty()) {
         singleModuleSetup(type, showRunnerLogs, nodeKinds, otherSourceKinds, null)
-    }
-    else {
+    } else {
         multiModuleSetup(type, modules, showRunnerLogs, nodeKinds, otherSourceKinds)
     }
 }

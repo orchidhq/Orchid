@@ -73,9 +73,6 @@ class JsonArrayBuilder {
     }
 }
 
-
-
-
 /*
 
 - make elevator pitch for Reliant persistant login, reauthenticate on secured screens

@@ -14,8 +14,8 @@ import javax.inject.Provider
 class PresentationOptionExtractor
 @Inject
 constructor(
-        private val converter: StringConverter,
-        private val contextProvider: Provider<OrchidContext>
+    private val converter: StringConverter,
+    private val contextProvider: Provider<OrchidContext>
 ) : OptionExtractor<Presentation>(1000) {
 
     override fun acceptsClass(clazz: Class<*>): Boolean {
@@ -45,5 +45,4 @@ constructor(
     override fun getDefaultValue(field: Field): Presentation? {
         return null
     }
-
 }

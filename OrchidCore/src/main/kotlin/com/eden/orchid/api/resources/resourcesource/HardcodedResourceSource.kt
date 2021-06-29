@@ -44,5 +44,4 @@ class HardcodedResourceSource(
             }
             .toList()
     }
-
 }

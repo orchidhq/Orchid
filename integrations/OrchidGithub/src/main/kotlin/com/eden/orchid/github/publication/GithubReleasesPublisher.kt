@@ -65,7 +65,7 @@ constructor(
                         "body" to version?.content,
                         "prerelease" to prerelease
                     ).also {
-                        if(commitish.isNotBlank()) {
+                        if (commitish.isNotBlank()) {
                             it["target_commitish"] = commitish
                         }
                     }

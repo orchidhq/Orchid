@@ -26,5 +26,3 @@ class KssSectionResource(
     override val embeddedData: Map<String, Any?>
         get() = merge(styleguideSection.tags, super.embeddedData) ?: emptyMap()
 }
-
-

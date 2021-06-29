@@ -1,15 +1,6 @@
 package com.eden.orchid.api.theme.assets
 
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.options.annotations.BooleanDefault
-import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.resources.resource.OrchidResource
-import com.eden.orchid.api.resources.resource.StringResource
-import com.eden.orchid.api.theme.pages.OrchidReference
-import com.eden.orchid.utilities.OrchidUtils
-import java.util.ArrayList
-import java.util.stream.Collectors
-import javax.inject.Inject
 
 class AssetManagerDelegate(
     internal val context: OrchidContext,
@@ -25,11 +16,11 @@ class AssetManagerDelegate(
     val allAssets: List<AssetPage> get() = assets
 
 // Add whole pages
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @JvmOverloads
     fun addCss(resourceName: String, configure: (CssPageAttributes.() -> Unit)? = null): CssPage {
-        val extraCss = if(configure != null) {
+        val extraCss = if (configure != null) {
             ExtraCss().also {
                 it.extractOptions(context, emptyMap())
                 it.configure()
@@ -49,7 +40,7 @@ class AssetManagerDelegate(
 
     @JvmOverloads
     fun addJs(resourceName: String, configure: (JsPageAttributes.() -> Unit)? = null): JsPage {
-        val extraJs = if(configure != null) {
+        val extraJs = if (configure != null) {
             ExtraJs().also {
                 it.extractOptions(context, emptyMap())
                 it.configure()
@@ -71,5 +62,3 @@ class AssetManagerDelegate(
         return "AssetManagerDelegate(source=$source, sourceKey='$sourceKey', prefix=$prefix)"
     }
 }
-
-

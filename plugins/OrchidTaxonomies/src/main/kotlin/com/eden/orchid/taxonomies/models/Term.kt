@@ -43,7 +43,7 @@ class Term(val key: String) : OptionsHolder {
     @Description("The displayed title of the Term. Defaults to the un-camelCased Term key.")
     var title: String = ""
         get() {
-            return if(!EdenUtils.isEmpty(field)) field else key from { camelCase() } to { titleCase() }
+            return if (!EdenUtils.isEmpty(field)) field else key from { camelCase() } to { titleCase() }
         }
 
     val landingPage: OrchidPage
@@ -59,7 +59,7 @@ class Term(val key: String) : OptionsHolder {
     var allPages: List<OrchidPage> = ArrayList()
         private set
         get() {
-            if(field.isEmpty() && pages.isNotEmpty()) {
+            if (field.isEmpty() && pages.isNotEmpty()) {
                 var sortedList = pages.toList()
 
                 var comparator: Comparator<OrchidPage>? = null
@@ -69,7 +69,6 @@ class Term(val key: String) : OptionsHolder {
                             compareBy { it.getSingleTermValue(prop) }
                         else
                             comparator!!.thenBy { it.getSingleTermValue(prop) }
-
                     }
                 } else {
                     comparator = compareBy<OrchidPage> { it.publishDate }.thenBy { it.title }
@@ -88,5 +87,4 @@ class Term(val key: String) : OptionsHolder {
         get() {
             return JSONObject(allData)
         }
-
 }

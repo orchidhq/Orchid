@@ -1,6 +1,5 @@
 package com.eden.orchid.github.publication
 
-import clog.Clog
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
@@ -10,14 +9,14 @@ import com.eden.orchid.api.publication.AbstractGitPublisher
 import com.eden.orchid.api.util.GitFacade
 import com.eden.orchid.api.util.GitRepoFacade
 import com.eden.orchid.api.util.addFile
-import java.net.URI
 import java.net.URL
 import javax.inject.Inject
 import javax.inject.Named
 import javax.validation.constraints.NotBlank
 
 @Description(
-    value = "Commit your site directly to Github Pages. It can even keep old versions of your site for versioning documentation.",
+    value = "Commit your site directly to Github Pages. It can even keep old versions of your site for versioning" +
+        " documentation.",
     name = "Github Pages"
 )
 class GithubPagesPublisher
@@ -53,14 +52,14 @@ constructor(
     @BooleanDefault(true)
     @Description(
         "Whether to have Orchid add the `CNAME` file automatically. A CNAME will be added to the deployment when " +
-                "all of the following criteria are met:\n" +
-                "  1) The `addCnameFile` flag is set to true\n" +
-                "  2) A CNAME file does not already exist in the generated site root\n" +
-                "  3) The site's base URL is not a `.github.io` URL\n"
+            "all of the following criteria are met:\n" +
+            "  1) The `addCnameFile` flag is set to true\n" +
+            "  2) A CNAME file does not already exist in the generated site root\n" +
+            "  3) The site's base URL is not a `.github.io` URL\n"
     )
     var addCnameFile: Boolean = true
 
-    private fun getGithubRepo() : Pair<String, String> {
+    private fun getGithubRepo(): Pair<String, String> {
         val repoParts = repo.split("/".toRegex())
         val repoUsername = if (repoParts.size == 2) repoParts[0] else username
         val repoName = if (repoParts.size == 2) repoParts[1] else repoParts[0]
@@ -95,5 +94,4 @@ constructor(
             )
         }
     }
-
 }

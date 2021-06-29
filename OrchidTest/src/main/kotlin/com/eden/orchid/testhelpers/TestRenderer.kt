@@ -21,8 +21,9 @@ class TestRenderer : OrchidRenderer {
         if (EdenUtils.isEmpty(OrchidUtils.normalizePath(page.reference.outputExtension))) {
             outputName = OrchidUtils.normalizePath(page.reference.fileName)
         } else {
-            outputName =
-                OrchidUtils.normalizePath(page.reference.fileName) + "." + OrchidUtils.normalizePath(page.reference.outputExtension)
+            outputName = OrchidUtils.normalizePath(page.reference.fileName) +
+                "." +
+                OrchidUtils.normalizePath(page.reference.outputExtension)
         }
 
         val fullFilePath = "/" + OrchidUtils.normalizePath("$outputPath/$outputName")
@@ -58,7 +59,11 @@ class TestRenderer : OrchidRenderer {
         val collectionId = origin.collectionId
 
         override fun toString(): String {
-            return "TestIndexedCollection(origin=$origin, evaluated=$evaluated, collectionType='$collectionType', collectionId=$collectionId)"
+            return "TestIndexedCollection(" +
+                "origin=$origin, " +
+                "evaluated=$evaluated, " +
+                "collectionType='$collectionType', " +
+                "collectionId=$collectionId)"
         }
     }
 }

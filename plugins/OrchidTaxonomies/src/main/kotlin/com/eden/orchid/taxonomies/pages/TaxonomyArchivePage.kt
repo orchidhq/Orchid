@@ -24,6 +24,4 @@ open class TaxonomyArchivePage(
     override fun getTemplates(): List<String> {
         return listOf("${this.key}-${taxonomy.key}")
     }
-
 }
-

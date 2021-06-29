@@ -9,7 +9,6 @@ import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
 import com.eden.orchid.javadoc.models.JavaDocModuleConfig
 import com.eden.orchid.sourcedoc.SourcedocGenerator
 import javax.inject.Inject
-import javax.inject.Named
 
 class NewJavadocGenerator
 @Inject

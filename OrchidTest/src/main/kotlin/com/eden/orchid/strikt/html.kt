@@ -1,6 +1,5 @@
 package com.eden.orchid.strikt
 
-import com.eden.orchid.utilities.applyIf
 import kotlinx.html.DETAILS
 import kotlinx.html.HTMLTag
 import kotlinx.html.HtmlBlockTag
@@ -8,7 +7,6 @@ import kotlinx.html.HtmlTagMarker
 import kotlinx.html.TagConsumer
 import kotlinx.html.attributesMapOf
 import kotlinx.html.visit
-import org.jsoup.Jsoup
 import org.jsoup.nodes.Comment
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Node
@@ -94,8 +92,7 @@ object CommentFilter : NodeFilter {
 }
 
 open class SUMMARY(initialAttributes: Map<String, String>, override val consumer: TagConsumer<*>) :
-    HTMLTag("summary", consumer, initialAttributes, null, false, false), HtmlBlockTag {
-}
+    HTMLTag("summary", consumer, initialAttributes, null, false, false), HtmlBlockTag
 
 @HtmlTagMarker
 fun DETAILS.summary(classes: String? = null, block: SUMMARY.() -> Unit = {}): Unit =

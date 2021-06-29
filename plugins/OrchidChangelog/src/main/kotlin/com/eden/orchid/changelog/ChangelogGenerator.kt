@@ -34,8 +34,10 @@ class ChangelogGenerator : OrchidGenerator<ChangelogModel>(GENERATOR_KEY, Stage.
 
     @Option
     @Description(
-        "The properties of your format to order by as keys, with their type as values. The values should be " +
-                "one of [string, number]"
+        """
+        The properties of your format to order by as keys, with their type as values. The values should be 
+        one of [string, number]
+        """
     )
     lateinit var orderBy: JSONObject
 
@@ -51,28 +53,39 @@ class ChangelogGenerator : OrchidGenerator<ChangelogModel>(GENERATOR_KEY, Stage.
 
         if (orderBy.keySet().size == 0) {
             orderBy = JSONObject()
-            orderBy.put("major", with(JSONObject()) {
-                put("type", "number")
-                put("order", 1)
-            })
-            orderBy.put("minor", with(JSONObject()) {
-                put("type", "number")
-                put("order", 2)
-            })
-            orderBy.put("patch", with(JSONObject()) {
-                put("type", "number")
-                put("order", 3)
-            })
+            orderBy.put(
+                "major",
+                JSONObject().apply {
+                    put("type", "number")
+                    put("order", 1)
+                }
+            )
+            orderBy.put(
+                "minor",
+                JSONObject().apply {
+                    put("type", "number")
+                    put("order", 2)
+                }
+            )
+            orderBy.put(
+                "patch",
+                JSONObject().apply {
+                    put("type", "number")
+                    put("order", 3)
+                }
+            )
         }
 
         val orderByList = ArrayList<JSONObject>()
         orderBy.keySet()
             .forEach { key ->
-                orderByList.add(with(JSONObject()) {
-                    put("key", key)
-                    put("type", orderBy.getJSONObject(key).getString("type"))
-                    put("order", orderBy.getJSONObject(key).getInt("order"))
-                })
+                orderByList.add(
+                    JSONObject().apply {
+                        put("key", key)
+                        put("type", orderBy.getJSONObject(key).getString("type"))
+                        put("order", orderBy.getJSONObject(key).getInt("order"))
+                    }
+                )
             }
 
         // order versions

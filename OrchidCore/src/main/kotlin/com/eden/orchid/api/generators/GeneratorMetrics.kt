@@ -21,8 +21,8 @@ constructor(
 
     private var pageGenerationTimes = mutableListOf<Long>()
 
-    // Get formatted values
-    //----------------------------------------------------------------------------------------------------------------------
+// Get formatted values
+// ---------------------------------------------------------------------------------------------------------------------
 
     internal val indexingTime: Duration
         get() = (indexingEndTime - indexingStartTime).toDuration(DurationUnit.MILLISECONDS)

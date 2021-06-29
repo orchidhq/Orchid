@@ -15,7 +15,7 @@ import com.eden.orchid.api.theme.models.SiteSocial
 import com.eden.orchid.impl.relations.PageRelation
 import javax.inject.Inject
 
-@Description("A Bulma-based, any-purpose theme.", name="Copper")
+@Description("A Bulma-based, any-purpose theme.", name = "Copper")
 @Archetype(value = ConfigArchetype::class, key = "Copper")
 class CopperTheme
 @Inject
@@ -93,7 +93,7 @@ constructor(context: OrchidContext) : Theme(context, "Copper") {
     }
 
     fun getLayoutConfig(layoutName: String, data: Map<String, Any>?): Any? {
-        return when(layoutName) {
+        return when (layoutName) {
             "homepage" -> CopperHomepageLayoutConfig().also { it.extractOptions(context, data) }
             else -> CopperSidebarLayoutConfig().also { it.extractOptions(context, data) }
         }
@@ -141,7 +141,6 @@ class CopperThemeColors : OptionsHolder {
     @Option
     @StringDefault("#ffffff")
     lateinit var white: String
-
 }
 
 class CopperThemePalette : OptionsHolder {
@@ -185,7 +184,6 @@ class CopperThemePalette : OptionsHolder {
     @Option
     @StringDefault("WHITE")
     lateinit var white: CopperThemeColorName
-
 }
 
 enum class CopperThemeColorName(val variableName: String) {
@@ -208,7 +206,6 @@ enum class CopperThemeColorName(val variableName: String) {
 enum class CopperThemeSidebarBackgroundType {
 
     IMAGE, GRADIENT, SOLID
-
 }
 
 class CopperSidebarLayoutConfig : OptionsHolder {
@@ -235,6 +232,4 @@ class CopperSidebarLayoutConfig : OptionsHolder {
     lateinit var pageContentsMenu: OrchidMenu
 }
 
-class CopperHomepageLayoutConfig : OptionsHolder {
-
-}
+class CopperHomepageLayoutConfig : OptionsHolder

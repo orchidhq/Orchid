@@ -56,16 +56,17 @@ class PagesMenuType : OrchidMenuFactory("pages") {
                 submenuTitle = "Pages"
             }
         }
-        menuItems.addAll(pages.map {
-            MenuItem.Builder(context)
-                .page(it)
-                .indexComparator(menuItemComparator)
-                .build()
-        })
+        menuItems.addAll(
+            pages.map {
+                MenuItem.Builder(context)
+                    .page(it)
+                    .indexComparator(menuItemComparator)
+                    .build()
+            }
+        )
 
         menuItems.sortWith(menuItemComparator)
 
         return menuItems
     }
 }
-

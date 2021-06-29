@@ -8,7 +8,6 @@ import com.eden.orchid.api.server.OrchidController
 import com.eden.orchid.api.server.OrchidRequest
 import com.eden.orchid.api.server.OrchidResponse
 import com.eden.orchid.api.server.OrchidView
-import com.eden.orchid.api.server.annotations.AdminPage
 import com.eden.orchid.api.server.annotations.Get
 import com.eden.orchid.utilities.SuppressedWarnings
 import java.net.URLEncoder
@@ -18,7 +17,7 @@ import javax.inject.Inject
 class AdminController
 @Inject
 constructor(
-        val context: OrchidContext
+    val context: OrchidContext
 ) : OrchidController(1000) {
 
     @Get(path = "/admin")
@@ -44,9 +43,7 @@ constructor(
                 view.breadcrumbs = arrayOf("describe", classType.`package`.name)
                 view.params = params
                 return OrchidResponse(context).view(view)
-            }
-            catch (e: Exception) {
-
+            } catch (e: Exception) {
             }
         }
 
@@ -58,11 +55,9 @@ constructor(
 
         try {
             return context.baseUrl + "/admin/describe?className=" + URLEncoder.encode(className.name, "UTF-8")
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
             return ""
         }
     }
-
 }

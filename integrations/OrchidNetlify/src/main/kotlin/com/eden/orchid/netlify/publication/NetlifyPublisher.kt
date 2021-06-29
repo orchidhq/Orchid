@@ -45,21 +45,24 @@ constructor(
 ) : OrchidPublisher("netlify") {
 
     @Option
-    @Description("Your Netlify site ID or domain (ie. orchid.netlify.com, orchid.run). If not provided, your site's baseUrl will be used.")
+    @Description(
+        "Your Netlify site ID or domain (ie. orchid.netlify.com, orchid.run). If not provided, your site's " +
+            "baseUrl will be used."
+    )
     lateinit var siteId: String
 
     override fun validate(context: OrchidContext): Boolean {
         var valid = super.validate(context)
 
-        if(siteId.isBlank()) {
+        if (siteId.isBlank()) {
             // siteId not provided, use the baseUrl instead
             try {
                 siteId = URL(context.baseUrl).host
+            } catch (e: Exception) {
             }
-            catch (e: Exception) { }
         }
 
-        if(siteId.isBlank()) {
+        if (siteId.isBlank()) {
             throw ValidationException("A valid siteId must be provided.")
         }
 
@@ -111,20 +114,25 @@ constructor(
      */
     private fun startDeploySite(
         files: Map<String, MutableList<Pair<String, File>>>
-    ) : CreateSiteResponse {
+    ): CreateSiteResponse {
         val body = JSONObject()
         body.put("async", true)
-        body.put("files", JSONObject().apply {
-            for((sha1, filePairs) in files) {
-                for(filePair in filePairs) {
-                    this.put(filePair.first,  sha1)
+        body.put(
+            "files",
+            JSONObject().apply {
+                for ((sha1, filePairs) in files) {
+                    for (filePair in filePairs) {
+                        this.put(filePair.first, sha1)
+                    }
                 }
             }
-        })
+        )
 
         val requiredFilesResponse = body.postTo("sites/$siteId/deploys").call(client)
         if (!requiredFilesResponse.first) {
-            throw RuntimeException("something went wrong attempting to deploy to Netlify: " + requiredFilesResponse.second)
+            throw RuntimeException(
+                "something went wrong attempting to deploy to Netlify: " + requiredFilesResponse.second
+            )
         }
 
         val required = JSONObject(requiredFilesResponse.second)
@@ -141,15 +149,16 @@ constructor(
     }
 
     /**
-     * Poll for a while until either the site is ready or a timeout is reached. That timeout is proportional to the number of files being uploaded.
+     * Poll for a while until either the site is ready or a timeout is reached. That timeout is proportional to the
+     * number of files being uploaded.
      */
     private fun pollUntilDeployIsReady(response: CreateSiteResponse): CreateSiteResponse {
         val timeout = (30 * 1000) + (response.originalFilesCount * 50) // give timeout of 30s + 50ms * (number of files)
         val startTime = System.currentTimeMillis()
 
-        while(true) {
+        while (true) {
             val now = System.currentTimeMillis()
-            if((now - startTime) > timeout) break
+            if ((now - startTime) > timeout) break
 
             val requiredFilesResponse = getFrom("sites/$siteId/deploys/${response.deployId}").call(client)
 
@@ -157,12 +166,12 @@ constructor(
 
             val deployState = required.getString("state")
 
-            if(deployState == "prepared" && (required.has("required") || required.has("required_functions"))) {
-                val requiredFiles = required.optJSONArray("required")?.filterNotNull()?.map { it.toString() } ?: emptyList()
+            if (deployState == "prepared" && (required.has("required") || required.has("required_functions"))) {
+                val requiredFiles =
+                    required.optJSONArray("required")?.filterNotNull()?.map { it.toString() } ?: emptyList()
 
                 return response.copy(requiredFiles = requiredFiles)
-            }
-            else {
+            } else {
                 Clog.d("        Deploy still processing, trying again in {}", 5000.milliseconds)
                 Thread.sleep(5000)
             }
@@ -185,7 +194,12 @@ constructor(
             .parallelStream()
             .forEach { fileToUpload ->
                 val path = OrchidUtils.getRelativeFilename(fileToUpload.absolutePath, destinationDir)
-                Clog.d("Netlify FILE UPLOAD {}/{}: {}", response.uploadedFilesCount + 1, response.toUploadFilesCount, path)
+                Clog.d(
+                    "Netlify FILE UPLOAD {}/{}: {}",
+                    response.uploadedFilesCount + 1,
+                    response.toUploadFilesCount,
+                    path
+                )
                 fileToUpload.uploadTo("deploys/${response.deployId}/files/$path").call(client)
                 response.uploadedFilesCount++
             }
@@ -221,7 +235,7 @@ constructor(
             .header("Authorization", "Bearer $netlifyToken")
     }
 
-    private fun Request.call(client: OkHttpClient) : Pair<Boolean, String> {
+    private fun Request.call(client: OkHttpClient): Pair<Boolean, String> {
         val response = client
             .newCall(this)
             .execute()
@@ -242,9 +256,12 @@ constructor(
 
     private fun Response.timeoutRateLimit(): Response {
         try {
-            val rateLimitLimit = header("X-Ratelimit-Limit")?.toIntOrNull() ?: header("X-RateLimit-Limit")?.toIntOrNull() ?: 1
-            val rateLimitRemaining = header("X-Ratelimit-Remaining")?.toIntOrNull() ?: header("X-RateLimit-Remaining")?.toIntOrNull() ?: 1
-            val rateLimitReset = SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z").parse(header("X-Ratelimit-Reset")!!).toInstant()
+            val rateLimitLimit =
+                header("X-Ratelimit-Limit")?.toIntOrNull() ?: header("X-RateLimit-Limit")?.toIntOrNull() ?: 1
+            val rateLimitRemaining =
+                header("X-Ratelimit-Remaining")?.toIntOrNull() ?: header("X-RateLimit-Remaining")?.toIntOrNull() ?: 1
+            val rateLimitReset =
+                SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z").parse(header("X-Ratelimit-Reset")!!).toInstant()
             val current = Instant.now()
             val d = Duration.between(rateLimitReset, current)
 
@@ -254,7 +271,8 @@ constructor(
                 Clog.d("        Rate limit running low, sleeping for {}", totalMillis.toDuration(TimeUnit.MILLISECONDS))
                 Thread.sleep(totalMillis)
             }
-        } catch (e: Exception) { }
+        } catch (e: Exception) {
+        }
 
         return this
     }
@@ -284,7 +302,7 @@ private data class CreateSiteResponse(
 
     var uploadedFilesCount = 0
 
-    fun getFiles(sha1: String) : List<File> {
+    fun getFiles(sha1: String): List<File> {
         return originalFiles.getOrDefault(sha1, ArrayList()).map { it.second }
     }
 }

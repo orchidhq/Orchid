@@ -20,7 +20,8 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
     @BeforeEach
     fun setUp() {
         resource(
-            "templates/layouts/index.peb", """
+            "templates/layouts/index.peb",
+            """
             <!DOCTYPE HTML>
             <html>
             <head>
@@ -41,7 +42,8 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
         )
 
         resource(
-            "templates/includes/menuItem.peb", """
+            "templates/includes/menuItem.peb",
+            """
             {% if menuItem.hasChildren %}
                 <li>
                     <span class="submenu">{{ menuItem.title | title }}</span>
@@ -72,7 +74,8 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
         configObject("theme", """{"menu": [{"type": "pageIds"}]}""")
 
         resource(
-            "pages/page-one.md", """
+            "pages/page-one.md",
+            """
             | # Header 1
             |
             | ## Header 1-1
@@ -118,7 +121,8 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
         configObject("theme", """{"menu": [{"type": "pageIds", "structure": "nested"}]}""")
 
         resource(
-            "pages/page-one.md", """
+            "pages/page-one.md",
+            """
             | # Header 1
             |
             | ## Header 1-1
@@ -182,7 +186,8 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
         )
 
         resource(
-            "pages/page-one.md", """
+            "pages/page-one.md",
+            """
             | # Header 1
             |
             | ## Header 1-1
@@ -236,7 +241,8 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
         )
 
         resource(
-            "pages/page-one.md", """
+            "pages/page-one.md",
+            """
             | # Header 1
             |
             | ## Header 1-1
@@ -279,5 +285,4 @@ class PageIdsMenuItemTest : OrchidIntegrationTest(PagesModule()) {
                 }
             }
     }
-
 }

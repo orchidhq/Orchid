@@ -34,6 +34,4 @@ class SwaggerComponent : OrchidComponent("swaggerUi") {
         addJs("https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/$swaggerUiVersion/swagger-ui-standalone-preset.js")
         addJs("assets/js/swaggerUiStart.js") { inlined = true }
     }
-
 }
-

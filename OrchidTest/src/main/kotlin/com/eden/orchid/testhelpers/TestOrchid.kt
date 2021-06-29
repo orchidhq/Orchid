@@ -54,7 +54,7 @@ class TestOrchid {
             actualFlags["baseUrl"] = "http://orchid.test"
         }
         if (!actualFlags.containsKey("dest")) {
-            actualFlags["dest"] =  "./build/orchid/test"
+            actualFlags["dest"] = "./build/orchid/test"
         }
 
         // setup original modules
@@ -102,9 +102,7 @@ class TestOrchid {
             val manager = injector.getInstance(OrchidSecurityManager::class.java)
             System.setSecurityManager(manager)
         } catch (e: Exception) {
-
         }
         return context
     }
-
 }

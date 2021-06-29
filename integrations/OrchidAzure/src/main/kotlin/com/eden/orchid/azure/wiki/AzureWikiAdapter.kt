@@ -18,5 +18,4 @@ constructor(
     override fun loadWikiPages(section: WikiSection): Pair<WikiSummaryPage, List<WikiPage>>? {
         TODO()
     }
-
 }

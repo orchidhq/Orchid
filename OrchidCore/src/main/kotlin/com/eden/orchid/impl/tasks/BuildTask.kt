@@ -11,5 +11,4 @@ class BuildTask : OrchidTask("build", TaskService.TaskType.BUILD) {
     override fun run(context: OrchidContext) {
         context.build()
     }
-
 }

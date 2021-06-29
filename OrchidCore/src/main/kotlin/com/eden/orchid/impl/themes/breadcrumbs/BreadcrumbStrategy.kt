@@ -7,5 +7,4 @@ import com.google.inject.ImplementedBy
 interface BreadcrumbStrategy {
 
     fun getBreadcrumbs(page: OrchidPage): List<Breadcrumb>
-
 }

@@ -12,16 +12,17 @@ import com.eden.orchid.wiki.WikiGenerator
 import com.eden.orchid.wiki.WikiSectionArchetype
 
 @Archetypes(
-        Archetype(value = WikiSectionArchetype::class, key = WikiGenerator.GENERATOR_KEY),
-        Archetype(value = ConfigArchetype::class, key = "${WikiGenerator.GENERATOR_KEY}.wikiPages")
+    Archetype(value = WikiSectionArchetype::class, key = WikiGenerator.GENERATOR_KEY),
+    Archetype(value = ConfigArchetype::class, key = "${WikiGenerator.GENERATOR_KEY}.wikiPages")
 )
 @Description(value = "An entry in your wiki.", name = "Wiki")
 class WikiPage(
-        resource: OrchidResource,
-        title: String,
-        var section: String?,
-        val order: Int)
-    : OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "wiki", title) {
+    resource: OrchidResource,
+    title: String,
+    var section: String?,
+    val order: Int
+) :
+    OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "wiki", title) {
 
     lateinit var sectionSummary: WikiSummaryPage
 
@@ -31,7 +32,5 @@ class WikiPage(
     }
 
     override fun initialize(title: String?) {
-
     }
-
 }

@@ -4,7 +4,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.forms.model.FormField
 
-@Description("A checkbox, for boolean true/false input.", name="Checkbox")
+@Description("A checkbox, for boolean true/false input.", name = "Checkbox")
 class CheckboxField : FormField(arrayOf("checkbox")) {
 
     @Option
@@ -14,5 +14,4 @@ class CheckboxField : FormField(arrayOf("checkbox")) {
     override fun getTemplates(): List<String> {
         return super.getTemplates().toMutableList()
     }
-
 }

@@ -1,8 +1,6 @@
 package com.eden.orchid.strikt
 
 import com.eden.orchid.testhelpers.OrchidUnitTest
-import kotlinx.html.div
-import kotlinx.html.p
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.Assertion
@@ -13,7 +11,6 @@ import strikt.assertions.isEqualTo
 import strikt.assertions.isFailure
 import strikt.assertions.isNotNull
 import strikt.assertions.isSuccess
-import javax.management.Query.div
 
 class StriktHtmlTest : OrchidUnitTest {
 
@@ -49,26 +46,26 @@ class StriktHtmlTest : OrchidUnitTest {
         """.trimIndent()
 
         expectCatching {
-                expectThat(html)
-                    .asHtml()
-                    .select(".c1 .c2 p") {
-                        matches()
-                            .attr("attr-key") {
-                                isEqualTo("value")
-                            }
-                    }
-            }.isSuccess()
+            expectThat(html)
+                .asHtml()
+                .select(".c1 .c2 p") {
+                    matches()
+                        .attr("attr-key") {
+                            isEqualTo("value")
+                        }
+                }
+        }.isSuccess()
 
         expectCatching {
-                expectThat(html)
-                    .asHtml()
-                    .select(".c1 .c2 p") {
-                        matches()
-                            .attr("attr-key") {
-                                isEqualTo("other value")
-                            }
-                    }
-            }.isFailure().isA<AssertionError>()
+            expectThat(html)
+                .asHtml()
+                .select(".c1 .c2 p") {
+                    matches()
+                        .attr("attr-key") {
+                            isEqualTo("other value")
+                        }
+                }
+        }.isFailure().isA<AssertionError>()
             .get { message }
             .isNotNull()
             .checkAndLog(

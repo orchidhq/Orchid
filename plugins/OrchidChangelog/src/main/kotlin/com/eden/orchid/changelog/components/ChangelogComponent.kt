@@ -11,5 +11,4 @@ class ChangelogComponent : OrchidComponent("changelog") {
     val model: ChangelogModel by lazy {
         context.resolve<ChangelogModel>()
     }
-
 }

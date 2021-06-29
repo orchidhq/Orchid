@@ -9,7 +9,7 @@ import com.eden.orchid.taxonomies.models.Term
 
 @Description(
     "A Taxonomy Collection represents all the pages that have a given term value. The 'itemId' matches a " +
-            "specific term, while the 'collectionId' represents the taxonomy the term is from."
+        "specific term, while the 'collectionId' represents the taxonomy the term is from."
 )
 open class TaxonomyTermsLandingPagesCollection(
     generator: TaxonomiesGenerator,

@@ -21,5 +21,4 @@ class GroovydocModule() : OrchidModule() {
             cacheDir = OrchidUtils.getCacheDir("sourcedoc")
         )
     }
-
 }

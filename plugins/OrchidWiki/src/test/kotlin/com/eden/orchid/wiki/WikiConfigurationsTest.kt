@@ -113,6 +113,4 @@ class WikiConfigurationsTest : OrchidIntegrationTest(WikiModule()) {
                 get { origin.layout }.isEqualTo("layoutfour")
             }
     }
-
-
 }

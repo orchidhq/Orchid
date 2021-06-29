@@ -13,7 +13,7 @@ constructor() : PermalinkPathType() {
 
     override fun acceptsKey(page: OrchidPage, key: String): Boolean {
         return key == "archiveIndex" &&
-                (page is TaxonomyArchivePage || page is TermArchivePage || page is CollectionArchivePage)
+            (page is TaxonomyArchivePage || page is TermArchivePage || page is CollectionArchivePage)
     }
 
     override fun format(page: OrchidPage, key: String): String? {
@@ -24,6 +24,4 @@ constructor() : PermalinkPathType() {
 
         return if (index == 0) null else if (index == 1) "" else "$index"
     }
-
 }
-

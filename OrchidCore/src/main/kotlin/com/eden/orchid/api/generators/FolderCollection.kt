@@ -5,8 +5,8 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 
 @Description(
     "A Folder Collection represents a collection of OrchidPages that are located as a batch from a " +
-            "specified folder in your resources. A page is matched from a Folder Collection with an \'itemId\' " +
-            "matching the page\'s title."
+        "specified folder in your resources. A page is matched from a Folder Collection with an \'itemId\' " +
+        "matching the page\'s title."
 )
 open class FolderCollection(
     generator: OrchidGenerator<*>,

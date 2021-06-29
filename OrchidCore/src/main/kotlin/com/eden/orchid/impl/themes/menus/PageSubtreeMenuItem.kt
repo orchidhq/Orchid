@@ -9,7 +9,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 
 @Description(
     "The subtree of all pages starting at a page in your site, referenced from a Collection. If no page " +
-            "query is given, will use the current page. The subtree is defined as the Index at the page's path.",
+        "query is given, will use the current page. The subtree is defined as the Index at the page's path.",
     name = "Page Sub-Tree"
 )
 class PageSubtreeMenuItem : OrchidMenuFactory("pageSubtree") {

@@ -94,7 +94,7 @@ class StyleguideSection(val raw: String, val filename: String) {
                 this.name = section
             } else {
                 description += section + "\n"
-            }// we already did the name, start adding to the description
+            } // we already did the name, start adding to the description
         }
     }
 
@@ -134,9 +134,8 @@ class StyleguideSection(val raw: String, val filename: String) {
         return false
     }
 
-
 // Implementation Helpers
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     private fun isSectionReferenceCommentLine(section: String): Boolean {
         return KssParser.STYLEGUIDE_PATTERN.matcher(section).find()
@@ -179,7 +178,7 @@ class StyleguideSection(val raw: String, val filename: String) {
             val indent = match.length
 
             if (lastIndent != null && indent > lastIndent) {
-                //?
+                // ?
             } else {
                 val name = modifierLine.split(" - ")[0].trim()
                 val desc = modifierLine.split(" - ")[1].trim()
@@ -197,5 +196,3 @@ class StyleguideSection(val raw: String, val filename: String) {
         internal val TAGGED_SECTION_REGEX = "(?s)(^\\w*):(.*)"
     }
 }
-
-

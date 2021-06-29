@@ -31,5 +31,4 @@ class TabsTag : TemplateTag("tabs", Type.Tabbed, true) {
 
         override fun parameters() = arrayOf(::title.name)
     }
-
 }

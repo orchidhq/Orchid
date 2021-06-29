@@ -29,7 +29,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
     }
 
 // Tests
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisabledForJreRange(min = JRE.JAVA_12)
@@ -133,7 +133,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
 
     @Test
     fun `Single-module all kinds`() {
-        if(JRE.JAVA_12.isCurrentVersion) {
+        if (JRE.JAVA_12.isCurrentVersion) {
             javadocSetup()
         }
         groovydocSetup()
@@ -174,7 +174,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
             .addWhen(JRE.JAVA_12.isCurrentVersion) { withGenerator<NewJavadocGenerator>() }
             .addWhen(OS.MAC.isCurrentOs) { withGenerator<NewSwiftdocGenerator>() }
 
-        if(JRE.JAVA_12.isCurrentVersion) {
+        if (JRE.JAVA_12.isCurrentVersion) {
             javadocSetup(modules)
         }
         groovydocSetup(modules)

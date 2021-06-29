@@ -76,5 +76,4 @@ class FileResourceSourceTest : OrchidUnitTest {
             .map { it.getContentStream().readToString()?.trim() }
             .containsExactlyInAnyOrder(expectedFilenames.split(",").map { it.trim() })
     }
-
 }

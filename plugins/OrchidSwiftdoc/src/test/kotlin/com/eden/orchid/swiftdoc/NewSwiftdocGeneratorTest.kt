@@ -48,5 +48,4 @@ class NewSwiftdocGeneratorTest : OrchidIntegrationTest(SwiftdocModule(), SourceD
             .pageWasRendered("/favicon.ico")
             .nothingElseRendered()
     }
-
 }

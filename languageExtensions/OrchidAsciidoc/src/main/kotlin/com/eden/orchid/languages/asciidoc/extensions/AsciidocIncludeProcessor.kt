@@ -27,7 +27,9 @@ constructor(
         attributes: MutableMap<String, Any>?
     ) {
         // first try looking for the target in normal site resources
-        val resolvedResource = context.getDefaultResourceSource(LocalResourceSource, null).getResourceEntry(context, target ?: "")
+        val resolvedResource = context
+            .getDefaultResourceSource(LocalResourceSource, null)
+            .getResourceEntry(context, target ?: "")
         if (resolvedResource != null) {
             handleIncludeContent(
                 reader,
@@ -99,9 +101,8 @@ constructor(
         }
     }
 
-
 // Include by lines
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     fun getActualLines(lines: List<String>, attribute: String): List<Int> {
         val size = lines.size
@@ -141,7 +142,7 @@ constructor(
     }
 
 // Include by tags
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     fun getIncludedTags(resolvedContent: String, attribute: String, single: Boolean): String {
         val taggedSections = getTaggedSections(resolvedContent)

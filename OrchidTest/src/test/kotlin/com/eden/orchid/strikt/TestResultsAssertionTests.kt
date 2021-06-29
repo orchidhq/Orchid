@@ -45,28 +45,28 @@ class TestResultsAssertionTests : OrchidUnitTest {
     @DisplayName("something did render, the `somethingRendered` assertion should not throw")
     fun test01() {
         expectCatching {
-                expectThat(
-                    TestResults(
-                        context,
-                        mapOf(testRenderedPage()),
-                        emptyList(),
-                        true,
-                        null
-                    )
-                ).somethingRendered()
-            }.isSuccess()
+            expectThat(
+                TestResults(
+                    context,
+                    mapOf(testRenderedPage()),
+                    emptyList(),
+                    true,
+                    null
+                )
+            ).somethingRendered()
+        }.isSuccess()
 
         expectCatching {
-                expectThat(
-                    TestResults(
-                        context,
-                        emptyMap(),
-                        emptyList(),
-                        true,
-                        null
-                    )
-                ).somethingRendered()
-            }.isFailure().isA<AssertionFailedError>()
+            expectThat(
+                TestResults(
+                    context,
+                    emptyMap(),
+                    emptyList(),
+                    true,
+                    null
+                )
+            ).somethingRendered()
+        }.isFailure().isA<AssertionFailedError>()
             .get { message }
             .isNotNull()
             .checkAndLog(
@@ -77,16 +77,16 @@ class TestResultsAssertionTests : OrchidUnitTest {
             )
 
         expectCatching {
-                expectThat(
-                    TestResults(
-                        context,
-                        mapOf(testRenderedPage()),
-                        emptyList(),
-                        false,
-                        null
-                    )
-                ).somethingRendered()
-            }.isFailure().isA<AssertionFailedError>()
+            expectThat(
+                TestResults(
+                    context,
+                    mapOf(testRenderedPage()),
+                    emptyList(),
+                    false,
+                    null
+                )
+            ).somethingRendered()
+        }.isFailure().isA<AssertionFailedError>()
             .get { message }
             .isNotNull()
             .checkAndLog(
@@ -97,16 +97,16 @@ class TestResultsAssertionTests : OrchidUnitTest {
             )
 
         expectCatching {
-                expectThat(
-                    TestResults(
-                        context,
-                        mapOf(testRenderedPage()),
-                        emptyList(),
-                        true,
-                        RuntimeException()
-                    )
-                ).somethingRendered()
-            }.isFailure().isA<AssertionFailedError>()
+            expectThat(
+                TestResults(
+                    context,
+                    mapOf(testRenderedPage()),
+                    emptyList(),
+                    true,
+                    RuntimeException()
+                )
+            ).somethingRendered()
+        }.isFailure().isA<AssertionFailedError>()
             .get { message }
             .isNotNull()
             .checkAndLog(
@@ -121,16 +121,16 @@ class TestResultsAssertionTests : OrchidUnitTest {
     @DisplayName("something did render, the `nothingRendered` assertion should not throw")
     fun test02() {
         expectCatching {
-                expectThat(
-                    TestResults(
-                        context,
-                        mapOf(testRenderedPage()),
-                        emptyList(),
-                        true,
-                        null
-                    )
-                ).nothingRendered()
-            }.isFailure().isA<AssertionFailedError>()
+            expectThat(
+                TestResults(
+                    context,
+                    mapOf(testRenderedPage()),
+                    emptyList(),
+                    true,
+                    null
+                )
+            ).nothingRendered()
+        }.isFailure().isA<AssertionFailedError>()
             .get { message }
             .isNotNull()
             .checkAndLog(
@@ -141,28 +141,28 @@ class TestResultsAssertionTests : OrchidUnitTest {
             )
 
         expectCatching {
-                expectThat(
-                    TestResults(
-                        context,
-                        emptyMap(),
-                        emptyList(),
-                        true,
-                        null
-                    )
-                ).nothingRendered()
-            }.isSuccess()
+            expectThat(
+                TestResults(
+                    context,
+                    emptyMap(),
+                    emptyList(),
+                    true,
+                    null
+                )
+            ).nothingRendered()
+        }.isSuccess()
 
         expectCatching {
-                expectThat(
-                    TestResults(
-                        context,
-                        mapOf(testRenderedPage()),
-                        emptyList(),
-                        false,
-                        null
-                    )
-                ).nothingRendered()
-            }.isFailure().isA<AssertionFailedError>()
+            expectThat(
+                TestResults(
+                    context,
+                    mapOf(testRenderedPage()),
+                    emptyList(),
+                    false,
+                    null
+                )
+            ).nothingRendered()
+        }.isFailure().isA<AssertionFailedError>()
             .get { message }
             .isNotNull()
             .checkAndLog(
@@ -173,16 +173,16 @@ class TestResultsAssertionTests : OrchidUnitTest {
             )
 
         expectCatching {
-                expectThat(
-                    TestResults(
-                        context,
-                        mapOf(testRenderedPage()),
-                        emptyList(),
-                        true,
-                        RuntimeException()
-                    )
-                ).nothingRendered()
-            }.isFailure().isA<AssertionFailedError>()
+            expectThat(
+                TestResults(
+                    context,
+                    mapOf(testRenderedPage()),
+                    emptyList(),
+                    true,
+                    RuntimeException()
+                )
+            ).nothingRendered()
+        }.isFailure().isA<AssertionFailedError>()
             .get { message }
             .isNotNull()
             .checkAndLog(
@@ -314,7 +314,7 @@ class TestResultsAssertionTests : OrchidUnitTest {
     @Test
     @DisplayName(
         "pageWasRendered tests that a page at a given URL was not rendered. For example, expecting that a " +
-                "page was a draft and never actually rendered."
+            "page was a draft and never actually rendered."
     )
     fun test06() {
         val underTest = TestResults(

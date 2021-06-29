@@ -9,7 +9,6 @@ import com.eden.orchid.testhelpers.withGenerator
 import kotlinx.html.a
 import kotlinx.html.br
 import kotlinx.html.div
-import kotlinx.html.em
 import kotlinx.html.hr
 import kotlinx.html.id
 import kotlinx.html.li
@@ -52,7 +51,7 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
     }
 
 // End use-cases
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test rendering a snippet with a TemplateFunction")
@@ -228,7 +227,7 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
     }
 
 // File Snippets Adapter
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test creating snippets from default `file` adapter config")
@@ -312,7 +311,7 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
     }
 
 // Embedded Snippets Adapter
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test creating snippets from default `embedded` adapter config")
@@ -591,7 +590,7 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
     }
 
 // Remote Snippets Adapter
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test creating snippets from configured `remote` adapter config, with single selector")
@@ -705,12 +704,12 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
                     hr()
 
                     ul {
-                        li { a(href="Home") { +"Home" } }
+                        li { a(href = "Home") { +"Home" } }
                         li {
-                            a(href="GettingStarted") { +"Getting Started" }
+                            a(href = "GettingStarted") { +"Getting Started" }
                             ul {
-                                li { a(href="Installation") { +"Installation" } }
-                                li { a(href="Configuration") { +"Configuration" } }
+                                li { a(href = "Installation") { +"Installation" } }
+                                li { a(href = "Configuration") { +"Configuration" } }
                             }
                         }
                     }
@@ -719,5 +718,4 @@ class SnippetsTest : OrchidIntegrationTest(SnippetsModule(), PluginDocsModule(),
                 }
             }
     }
-
 }

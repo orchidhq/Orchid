@@ -3,7 +3,7 @@ package com.eden.orchid.api.resources.resourcesource
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.OrchidResource
 
-interface FlexibleResourceSource : OrchidResourceSource{
+interface FlexibleResourceSource : OrchidResourceSource {
 
     /**
      * Locates a single matching template given a list of possible file extensions. The fileName passed here should not

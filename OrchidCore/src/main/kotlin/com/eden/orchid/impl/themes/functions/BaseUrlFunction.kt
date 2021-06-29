@@ -19,10 +19,9 @@ class BaseUrlFunction : TemplateFunction("baseUrl", true) {
     override fun apply(context: OrchidContext, page: OrchidPage?): Any? {
         val cleanedInput = OrchidUtils.normalizePath(input)
 
-        return if(context.baseUrl == "/") {
+        return if (context.baseUrl == "/") {
             "/$cleanedInput"
-        }
-        else {
+        } else {
             "${context.baseUrl}/$cleanedInput"
         }
     }

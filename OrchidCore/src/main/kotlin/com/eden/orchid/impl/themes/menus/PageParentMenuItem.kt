@@ -10,7 +10,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 
 @Description(
     "The parent of a page in your site, referenced from a Collection. If no page query is given, will use the " +
-            "current page. The parent page is the same as the next level up in the breadcrumb hierarchy.",
+        "current page. The parent page is the same as the next level up in the breadcrumb hierarchy.",
     name = "Page Parent"
 )
 class PageParentMenuItem : OrchidMenuFactory("pageParent") {

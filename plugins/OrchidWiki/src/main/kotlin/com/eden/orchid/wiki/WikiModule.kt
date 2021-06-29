@@ -25,8 +25,8 @@ class WikiModule : OrchidModule() {
         addToSet<OrchidGenerator<*>, WikiGenerator>()
         addToSet<WikiAdapter, OrchidWikiAdapter>()
         addToSet<OrchidMenuFactory>(
-                WikiPagesMenuItemType::class,
-                WikiSectionsMenuItemType::class)
+            WikiPagesMenuItemType::class,
+            WikiSectionsMenuItemType::class
+        )
     }
 }
-

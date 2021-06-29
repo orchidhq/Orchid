@@ -8,8 +8,6 @@ import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.site.OrchidSite
 import com.eden.orchid.api.site.OrchidSiteImpl
-import com.eden.orchid.api.theme.pages.OrchidPage
-import com.eden.orchid.api.theme.pages.OrchidReference
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.mockito.ArgumentMatchers.anyString
@@ -73,5 +71,4 @@ class OrchidPageTest {
         setup(baseUrl, pagePath)
         expectThat(underTest.link).isEqualTo(expected)
     }
-
 }

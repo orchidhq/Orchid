@@ -12,8 +12,8 @@ class PagesModule : OrchidModule() {
     override fun configure() {
         addToSet<OrchidGenerator<*>, PagesGenerator>()
         addToSet<OrchidMenuFactory>(
-                PagesMenuType::class,
-                PageIdsMenuType::class)
+            PagesMenuType::class,
+            PageIdsMenuType::class
+        )
     }
 }
-

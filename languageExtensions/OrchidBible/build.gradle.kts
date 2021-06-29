@@ -11,5 +11,4 @@ plugins {
 dependencies {
     implementation(Modules.OrchidCore)
     testImplementation(Modules.OrchidTest)
-
 }

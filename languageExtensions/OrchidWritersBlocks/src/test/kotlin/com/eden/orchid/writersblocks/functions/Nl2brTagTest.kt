@@ -36,11 +36,11 @@ class Nl2brTagTest : OrchidIntegrationTest(
             .pageWasRendered("/index.html") {
                 htmlBodyMatches {
                     p {
-                        br {  }
-                        br {  }
+                        br { }
+                        br { }
                         +"dog"
-                        br {  }
-                        br {  }
+                        br { }
+                        br { }
                     }
                 }
             }

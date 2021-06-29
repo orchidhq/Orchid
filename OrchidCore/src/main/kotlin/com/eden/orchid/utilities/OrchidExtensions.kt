@@ -58,7 +58,7 @@ fun String.logSyntaxError(
     val linesAfter = "   |" + lines.subList(linesAfterStart, linesAfterEnd).joinToString("\n   |")
 
     val formattedMessage = """
-        |_|   |.${extension} error
+        |_|   |.$extension error
         |_|   |    Reason: $errorMessage
         |_|   |    Cause: ${cause?.toString() ?: "Unknown cause"}
         |_|   |
@@ -230,7 +230,7 @@ fun String.urlSafe(mapper: String.() -> String): String {
 }
 
 // Better Kotlin Module registration
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
 // bind
 inline fun <reified T : Any> OrchidModule.bind(): LinkedBindingBuilder<T> {
@@ -251,7 +251,7 @@ inline fun <reified T : Any> OrchidModule.addToSet(vararg objects: T) {
 }
 
 // Better dynamic object resolution
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
 inline fun <reified T : Any> OrchidContext.resolve(): T {
     return this.resolve(T::class.java)
@@ -291,7 +291,6 @@ inline fun <T> T.applyIf(condition: Boolean, block: T.() -> Unit): T {
     if (condition) block()
     return this
 }
-
 
 fun <T> T.debugger(): T {
     return this

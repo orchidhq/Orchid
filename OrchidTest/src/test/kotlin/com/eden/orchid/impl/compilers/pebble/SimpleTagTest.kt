@@ -38,34 +38,48 @@ class SimpleTagTest : OrchidIntegrationTest(SimpleTagModule(), withGenerator<Hom
         @JvmStatic
         fun params() = sequence<Arguments> {
             // simple tag, no content
-            yield(Arguments.of(
-                "{% hello %}",
-                "hello world"
-            ))
-            yield(Arguments.of(
-                "{% hello 'sir' %}",
-                "hello sir"
-            ))
-            yield(Arguments.of(
-                "{% hello 'sir' 'and goodbye!' %}",
-                "hello sir and goodbye!"
-            ))
-            yield(Arguments.of(
-                "{% hello 'sir' closing='and goodbye!' %}",
-                "hello sir and goodbye!"
-            ))
-            yield(Arguments.of(
-                "{% hello greeting='sir' %}",
-                "hello sir"
-            ))
-            yield(Arguments.of(
-                "{% hello greeting='sir' closing='and goodbye!' %}",
-                "hello sir and goodbye!"
-            ))
-            yield(Arguments.of(
-                "{% hello template = 'althello' %}",
-                "alt world"
-            ))
+            yield(
+                Arguments.of(
+                    "{% hello %}",
+                    "hello world"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello 'sir' %}",
+                    "hello sir"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello 'sir' 'and goodbye!' %}",
+                    "hello sir and goodbye!"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello 'sir' closing='and goodbye!' %}",
+                    "hello sir and goodbye!"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello greeting='sir' %}",
+                    "hello sir"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello greeting='sir' closing='and goodbye!' %}",
+                    "hello sir and goodbye!"
+                )
+            )
+            yield(
+                Arguments.of(
+                    "{% hello template = 'althello' %}",
+                    "alt world"
+                )
+            )
         }.asIterable()
     }
 }
@@ -80,7 +94,6 @@ class SimpleHelloTag : TemplateTag("hello", Type.Simple, true) {
     lateinit var closing: String
 
     override fun parameters() = arrayOf(::greeting.name, ::closing.name)
-
 }
 
 @IgnoreModule

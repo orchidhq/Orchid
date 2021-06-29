@@ -24,7 +24,6 @@ import com.eden.orchid.api.resources.resourcesource.useForTemplates
 import com.eden.orchid.api.theme.AbstractTheme
 import com.eden.orchid.utilities.LRUCache
 import com.eden.orchid.utilities.SuppressedWarnings
-import java.util.ArrayList
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -46,7 +45,10 @@ constructor(
     //  bootstrapping of Orchid?
     @Option
     @StringDefault(".DS_store", ".localized")
-    @Description("A list of filenames to globally filter out files from being sourced. Should be used primarily for ignoring pesky hidden or system files that are not intended to be used as site content.")
+    @Description(
+        "A list of filenames to globally filter out files from being sourced. Should be used primarily for " +
+            "ignoring pesky hidden or system files that are not intended to be used as site content."
+    )
     private var ignoredFilenames: Array<String> = arrayOf(".DS_store", ".localized")
 
     override fun initialize(context: OrchidContext) {}
@@ -85,7 +87,7 @@ constructor(
     }
 
 // Delombok
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     override fun getIgnoredFilenames(): Array<String> {
         return ignoredFilenames
@@ -96,7 +98,7 @@ constructor(
     }
 
 // Cache Implementation
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @On(ClearCache::class)
     @Suppress(SuppressedWarnings.UNUSED_PARAMETER)

@@ -16,10 +16,6 @@ constructor() : PermalinkPathType() {
     override fun format(page: OrchidPage, key: String): String? {
         return if (page is PostPage) {
             "${page.day}"
-        }
-        else "${page.publishDate.dayOfMonth}"
-
+        } else "${page.publishDate.dayOfMonth}"
     }
-
 }
-

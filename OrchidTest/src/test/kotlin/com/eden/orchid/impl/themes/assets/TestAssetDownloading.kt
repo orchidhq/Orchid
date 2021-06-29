@@ -57,15 +57,15 @@ class TestAssetDownloading : OrchidIntegrationTest(
             .asExpected()
             .pageWasRendered("/test/asset/page-one/index.html") {
                 htmlHeadMatches("head link[rel=stylesheet]") {
-                    link(href="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}", rel="stylesheet", type="text/css") { }
-                    link(href="http://orchid.test/${TestAssetPage.CSS}", rel="stylesheet", type="text/css") { }
-                    link(href="https://copper-leaf.github.io/test-downloadable-assets/assets/css/style.css", rel="stylesheet", type="text/css") { }
+                    link(href = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}", rel = "stylesheet", type = "text/css") { }
+                    link(href = "http://orchid.test/${TestAssetPage.CSS}", rel = "stylesheet", type = "text/css") { }
+                    link(href = "https://copper-leaf.github.io/test-downloadable-assets/assets/css/style.css", rel = "stylesheet", type = "text/css") { }
                 }
                 htmlBodyMatches {
                     div("component component-pageContent component-order-0") {}
-                    script(src="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
-                    script(src="http://orchid.test/${TestAssetPage.JS}") { }
-                    script(src="https://copper-leaf.github.io/test-downloadable-assets/assets/js/scripts.js") { }
+                    script(src = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
+                    script(src = "http://orchid.test/${TestAssetPage.JS}") { }
+                    script(src = "https://copper-leaf.github.io/test-downloadable-assets/assets/js/scripts.js") { }
                 }
             }
             .pageWasNotRendered("/test-downloadable-assets/assets/css/style.css")
@@ -105,15 +105,15 @@ class TestAssetDownloading : OrchidIntegrationTest(
             .asExpected()
             .pageWasRendered("/test/asset/page-one/index.html") {
                 htmlHeadMatches("head link[rel=stylesheet]") {
-                    link(href="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}", rel="stylesheet", type="text/css") { }
-                    link(href="http://orchid.test/${TestAssetPage.CSS}", rel="stylesheet", type="text/css") { }
-                    link(href="http://orchid.test/test-downloadable-assets/assets/css/style.css", rel="stylesheet", type="text/css") { }
+                    link(href = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}", rel = "stylesheet", type = "text/css") { }
+                    link(href = "http://orchid.test/${TestAssetPage.CSS}", rel = "stylesheet", type = "text/css") { }
+                    link(href = "http://orchid.test/test-downloadable-assets/assets/css/style.css", rel = "stylesheet", type = "text/css") { }
                 }
                 htmlBodyMatches {
                     div("component component-pageContent component-order-0") {}
-                    script(src="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
-                    script(src="http://orchid.test/${TestAssetPage.JS}") { }
-                    script(src="http://orchid.test/test-downloadable-assets/assets/js/scripts.js") { }
+                    script(src = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
+                    script(src = "http://orchid.test/${TestAssetPage.JS}") { }
+                    script(src = "http://orchid.test/test-downloadable-assets/assets/js/scripts.js") { }
                 }
             }
             .pageWasRendered("/test-downloadable-assets/assets/css/style.css") {
@@ -177,19 +177,18 @@ class TestAssetDownloading : OrchidIntegrationTest(
             .asExpected()
             .pageWasRendered("/test/asset/page-one/index.html") {
                 htmlHeadMatches("head link[rel=stylesheet]") {
-                    link(href="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}", rel="stylesheet", type="text/css") { }
-                    link(href="http://orchid.test/${TestAssetPage.CSS}", rel="stylesheet", type="text/css") { }
-                    link(href="https://copper-leaf.github.io/test-downloadable-assets/assets/css/style.css", rel="stylesheet", type="text/css") { }
+                    link(href = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}", rel = "stylesheet", type = "text/css") { }
+                    link(href = "http://orchid.test/${TestAssetPage.CSS}", rel = "stylesheet", type = "text/css") { }
+                    link(href = "https://copper-leaf.github.io/test-downloadable-assets/assets/css/style.css", rel = "stylesheet", type = "text/css") { }
                 }
                 htmlBodyMatches {
                     div("component component-pageContent component-order-0") {}
-                    script(src="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
-                    script(src="http://orchid.test/${TestAssetPage.JS}") { }
-                    script(src="https://copper-leaf.github.io/test-downloadable-assets/assets/js/scripts.js") { }
+                    script(src = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
+                    script(src = "http://orchid.test/${TestAssetPage.JS}") { }
+                    script(src = "https://copper-leaf.github.io/test-downloadable-assets/assets/js/scripts.js") { }
                 }
             }
             .pageWasNotRendered("/test-downloadable-assets/assets/css/style.css")
             .pageWasNotRendered("/test-downloadable-assets/assets/js/scripts.js")
     }
-
 }

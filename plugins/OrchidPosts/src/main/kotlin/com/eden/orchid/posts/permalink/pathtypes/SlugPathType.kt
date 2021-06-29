@@ -22,8 +22,7 @@ constructor() : PermalinkPathType() {
 
             if (EdenUtils.isEmpty(page.categoryModel.key)) {
                 baseCategoryPath = "posts"
-            }
-            else {
+            } else {
                 baseCategoryPath = "posts/" + page.categoryModel.path
             }
 
@@ -38,6 +37,4 @@ constructor() : PermalinkPathType() {
 
         return null
     }
-
 }
-

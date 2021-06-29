@@ -50,7 +50,11 @@ constructor(val context: OrchidContext) {
 
                     for (metric in metricsList) {
                         if (metric.pageCount == 0) continue
-                        val alignment = if(metric.key == "TOTAL") HorizontalAlignment.CENTER else HorizontalAlignment.LEFT
+                        val alignment = if (metric.key == "TOTAL") {
+                            HorizontalAlignment.CENTER
+                        } else {
+                            HorizontalAlignment.LEFT
+                        }
                         row(metric.key!!) {
                             cell {
                                 content = "" + metric.pageCount
@@ -78,8 +82,9 @@ constructor(val context: OrchidContext) {
             }
         }
 
-    // Measure Indexing Phase
-    //----------------------------------------------------------------------------------------------------------------------
+// Measure Indexing Phase
+// ---------------------------------------------------------------------------------------------------------------------
+
     fun startIndexing(generators: Set<OrchidGenerator<*>>) {
         generatorMetricsMap = HashMap()
         compositeMetrics = null
@@ -107,7 +112,7 @@ constructor(val context: OrchidContext) {
     }
 
 // Measure Generation Phase
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     fun startGeneration() {
         progress = 0
@@ -143,8 +148,9 @@ constructor(val context: OrchidContext) {
         context.broadcast(Orchid.Lifecycle.ProgressEvent.fire(this, "building", maxProgress, maxProgress, 0))
     }
 
-    // Print Metrics
-    //----------------------------------------------------------------------------------------------------------------------
+// Print Metrics
+// ---------------------------------------------------------------------------------------------------------------------
+
     private fun ensureMetricsExist(generator: String?) {
         if (generator != null && !generatorMetricsMap.containsKey(generator)) {
             generatorMetricsMap[generator] = GeneratorMetrics(generator)

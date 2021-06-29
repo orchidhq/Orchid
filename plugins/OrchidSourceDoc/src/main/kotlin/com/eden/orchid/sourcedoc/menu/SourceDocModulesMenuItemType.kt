@@ -32,7 +32,7 @@ class SourceDocModulesMenuItemType : OrchidMenuFactory("sourcedocModules") {
 
             model
                 .modules
-                .filter { if(moduleGroup.isNotBlank()) it.moduleGroup == moduleGroup else true }
+                .filter { if (moduleGroup.isNotBlank()) it.moduleGroup == moduleGroup else true }
                 .map { it.homepage }
                 .sortedBy { it.title }
                 .map { menuItemPage ->
@@ -45,5 +45,4 @@ class SourceDocModulesMenuItemType : OrchidMenuFactory("sourcedocModules") {
             emptyList()
         }
     }
-
 }

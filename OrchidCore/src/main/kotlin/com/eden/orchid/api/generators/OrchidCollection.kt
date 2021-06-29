@@ -21,7 +21,10 @@ abstract class OrchidCollection<T : Collectible<*>>(
     val title: String
         get() {
             val collectionTypeTitle = collectionType from { camelCase() } with { capitalize() } to { titleCase() }
-            val collectionIdTitle: String? = collectionId?.from { camelCase() }?.with { capitalize() }?.to { titleCase() }
+            val collectionIdTitle: String? = collectionId
+                ?.from { camelCase() }
+                ?.with { capitalize() }
+                ?.to { titleCase() }
 
             return if (!EdenUtils.isEmpty(collectionIdTitle) && collectionTypeTitle != collectionIdTitle) {
                 "$collectionTypeTitle > $collectionIdTitle"

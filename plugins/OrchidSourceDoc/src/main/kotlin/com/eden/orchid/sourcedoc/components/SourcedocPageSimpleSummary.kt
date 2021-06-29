@@ -34,7 +34,7 @@ class SourcedocPageSimpleSummary : OrchidComponent("sourceDocSummary") {
         // TODO("calculate full inheritance hierarchy")
 
         (immediateParents?.let { listOf(it) } ?: emptyList()) +
-                RichTextComponent(TYPE_NAME, containingPage.element.name, containingPage.element.id)
+            RichTextComponent(TYPE_NAME, containingPage.element.name, containingPage.element.id)
     }
 
     val pageContexts: List<RichTextComponent> by lazy {
@@ -52,5 +52,4 @@ class SourcedocPageSimpleSummary : OrchidComponent("sourceDocSummary") {
 //        TODO("calculate indirect children")
         emptyList<RichTextComponent>()
     }
-
 }

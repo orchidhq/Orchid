@@ -27,7 +27,7 @@ constructor(
 ) : OrchidController(1000) {
 
 // Get file lists
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Get(path = "/api/files/**localFilename")
     fun getFiles(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest, localFilename: String): OrchidResponse {
@@ -54,15 +54,14 @@ constructor(
     }
 
 // CRUD with single files
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Get(path = "/api/file/**localFilename")
     fun getFile(@Suppress(SuppressedWarnings.UNUSED_PARAMETER) request: OrchidRequest, localFilename: String): OrchidResponse {
         val resource = context.getDefaultResourceSource(LocalResourceSource, null).getResourceEntry(context, localFilename)
         if (resource != null) {
             return OrchidResponse(context).content(resource.getContentStream().readToString())
-        }
-        else {
+        } else {
             return OrchidResponse(context).content("Not found").status(404)
         }
     }
@@ -74,12 +73,10 @@ constructor(
             if (resource.canDelete()) {
                 resource.delete()
                 return OrchidResponse(context).content("Successfully deleted")
-            }
-            else {
+            } else {
                 return OrchidResponse(context).content("Cannot delete resource").status(500)
             }
-        }
-        else {
+        } else {
             return OrchidResponse(context).content("Not found").status(404)
         }
     }
@@ -95,12 +92,10 @@ constructor(
 
                 resource.update(contentStream)
                 return OrchidResponse(context).content("Successfully updated")
-            }
-            else {
+            } else {
                 return OrchidResponse(context).content("Cannot update resource").status(500)
             }
-        }
-        else {
+        } else {
             return createFile(request, localFilename)
         }
     }
@@ -115,11 +110,9 @@ constructor(
         try {
             Files.write(newFile.toPath(), Base64.getDecoder().decode(request.input("content")))
             return OrchidResponse(context).content("Successfully created")
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
             return OrchidResponse(context).content("Could not create file").status(500)
         }
     }
-
 }

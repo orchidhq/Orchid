@@ -7,6 +7,4 @@ class AzureModule : OrchidModule() {
     override fun configure() {
 //        addToSet<WikiAdapter, AzureWikiAdapter>()
     }
-
 }
-

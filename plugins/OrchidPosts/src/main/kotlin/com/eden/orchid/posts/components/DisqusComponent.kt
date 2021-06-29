@@ -14,6 +14,4 @@ class DisqusComponent : OrchidComponent("disqus") {
     @Option
     @Description("A site-wide unique identifier for the comment section on this page. Defaults to the page's URL.")
     lateinit var identifier: String
-
 }
-

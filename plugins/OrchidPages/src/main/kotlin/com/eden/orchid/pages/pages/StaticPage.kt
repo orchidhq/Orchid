@@ -16,12 +16,12 @@ import com.eden.orchid.pages.PageGroupArchetype
 import com.eden.orchid.pages.PagesGenerator
 
 @Archetypes(
-        Archetype(value = PageGroupArchetype::class, key = PagesGenerator.GENERATOR_KEY),
-        Archetype(value = ConfigArchetype::class, key = "${PagesGenerator.GENERATOR_KEY}.staticPages")
+    Archetype(value = PageGroupArchetype::class, key = PagesGenerator.GENERATOR_KEY),
+    Archetype(value = ConfigArchetype::class, key = "${PagesGenerator.GENERATOR_KEY}.staticPages")
 )
 @Description(value = "A generic static page.", name = "Static Page")
-class StaticPage(resource: OrchidResource)
-    : OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "staticPage", null) {
+class StaticPage(resource: OrchidResource) :
+    OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "staticPage", null) {
 
     @Option @BooleanDefault(true)
     @Description("Whether to use the 'pretty' URL version when linking to this page or not.")
@@ -32,7 +32,8 @@ class StaticPage(resource: OrchidResource)
     lateinit var renderMode: String
 
     @Option
-    @Description("Set a theme to be used only when rendering pages this Static Page. This can be a String to use " +
+    @Description(
+        "Set a theme to be used only when rendering pages this Static Page. This can be a String to use " +
             "that theme's default options set in `config.yml`, or an object with a `key` property to use those " +
             "specific options for the theme."
     )
@@ -48,7 +49,7 @@ class StaticPage(resource: OrchidResource)
 
     val group: String?
         get() {
-            if(reference.pathSegments.size > 1) {
+            if (reference.pathSegments.size > 1) {
                 return reference.getPathSegment(0)
             }
 
@@ -72,4 +73,3 @@ class StaticPage(resource: OrchidResource)
         }
     }
 }
-

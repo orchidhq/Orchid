@@ -59,7 +59,7 @@ class BaseUrlTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>(), Pa
     }
 
 // Test using base URLs set from CLI flag
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test rending URLs using test-default base URL")
@@ -171,7 +171,7 @@ class BaseUrlTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>(), Pa
     }
 
 // Test using base URLs set as a String from config.yml
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test rending URLs using test-default base URL")
@@ -318,7 +318,7 @@ class BaseUrlTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>(), Pa
     }
 
 // Test using base URLs set as a String from config.yml
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test rending URLs using test-default base URL")

@@ -51,7 +51,13 @@ constructor(
         renderer = HtmlRenderer.builder(options).build()
     }
 
-    override fun compile(os: OutputStream, resource: OrchidResource?, extension: String, input: String, data: MutableMap<String, Any>?) {
+    override fun compile(
+        os: OutputStream,
+        resource: OrchidResource?,
+        extension: String,
+        input: String,
+        data: MutableMap<String, Any>?
+    ) {
         val writer = OutputStreamWriter(os)
         renderer.render(parser.parse(input), writer)
         writer.close()

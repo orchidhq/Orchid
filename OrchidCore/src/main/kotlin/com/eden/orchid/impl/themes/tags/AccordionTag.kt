@@ -31,5 +31,4 @@ class AccordionTag : TemplateTag("accordion", Type.Tabbed, true) {
 
         override fun parameters() = arrayOf(::title.name)
     }
-
 }

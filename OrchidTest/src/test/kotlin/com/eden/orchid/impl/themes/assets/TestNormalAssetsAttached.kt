@@ -51,17 +51,33 @@ class TestNormalAssetsAttached : OrchidIntegrationTest(
             .asExpected()
             .pageWasRendered("/test/asset/page-one/index.html") {
                 htmlHeadMatches("head link[rel=stylesheet]") {
-                    link(href="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}", rel="stylesheet", type="text/css") { }
-                    link(href="http://orchid.test/${TestAssetComponent.CSS}", rel="stylesheet", type="text/css") { }
-                    link(href="http://orchid.test/${TestAssetMetaComponent.CSS}", rel="stylesheet", type="text/css") { }
-                    link(href="http://orchid.test/${TestAssetPage.CSS}", rel="stylesheet", type="text/css") { }
+                    link(
+                        href = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}",
+                        rel = "stylesheet",
+                        type = "text/css"
+                    ) { }
+                    link(
+                        href = "http://orchid.test/${TestAssetComponent.CSS}",
+                        rel = "stylesheet",
+                        type = "text/css"
+                    ) { }
+                    link(
+                        href = "http://orchid.test/${TestAssetMetaComponent.CSS}",
+                        rel = "stylesheet",
+                        type = "text/css"
+                    ) { }
+                    link(
+                        href = "http://orchid.test/${TestAssetPage.CSS}",
+                        rel = "stylesheet",
+                        type = "text/css"
+                    ) { }
                 }
                 htmlBodyMatches {
                     div("component component-testAssetComponent component-order-0") {}
-                    script(src="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
-                    script(src="http://orchid.test/${TestAssetComponent.JS}") { }
-                    script(src="http://orchid.test/${TestAssetMetaComponent.JS}") { }
-                    script(src="http://orchid.test/${TestAssetPage.JS}") { }
+                    script(src = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
+                    script(src = "http://orchid.test/${TestAssetComponent.JS}") { }
+                    script(src = "http://orchid.test/${TestAssetMetaComponent.JS}") { }
+                    script(src = "http://orchid.test/${TestAssetPage.JS}") { }
                 }
             }
     }
@@ -99,19 +115,35 @@ class TestNormalAssetsAttached : OrchidIntegrationTest(
             .asExpected()
             .pageWasRendered("/test/asset/page-one/index.html") {
                 htmlHeadMatches("head link[rel=stylesheet]") {
-                    link(href="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}", rel="stylesheet", type="text/css") { }
-                    link(href="http://orchid.test/${TestAssetComponent.CSS}", rel="stylesheet", type="text/css") { }
-                    link(href="http://orchid.test/${TestAssetMetaComponent.CSS}", rel="stylesheet", type="text/css") { }
-                    link(href="http://orchid.test/${TestAssetPage.CSS}", rel="stylesheet", type="text/css") { }
+                    link(
+                        href = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}",
+                        rel = "stylesheet",
+                        type = "text/css"
+                    ) { }
+                    link(
+                        href = "http://orchid.test/${TestAssetComponent.CSS}",
+                        rel = "stylesheet",
+                        type = "text/css"
+                    ) { }
+                    link(
+                        href = "http://orchid.test/${TestAssetMetaComponent.CSS}",
+                        rel = "stylesheet",
+                        type = "text/css"
+                    ) { }
+                    link(
+                        href = "http://orchid.test/${TestAssetPage.CSS}",
+                        rel = "stylesheet",
+                        type = "text/css"
+                    ) { }
                 }
                 htmlBodyMatches {
                     div("component component-testAssetComponent component-order-0") {}
                     div("component component-testAssetComponent component-order-0") {}
                     div("component component-testAssetComponent component-order-0") {}
-                    script(src="http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
-                    script(src="http://orchid.test/${TestAssetComponent.JS}") { }
-                    script(src="http://orchid.test/${TestAssetMetaComponent.JS}") { }
-                    script(src="http://orchid.test/${TestAssetPage.JS}") { }
+                    script(src = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
+                    script(src = "http://orchid.test/${TestAssetComponent.JS}") { }
+                    script(src = "http://orchid.test/${TestAssetMetaComponent.JS}") { }
+                    script(src = "http://orchid.test/${TestAssetPage.JS}") { }
                 }
             }
     }

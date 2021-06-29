@@ -31,7 +31,8 @@ class PostPage(
 ) : OrchidPage(resource, RenderService.RenderMode.TEMPLATE, "post", title) {
 
     @Option("author")
-    @Description("The posts author. May be the `name` of a known author, or an anonymous Author config, only " +
+    @Description(
+        "The posts author. May be the `name` of a known author, or an anonymous Author config, only " +
             "used for this post, which is considered as a guest author."
     )
     var authorName: Any? = null
@@ -47,21 +48,22 @@ class PostPage(
             val author = Author()
             author.extractOptions(context, (authorName as JSONObject).toMap())
             author
-        }
-        else {
+        } else {
             val value = "" + authorName?.toString()
             postsModel.getAuthorByName(value)
         }
     }
 
     @Option
-    @Description("A list of tags for this post, for basic taxonomic purposes. More complex taxonomic relationships " +
+    @Description(
+        "A list of tags for this post, for basic taxonomic purposes. More complex taxonomic relationships " +
             "may be managed by other plugins, which may take post tags into consideration."
     )
     lateinit var tags: Array<String>
 
     @Option
-    @Description("A 'type' of post, such as 'gallery', 'video', or 'blog', which is used to determine the specific" +
+    @Description(
+        "A 'type' of post, such as 'gallery', 'video', or 'blog', which is used to determine the specific" +
             "post template to use for the Page Content."
     )
     lateinit var postType: String
@@ -71,7 +73,8 @@ class PostPage(
     lateinit var featuredImage: AssetRelation
 
     @Option
-    @Description("The permalink structure to use only for this blog post. This overrides the permalink structure set " +
+    @Description(
+        "The permalink structure to use only for this blog post. This overrides the permalink structure set " +
             "in the category configuration."
     )
     lateinit var permalink: String
@@ -86,10 +89,10 @@ class PostPage(
             return categoryModel.path.split("/").toTypedArray()
         }
 
-    val year: Int         get() { return publishDate.year }
-    val month: Int        get() { return publishDate.monthValue }
+    val year: Int get() { return publishDate.year }
+    val month: Int get() { return publishDate.monthValue }
     val monthName: String get() { return publishDate.month.toString() }
-    val day: Int          get() { return publishDate.dayOfMonth }
+    val day: Int get() { return publishDate.dayOfMonth }
 
     init {
         data = extractOptionsFromResource(context, resource)
@@ -97,20 +100,17 @@ class PostPage(
     }
 
     override fun initialize(title: String?) {
-
     }
 
     override fun getTemplates(): List<String> {
         val templates = ArrayList<String>()
-        if(!EdenUtils.isEmpty(postType)) {
+        if (!EdenUtils.isEmpty(postType)) {
             templates.add(0, "$key-type-$postType")
         }
-        if(!EdenUtils.isEmpty(categoryModel.key)) {
+        if (!EdenUtils.isEmpty(categoryModel.key)) {
             templates.add(0, "$key-${categoryModel.key!!}")
         }
 
         return templates
     }
-
 }
-

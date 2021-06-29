@@ -38,15 +38,24 @@ constructor(
 
     @On(Orchid.Lifecycle.InitComplete::class)
     fun onInitComplete(event: Orchid.Lifecycle.InitComplete) {
-        Clog.addLogger(warningLogger, object : ClogFilter {
-            override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean = priority >= Clog.Priority.WARNING
-        })
-        Clog.addLogger(errorLogger, object : ClogFilter {
-            override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean = priority >= Clog.Priority.ERROR
-        })
-        Clog.addLogger(fatalLogger, object : ClogFilter {
-            override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean = priority >= Clog.Priority.FATAL
-        })
+        Clog.addLogger(
+            warningLogger,
+            object : ClogFilter {
+                override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean = priority >= Clog.Priority.WARNING
+            }
+        )
+        Clog.addLogger(
+            errorLogger,
+            object : ClogFilter {
+                override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean = priority >= Clog.Priority.ERROR
+            }
+        )
+        Clog.addLogger(
+            fatalLogger,
+            object : ClogFilter {
+                override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean = priority >= Clog.Priority.FATAL
+            }
+        )
     }
 
     @On(Orchid.Lifecycle.BuildFinish::class)
@@ -74,7 +83,7 @@ constructor(
 
         @JvmStatic
         fun registerJavaLoggingHandler() {
-            //reset() will remove all default handlers
+            // reset() will remove all default handlers
             LogManager.getLogManager().reset()
             val rootLogger = LogManager.getLogManager().getLogger("")
 
@@ -115,7 +124,6 @@ private class AbstractLogCollector(
         if (!contextProvider.get().state.isWorkingState) {
             printAllMessages()
         }
-
     }
 
     fun printAllMessages() {

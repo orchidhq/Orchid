@@ -89,6 +89,4 @@ class WikiPagesMenuItemType : OrchidMenuFactory("wiki") {
             innerItems
         }
     }
-
 }
-

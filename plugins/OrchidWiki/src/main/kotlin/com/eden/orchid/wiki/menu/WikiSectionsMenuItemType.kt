@@ -24,6 +24,4 @@ class WikiSectionsMenuItemType : OrchidMenuFactory("wikiSections") {
             }
             .toList()
     }
-
 }
-

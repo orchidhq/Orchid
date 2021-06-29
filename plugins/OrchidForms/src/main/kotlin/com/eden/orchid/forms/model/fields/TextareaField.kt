@@ -4,7 +4,7 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.forms.model.FormField
 
-@Description("A textarea for long-form input.", name="Textarea")
+@Description("A textarea for long-form input.", name = "Textarea")
 class TextareaField : FormField(arrayOf("textarea")) {
 
     @Option
@@ -20,5 +20,4 @@ class TextareaField : FormField(arrayOf("textarea")) {
         allTemplates.add("fields/textual")
         return allTemplates
     }
-
 }

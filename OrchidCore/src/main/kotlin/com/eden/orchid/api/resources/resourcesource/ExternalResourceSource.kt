@@ -6,7 +6,6 @@ import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
 import org.apache.commons.io.FilenameUtils
-import java.io.File
 
 /**
  * An OrchidResourceSource that provides resources from an external URL. Those resources can later be set to downloaded
@@ -22,13 +21,17 @@ class ExternalResourceSource(
             ExternalResource(
                 OrchidReference.fromUrl(context, FilenameUtils.getName(fileName), fileName)
             )
-        }
-        else {
+        } else {
             null
         }
     }
 
-    override fun getResourceEntries(context: OrchidContext, dirName: String, fileExtensions: Array<String>?, recursive: Boolean): List<OrchidResource> {
+    override fun getResourceEntries(
+        context: OrchidContext,
+        dirName: String,
+        fileExtensions: Array<String>?,
+        recursive: Boolean
+    ): List<OrchidResource> {
         return emptyList()
     }
 

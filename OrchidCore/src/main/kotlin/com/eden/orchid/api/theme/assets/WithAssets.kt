@@ -12,5 +12,4 @@ interface WithAssets {
      * Override this method to add CSS or JS assets to this page
      */
     fun loadAssets(delegate: AssetManagerDelegate)
-
 }

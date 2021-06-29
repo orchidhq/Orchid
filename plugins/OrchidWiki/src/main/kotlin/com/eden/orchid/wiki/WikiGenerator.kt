@@ -98,6 +98,4 @@ class WikiGenerator : OrchidGenerator<WikiModel>(GENERATOR_KEY, Stage.CONTENT) {
 
         return collectionsList
     }
-
 }
-

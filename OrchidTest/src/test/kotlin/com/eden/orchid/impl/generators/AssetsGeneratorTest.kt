@@ -27,7 +27,8 @@ class AssetsGeneratorTest : OrchidIntegrationTest(withGenerator<AssetsGenerator>
     @DisplayName("The assets directory can be changed")
     fun test02() {
         configObject(
-            "assets", """
+            "assets",
+            """
             {
                 "sourceDirs": [
                     "assets/images"

@@ -2,9 +2,7 @@ package com.eden.orchid.impl.generators
 
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
-import com.eden.orchid.api.generators.emptyModel
 import com.eden.orchid.api.generators.modelOf
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.BooleanDefault
@@ -17,7 +15,6 @@ import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.assets.AssetPage
 import java.util.Arrays
-import javax.inject.Inject
 import javax.inject.Singleton
 import javax.validation.constraints.NotBlank
 
@@ -66,7 +63,7 @@ class AssetsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, St
     }
 
     // Helpers
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Validate
     class AssetDirectory : OptionsHolder {
@@ -88,12 +85,9 @@ class AssetsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, St
         override fun toString(): String {
             return "AssetDirectory(sourceDir='$sourceDir', assetFileExtensions=${Arrays.toString(assetFileExtensions)}, isRecursive=$recursive)"
         }
-
     }
 
     companion object {
         val GENERATOR_KEY = "assets"
     }
-
 }
-

@@ -39,7 +39,7 @@ fun multiModuleSetup(
 }
 
 // Setup Theme Menus
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
 fun multiModuleThemeMenuSetup(type: String, nodeKinds: List<String>, modules: List<String>): String {
     return """

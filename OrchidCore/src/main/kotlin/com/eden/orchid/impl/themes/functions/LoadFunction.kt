@@ -17,8 +17,9 @@ class LoadFunction : TemplateFunction("load", false) {
 
     @Option
     @BooleanDefault(true)
-    @Description("When true, only resources from local sources are considered, otherwise resources from all plugins "
-            + "and from the current theme will also be considered."
+    @Description(
+        "When true, only resources from local sources are considered, otherwise resources from all plugins " +
+            "and from the current theme will also be considered."
     )
     var local: Boolean = true
 
@@ -29,7 +30,8 @@ class LoadFunction : TemplateFunction("load", false) {
 
     @Option
     @BooleanDefault(true)
-    @Description("When true, content will automatically be compiled according to its extension. If false, the raw " +
+    @Description(
+        "When true, content will automatically be compiled according to its extension. If false, the raw " +
             "content will be returned directly as a String, minus any Front Matter."
     )
     var compile: Boolean = true
@@ -45,14 +47,11 @@ class LoadFunction : TemplateFunction("load", false) {
         return if (foundResource != null) {
             if (frontMatter) {
                 foundResource.embeddedData
-            }
-            else if (compile) {
+            } else if (compile) {
                 foundResource.compileContent(context, null)
-            }
-            else {
+            } else {
                 foundResource.content
             }
-        }
-        else ""
+        } else ""
     }
 }

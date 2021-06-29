@@ -7,6 +7,5 @@ import com.eden.orchid.wiki.pages.WikiSummaryPage
 
 interface WikiAdapter : ModularType {
 
-    fun loadWikiPages(section: WikiSection) : Pair<WikiSummaryPage, List<WikiPage>>?
-
+    fun loadWikiPages(section: WikiSection): Pair<WikiSummaryPage, List<WikiPage>>?
 }

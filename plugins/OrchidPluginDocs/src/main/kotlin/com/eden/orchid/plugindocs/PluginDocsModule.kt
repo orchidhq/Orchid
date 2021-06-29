@@ -20,5 +20,4 @@ class PluginDocsModule : OrchidModule() {
         addToSet<OrchidController, AdminController>()
         addToSet<AdminTheme, DefaultAdminTheme>()
     }
-
 }

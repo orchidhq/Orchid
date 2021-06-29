@@ -21,5 +21,4 @@ class KotlindocModule : OrchidModule() {
             cacheDir = OrchidUtils.getCacheDir("sourcedoc")
         )
     }
-
 }

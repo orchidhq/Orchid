@@ -8,13 +8,13 @@ import com.eden.orchid.kss.pages.KssPage
 
 class KssModel(
     var sections: MutableMap<String?, List<KssPage>>
-) : OrchidGenerator.Model{
+) : OrchidGenerator.Model {
 
     override val allPages: List<OrchidPage> get() = sections.values.flatten()
     override val collections: List<OrchidCollection<*>> = emptyList()
 
     fun getSectionRoot(sectionKey: String?): List<KssPage> {
-        val section = if(!EdenUtils.isEmpty(sectionKey)) sectionKey else null
+        val section = if (!EdenUtils.isEmpty(sectionKey)) sectionKey else null
         return sections[section]!!.filter { it.parent == null }
     }
 }

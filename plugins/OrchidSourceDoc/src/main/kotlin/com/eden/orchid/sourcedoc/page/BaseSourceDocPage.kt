@@ -29,6 +29,5 @@ abstract class BaseSourceDocPage(
     }
 
     override fun initialize(title: String?) {
-
     }
 }

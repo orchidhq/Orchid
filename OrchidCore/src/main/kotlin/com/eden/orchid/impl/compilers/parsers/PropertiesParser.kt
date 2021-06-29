@@ -28,7 +28,7 @@ constructor() : OrchidParser(50) {
             prop.load(StringReader(input))
 
             val mapOfProperties = mutableMapOf<String, Any>()
-            for((k, v) in prop){
+            for ((k, v) in prop) {
                 mapOfProperties[k.toString()] = v
             }
 
@@ -40,7 +40,7 @@ constructor() : OrchidParser(50) {
     }
 
     override fun serialize(extension: String, input: Any): String {
-        if(input is Map<*, *>) {
+        if (input is Map<*, *>) {
             val prop = Properties()
             prop.putAll(input)
             val writer = StringWriter()

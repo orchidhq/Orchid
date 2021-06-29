@@ -57,7 +57,18 @@ constructor(
 
     @Option
     @StringDefault("CleanBranch")
-    @Description("The type of publication to use for Github Pages.\n- `CleanBranch`: Create a new branch with no history and force-push to the remote. Overwrites existing branch completely.\n- `CleanBranchMaintainHistory`: Clone existing branch, remove all files, then push to the remote. Overwrites all files, but maintains history.\n- `VersionedBranch`: Clone existing branch, add current site to a versioned subfolder, then push to the remote. Maintains history and all prior versions\' content.\n- `VersionedBranchWithLatest`: Clone existing branch, add current site to a \'latest\' and a versioned subfolder, then force-push to the remote. Maintains history and all prior versions\' content.")
+    @Description(
+        "The type of publication to use for Github Pages." +
+            "\n- `CleanBranch`: Create a new branch with no history and force-push to the remote. Overwrites " +
+            "existing branch completely." +
+            "\n- `CleanBranchMaintainHistory`: Clone existing branch, remove all files, then push to the remote. " +
+            "Overwrites all files, but maintains history." +
+            "\n- `VersionedBranch`: Clone existing branch, add current site to a versioned subfolder, then push to " +
+            "the remote. Maintains history and all prior versions\' content." +
+            "\n- `VersionedBranchWithLatest`: Clone existing branch, add current site to a \'latest\' and a " +
+            "versioned subfolder, then force-push to the remote. Maintains history and all prior versions\' " +
+            "content."
+    )
     @NotNull(message = "Must set a valid publish type.")
     lateinit var publishType: PublishType
 
@@ -71,21 +82,21 @@ constructor(
     protected abstract val remoteUrl: String
 
     override fun validate(context: OrchidContext): Boolean {
-        if(branch.isBlank()) branch = defaultBranch
+        if (branch.isBlank()) branch = defaultBranch
         return super.validate(context)
     }
 
     override fun publish(context: OrchidContext) {
         when (publishType) {
-            PublishType.CleanBranch                -> doCleanBranch(context)
+            PublishType.CleanBranch -> doCleanBranch(context)
             PublishType.CleanBranchMaintainHistory -> doCleanBranchMaintainHistory(context)
-            PublishType.VersionedBranch            -> doVersionedBranch(context)
-            PublishType.VersionedBranchWithLatest  -> doVersionedBranchWithLatest(context)
+            PublishType.VersionedBranch -> doVersionedBranch(context)
+            PublishType.VersionedBranchWithLatest -> doVersionedBranchWithLatest(context)
         }
     }
 
 // Git publish types
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Suppress(SuppressedWarnings.UNUSED_PARAMETER)
     private fun doCleanBranch(context: OrchidContext) {
@@ -142,11 +153,9 @@ constructor(
     }
 
     open fun GitRepoFacade.beforeCommit(context: OrchidContext) {
-
     }
 
     enum class PublishType {
         CleanBranch, CleanBranchMaintainHistory, VersionedBranch, VersionedBranchWithLatest
     }
-
 }

@@ -50,7 +50,6 @@ class OrchidSiteBaseUrls : ModularList<OrchidSiteBaseUrls, BaseUrlFactory>() {
     }
 
     override fun getItemClass(): Class<BaseUrlFactory> = BaseUrlFactory::class.java
-
 }
 
 @Suppress(SuppressedWarnings.UNCHECKED_KOTLIN)
@@ -69,12 +68,11 @@ constructor(
         baseUrl.initialize(contextProvider.get(), mutableListOf())
         val validTypes = baseUrl.validTypes
 
-        if(sourceObject is String) {
-            if(sourceObject in validTypes) {
+        if (sourceObject is String) {
+            if (sourceObject in validTypes) {
                 // if matches one of the declared types factory types, use the default of that type
                 baseUrl.add(mapOf("type" to sourceObject))
-            }
-            else {
+            } else {
                 // otherwise, pass it to [default] factory
                 baseUrl.add(
                     mapOf(
@@ -84,8 +82,7 @@ constructor(
                     )
                 )
             }
-        }
-        else {
+        } else {
             val iterable = iterableConverter.convert(field.type, sourceObject, "type", "value").second.toList()
             for (o in iterable) {
                 val map = mapConverter.convert(field.type, o, "type").second as Map<String, Any?>

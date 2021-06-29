@@ -29,10 +29,8 @@ class RecentPostsFunction : TemplateFunction("recentPosts", false) {
 
         return if (!EdenUtils.isEmpty(category)) {
             model.getRecentPosts(category, limit)
-        }
-        else {
+        } else {
             model.getRecentPosts(null, limit)
         }
     }
 }
-

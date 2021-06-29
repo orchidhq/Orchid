@@ -16,10 +16,9 @@ interface Cache<T, U> {
     fun clear()
 }
 fun <T, U> Cache<T, U>.computeIfAbsent(key: T, loader: () -> U): U? {
-    return if(this.containsKey(key)) {
+    return if (this.containsKey(key)) {
         this[key]
-    }
-    else {
+    } else {
         val value = loader()
         this[key] = value
         return value

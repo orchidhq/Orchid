@@ -9,7 +9,6 @@ import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
-import com.eden.orchid.api.resources.resourcesource.flexible
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.wiki.model.WikiSection
@@ -71,5 +70,4 @@ constructor(
             else
                 OrchidUtils.normalizePath(baseDir) + "/"
         }
-
 }

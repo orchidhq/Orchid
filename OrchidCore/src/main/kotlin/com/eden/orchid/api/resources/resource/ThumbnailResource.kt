@@ -1,6 +1,5 @@
 package com.eden.orchid.api.resources.resource
 
-import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.theme.assets.AssetPage
 import com.eden.orchid.api.resources.thumbnails.Renameable
 import com.eden.orchid.api.resources.thumbnails.Resizable
@@ -22,7 +21,7 @@ class ThumbnailResource(
     Renameable {
 
     override fun rotate(page: AssetPage, angle: Double) {
-        page.reference.fileName = page.reference.originalFileName + "_rotate-${angle}"
+        page.reference.fileName = page.reference.originalFileName + "_rotate-$angle"
         contentStreamTransformations.add { input ->
             convertOutputStream(page.context) { safeOs ->
                 Thumbnails
@@ -36,7 +35,7 @@ class ThumbnailResource(
     }
 
     override fun scale(page: AssetPage, factor: Double) {
-        page.reference.fileName = page.reference.originalFileName + "_scale-${factor}"
+        page.reference.fileName = page.reference.originalFileName + "_scale-$factor"
         contentStreamTransformations.add { input ->
             convertOutputStream(page.context) { safeOs ->
                 Thumbnails

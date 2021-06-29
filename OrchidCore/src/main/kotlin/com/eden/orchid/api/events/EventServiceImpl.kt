@@ -102,7 +102,8 @@ constructor(
         for (inProgress in eventsInProgress) {
             if (event.javaClass == inProgress) {
                 throw IllegalStateException(
-                    "The event \'${event.javaClass}\' is already in progress, it cannot be emitted again until this cycle has finished."
+                    "The event \'${event.javaClass}\' is already in progress, it cannot be emitted again until " +
+                        "this cycle has finished."
                 )
             }
         }
@@ -115,7 +116,6 @@ constructor(
             } catch (e: Exception) {
                 throw RuntimeException(e)
             }
-
         }
         eventsInProgress.removeAt(eventsInProgress.size - 1)
     }

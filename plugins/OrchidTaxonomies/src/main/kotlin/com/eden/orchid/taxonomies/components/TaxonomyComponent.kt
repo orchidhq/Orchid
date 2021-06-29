@@ -23,4 +23,3 @@ class TaxonomyComponent : OrchidComponent("taxonomy") {
             return model.taxonomies[taxonomyType]
         }
 }
-

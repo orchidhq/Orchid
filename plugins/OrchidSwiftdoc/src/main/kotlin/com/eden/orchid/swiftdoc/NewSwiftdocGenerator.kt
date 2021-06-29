@@ -3,10 +3,8 @@ package com.eden.orchid.swiftdoc
 import com.copperleaf.kodiak.swift.SwiftdocInvokerImpl
 import com.copperleaf.kodiak.swift.models.SwiftModuleDoc
 import com.eden.orchid.api.options.OptionsExtractor
-import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
 import com.eden.orchid.sourcedoc.SourcedocGenerator
 import com.eden.orchid.swiftdoc.NewSwiftdocGenerator.Companion.GENERATOR_KEY

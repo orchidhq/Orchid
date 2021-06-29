@@ -33,7 +33,7 @@ class NetlifyBaseUrlTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
     }
 
 // Ensure default url formats still work when also using Netlify URL factory
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test rending URLs using test-default base URL")
@@ -139,7 +139,7 @@ class NetlifyBaseUrlTest : OrchidIntegrationTest(withGenerator<HomepageGenerator
     }
 
 // Test Netlify base URL factory is working properly
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test rending URLs using a default Netlify URL")

@@ -19,7 +19,8 @@ class PagesMenuItemTest : OrchidIntegrationTest(PagesModule()) {
     @BeforeEach
     fun setUp() {
         resource(
-            "templates/layouts/index.peb", """
+            "templates/layouts/index.peb",
+            """
             <!DOCTYPE HTML>
             <html>
             <head>
@@ -40,7 +41,8 @@ class PagesMenuItemTest : OrchidIntegrationTest(PagesModule()) {
         )
 
         resource(
-            "templates/includes/menuItem.peb", """
+            "templates/includes/menuItem.peb",
+            """
             {% if menuItem.hasChildren %}
                 <li>
                     <span class="submenu">{{ menuItem.title | title }}</span>
@@ -112,5 +114,4 @@ class PagesMenuItemTest : OrchidIntegrationTest(PagesModule()) {
                 }
             }
     }
-
 }

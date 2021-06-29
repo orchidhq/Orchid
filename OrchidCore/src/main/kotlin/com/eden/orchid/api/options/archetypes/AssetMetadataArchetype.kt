@@ -12,8 +12,8 @@ import javax.inject.Inject
 
 @Description(
     value = "Allows this asset to have configurations from data files in the archetype key's directory. " +
-            "This is especially useful for binary asset files which cannot have Front Matter. Additional asset configs " +
-            "come from a data file at the same path as the asset itself, but in the archetype key's directory.",
+        "This is especially useful for binary asset files which cannot have Front Matter. Additional asset configs " +
+        "come from a data file at the same path as the asset itself, but in the archetype key's directory.",
     name = "Asset Config"
 )
 class AssetMetadataArchetype
@@ -40,5 +40,4 @@ constructor(
 
         return data
     }
-
 }

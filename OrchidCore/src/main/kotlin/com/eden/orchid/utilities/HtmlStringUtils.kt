@@ -5,30 +5,24 @@ public fun String.encodeSpaces(): String {
     var inTag = false
 
     for (i in 0 until this.length) {
-        if(inTag) {
-            if(this[i] == '>') {
+        if (inTag) {
+            if (this[i] == '>') {
                 inTag = false
                 output += this[i]
-            }
-            else {
+            } else {
                 output += this[i]
             }
-        }
-        else {
-            if(this[i] == '<') {
+        } else {
+            if (this[i] == '<') {
                 inTag = true
                 output += this[i]
-            }
-            else if(this[i] == ' ') {
+            } else if (this[i] == ' ') {
                 output += "&nbsp;"
-            }
-            else if(this[i] == '\t') {
+            } else if (this[i] == '\t') {
                 output += "&emsp;"
-            }
-            else if(this[i] == '\n') {
+            } else if (this[i] == '\n') {
                 output += "<br>"
-            }
-            else {
+            } else {
                 output += this[i]
             }
         }

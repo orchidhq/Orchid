@@ -31,8 +31,8 @@ constructor(
     @Option
     @Description(
         "CLASS: The fully-qualified name of a class to describe." +
-                "CONFIG: An object query for a given property in the site config." +
-                "PAGE: A page type."
+            "CONFIG: An object query for a given property in the site config." +
+            "PAGE: A page type."
     )
     lateinit var type: HelpType
 
@@ -53,9 +53,11 @@ constructor(
             Clog.i("\n{}", asciiTable)
 
             if (server != null && server.websocket != null) {
-                val htmlTable = HtmlTableFormatter(attrs = object : DefaultHtmlAttributes() {
-                    override val tableClasses = listOf("table")
-                }).print(table)
+                val htmlTable = HtmlTableFormatter(
+                    attrs = object : DefaultHtmlAttributes() {
+                        override val tableClasses = listOf("table")
+                    }
+                ).print(table)
                 server.websocket!!.sendMessage("describe", htmlTable)
             }
         }
@@ -83,6 +85,4 @@ constructor(
     private fun getDescribedClass(): Class<*> {
         return Class.forName(query)
     }
-
 }
-

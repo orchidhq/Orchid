@@ -16,5 +16,4 @@ constructor() : PermalinkPathType() {
     override fun format(page: OrchidPage, key: String): String? {
         return (page as AuthorPage).author.name
     }
-
 }

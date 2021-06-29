@@ -48,9 +48,11 @@ class YoutubeTag : TemplateTag("youtube", Type.Simple, true) {
                 if (time.size == 2) {
                     return (Integer.parseInt(time[0]) * (60)) + (Integer.parseInt(time[1]))
                 } else if (time.size == 3) {
-                    return (Integer.parseInt(time[0]) * (60 * 60)) + (Integer.parseInt(time[1]) * (60)) + (Integer.parseInt(
-                        time[2]
-                    ))
+                    return (Integer.parseInt(time[0]) * (60 * 60)) + (Integer.parseInt(time[1]) * (60)) + (
+                        Integer.parseInt(
+                            time[2]
+                        )
+                        )
                 }
             } catch (e: DateTimeParseException) {
                 Clog.e(e)

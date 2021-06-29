@@ -106,6 +106,4 @@ class PageConfigurationsTest : OrchidIntegrationTest(PagesModule()) {
                 get { origin.layout }.isEqualTo("layoutfour")
             }
     }
-
-
 }

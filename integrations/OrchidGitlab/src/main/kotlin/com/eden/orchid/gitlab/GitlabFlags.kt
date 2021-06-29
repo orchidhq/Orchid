@@ -13,5 +13,4 @@ class GitlabFlags : OrchidFlag() {
     @StringDefault("")
     @Description("Your GitLab Personal Access Token.")
     lateinit var gitlabToken: String
-
 }

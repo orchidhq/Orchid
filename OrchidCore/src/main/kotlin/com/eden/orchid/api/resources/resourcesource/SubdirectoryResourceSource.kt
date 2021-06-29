@@ -7,12 +7,12 @@ import com.eden.orchid.utilities.OrchidUtils
 class SubdirectoryResourceSource(
     private val delegate: OrchidResourceSource,
     private val subDirectory: String
-): OrchidResourceSource by delegate {
+) : OrchidResourceSource by delegate {
 
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
         return delegate.getResourceEntry(
             context,
-            OrchidUtils.normalizePath("${subDirectory}/$fileName")
+            OrchidUtils.normalizePath("$subDirectory/$fileName")
         )
     }
 
@@ -24,7 +24,7 @@ class SubdirectoryResourceSource(
     ): List<OrchidResource> {
         return delegate.getResourceEntries(
             context,
-            OrchidUtils.normalizePath("${subDirectory}/$dirName"),
+            OrchidUtils.normalizePath("$subDirectory/$dirName"),
             fileExtensions,
             recursive
         )

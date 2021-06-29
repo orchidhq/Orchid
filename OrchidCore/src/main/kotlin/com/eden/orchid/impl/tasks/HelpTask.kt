@@ -37,72 +37,77 @@ constructor(
     }
 
     private fun printUsage(): String? {
-        return OrchidUtils.defaultTableFormatter.print(krow {
-            includeHeaderRow = false
-            includeLeadingColumn = false
+        return OrchidUtils.defaultTableFormatter.print(
+            krow {
+                includeHeaderRow = false
+                includeLeadingColumn = false
 
-            header {
-                column("value") {
-                    this.width = 80
+                header {
+                    column("value") {
+                        this.width = 80
+                    }
+                }
+
+                bodyRow("key") {
+                    cellAt("value") {
+                        content = "  (orchid) <" + OrchidFlags.getInstance().positionalFlags.joinToString("> <") + "> [--<flag> <flag value>]"
+                    }
                 }
             }
-
-            bodyRow("key") {
-                cellAt("value") {
-                    content = "  (orchid) <" + OrchidFlags.getInstance().positionalFlags.joinToString("> <") + "> [--<flag> <flag value>]"
-                }
-            }
-        })
+        )
     }
 
     private fun printTasks(): String? {
-        return OrchidUtils.defaultTableFormatter.print(krow {
-            includeHeaderRow = false
-            includeLeadingColumn = false
+        return OrchidUtils.defaultTableFormatter.print(
+            krow {
+                includeHeaderRow = false
+                includeLeadingColumn = false
 
-            header {
-                column("key") {}
-                column("description") {}
-            }
+                header {
+                    column("key") {}
+                    column("description") {}
+                }
 
-            for (task in tasks.get()) {
-                bodyRow(task.name) {
-                    cellAt("key") {
-                        content = task.name
-                    }
-                    cellAt("description") {
-                        content = task.description
+                for (task in tasks.get()) {
+                    bodyRow(task.name) {
+                        cellAt("key") {
+                            content = task.name
+                        }
+                        cellAt("description") {
+                            content = task.description
+                        }
                     }
                 }
             }
-        })
+        )
     }
 
     private fun printOptions(): String? {
-        return OrchidUtils.defaultTableFormatter.print(krow {
-            includeHeaderRow = false
-            includeLeadingColumn = false
+        return OrchidUtils.defaultTableFormatter.print(
+            krow {
+                includeHeaderRow = false
+                includeLeadingColumn = false
 
-            header {
-                column("key") {}
-                column("description") {}
-            }
+                header {
+                    column("key") {}
+                    column("description") {}
+                }
 
-            for (flag in OrchidFlags.getInstance().describeFlags().values) {
-                bodyRow(flag.key) {
-                    cellAt("key") {
-                        var flagText = "--" + flag.key
-                        if (!EdenUtils.isEmpty(flag.aliases)) {
-                            flagText += ", -" + flag.aliases.joinToString(", -")
+                for (flag in OrchidFlags.getInstance().describeFlags().values) {
+                    bodyRow(flag.key) {
+                        cellAt("key") {
+                            var flagText = "--" + flag.key
+                            if (!EdenUtils.isEmpty(flag.aliases)) {
+                                flagText += ", -" + flag.aliases.joinToString(", -")
+                            }
+                            content = flagText
                         }
-                        content = flagText
-                    }
-                    cellAt("description") {
-                        content = flag.description
+                        cellAt("description") {
+                            content = flag.description
+                        }
                     }
                 }
             }
-        })
+        )
     }
-
 }

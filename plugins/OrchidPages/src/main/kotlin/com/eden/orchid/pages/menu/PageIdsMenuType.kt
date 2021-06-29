@@ -13,12 +13,11 @@ import org.jsoup.Jsoup
 import java.util.stream.IntStream
 import kotlin.streams.toList
 
-
 @Description(
     "Finds all headers with an ID within the page content and creates menu items for each. All headers " +
-            "between the min and max levels are used, such as h1-h3, or h2-h5. The default is all headers, h1-h6. These " +
-            "header links can either be displayed in a flat list in the order they were found on the page, or as a " +
-            "nested tree, where h2s are grouped under their previous h1, etc.",
+        "between the min and max levels are used, such as h1-h3, or h2-h5. The default is all headers, h1-h6. These " +
+        "header links can either be displayed in a flat list in the order they were found on the page, or as a " +
+        "nested tree, where h2s are grouped under their previous h1, etc.",
     name = "Page Ids"
 )
 class PageIdsMenuType : OrchidMenuFactory("pageIds") {
@@ -98,4 +97,3 @@ class PageIdsMenuType : OrchidMenuFactory("pageIds") {
         flat, nested
     }
 }
-

@@ -4,7 +4,8 @@ import com.eden.orchid.testhelpers.OrchidIntegrationTest
 
 fun OrchidIntegrationTest.testCss() {
     resource(
-        "assets/css/orchidSourceDoc.scss", """
+        "assets/css/orchidSourceDoc.scss",
+        """
             |* {
             |  box-sizing: border-box;
             |}
@@ -100,7 +101,8 @@ fun OrchidIntegrationTest.testPageStructure() {
     }
 
     resource(
-        "templates/pages/sourceDocPage.peb", """
+        "templates/pages/sourceDocPage.peb",
+        """
             |<div class="sourcedoc-page">
             |  <h1>{{ page.title }}</h1>
             |  <div class="orchid-sourcedoc">

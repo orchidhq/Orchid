@@ -9,7 +9,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 
 @Description(
     "The children of a page in your site, referenced from a Collection. If no page query is given, will use " +
-            "the current page. The children are defined as the children of the Index at the page path.",
+        "the current page. The children are defined as the children of the Index at the page path.",
     name = "Page Children"
 )
 class PageChildrenMenuItem : OrchidMenuFactory("pageChildren") {

@@ -47,7 +47,7 @@ class LatestPostsMenuType : OrchidMenuFactory("latestPosts") {
 
         val latestPosts = postsModel.getRecentPosts(category, limit)
         if (!EdenUtils.isEmpty(latestPosts)) {
-            if(postsAtRoot) {
+            if (postsAtRoot) {
                 latestPosts.forEach {
                     items.add(
                         MenuItem.Builder(context)
@@ -55,8 +55,7 @@ class LatestPostsMenuType : OrchidMenuFactory("latestPosts") {
                             .build()
                     )
                 }
-            }
-            else {
+            } else {
                 val title = if (!EdenUtils.isEmpty(this.title)) {
                     this.title
                 } else if (!EdenUtils.isEmpty(categoryModel?.title)) {
@@ -76,6 +75,4 @@ class LatestPostsMenuType : OrchidMenuFactory("latestPosts") {
 
         return items
     }
-
 }
-

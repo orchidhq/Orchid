@@ -19,5 +19,5 @@ constructor(
     var value: String? = null
 
     override fun isEnabled(context: OrchidContext): Boolean = true
-    override fun getBaseUrl(context: OrchidContext) : String = (value?.takeIf { it.isNotBlank() } ?: baseUrl)
+    override fun getBaseUrl(context: OrchidContext): String = (value?.takeIf { it.isNotBlank() } ?: baseUrl)
 }

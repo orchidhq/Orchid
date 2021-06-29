@@ -77,7 +77,7 @@ class JsPage(
     }
 
     override fun configureReferences() {
-        reference = OrchidReference(resource.reference)// copy reference so we can update it
+        reference = OrchidReference(resource.reference) // copy reference so we can update it
         reference.isUsePrettyUrl = false
 
         if (resource is ExternalResource) {
@@ -113,18 +113,22 @@ class JsPage(
 
     override fun renderAssetToPage(): String? {
         return if (shouldInline) {
-            (applyStartTag()
-                    + applyModuleNoModule()
-                    + renderAttrs(attrs)
-                    + applyInlineScript()
-                    + applyCloseTag())
+            (
+                applyStartTag() +
+                    applyModuleNoModule() +
+                    renderAttrs(attrs) +
+                    applyInlineScript() +
+                    applyCloseTag()
+                )
         } else {
-            (applyStartTag()
-                    + applyAsyncDefer()
-                    + applyModuleNoModule()
-                    + renderAttrs(attrs)
-                    + applyScriptSource()
-                    + applyCloseTag())
+            (
+                applyStartTag() +
+                    applyAsyncDefer() +
+                    applyModuleNoModule() +
+                    renderAttrs(attrs) +
+                    applyScriptSource() +
+                    applyCloseTag()
+                )
         }
     }
 

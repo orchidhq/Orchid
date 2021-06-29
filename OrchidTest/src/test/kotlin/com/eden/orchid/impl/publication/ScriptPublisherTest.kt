@@ -1,8 +1,9 @@
 package com.eden.orchid.impl.publication
 
 import clog.Clog
-import clog.ClogLogger
-import clog.ClogProfile
+import clog.api.ClogLogger
+import clog.dsl.addLogger
+import clog.dsl.removeLogger
 import com.eden.orchid.strikt.nothingElseRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import org.junit.jupiter.api.AfterEach
@@ -19,24 +20,15 @@ class ScriptPublisherTest : OrchidIntegrationTest(), ClogLogger {
     internal fun setUp() {
         scriptPublisherLogged = false
 
-        Clog.setCurrentProfile("ScriptPublisherTest") {
-            ClogProfile().apply {
-                addLogger(null, this@ScriptPublisherTest)
-                addLogger(Clog.KEY_V, this@ScriptPublisherTest)
-                addLogger(Clog.KEY_D, this@ScriptPublisherTest)
-                addLogger(Clog.KEY_I, this@ScriptPublisherTest)
-                addLogger(Clog.KEY_W, this@ScriptPublisherTest)
-                addLogger(Clog.KEY_E, this@ScriptPublisherTest)
-                addLogger(Clog.KEY_WTF, this@ScriptPublisherTest)
-            }
-        }
+        enableLogging()
+        Clog.addLogger(this)
     }
 
     @AfterEach
     internal fun tearDown() {
         disableLogging()
         // restore current Clog profile
-        Clog.setCurrentProfile(null)
+        Clog.removeLogger(this)
     }
 
     @Test
@@ -44,7 +36,8 @@ class ScriptPublisherTest : OrchidIntegrationTest(), ClogLogger {
         flag("task", "deploy")
         flag("src", ".")
         configObject(
-            "services", """
+            "services",
+            """
             |{
             |    "publications": {
             |        "stages": [
@@ -67,25 +60,18 @@ class ScriptPublisherTest : OrchidIntegrationTest(), ClogLogger {
         expectThat(scriptPublisherLogged).isTrue()
     }
 
-
 // Clog Logger implementation
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
-    override fun isActive(): Boolean = true
-
-    override fun priority(): Clog.Priority = Clog.Priority.VERBOSE
-
-    override fun log(tag: String?, message: String?): Int {
-        if(tag == "Script Publisher") {
+    override fun log(priority: Clog.Priority, tag: String?, message: String) {
+        if (tag == "Script Publisher") {
             scriptPublisherLogged = true
         }
-
-        return 0
     }
 
-    override fun log(tag: String?, message: String?, throwable: Throwable?): Int {
-        return log(tag, message)
+    override fun logException(priority: Clog.Priority, tag: String?, throwable: Throwable) {
+        if (tag == "Script Publisher") {
+            scriptPublisherLogged = true
+        }
     }
-
-
 }

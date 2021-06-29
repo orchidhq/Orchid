@@ -8,7 +8,7 @@ import com.eden.orchid.api.theme.components.OrchidComponent
 
 @Description(
     "Add the Kotlin Playground to your pages, to convert Kotlin code snippets into interactive, embedded " +
-            "development playgrounds.",
+        "development playgrounds.",
     name = "Kotlin Playground"
 )
 class KotlinPlaygroundComponent : OrchidComponent("kotlinPlayground", true) {
@@ -19,7 +19,8 @@ class KotlinPlaygroundComponent : OrchidComponent("kotlinPlayground", true) {
     lateinit var kotlinPlaygroundSource: String
 
     @Option
-    @Description("Select which elements on the page are converted. Defaults to markdown code blocks with the " +
+    @Description(
+        "Select which elements on the page are converted. Defaults to markdown code blocks with the " +
             "`run-kotlin` language."
     )
     @StringDefault("pre code[class='language-run-kotlin']")

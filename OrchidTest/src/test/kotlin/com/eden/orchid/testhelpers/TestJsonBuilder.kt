@@ -36,7 +36,6 @@ class TestJsonBuilder : OrchidUnitTest {
                         for (i in 1..20) {
                             "val$i" to i * i
                         }
-
                     }
                 }
             }
@@ -108,5 +107,4 @@ class TestJsonBuilder : OrchidUnitTest {
                     .isEqualTo(8)
             }
     }
-
 }

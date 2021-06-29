@@ -1,9 +1,7 @@
 package com.eden.orchid.sourcedoc.page
 
 import com.copperleaf.kodiak.common.AutoDocument
-import com.copperleaf.kodiak.common.RichTextComponent.Companion.TYPE_NAME
 import com.copperleaf.kodiak.common.DocElement
-import com.copperleaf.kodiak.common.RichTextComponent
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.assets.AssetManagerDelegate
@@ -77,10 +75,9 @@ class SourceDocPage<T : DocElement>(
     }
 
     fun sectionId(section: Section): String {
-        return if(section.parent != null && section.parent !== element) {
+        return if (section.parent != null && section.parent !== element) {
             OrchidUtils.sha1("${unhashedElementId(section.parent)}_${section.name}")
-        }
-        else {
+        } else {
             section.name
         }
     }

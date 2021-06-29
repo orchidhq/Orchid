@@ -22,18 +22,18 @@ class Form(
     lateinit var title: String
 
     @Option
-    @Description("The 'action' attribute of the form. On forms which have a dedicated submission page, if this is " +
+    @Description(
+        "The 'action' attribute of the form. On forms which have a dedicated submission page, if this is " +
             "not provided, it defaults to the URL of the submission page."
     )
     var action: String = ""
-    get() {
-        return if(field.isNotBlank()) {
-            field
+        get() {
+            return if (field.isNotBlank()) {
+                field
+            } else {
+                redirectionPage.get()?.link ?: ""
+            }
         }
-        else {
-            redirectionPage.get()?.link ?: ""
-        }
-    }
 
     @Option @StringDefault("post")
     @Description("The HTTP request method the form submits as. One of ['get', 'post'].")
@@ -50,15 +50,15 @@ class Form(
     @Option @ImpliedKey(typeKey = "key")
     @Description("The fields in this form.")
     var fields: FormFieldList? = null
-    get() {
-        if(redirectionPage.get() != null) {
-            field?.addExtraField("redirectionPage", redirectionPageFieldName, redirectionPage.get()!!.link)
+        get() {
+            if (redirectionPage.get() != null) {
+                field?.addExtraField("redirectionPage", redirectionPageFieldName, redirectionPage.get()!!.link)
+            }
+            if (!method.equals("get", ignoreCase = true) && !method.equals("post", ignoreCase = true)) {
+                field?.addExtraField("method", methodFieldName, method)
+            }
+            return field
         }
-        if(!method.equals("get", ignoreCase = true) && !method.equals("post", ignoreCase = true)) {
-            field?.addExtraField("method", methodFieldName, method)
-        }
-        return field
-    }
 
     @Option
     @Description("The page to redirect to after a successful submission")
@@ -75,11 +75,11 @@ class Form(
         try {
             extractOptions(context, formData)
 
-            if(EdenUtils.isEmpty(key) && !EdenUtils.isEmpty(title)) {
+            if (EdenUtils.isEmpty(key) && !EdenUtils.isEmpty(title)) {
                 key = title
             }
 
-            if(EdenUtils.isEmpty(key)) {
+            if (EdenUtils.isEmpty(key)) {
                 throw IllegalArgumentException("The form must define a 'key' or a 'title'.")
             }
         } catch (e: Exception) {
@@ -88,8 +88,7 @@ class Form(
     }
 
     val attrs: Map<String, Any>
-    get() {
-        return attributes.toMap()
-    }
-
+        get() {
+            return attributes.toMap()
+        }
 }

@@ -37,7 +37,7 @@ class CoreMenuItemsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>
     }
 
 // Test using base URLs set from CLI flag
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test `page` menu item")
@@ -65,8 +65,8 @@ class CoreMenuItemsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>
             .pageWasRendered("/index.html") {
                 htmlBodyMatches {
                     ul {
-                        li { a(href="http://orchid.test/page-one") { +"Page One" }}
-                        li { a(href="http://orchid.test/page-two") { +"Something else as the title" }}
+                        li { a(href = "http://orchid.test/page-one") { +"Page One" } }
+                        li { a(href = "http://orchid.test/page-two") { +"Something else as the title" } }
                     }
                 }
             }
@@ -93,12 +93,12 @@ class CoreMenuItemsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>
             .pageWasRendered("/index.html") {
                 htmlBodyMatches {
                     ul {
-                        li { a(href="http://orchid.test/one/page-one-one") { +"Page One One" }}
-                        li { a(href="http://orchid.test/one/page-one-two") { +"Page One Two" }}
-                        li { a(href="http://orchid.test/two/page-two-one") { +"Page Two One" }}
-                        li { a(href="http://orchid.test/two/page-two-two") { +"Page Two Two" }}
-                        li { a(href="http://orchid.test/page-one") { +"Page One" }}
-                        li { a(href="http://orchid.test/page-two") { +"Page Two" }}
+                        li { a(href = "http://orchid.test/one/page-one-one") { +"Page One One" } }
+                        li { a(href = "http://orchid.test/one/page-one-two") { +"Page One Two" } }
+                        li { a(href = "http://orchid.test/two/page-two-one") { +"Page Two One" } }
+                        li { a(href = "http://orchid.test/two/page-two-two") { +"Page Two Two" } }
+                        li { a(href = "http://orchid.test/page-one") { +"Page One" } }
+                        li { a(href = "http://orchid.test/page-two") { +"Page Two" } }
                     }
                 }
             }
@@ -126,8 +126,8 @@ class CoreMenuItemsTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>
             .pageWasRendered("/index.html") {
                 htmlBodyMatches {
                     ul {
-                        li { a(href="http://orchid.test/one/page-one-one") { +"Page One One" }}
-                        li { a(href="http://orchid.test/one/page-one-two") { +"Page One Two" }}
+                        li { a(href = "http://orchid.test/one/page-one-one") { +"Page One One" } }
+                        li { a(href = "http://orchid.test/one/page-one-two") { +"Page One Two" } }
                     }
                 }
             }

@@ -33,7 +33,7 @@ class GistTagTest : OrchidIntegrationTest(
         expectThat(execute())
             .pageWasRendered("/index.html") {
                 htmlBodyMatches("body script") {
-                    script(src="https://gist.github.com/$gistUser/$gistId.js") {  }
+                    script(src = "https://gist.github.com/$gistUser/$gistId.js") { }
                 }
             }
     }

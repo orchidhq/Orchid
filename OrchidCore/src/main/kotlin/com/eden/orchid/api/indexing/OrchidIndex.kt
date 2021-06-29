@@ -45,8 +45,7 @@ open class OrchidIndex(val parent: OrchidIndex?, val ownKey: String) {
                 // this is the final piece of the path, add it here
                 if (pathPieces.size == 1) {
                     this.ownPages.add(page)
-                }
-                else {
+                } else {
                     val nextPathPiece = pathPieces[1]
 
                     // we haven't created an index for the next path piece, create one by reflection
@@ -72,10 +71,11 @@ open class OrchidIndex(val parent: OrchidIndex?, val ownKey: String) {
         if (!EdenUtils.isEmpty(pathPieces) && !EdenUtils.isEmpty(pathPieces[0])) {
             if (pathPieces.size == 1 && pathPieces[0] == ownKey) {
                 foundPages.addAll(this.allPages)
-            }
-            else {
+            } else {
                 if (childrenPages.containsKey(pathPieces[1])) {
-                    foundPages.addAll(childrenPages[pathPieces[1]]!!.find(Arrays.copyOfRange(pathPieces, 1, pathPieces.size)))
+                    foundPages.addAll(
+                        childrenPages[pathPieces[1]]!!.find(Arrays.copyOfRange(pathPieces, 1, pathPieces.size))
+                    )
                 }
             }
         }
@@ -98,8 +98,7 @@ open class OrchidIndex(val parent: OrchidIndex?, val ownKey: String) {
                         break
                     }
                 }
-            }
-            else {
+            } else {
                 if (childrenPages.containsKey(pathPieces[1])) {
                     page = childrenPages[pathPieces[1]]!!.findPage(Arrays.copyOfRange(pathPieces, 1, pathPieces.size))
                 }
@@ -119,9 +118,9 @@ open class OrchidIndex(val parent: OrchidIndex?, val ownKey: String) {
         if (!EdenUtils.isEmpty(pathPieces) && !EdenUtils.isEmpty(pathPieces[0])) {
             if (pathPieces.size == 1 && pathPieces[0] == ownKey) {
                 foundIndex = this
-            }
-            else if (childrenPages.containsKey(pathPieces[1])) {
-                foundIndex = childrenPages[pathPieces[1]]!!.findIndex(Arrays.copyOfRange(pathPieces, 1, pathPieces.size))
+            } else if (childrenPages.containsKey(pathPieces[1])) {
+                foundIndex = childrenPages[pathPieces[1]]!!
+                    .findIndex(Arrays.copyOfRange(pathPieces, 1, pathPieces.size))
             }
         }
 
@@ -171,7 +170,7 @@ open class OrchidIndex(val parent: OrchidIndex?, val ownKey: String) {
     }
 
 // Factory methods
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     companion object {
 

@@ -3,7 +3,6 @@ package com.eden.orchid.posts
 import com.eden.orchid.strikt.nothingRendered
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
@@ -53,7 +52,7 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
         resource("posts/2018/01/01/post-one/index.md")
 
         expectThat(execute())
-                .pageWasRendered("/2018/1/1/post-one/index.html")
+            .pageWasRendered("/2018/1/1/post-one/index.html")
     }
 
     @Test
@@ -62,7 +61,7 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
         resource("posts/2018/001/post-one/index.md")
 
         expectThat(execute())
-                .pageWasRendered("/2018/1/1/post-one/index.html")
+            .pageWasRendered("/2018/1/1/post-one/index.html")
     }
 
     @Test
@@ -71,7 +70,7 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
         resource("posts/2018/081/post-one/index.md")
 
         expectThat(execute())
-                .pageWasRendered("/2018/3/22/post-one/index.html")
+            .pageWasRendered("/2018/3/22/post-one/index.html")
     }
 
     @Test
@@ -186,5 +185,4 @@ class PostsGeneratorTest : OrchidIntegrationTest(PostsModule()) {
         expectThat(execute())
             .nothingRendered()
     }
-
 }

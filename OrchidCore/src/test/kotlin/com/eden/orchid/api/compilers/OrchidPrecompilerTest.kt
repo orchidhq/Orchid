@@ -82,8 +82,8 @@ class OrchidPrecompilerTest : OrchidUnitTest {
         val output = underTest.getEmbeddedData("md", input)
 
         expectThat(output)
-                .and { get { first }.isEqualTo("Page Content") }
-                .and { get { second }["title"].isEqualTo("Front Matter Title") }
+            .and { get { first }.isEqualTo("Page Content") }
+            .and { get { second }["title"].isEqualTo("Front Matter Title") }
     }
 
     @Test
@@ -102,8 +102,8 @@ class OrchidPrecompilerTest : OrchidUnitTest {
         val output = underTest.getEmbeddedData("md", input)
 
         expectThat(output)
-                .and { get { first }.isEqualTo("Page Content") }
-                .and { get { second }["title"].isEqualTo("Front Matter Title") }
+            .and { get { first }.isEqualTo("Page Content") }
+            .and { get { second }["title"].isEqualTo("Front Matter Title") }
     }
 
     @Test
@@ -120,8 +120,8 @@ class OrchidPrecompilerTest : OrchidUnitTest {
         val output = underTest.getEmbeddedData("md", input)
 
         expectThat(output)
-                .and { get { first }.isEqualTo("Page Content") }
-                .and { get { second }["title"].isEqualTo("Front Matter Title") }
+            .and { get { first }.isEqualTo("Page Content") }
+            .and { get { second }["title"].isEqualTo("Front Matter Title") }
     }
 
     @Test
@@ -138,10 +138,9 @@ class OrchidPrecompilerTest : OrchidUnitTest {
         val output = underTest.getEmbeddedData("md", input)
 
         expectThat(output)
-                .and { get { first }.isEqualTo("Page Content") }
-                .and { get { second }["title"].isEqualTo("Front Matter Title") }
+            .and { get { first }.isEqualTo("Page Content") }
+            .and { get { second }["title"].isEqualTo("Front Matter Title") }
     }
-
 
     @Test
     fun parseJsonFrontMatterFromExtension() {
@@ -159,8 +158,8 @@ class OrchidPrecompilerTest : OrchidUnitTest {
         val output = underTest.getEmbeddedData("md", input)
 
         expectThat(output)
-                .and { get { first }.isEqualTo("Page Content") }
-                .and { get { second }["title"].isEqualTo("Front Matter Title") }
+            .and { get { first }.isEqualTo("Page Content") }
+            .and { get { second }["title"].isEqualTo("Front Matter Title") }
     }
 
     @Test
@@ -177,8 +176,8 @@ class OrchidPrecompilerTest : OrchidUnitTest {
         val output = underTest.getEmbeddedData("md", input)
 
         expectThat(output)
-                .and { get { first }.isEqualTo("Page Content") }
-                .and { get { second }["title"].isEqualTo("Front Matter Title") }
+            .and { get { first }.isEqualTo("Page Content") }
+            .and { get { second }["title"].isEqualTo("Front Matter Title") }
     }
 
     @Test
@@ -190,8 +189,8 @@ class OrchidPrecompilerTest : OrchidUnitTest {
         val output = underTest.getEmbeddedData("md", input)
 
         expectThat(output)
-                .and { get { first }.isEqualTo(input) }
-                .and { get { second }.isEmpty() }
+            .and { get { first }.isEqualTo(input) }
+            .and { get { second }.isEmpty() }
     }
 
     @Test
@@ -207,8 +206,8 @@ class OrchidPrecompilerTest : OrchidUnitTest {
         val output = underTest.getEmbeddedData("md", input)
 
         expectThat(output)
-                .and { get { first }.isEqualTo("Page Content") }
-                .and { get { second }.isNotNull().isEmpty() }
+            .and { get { first }.isEqualTo("Page Content") }
+            .and { get { second }.isNotNull().isEmpty() }
     }
 
     @Test
@@ -224,31 +223,31 @@ class OrchidPrecompilerTest : OrchidUnitTest {
         expectThat(underTest.shouldPrecompile("md", input)).isFalse()
         var output = underTest.getEmbeddedData("md", input)
         expectThat(output)
-                .and { get { first }.isEqualTo(input) }
-                .and { get { second }.isEmpty() }
+            .and { get { first }.isEqualTo(input) }
+            .and { get { second }.isEmpty() }
 
         underTest.customDelimeters = listOf(
-                FrontMatterPrecompiler.CustomDelimiter().apply {
-                    regex = "^###\n(.*)\n###\n"
-                    group = 1
-                    parser = "yml"
-                    fileExtensions = listOf("js")
-                }
+            FrontMatterPrecompiler.CustomDelimiter().apply {
+                regex = "^###\n(.*)\n###\n"
+                group = 1
+                parser = "yml"
+                fileExtensions = listOf("js")
+            }
         )
 
         // test when custom delimiter is set, but input does not match the delimiter's file extensions
         expectThat(underTest.shouldPrecompile("md", input)).isFalse()
         output = underTest.getEmbeddedData("md", input)
         expectThat(output)
-                .and { get { first }.isEqualTo(input) }
-                .and { get { second }.isEmpty() }
+            .and { get { first }.isEqualTo(input) }
+            .and { get { second }.isEmpty() }
 
         // test when custom delimiter is set, and input matches the delimiter's file extensions
         expectThat(underTest.shouldPrecompile("js", input)).isTrue()
         output = underTest.getEmbeddedData("js", input)
         expectThat(output)
-                .and { get { first }.isEqualTo("Page Content") }
-                .and { get { second }["title"].isEqualTo("Front Matter Title") }
+            .and { get { first }.isEqualTo("Page Content") }
+            .and { get { second }["title"].isEqualTo("Front Matter Title") }
     }
 
     @Test
@@ -268,27 +267,27 @@ class OrchidPrecompilerTest : OrchidUnitTest {
         """.trimMargin()
 
         underTest.customDelimeters = listOf(
-                FrontMatterPrecompiler.CustomDelimiter().apply {
-                    regex = "^/\\*\n(.*)\n\\*/\n"
-                    group = 1
-                    parser = "yml"
-                    fileExtensions = listOf("css")
-                }
+            FrontMatterPrecompiler.CustomDelimiter().apply {
+                regex = "^/\\*\n(.*)\n\\*/\n"
+                group = 1
+                parser = "yml"
+                fileExtensions = listOf("css")
+            }
         )
 
         // test when custom delimiter is set, and input matches the delimiter's file extensions
         expectThat(underTest.shouldPrecompile("css", input)).isTrue()
         val output = underTest.getEmbeddedData("css", input)
         expectThat(output)
-                .and { get { first.replace("\\s".toRegex(), "") }.isEqualTo(".button{color:red;}") }
-                .and { get { second }["title"].isEqualTo("Front Matter Title") }
-                .and {
-                    get { second }["customItems"]
-                            .isA<Collection<*>>()
-                            .get { toList() }
-                            .hasSize(3)
-                            .containsExactly("Item One", "Item Two", "Item Three")
-                }
+            .and { get { first.replace("\\s".toRegex(), "") }.isEqualTo(".button{color:red;}") }
+            .and { get { second }["title"].isEqualTo("Front Matter Title") }
+            .and {
+                get { second }["customItems"]
+                    .isA<Collection<*>>()
+                    .get { toList() }
+                    .hasSize(3)
+                    .containsExactly("Item One", "Item Two", "Item Three")
+            }
     }
 
     @Test
@@ -304,25 +303,24 @@ class OrchidPrecompilerTest : OrchidUnitTest {
         """.trimMargin()
 
         underTest.customDelimeters = listOf(
-                FrontMatterPrecompiler.CustomDelimiter().apply {
-                    regex = "^(.*?)\n~~~~~~\n"
-                    group = 1
-                    parser = "properties"
-                    fileExtensions = listOf("md")
-                }
+            FrontMatterPrecompiler.CustomDelimiter().apply {
+                regex = "^(.*?)\n~~~~~~\n"
+                group = 1
+                parser = "properties"
+                fileExtensions = listOf("md")
+            }
         )
 
         // test when custom delimiter is set, and input matches the delimiter's file extensions
         expectThat(underTest.shouldPrecompile("md", input)).isTrue()
         val output = underTest.getEmbeddedData("md", input)
         expectThat(output)
-                .and { get { first }.isEqualTo("# Markdown content") }
-                .and { get { second }["title"].isEqualTo("Weekly Links #2") }
-                .and { get { second }["date"].isEqualTo("2013-02-01") }
-                .and { get { second }["type"].isEqualTo("post") }
-                .and { get { second }["tags"].isEqualTo("weekly links, java") }
-                .and { get { second }["status"].isEqualTo("published") }
-
+            .and { get { first }.isEqualTo("# Markdown content") }
+            .and { get { second }["title"].isEqualTo("Weekly Links #2") }
+            .and { get { second }["date"].isEqualTo("2013-02-01") }
+            .and { get { second }["type"].isEqualTo("post") }
+            .and { get { second }["tags"].isEqualTo("weekly links, java") }
+            .and { get { second }["status"].isEqualTo("published") }
     }
 
     @Test
@@ -338,7 +336,7 @@ class OrchidPrecompilerTest : OrchidUnitTest {
         val output = underTest.getEmbeddedData("md", input)
 
         expectThat(output)
-                .and { get { first }.isEqualTo("") }
-                .and { get { second }["title"].isEqualTo("Front Matter Title") }
+            .and { get { first }.isEqualTo("") }
+            .and { get { second }["title"].isEqualTo("Front Matter Title") }
     }
 }

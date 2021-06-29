@@ -5,9 +5,9 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-import com.eden.orchid.api.resources.resource.ResourceTransformation
 import com.eden.orchid.api.resources.resource.FileResource
 import com.eden.orchid.api.resources.resource.OrchidResource
+import com.eden.orchid.api.resources.resource.ResourceTransformation
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.assets.AssetPage
@@ -85,7 +85,7 @@ constructor(
     }
 
 // Cloning Wiki
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     private val displayedRemoteUrl: String
         get() = "https://$gitlabUrl/$repo.wiki.git"
@@ -94,7 +94,7 @@ constructor(
         get() = "https://$gitlabUrl/$repo.wiki.git"
 
 // Formatting Wiki files to Orchid's wiki format
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     private fun createSummaryFileFromSidebar(
         repo: GitRepoFacade,
@@ -176,7 +176,10 @@ constructor(
                                 it
                             )
                         }
-                        ?.let { AssetPage(createAssetManagerDelegate(context), it, "image", null).also { it.configureReferences() } }
+                        ?.let {
+                            AssetPage(createAssetManagerDelegate(context), it, "image", null)
+                                .also { it.configureReferences() }
+                        }
                 }
             )
         )

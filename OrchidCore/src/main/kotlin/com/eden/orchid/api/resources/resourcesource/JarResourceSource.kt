@@ -7,7 +7,6 @@ import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
 import org.apache.commons.io.FilenameUtils
 import java.io.IOException
-import java.util.ArrayList
 import java.util.jar.JarFile
 import java.util.jar.Manifest
 
@@ -65,7 +64,9 @@ class JarResourceSource(
 
             if (normalizedEntryName.startsWith("META-INF")) continue
 
-            if (fileExtensions.isNullOrEmpty() || FilenameUtils.isExtension(normalizedEntryName, fileExtensions.toList())) {
+            if (fileExtensions.isNullOrEmpty() ||
+                FilenameUtils.isExtension(normalizedEntryName, fileExtensions.toList())
+            ) {
                 entries.add(JarResource(OrchidReference(context, normalizedEntryName), jarFile, jarEntry))
             }
         }
@@ -105,12 +106,12 @@ class JarResourceSource(
 
         fun jarForClass(pluginClass: Class<*>): JarFile {
             val path = "/" + pluginClass.name.replace('.', '/') + ".class"
-            val jarUrl =
-                pluginClass.getResource(path)?.toString() ?: throw IllegalStateException("Could not get jar for class $pluginClass")
+            val jarUrl = pluginClass.getResource(path)?.toString()
+                ?: throw IllegalStateException("Could not get jar for class $pluginClass")
 
             val url = jarUrl
                 .removePrefix(JAR_URI_PREFIX)
-                .let { if(OrchidUtils.isWindows) it.removePrefix("\\").removePrefix("/") else it }
+                .let { if (OrchidUtils.isWindows) it.removePrefix("\\").removePrefix("/") else it }
 
             val bang = url.indexOf("!")
             return if (bang != -1) {

@@ -14,8 +14,8 @@ class NetlifyCmsModule : OrchidModule() {
 
         addToSet<OrchidGenerator<*>, NetlifyCmsGenerator>()
         addToSet<OrchidController>(
-                NetlifyCmsApiController::class,
-                NetlifyCmsManageController::class)
+            NetlifyCmsApiController::class,
+            NetlifyCmsManageController::class
+        )
     }
 }
-

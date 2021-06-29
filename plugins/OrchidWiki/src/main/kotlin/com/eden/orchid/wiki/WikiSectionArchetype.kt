@@ -9,14 +9,15 @@ import com.eden.orchid.wiki.pages.WikiSummaryPage
 import org.json.JSONObject
 import javax.inject.Inject
 
-@Description("Configure all pages in the same wiki section. Additional configuration values from the same object " +
+@Description(
+    "Configure all pages in the same wiki section. Additional configuration values from the same object " +
         "which configures the Wiki Generator, at a sub-object for that page's wiki section.",
-        name = "Wiki Section"
+    name = "Wiki Section"
 )
 class WikiSectionArchetype
 @Inject
 constructor(
-        val context: OrchidContext
+    val context: OrchidContext
 ) : OptionArchetype {
 
     override fun getOptions(target: Any, archetypeKey: String): Map<String, Any>? {
@@ -29,8 +30,7 @@ constructor(
                     return (contextOptions?.element as? JSONObject)?.toMap()
                 }
             }
-        }
-        else if (target is WikiSummaryPage) {
+        } else if (target is WikiSummaryPage) {
             if (!EdenUtils.isEmpty(target.section)) {
                 val contextOptions = context.query("$archetypeKey.${target.section}")
                 if (EdenUtils.elementIsObject(contextOptions)) {
@@ -41,5 +41,4 @@ constructor(
 
         return null
     }
-
 }

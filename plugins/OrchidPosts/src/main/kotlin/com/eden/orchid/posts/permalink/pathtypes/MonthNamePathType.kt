@@ -18,8 +18,5 @@ constructor() : PermalinkPathType() {
         return if (page is PostPage) {
             Month.of(page.month).toString()
         } else page.publishDate.month.toString()
-
     }
-
 }
-

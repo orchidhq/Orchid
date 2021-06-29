@@ -16,15 +16,15 @@ class CloudinaryResource(
     Renameable {
 
     override fun rotate(page: AssetPage, angle: Double) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
 
     override fun scale(page: AssetPage, factor: Double) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
 
     override fun resize(page: AssetPage, width: Int, height: Int, mode: Resizable.Mode) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
 
     override fun rename(
@@ -33,6 +33,6 @@ class CloudinaryResource(
         permalink: String,
         usePrettyUrl: Boolean
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
 }

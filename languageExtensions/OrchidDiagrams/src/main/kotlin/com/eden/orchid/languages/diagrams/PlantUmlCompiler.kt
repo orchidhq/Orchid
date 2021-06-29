@@ -25,7 +25,13 @@ constructor() : OrchidCompiler(800) {
 
     // TODO: bundle a DOT executable and use GraphvizUtils.setDotExecutable() to use the bundled one (minimize system dependencies needed)
 
-    override fun compile(os: OutputStream, resource: OrchidResource?, extension: String, input: String, data: MutableMap<String, Any>?) {
+    override fun compile(
+        os: OutputStream,
+        resource: OrchidResource?,
+        extension: String,
+        input: String,
+        data: MutableMap<String, Any>?
+    ) {
         OutputStreamWriter(os).append(compileMultipleDiagrams(input)).close()
     }
 
@@ -55,14 +61,14 @@ constructor() : OrchidCompiler(800) {
     private fun compileMultipleDiagrams(input: String): String {
         var formattedInput = wrapDiagram(input.trim())
 
-        for(tag in tags) {
+        for (tag in tags) {
             val templateResult = StringBuffer(formattedInput.length)
 
             val matcher = "@start$tag(.+?)@end$tag"
                 .toRegex(setOf(RegexOption.DOT_MATCHES_ALL, RegexOption.MULTILINE, RegexOption.IGNORE_CASE))
                 .toPattern()
                 .matcher(formattedInput)
-            while(matcher.find()) {
+            while (matcher.find()) {
                 val content = matcher.group(1)
                 val replacement = compileSingleDiagram(content, tag)
                 matcher.appendReplacement(templateResult, "")
@@ -103,5 +109,4 @@ constructor() : OrchidCompiler(800) {
             return ""
         }
     }
-
 }

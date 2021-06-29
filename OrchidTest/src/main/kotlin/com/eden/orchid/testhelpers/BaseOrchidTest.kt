@@ -28,5 +28,4 @@ interface BaseOrchidTest {
     fun enableLogging() {
         Clog.setMinPriority(Clog.Priority.VERBOSE)
     }
-
 }

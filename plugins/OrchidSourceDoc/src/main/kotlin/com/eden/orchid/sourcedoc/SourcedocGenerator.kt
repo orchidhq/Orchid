@@ -14,7 +14,6 @@ import com.eden.orchid.api.options.OptionsExtractor
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
-import com.eden.orchid.api.resources.resourcesource.flexible
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
 import com.eden.orchid.sourcedoc.model.SourceDocModel
@@ -27,7 +26,6 @@ import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.utilities.SuppressedWarnings
 import java.io.File
 import java.nio.file.Path
-import javax.inject.Named
 
 abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
     key: String,
@@ -90,7 +88,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
     }
 
 // Setup modules and index pages
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     private fun setupModule(context: OrchidContext, config: U): SourceDocModuleModel {
         extractor.extractOptions(invoker, allData)
@@ -186,7 +184,7 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
     }
 
 // helpers
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     private fun loadFromCacheOrRun(context: OrchidContext, config: U): T? {
         val actualOutputDir = outputDir.resolve(config.name)
@@ -212,5 +210,4 @@ abstract class SourcedocGenerator<T : ModuleDoc, U : SourceDocModuleConfig>(
             }
         }
     }
-
 }

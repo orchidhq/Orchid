@@ -38,7 +38,10 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
     }
 
     @Test
-    @DisplayName("Test that Asciidoc syntax is not supported when the module is not included. Homepage file will not be found at all.")
+    @DisplayName(
+        "Test that Asciidoc syntax is not supported when the module is not included. Homepage file will not" +
+            " be found at all."
+    )
     fun test02() {
         resource(
             "homepage.ad",
@@ -80,7 +83,7 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
     }
 
 // Test safe mode configuration
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     @Test
     @DisplayName("Test that Asciidoc fallback Orchid resource includes are enabled with secure safe-mode.")
@@ -421,5 +424,4 @@ class AsciidocTest : OrchidIntegrationTest(withGenerator<HomepageGenerator>()) {
                 }
             }
     }
-
 }

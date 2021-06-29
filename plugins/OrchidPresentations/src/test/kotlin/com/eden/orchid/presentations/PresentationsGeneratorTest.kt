@@ -50,8 +50,6 @@ class PresentationsGeneratorTest : OrchidIntegrationTest(PresentationsModule(), 
                         matches()
                             .hasSize(3)
                     }
-
             }
     }
-
 }

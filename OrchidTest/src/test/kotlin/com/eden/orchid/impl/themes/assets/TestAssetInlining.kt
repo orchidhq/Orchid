@@ -93,7 +93,7 @@ class TestAssetInlining : OrchidIntegrationTest(
                     script(src = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
                     script(src = "http://orchid.test/${TestAssetPage.JS}") { }
                     script {
-                        unsafe { +"function itsFunToInline() { }"}
+                        unsafe { +"function itsFunToInline() { }" }
                     }
                 }
             }
@@ -215,5 +215,4 @@ class TestAssetInlining : OrchidIntegrationTest(
             .pageWasNotRendered("/test-downloadable-assets/assets/css/style.css")
             .pageWasNotRendered("/test-downloadable-assets/assets/js/scripts.js")
     }
-
 }

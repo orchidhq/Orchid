@@ -14,7 +14,8 @@ import javax.inject.Named
 import javax.validation.constraints.NotBlank
 
 @Description(
-    value = "Commit your site directly to Gitlab Pages. It can even keep old versions of your site for versioning documentation.",
+    value = "Commit your site directly to Gitlab Pages. It can even keep old versions of your site for versioning " +
+        "documentation.",
     name = "Gitlab Pages"
 )
 class GitlabPagesPublisher
@@ -50,8 +51,8 @@ constructor(
     @BooleanDefault(true)
     @Description(
         "Whether to have Orchid add the `gitlab-ci.yml` file to deploy the site automatically. For " +
-                "repositories that host project sources and the docs website, it is advises to make this false and create" +
-                "your own `.gitlab-ci.yml` to suite your needs."
+            "repositories that host project sources and the docs website, it is advises to make this false and create" +
+            "your own `.gitlab-ci.yml` to suite your needs."
     )
     @NotBlank
     var addPipelineFile: Boolean = true
@@ -82,7 +83,8 @@ constructor(
         if (addPipelineFile) {
             // add the needed .gitlab-ci.yml file so the site gets built and deployed correctly
             addFile(
-                ".gitlab-ci.yml", """
+                ".gitlab-ci.yml",
+                """
                     |# This file is a template, and might need editing before it works on your project.
                     |# Full project: https://gitlab.com/pages/plain-html
                     |pages:

@@ -6,14 +6,11 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.archetypes.AssetMetadataArchetype
 import com.eden.orchid.api.render.RenderService.RenderMode
-import com.eden.orchid.api.resources.resource.ExternalResource
 import com.eden.orchid.api.resources.resource.InlineResource
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.utilities.OrchidUtils
-import com.eden.orchid.utilities.debugger
-import java.util.HashMap
 
 @Archetype(value = AssetMetadataArchetype::class, key = "assetmeta")
 @Description(
@@ -38,7 +35,7 @@ open class AssetPage(
     lateinit var alt: String
 
     open fun configureReferences() {
-        reference = OrchidReference(resource.reference)// copy reference so we can update it
+        reference = OrchidReference(resource.reference) // copy reference so we can update it
         reference.isUsePrettyUrl = false
 
         // it's just a local file, apply the prefix as needed

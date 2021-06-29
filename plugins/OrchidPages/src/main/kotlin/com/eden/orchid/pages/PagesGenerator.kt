@@ -16,7 +16,7 @@ import com.eden.orchid.utilities.OrchidUtils
 
 @Description(
     "Generates static pages with the same output folder as their input, minus the base directory. Input " +
-            "pages come from 'baseDir' option value, which defaults to 'pages'.",
+        "pages come from 'baseDir' option value, which defaults to 'pages'.",
     name = "Static Pages"
 )
 class PagesGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, Stage.CONTENT) {

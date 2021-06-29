@@ -1,8 +1,6 @@
 package com.eden.orchid.strikt
 
-import clog.Clog
 import com.eden.orchid.testhelpers.TestRenderer
-import com.eden.orchid.utilities.applyIf
 import kotlinx.html.BODY
 import kotlinx.html.HEAD
 import kotlinx.html.body
@@ -13,7 +11,7 @@ import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 
 // html <head>
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
 fun Assertion.Builder<TestRenderer.TestRenderedPage>.htmlHeadMatches(
     selector: String = "head > *",
@@ -57,7 +55,7 @@ fun Assertion.Builder<TestRenderer.TestRenderedPage>.htmlHeadMatchesStringAssert
     }
 
 // html <body>
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
 fun Assertion.Builder<TestRenderer.TestRenderedPage>.htmlBodyMatches(
     selector: String = "body > *",

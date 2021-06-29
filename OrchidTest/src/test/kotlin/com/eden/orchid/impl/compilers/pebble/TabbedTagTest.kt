@@ -450,7 +450,6 @@ class TabbedHellosTag : TemplateTag("hellos", Type.Tabbed, true) {
         lateinit var tabClosing: String
 
         override fun parameters() = arrayOf(::tabGreeting.name, ::tabClosing.name)
-
     }
 }
 

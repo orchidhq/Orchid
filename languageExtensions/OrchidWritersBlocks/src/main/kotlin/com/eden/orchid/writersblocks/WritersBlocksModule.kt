@@ -20,16 +20,17 @@ class WritersBlocksModule : OrchidModule() {
         withResources(20)
 
         addToSet<TemplateFunction>(
-                PluralizeFunction::class,
-                Nl2brFunction::class,
-                EncodeSpacesFunction::class)
+            PluralizeFunction::class,
+            Nl2brFunction::class,
+            EncodeSpacesFunction::class
+        )
         addToSet<TemplateTag>(
-                AlertTag::class,
-                GistTag::class,
-                InstagramTag::class,
-                SpotifyTag::class,
-                TwitterTag::class,
-                YoutubeTag::class)
+            AlertTag::class,
+            GistTag::class,
+            InstagramTag::class,
+            SpotifyTag::class,
+            TwitterTag::class,
+            YoutubeTag::class
+        )
     }
 }
-

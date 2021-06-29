@@ -81,13 +81,12 @@ class FileResource(
             if (filePath.startsWith("/")) {
                 filePath = filePath.removePrefix("/")
             }
-            // if the path is not a child of the base path (i.e. still has relative path segments), strip those away. The
-            // resolved "path" of this resource will be the portion after those relative segments.
+            // if the path is not a child of the base path (i.e. still has relative path segments), strip those away.
+            // The resolved "path" of this resource will be the portion after those relative segments.
             filePath = filePath.split("/".toRegex()).toTypedArray()
                 .filter { it: String -> !(it == ".." || it == ".") }
                 .joinToString("/", "", "", -1, "", null)
             return filePath
         }
     }
-
 }

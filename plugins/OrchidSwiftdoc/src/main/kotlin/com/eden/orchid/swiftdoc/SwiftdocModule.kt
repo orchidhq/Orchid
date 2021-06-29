@@ -21,5 +21,4 @@ class SwiftdocModule : OrchidModule() {
             cacheDir = OrchidUtils.getCacheDir("sourcedoc")
         )
     }
-
 }

@@ -13,5 +13,4 @@ class TestImplModule(private val serve: Boolean) : OrchidModule() {
             bind(OrchidRenderer::class.java).to(TestRenderer::class.java)
         }
     }
-
 }

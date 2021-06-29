@@ -24,7 +24,7 @@ class TOMLParserTest : OrchidUnitTest {
             """.trimMargin()
 
         expectCatching {
-                underTest.parse("toml", input)
-            }.isSuccess()
+            underTest.parse("toml", input)
+        }.isSuccess()
     }
 }

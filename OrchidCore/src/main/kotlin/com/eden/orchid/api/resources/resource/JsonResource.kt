@@ -8,9 +8,9 @@ import org.json.JSONObject
 import java.io.InputStream
 
 /**
- * A Resource type that provides a JSON data as content to a template. When used with renderTemplate() or renderString(),
- * this resource will supply additional data to the template renderer. When used with renderRaw(), the raw JSON-encoded
- * data will be written directly instead.
+ * A Resource type that provides a JSON data as content to a template. When used with renderTemplate() or
+ * renderString(), this resource will supply additional data to the template renderer. When used with renderRaw(), the
+ * raw JSON-encoded data will be written directly instead.
  */
 class JsonResource(reference: OrchidReference, private val hardcodedJson: JSONElement) : OrchidResource(reference) {
 
@@ -23,5 +23,4 @@ class JsonResource(reference: OrchidReference, private val hardcodedJson: JSONEl
             hardcodedJson.toString().asInputStream()
         }
     }
-
 }

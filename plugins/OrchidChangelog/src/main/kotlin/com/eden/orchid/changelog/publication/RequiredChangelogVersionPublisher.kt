@@ -29,5 +29,4 @@ class RequiredChangelogVersionPublisher : OrchidPublisher("requireChangelogVersi
     override fun publish(context: OrchidContext) {
         // do nothing, we just want to validate the pipeline
     }
-
 }

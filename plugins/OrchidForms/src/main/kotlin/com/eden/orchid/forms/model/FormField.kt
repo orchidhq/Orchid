@@ -33,8 +33,8 @@ constructor(
     @Option("order")
     @Description(
         "Form fields are defined in maps which do not have a defined order, and so order in which fields " +
-                "are rendered are not necessarily the order they are declared. Set this property to manually define the " +
-                "ordering of each field."
+            "are rendered are not necessarily the order they are declared. Set this property to manually define " +
+            "the ordering of each field."
     )
     var orderNum: Int = 0
 
@@ -55,8 +55,8 @@ constructor(
     @Option
     @Description(
         "A list of templates to use for this field, which takes precedence over the normal template. The " +
-                "first template in this lit that exists will be chosen, otherwise falling back to the default if the " +
-                "list is empty or none of the templates are found."
+            "first template in this lit that exists will be chosen, otherwise falling back to the default if the " +
+            "list is empty or none of the templates are found."
     )
     lateinit var template: Array<String>
 
@@ -64,8 +64,8 @@ constructor(
     @StringDefault("auto")
     @Description(
         "The number of columns this field should occupy on large screens, out of 12. Can also be 'left' (6" +
-                "columns, ordered from the left), 'right' (6 columns, ordered from the right), 'auto' (equivalent to " +
-                "'left'), or 'full' (12 columns) The default is 'auto'."
+            "columns, ordered from the left), 'right' (6 columns, ordered from the right), 'auto' (equivalent to " +
+            "'left'), or 'full' (12 columns) The default is 'auto'."
     )
     lateinit var spanVal: String
 
@@ -73,7 +73,7 @@ constructor(
     @StringDefault("auto")
     @Description(
         "The number of columns this field should occupy on small screens, out of 12. Can also be 'left', " +
-                "'right', 'auto', or 'full', which are all 12 columns. The default is 'auto'."
+            "'right', 'auto', or 'full', which are all 12 columns. The default is 'auto'."
     )
     lateinit var spanSmVal: String
 
@@ -118,7 +118,6 @@ constructor(
             } catch (e: NumberFormatException) {
                 wrapperClasses += "col-lg-6 "
             }
-
         }
         when (spanSmVal) {
             "auto" -> wrapperClasses += "col-sm-12 "
@@ -128,7 +127,6 @@ constructor(
             } catch (e: NumberFormatException) {
                 wrapperClasses += "col-sm-6 "
             }
-
         }
 
         return wrapperClasses

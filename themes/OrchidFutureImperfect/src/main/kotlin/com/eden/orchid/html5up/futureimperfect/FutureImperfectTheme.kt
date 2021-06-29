@@ -53,5 +53,4 @@ constructor(
     override fun getComponentHolders(): Array<ComponentHolder> {
         return super.getComponentHolders() + sidebar
     }
-
 }

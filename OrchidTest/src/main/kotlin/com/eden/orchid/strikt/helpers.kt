@@ -41,15 +41,17 @@ fun <T> Assertion.Builder<T>.assertBlock(
 
 data class AssertBlockFailure(val errorMessage: String)
 
-fun <T> T.asExpected() : DescribeableBuilder<T> {
+fun <T> T.asExpected(): DescribeableBuilder<T> {
     return expectThat(this)
 }
 
-fun <T> Assertion.Builder<T>.assertWhen(condition: Boolean, block: Assertion.Builder<T>.()-> Assertion.Builder<T>) : Assertion.Builder<T> {
-    if(condition) {
+fun <T> Assertion.Builder<T>.assertWhen(
+    condition: Boolean,
+    block: Assertion.Builder<T>.() -> Assertion.Builder<T>
+): Assertion.Builder<T> {
+    if (condition) {
         return block()
-    }
-    else {
+    } else {
         return this
     }
 }

@@ -22,7 +22,8 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
     @BeforeEach
     fun setUp() {
         resource(
-            "templates/layouts/index.peb", """
+            "templates/layouts/index.peb",
+            """
             <!DOCTYPE HTML>
             <html>
             <head>
@@ -39,11 +40,12 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
             {% endbody %}
             </body>
             </html>
-        """.trimIndent()
+            """.trimIndent()
         )
 
         resource(
-            "templates/includes/menuItem.peb", """
+            "templates/includes/menuItem.peb",
+            """
             {% if menuItem.hasChildren %}
                 <li>
                     <span class="submenu">{{ menuItem.title | title }}</span>
@@ -72,11 +74,12 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
         val basePath = if (sectionBase != null) "wiki/$sectionBase" else "wiki"
 
         resource(
-            "$basePath/summary.md", """
+            "$basePath/summary.md",
+            """
             * [1](page-one.md)
             * [2](page-two.md)
             * [3-4](page-three/page-four.md)
-        """.trimIndent()
+            """.trimIndent()
         )
         resource("$basePath/page-one.md")
         resource("$basePath/page-two.md")
@@ -243,5 +246,4 @@ class WikiPagesMenuItemTest : OrchidIntegrationTest(WikiModule()) {
                 }
             }
     }
-
 }

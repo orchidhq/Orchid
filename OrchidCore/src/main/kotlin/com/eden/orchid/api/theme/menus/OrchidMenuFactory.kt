@@ -46,7 +46,6 @@ constructor(
     }
 
     override fun initialize(context: OrchidContext, containingPage: OrchidPage) {
-
     }
 
     abstract fun getMenuItems(context: OrchidContext, page: OrchidPage): List<MenuItem>

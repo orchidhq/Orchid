@@ -47,9 +47,6 @@ import com.eden.orchid.api.options.globals.SiteGlobal
 import com.eden.orchid.api.options.globals.ThemeGlobal
 import com.eden.orchid.api.registration.IgnoreModule
 import com.eden.orchid.api.registration.OrchidModule
-import com.eden.orchid.api.resources.resourcesource.JarResourceSource
-import com.eden.orchid.api.resources.resourcesource.JarResourceSource.Companion.jarForClass
-import com.eden.orchid.api.resources.resourcesource.PluginResourceSource
 import com.eden.orchid.api.site.OrchidSite
 import com.eden.orchid.api.site.OrchidSiteBaseUrlsOptionExtractor
 import com.eden.orchid.api.site.OrchidSiteImpl
@@ -58,7 +55,6 @@ import com.eden.orchid.api.theme.permalinks.pathTypes.DataPropertyPathType
 import com.eden.orchid.api.theme.permalinks.pathTypes.TitlePathType
 import com.google.inject.Provides
 import com.google.inject.name.Named
-import java.util.HashMap
 
 @IgnoreModule
 class ApiModule : OrchidModule() {
@@ -156,5 +152,4 @@ class ApiModule : OrchidModule() {
             destinationDir
         )
     }
-
 }

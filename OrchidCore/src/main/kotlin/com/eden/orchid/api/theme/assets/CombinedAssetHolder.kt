@@ -1,6 +1,5 @@
 package com.eden.orchid.api.theme.assets
 
-import com.eden.orchid.api.theme.components.ComponentHolder
 import com.eden.orchid.api.theme.pages.OrchidPage
 import java.util.ArrayList
 
@@ -33,7 +32,7 @@ fun OrchidPage.initializePageAssets(): CombinedAssetHolder {
         .also { delegatePairs.add(it) }
 
     // create delegates from components
-     (this.componentHolders + theme.componentHolders)
+    (this.componentHolders + theme.componentHolders)
         .flatMap { it.get(this) }
         .map { it to it.createAssetManagerDelegate(context) }
         .also { delegatePairs.addAll(it) }

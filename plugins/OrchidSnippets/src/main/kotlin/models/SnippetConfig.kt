@@ -1,13 +1,10 @@
 package com.eden.orchid.snippets.models
 
-import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.utilities.extractOptionsFromResource
-import org.json.JSONObject
-import java.util.HashMap
 
 data class SnippetConfig(
     val context: OrchidContext,
@@ -25,5 +22,4 @@ data class SnippetConfig(
 
     @Option
     lateinit var tags: List<String>
-
 }

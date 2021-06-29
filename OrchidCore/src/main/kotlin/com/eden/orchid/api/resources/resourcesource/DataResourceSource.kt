@@ -2,7 +2,7 @@ package com.eden.orchid.api.resources.resourcesource
 
 import com.eden.orchid.api.OrchidContext
 
-interface DataResourceSource: OrchidResourceSource {
+interface DataResourceSource : OrchidResourceSource {
 
     /**
      * Loads a single resource by name and parses its markup into a map of data according to the markup type described

@@ -10,7 +10,8 @@ class AlertTag : TemplateTag("alert", Type.Content, true) {
 
     @Option
     @StringDefault("info")
-    @Description("The Alert level. Typically based on the Bootstrap alert levels of [success, info, warning, and " +
+    @Description(
+        "The Alert level. Typically based on the Bootstrap alert levels of [success, info, warning, and " +
             "danger], but ultimately is up to the theme to determine which levels are available."
     )
     lateinit var level: String

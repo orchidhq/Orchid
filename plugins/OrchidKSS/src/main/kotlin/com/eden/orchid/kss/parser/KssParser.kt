@@ -24,7 +24,7 @@ class KssParser(cssResources: List<OrchidResource>) {
             if (hasStyleguideReference(block)) {
                 val section = StyleguideSection(block, fileName)
 
-                if(sections.containsKey(section.styleGuideReference)) {
+                if (sections.containsKey(section.styleGuideReference)) {
                     Clog.w("Duplicate Styleguide section: ${section.styleGuideReference}")
                 }
 
@@ -44,13 +44,13 @@ class KssParser(cssResources: List<OrchidResource>) {
         }
 
         val maxLevels: Int = sections
-                .values
-                .maxByOrNull { it.styleGuidePath.size }!!
-                .styleGuidePath.size
-        val minLevels: Int  = sections
-                .values
-                .maxByOrNull { it.styleGuidePath.size }!!
-                .styleGuidePath.size
+            .values
+            .maxByOrNull { it.styleGuidePath.size }!!
+            .styleGuidePath.size
+        val minLevels: Int = sections
+            .values
+            .maxByOrNull { it.styleGuidePath.size }!!
+            .styleGuidePath.size
 
         val sectionDepths = TreeMap<Int, MutableList<StyleguideSection>>()
         for (section in sections.values) {
@@ -96,4 +96,3 @@ class KssParser(cssResources: List<OrchidResource>) {
         val STYLEGUIDE_PATTERN = Pattern.compile("(?i)(?<!No )Styleguide [0-9A-Za-z ]+")
     }
 }
-

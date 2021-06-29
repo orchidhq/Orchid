@@ -8,14 +8,15 @@ import com.eden.orchid.posts.pages.PostPage
 import org.json.JSONObject
 import javax.inject.Inject
 
-@Description("Configure all posts in the same category. Additional configuration values from the same object which " +
+@Description(
+    "Configure all posts in the same category. Additional configuration values from the same object which " +
         "configures the Posts Generator, at a sub-object for that page's group.",
-        name = "Post Category"
+    name = "Post Category"
 )
 class PostCategoryArchetype
 @Inject
 constructor(
-        val context: OrchidContext
+    val context: OrchidContext
 ) : OptionArchetype {
 
     override fun getOptions(target: Any, archetypeKey: String): Map<String, Any>? {
@@ -30,5 +31,4 @@ constructor(
 
         return null
     }
-
 }

@@ -29,7 +29,12 @@ class InlineResourceSource(
         return null
     }
 
-    override fun getResourceEntries(context: OrchidContext, dirName: String, fileExtensions: Array<String>?, recursive: Boolean): List<OrchidResource> {
+    override fun getResourceEntries(
+        context: OrchidContext,
+        dirName: String,
+        fileExtensions: Array<String>?,
+        recursive: Boolean
+    ): List<OrchidResource> {
         return emptyList()
     }
 
@@ -58,5 +63,3 @@ class InlineResourceSource(
         private val inlineFilenamePattern = Pattern.compile("^(inline:(.*?):)(.*)", Pattern.DOTALL)
     }
 }
-
-

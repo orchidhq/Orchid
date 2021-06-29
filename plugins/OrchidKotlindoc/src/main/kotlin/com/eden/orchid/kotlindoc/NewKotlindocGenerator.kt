@@ -3,16 +3,13 @@ package com.eden.orchid.kotlindoc
 import com.copperleaf.kodiak.kotlin.KotlindocInvokerImpl
 import com.copperleaf.kodiak.kotlin.models.KotlinModuleDoc
 import com.eden.orchid.api.options.OptionsExtractor
-import com.eden.orchid.api.options.annotations.Archetype
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
 import com.eden.orchid.kotlindoc.NewKotlindocGenerator.Companion.GENERATOR_KEY
 import com.eden.orchid.kotlindoc.model.KotlinDocModuleConfig
 import com.eden.orchid.sourcedoc.SourcedocGenerator
 import javax.inject.Inject
-import javax.inject.Named
 
 class NewKotlindocGenerator
 @Inject

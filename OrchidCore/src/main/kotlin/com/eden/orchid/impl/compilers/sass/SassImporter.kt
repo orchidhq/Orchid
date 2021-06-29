@@ -74,7 +74,6 @@ constructor(private val context: OrchidContext) : Importer {
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-
             }
         }
 
@@ -131,9 +130,8 @@ constructor(private val context: OrchidContext) : Importer {
         )
     }
 
-
 // helpers
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     private fun cleanInputName(import: String): Pair<Boolean, String> {
         return Pair(
@@ -182,6 +180,6 @@ constructor(private val context: OrchidContext) : Importer {
         //
         // In the future, there will hopefully be the `sass2scss()` native function will be exported by jsass, so the
         // content passed here can just be converted to SCSS, instead of compiled fully to CSS and included.
-        return context.compile(resource, "sass", "// CONTEXT=${baseUri}\n${input}", null)
+        return context.compile(resource, "sass", "// CONTEXT=${baseUri}\n$input", null)
     }
 }

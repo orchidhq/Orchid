@@ -21,5 +21,4 @@ class JavadocModule : OrchidModule() {
             cacheDir = OrchidUtils.getCacheDir("sourcedoc")
         )
     }
-
 }

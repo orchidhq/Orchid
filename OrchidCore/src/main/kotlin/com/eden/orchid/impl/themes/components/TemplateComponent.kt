@@ -11,5 +11,4 @@ class TemplateComponent : OrchidComponent("template") {
     @Option
     @Description("Custom data to be rendered into the custom template.")
     var data: JSONObject? = null
-
 }

@@ -52,5 +52,4 @@ class NewGroovydocGeneratorTest : OrchidIntegrationTest(GroovydocModule(), Sourc
             .pageWasRendered("/favicon.ico")
             .nothingElseRendered()
     }
-
 }

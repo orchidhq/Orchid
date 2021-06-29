@@ -26,4 +26,3 @@ class ChangelogModule : OrchidModule() {
         )
     }
 }
-

@@ -6,7 +6,7 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.forms.model.FormField
 import org.json.JSONObject
 
-@Description("A dropdown selector, with a list of key-value pairs as options.", name="Dropdown")
+@Description("A dropdown selector, with a list of key-value pairs as options.", name = "Dropdown")
 class DropdownField : FormField(arrayOf("dropdown")) {
 
     @Option
@@ -20,5 +20,4 @@ class DropdownField : FormField(arrayOf("dropdown")) {
     override fun getTemplates(): List<String> {
         return super.getTemplates().toMutableList()
     }
-
 }

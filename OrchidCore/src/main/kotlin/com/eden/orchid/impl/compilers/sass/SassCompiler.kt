@@ -37,7 +37,13 @@ constructor(
         return "css"
     }
 
-    override fun compile(os: OutputStream, resource: OrchidResource?, extension: String, input: String, data: MutableMap<String, Any>?) {
+    override fun compile(
+        os: OutputStream,
+        resource: OrchidResource?,
+        extension: String,
+        input: String,
+        data: MutableMap<String, Any>?
+    ) {
         val options = Options()
         options.importers.add(importer)
         options.setIsIndentedSyntaxSrc(false)

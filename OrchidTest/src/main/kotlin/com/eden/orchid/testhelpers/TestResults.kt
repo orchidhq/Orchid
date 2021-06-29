@@ -12,7 +12,8 @@ class TestResults(
 ) {
 
     override fun toString(): String {
-        return "TestResults: " + (if (isRenderingSuccess && thrownException == null) "success" else "failure") + " with " + renderedPageMap.size + " pages"
+        val v1 = if (isRenderingSuccess && thrownException == null) "success" else "failure"
+        return "TestResults: " + v1 + " with " + renderedPageMap.size + " pages"
     }
 
     fun showResults(): String {
@@ -29,7 +30,7 @@ class TestResults(
     }
 
     // Helpers
-//----------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     fun getCollections(
         collectionType: String,

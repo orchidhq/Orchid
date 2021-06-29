@@ -102,7 +102,6 @@ class SharedConfigArchetypeTest : OrchidUnitTest {
 
         @Option
         lateinit var val3: String
-
     }
 
     @ParameterizedTest
@@ -139,5 +138,4 @@ class SharedConfigArchetypeTest : OrchidUnitTest {
         expectThat(underTest.val2).isEqualTo(val2)
         expectThat(underTest.val3).isEqualTo(val3)
     }
-
 }

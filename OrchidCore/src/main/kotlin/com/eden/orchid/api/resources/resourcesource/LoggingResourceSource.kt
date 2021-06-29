@@ -8,7 +8,7 @@ import com.eden.orchid.api.resources.resource.OrchidResource
 class LoggingResourceSource(
     private val delegate: OrchidResourceSource,
     val tag: String
-): OrchidResourceSource by delegate {
+) : OrchidResourceSource by delegate {
 
     override fun getResourceEntry(context: OrchidContext, fileName: String): OrchidResource? {
         Clog.tag(tag).d("getResourceEntry(fileName=$fileName)")

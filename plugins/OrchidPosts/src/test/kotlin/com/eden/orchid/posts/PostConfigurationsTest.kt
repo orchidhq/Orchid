@@ -105,6 +105,4 @@ class PostConfigurationsTest : OrchidIntegrationTest(PostsModule()) {
                 get { origin.layout }.isEqualTo("layoutfour")
             }
     }
-
-
 }

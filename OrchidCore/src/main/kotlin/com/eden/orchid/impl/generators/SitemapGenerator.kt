@@ -1,7 +1,6 @@
 package com.eden.orchid.impl.generators
 
 import com.eden.orchid.api.OrchidContext
-import com.eden.orchid.api.generators.OrchidCollection
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.generators.emptyModel
 import com.eden.orchid.api.options.annotations.BooleanDefault
@@ -10,7 +9,6 @@ import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.theme.pages.OrchidPage
 import java.util.ArrayList
-import javax.inject.Inject
 
 @Description(value = "Generate a sitemap and `robots.txt` for automatic SEO.", name = "Sitemap and Robots.txt")
 class SitemapGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, Stage.META) {

@@ -1,7 +1,6 @@
 package com.eden.orchid.sourcedoc
 
 import com.eden.orchid.strikt.pageWasRendered
-import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.TestResults
 import strikt.api.Assertion
 
@@ -13,7 +12,7 @@ fun Assertion.Builder<TestResults>.withDefaultSourcedocPages(): Assertion.Builde
         .pageWasRendered("/favicon.ico") { }
 }
 
-fun themeMenuModulesSetup(type: String) : String {
+fun themeMenuModulesSetup(type: String): String {
     return """
         |{
         |    "type": "sourcedocModules",
@@ -24,8 +23,8 @@ fun themeMenuModulesSetup(type: String) : String {
         """.trimMargin()
 }
 
-fun themeMenuKindSetup(type: String, nodeKind: String, name: String? = null) : String {
-    return if(name != null) {
+fun themeMenuKindSetup(type: String, nodeKind: String, name: String? = null): String {
+    return if (name != null) {
         """
         |{
         |    "type": "sourcedocPages",
@@ -36,8 +35,7 @@ fun themeMenuKindSetup(type: String, nodeKind: String, name: String? = null) : S
         |    "submenuTitle": "Module ${name.capitalize()} ${type.capitalize()}doc ${nodeKind.capitalize()}"
         |}
         """.trimMargin()
-    }
-    else {
+    } else {
         """
         |{
         |    "type": "sourcedocPages",
@@ -50,12 +48,12 @@ fun themeMenuKindSetup(type: String, nodeKind: String, name: String? = null) : S
     }
 }
 
-fun themeMenuKindSetup(type: String, nodeKinds: List<String>, name: String? = null) : String {
+fun themeMenuKindSetup(type: String, nodeKinds: List<String>, name: String? = null): String {
     return nodeKinds.joinToString(",") { themeMenuKindSetup(type, it, name) }
 }
 
-fun themeMenuAllKindsSetup(type: String, nodeKind: String, name: String? = null) : String {
-    return if(name != null) {
+fun themeMenuAllKindsSetup(type: String, nodeKind: String, name: String? = null): String {
+    return if (name != null) {
         """
         |{
         |    "type": "sourcedocPages",
@@ -65,8 +63,7 @@ fun themeMenuAllKindsSetup(type: String, nodeKind: String, name: String? = null)
         |    "submenuTitle": "Module ${name.capitalize()} ${type.capitalize()}doc ${nodeKind.capitalize()}"
         |}
         """.trimMargin()
-    }
-    else {
+    } else {
         """
         |{
         |    "type": "sourcedocPages",
@@ -78,11 +75,11 @@ fun themeMenuAllKindsSetup(type: String, nodeKind: String, name: String? = null)
     }
 }
 
-fun themeMenuAllKindsSetup(type: String, nodeKinds: List<String>, name: String? = null) : String {
+fun themeMenuAllKindsSetup(type: String, nodeKinds: List<String>, name: String? = null): String {
     return nodeKinds.joinToString(",") { themeMenuAllKindsSetup(type, it, name) }
 }
 
-fun sourceDocPagesSetup() : String {
+fun sourceDocPagesSetup(): String {
     return """
         |{
         |   "pages": {

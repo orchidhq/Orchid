@@ -10,12 +10,10 @@ import com.eden.orchid.api.publication.OrchidPublisher
 import java.io.File
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
-import javax.inject.Named
 import javax.validation.constraints.NotEmpty
 
 @Description(value = "Run arbitrary shell scripts.", name = "Script")
-class ScriptPublisher  : OrchidPublisher("script") {
+class ScriptPublisher : OrchidPublisher("script") {
 
     @Option
     @Description("The executable name")
@@ -42,7 +40,9 @@ class ScriptPublisher  : OrchidPublisher("script") {
         Clog.i("[{}]> {}", directory, command.joinToString(" "))
 
         val process = builder.start()
-        val future = Executors.newSingleThreadExecutor().submit(IOStreamUtils.InputStreamPrinter(process.inputStream, "Script Publisher"))
+        val future = Executors
+            .newSingleThreadExecutor()
+            .submit(IOStreamUtils.InputStreamPrinter(process.inputStream, "Script Publisher"))
 
         // pause for the process to finish and input to finish printing
         process.waitFor()

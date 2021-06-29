@@ -54,5 +54,4 @@ class PagesGeneratorTest : OrchidIntegrationTest(PagesModule()) {
         expectThat(execute())
             .nothingRendered()
     }
-
 }

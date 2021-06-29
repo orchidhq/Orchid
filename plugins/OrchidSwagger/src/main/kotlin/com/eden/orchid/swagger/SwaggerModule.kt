@@ -12,6 +12,4 @@ class SwaggerModule : OrchidModule() {
 
         addToSet<OrchidComponent, SwaggerComponent>()
     }
-
 }
-

@@ -8,10 +8,11 @@ import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.utilities.OrchidUtils
 
-@Description("Automatically find and highlight code snippets with Prism.js. Markdown code snippets are immediately " +
+@Description(
+    "Automatically find and highlight code snippets with Prism.js. Markdown code snippets are immediately " +
         "compatible with Prism.js and requires no further configuration. This component simply attached the " +
         "necessary scripts and styles to the page, but needs no UI template of its own.",
-        name = "Prism.js"
+    name = "Prism.js"
 )
 class PrismComponent : OrchidComponent("prism", true) {
 
@@ -29,7 +30,8 @@ class PrismComponent : OrchidComponent("prism", true) {
     lateinit var plugins: Array<String>
 
     @Option
-    @Description("The official Prism theme to be used. Alternatively, you may use a `githubTheme` to use one of the " +
+    @Description(
+        "The official Prism theme to be used. Alternatively, you may use a `githubTheme` to use one of the " +
             "themes provided from the 'PrismJS/prism-themes' github repo."
     )
     lateinit var theme: String
@@ -48,11 +50,9 @@ class PrismComponent : OrchidComponent("prism", true) {
         if (!scriptsOnly) {
             if (!EdenUtils.isEmpty(theme)) {
                 addCss("${OrchidUtils.normalizePath(prismSource)}/themes/prism-$theme.min.css")
-            }
-            else if (!EdenUtils.isEmpty(githubTheme)) {
+            } else if (!EdenUtils.isEmpty(githubTheme)) {
                 addCss("https://rawgit.com/PrismJS/prism-themes/master/themes/prism-$githubTheme.css")
-            }
-            else {
+            } else {
                 addCss("${OrchidUtils.normalizePath(prismSource)}/themes/prism.min.css")
             }
         }
@@ -72,7 +72,9 @@ class PrismComponent : OrchidComponent("prism", true) {
 
                 if (!scriptsOnly) {
                     when (plugin) {
-                        "line-numbers", "line-highlight", "toolbar" -> addCss("${OrchidUtils.normalizePath(prismSource)}/plugins/$plugin/prism-$plugin.min.css")
+                        "line-numbers", "line-highlight", "toolbar" -> addCss(
+                            "${OrchidUtils.normalizePath(prismSource)}/plugins/$plugin/prism-$plugin.min.css"
+                        )
                     }
                 }
             }

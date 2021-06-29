@@ -18,8 +18,7 @@ class DefaultBreadcrumbStrategy : BreadcrumbStrategy {
         }
 
         return ArrayList(breadcrumbPagesMap.values)
-                .reversed()
-                .map { Breadcrumb(it) }
+            .reversed()
+            .map { Breadcrumb(it) }
     }
-
 }

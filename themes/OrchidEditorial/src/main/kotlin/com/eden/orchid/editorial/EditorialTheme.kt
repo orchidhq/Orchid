@@ -11,14 +11,15 @@ import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.models.SiteSocial
 import javax.inject.Inject
 
-@Description("A theme based on Editorial by HTML5Up, with nested navigation menus good for building wikis.",
-        name = "Editorial"
+@Description(
+    "A theme based on Editorial by HTML5Up, with nested navigation menus good for building wikis.",
+    name = "Editorial"
 )
 @Archetype(value = ConfigArchetype::class, key = "Editorial")
 class EditorialTheme
 @Inject
 constructor(
-        context: OrchidContext
+    context: OrchidContext
 ) : Theme(context, "Editorial") {
 
     @Option

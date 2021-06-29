@@ -23,7 +23,7 @@ class SnippetsModel(
         return snippets
             .filter { it.tags.containsAll(query.snippetTags) }
             .also {
-                if(it.isEmpty()) {
+                if (it.isEmpty()) {
                     printSnippetNotFoundWarning(null, query)
                 }
             }
@@ -32,10 +32,10 @@ class SnippetsModel(
     private fun printSnippetNotFoundWarning(singleQuery: SnippetQuery?, tabsQuery: SnippetsQuery?) {
         var message = "Snippet"
 
-        if(singleQuery != null) {
+        if (singleQuery != null) {
             message += " named [${singleQuery.snippetName}]"
         }
-        if(tabsQuery != null) {
+        if (tabsQuery != null) {
             message += " with tags [${tabsQuery.snippetTags.joinToString()}]"
         }
         message += " not found"

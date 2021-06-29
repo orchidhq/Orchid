@@ -28,20 +28,22 @@ class PostsModule : OrchidModule() {
         addToSet<OrchidMenuFactory, LatestPostsMenuType>()
         addToSet<TemplateFunction, RecentPostsFunction>()
         addToSet<OrchidGenerator<*>>(
-                PostsGenerator::class,
-                FeedsGenerator::class)
+            PostsGenerator::class,
+            FeedsGenerator::class
+        )
         addToSet<OrchidComponent>(
-                RecentPostsComponent::class,
-                DisqusComponent::class,
-                FeedLinksComponent::class)
+            RecentPostsComponent::class,
+            DisqusComponent::class,
+            FeedLinksComponent::class
+        )
         addToSet<PermalinkPathType>(
-                CategoryPathType::class,
-                DayPathType::class,
-                MonthNamePathType::class,
-                MonthPathType::class,
-                SlugPathType::class,
-                YearPathType::class,
-                AuthorNamePathType::class)
+            CategoryPathType::class,
+            DayPathType::class,
+            MonthNamePathType::class,
+            MonthPathType::class,
+            SlugPathType::class,
+            YearPathType::class,
+            AuthorNamePathType::class
+        )
     }
 }
-

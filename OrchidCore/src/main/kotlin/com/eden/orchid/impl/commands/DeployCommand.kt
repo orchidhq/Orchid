@@ -21,4 +21,3 @@ class DeployCommand : OrchidCommand("deploy") {
         context.deploy(dry)
     }
 }
-

@@ -7,7 +7,6 @@ import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-import com.eden.orchid.api.options.archetypes.ConfigArchetype
 import com.eden.orchid.sourcedoc.options.SourcedocPageConfigArchetype
 
 @Archetypes(
@@ -62,6 +61,5 @@ abstract class SourceDocModuleConfig(val moduleType: String) : OptionsHolder {
     @Description("Arbitrary command line arguments to pass through directly to Dokka.")
     lateinit var args: List<String>
 
-    open fun additionalRunnerArgs() : List<String> = args
-
+    open fun additionalRunnerArgs(): List<String> = args
 }

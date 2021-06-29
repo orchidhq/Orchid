@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
-import java.util.HashMap
 
 class InlineResourceSourceTest : OrchidUnitTest {
 
@@ -32,7 +31,8 @@ class InlineResourceSourceTest : OrchidUnitTest {
         val input = "inline:extra.scss:This is my content"
         val expected = "This is my content"
 
-        `when`(context.getEmbeddedData(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(EdenPair(expected, HashMap()))
+        `when`(context.getEmbeddedData(ArgumentMatchers.anyString(), ArgumentMatchers.anyString()))
+            .thenReturn(EdenPair(expected, HashMap()))
         `when`(context.getOutputExtension("scss")).thenReturn("css")
 
         val output = underTest.getResourceEntry(context, input)
@@ -42,6 +42,4 @@ class InlineResourceSourceTest : OrchidUnitTest {
         assertThat(output.reference.extension, `is`(equalTo("scss")))
         assertThat(output.reference.outputExtension, `is`(equalTo("css")))
     }
-
-
 }

@@ -16,7 +16,8 @@ class PluginDocsComponent : OrchidComponent("pluginDocs") {
     var classNames = emptyArray<String>()
 
     @Option
-    @Description("A list of fully-qualified package names. All OptionsHolder classes in these packages will have their " +
+    @Description(
+        "A list of fully-qualified package names. All OptionsHolder classes in these packages will have their " +
             "options displayed."
     )
     var packageNames = emptyArray<String>()
@@ -61,16 +62,16 @@ class PluginDocsComponent : OrchidComponent("pluginDocs") {
 
     private fun addPackageClasses(classList: MutableSet<String>) {
         ClassGraph()
-                .enableClassInfo()
-                .whitelistPackages(*packageNames)
-                .scan()
-                .allStandardClasses
-                .loadClasses()
-                .forEach { matchingClass ->
-                    if (isOptionsHolderClass(matchingClass)) {
-                        classList.add(matchingClass.name)
-                    }
+            .enableClassInfo()
+            .whitelistPackages(*packageNames)
+            .scan()
+            .allStandardClasses
+            .loadClasses()
+            .forEach { matchingClass ->
+                if (isOptionsHolderClass(matchingClass)) {
+                    classList.add(matchingClass.name)
                 }
+            }
     }
 
     private fun isOptionsHolderClass(clazz: Class<*>): Boolean {
@@ -80,8 +81,7 @@ class PluginDocsComponent : OrchidComponent("pluginDocs") {
     private fun isOptionsHolderClass(clazz: String): Boolean {
         try {
             return OptionsHolder::class.java.isAssignableFrom(Class.forName(clazz))
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
@@ -89,57 +89,44 @@ class PluginDocsComponent : OrchidComponent("pluginDocs") {
     }
 
     fun getDescriptiveName(o: Any): String {
-        if(o is Class<*>) {
+        if (o is Class<*>) {
             return Descriptive.getDescriptiveName(o)
-        }
-        else if(o is String) {
+        } else if (o is String) {
             try {
                 return Descriptive.getDescriptiveName(Class.forName(o))
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
                 return o.toString()
             }
-        }
-        else {
+        } else {
             return Descriptive.getDescriptiveName(o.javaClass)
         }
     }
 
     fun getDescription(o: Any): String {
-        if(o is Class<*>) {
+        if (o is Class<*>) {
             return Descriptive.getDescription(o)
-        }
-        else if(o is String) {
+        } else if (o is String) {
             try {
                 return Descriptive.getDescription(Class.forName(o))
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
                 return o.toString()
             }
-        }
-        else {
+        } else {
             return Descriptive.getDescription(o.javaClass)
         }
     }
 
     fun getDescriptionSummary(o: Any): String {
-        if(o is Class<*>) {
+        if (o is Class<*>) {
             return Descriptive.getDescriptionSummary(o)
-        }
-        else if(o is String) {
+        } else if (o is String) {
             try {
                 return Descriptive.getDescriptionSummary(Class.forName(o))
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
                 return o.toString()
             }
-        }
-        else {
+        } else {
             return Descriptive.getDescriptionSummary(o.javaClass)
         }
     }
-
 }
-
-
-

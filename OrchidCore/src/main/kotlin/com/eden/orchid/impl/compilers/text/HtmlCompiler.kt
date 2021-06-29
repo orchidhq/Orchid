@@ -16,7 +16,13 @@ class HtmlCompiler
 @Inject
 constructor() : OrchidCompiler(800) {
 
-    override fun compile(os: OutputStream, resource: OrchidResource?, extension: String, input: String, data: MutableMap<String, Any>?) {
+    override fun compile(
+        os: OutputStream,
+        resource: OrchidResource?,
+        extension: String,
+        input: String,
+        data: MutableMap<String, Any>?
+    ) {
         OutputStreamWriter(os).append(input).close()
     }
 
