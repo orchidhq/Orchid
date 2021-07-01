@@ -6,7 +6,6 @@ import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
 import com.eden.orchid.writersblocks.WritersBlocksModule
-import kotlinx.html.iframe
 import kotlinx.html.script
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -31,7 +30,7 @@ class GistItTagTest : OrchidIntegrationTest(
         expectThat(execute())
             .pageWasRendered("/index.html") {
                 htmlBodyMatches("body script") {
-                    script(src = expectation()) {  }
+                    script(src = expectation()) { }
                 }
             }
     }
@@ -41,8 +40,8 @@ class GistItTagTest : OrchidIntegrationTest(
     fun testSliceGistIt() {
         val slice = "10:20"
         resource(
-                "homepage.md",
-                """
+            "homepage.md",
+            """
             |---
             |---
             |{% gistit owner="$owner" repository="$repository" file="$file" slice="$slice" %}
@@ -52,7 +51,7 @@ class GistItTagTest : OrchidIntegrationTest(
         expectThat(execute())
             .pageWasRendered("/index.html") {
                 htmlBodyMatches("body script") {
-                    script(src = expectation(slice = slice)) {  }
+                    script(src = expectation(slice = slice)) { }
                 }
             }
     }
@@ -76,5 +75,4 @@ class GistItTagTest : OrchidIntegrationTest(
             "?footer=no" +
             if (slice == null) "" else "&slice=$slice"
     }
-
 }

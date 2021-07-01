@@ -191,4 +191,52 @@ class TestAssetDownloading : OrchidIntegrationTest(
             .pageWasNotRendered("/test-downloadable-assets/assets/css/style.css")
             .pageWasNotRendered("/test-downloadable-assets/assets/js/scripts.js")
     }
+
+    @Test
+    @DisplayName("Test asset aliases are rewritten properly")
+    fun test04() {
+        flag("environment", "dev")
+        configObject(
+            "site",
+            """
+            |{
+            |   "theme": "${TestAssetTheme.KEY}"
+            |}
+            """.trimMargin()
+        )
+        configObject(
+            "allPages",
+            """
+            |{
+            |   "components": [
+            |       {"type": "pageContent", "noWrapper": false}
+            |   ],
+            |   "extraCss": [
+            |       "@bootstrap3.css"
+            |   ],
+            |   "extraJs": [
+            |       "@jquery.js",
+            |       "@bootstrap3.js"
+            |   ]
+            |}
+            """.trimMargin()
+        )
+
+        execute()
+            .asExpected()
+            .pageWasRendered("/test/asset/page-one/index.html") {
+                htmlHeadMatches("head link[rel=stylesheet]") {
+                    link(href = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.CSS}", rel = "stylesheet", type = "text/css") { }
+                    link(href = "http://orchid.test/${TestAssetPage.CSS}", rel = "stylesheet", type = "text/css") { }
+                    link(href = "https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css", rel = "stylesheet", type = "text/css") { }
+                }
+                htmlBodyMatches {
+                    div("component component-pageContent component-order-0") {}
+                    script(src = "http://orchid.test/TestAssetTheme/1e240/${TestAssetTheme.JS}") { }
+                    script(src = "http://orchid.test/${TestAssetPage.JS}") { }
+                    script(src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js") { }
+                    script(src = "https://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js") { }
+                }
+            }
+    }
 }

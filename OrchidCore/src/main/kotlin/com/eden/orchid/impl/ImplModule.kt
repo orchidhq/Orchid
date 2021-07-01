@@ -51,6 +51,7 @@ import com.eden.orchid.impl.generators.ExternalIndexGenerator
 import com.eden.orchid.impl.generators.HomepageGenerator
 import com.eden.orchid.impl.generators.SitemapGenerator
 import com.eden.orchid.impl.publication.ScriptPublisher
+import com.eden.orchid.impl.resources.resourcesource.LocalCommonExternalAliasesResourceSource
 import com.eden.orchid.impl.resources.resourcesource.LocalExternalResourceSource
 import com.eden.orchid.impl.resources.resourcesource.LocalInlineResourceSource
 import com.eden.orchid.impl.resources.resourcesource.LocalFileResourceSource
@@ -161,6 +162,7 @@ class ImplModule(
             // Resource Sources
             addToSet(
                 OrchidResourceSource::class.java,
+                LocalCommonExternalAliasesResourceSource::class.java,
                 LocalExternalResourceSource::class.java,
                 LocalFileResourceSource::class.java,
                 LocalInlineResourceSource::class.java

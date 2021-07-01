@@ -39,7 +39,7 @@ plugins {
 repositories {
     // Orchid uses dependencies from both Jcenter and Jitpack, so both must be included. jcenter also includes 
     // everything available from MavenCentral, while Jitpack makes accessible any Github project.
-    jcenter()
+    mavenCentral()
     maven { url "https://kotlin.bintray.com/kotlinx" }
 }
 

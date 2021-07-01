@@ -14,7 +14,7 @@ class OrchidSearchComponent : OrchidComponent("orchidSearch", true) {
     override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
         addCss("assets/css/orchidSearch.scss")
 
-        addJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+        addJs("@jquery.js")
         addJs("https://unpkg.com/lunr/lunr.js")
         addJs("assets/js/orchidSearch.js")
     }

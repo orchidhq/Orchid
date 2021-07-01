@@ -43,8 +43,8 @@ constructor(
         addCss("assets/css/editorial_orchidCustomizations.scss")
         addCss("assets/css/orchidSearch.scss")
 
-        addJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js")
-        addJs("https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js")
+        addJs("@jquery.js")
+        addJs("@skel.js")
         addJs("assets/js/editorial_util.js")
         addJs("assets/js/editorial_main.js")
         addJs("assets/js/editorial_orchidCustomizations.js")

@@ -10,7 +10,7 @@ import com.eden.orchid.posts.pages.AuthorPage
 import java.net.URLEncoder
 import java.security.MessageDigest
 import javax.validation.constraints.NotBlank
-import javax.xml.bind.DatatypeConverter
+import kotlin.text.Charsets.UTF_8
 
 @Validate
 class Author : OptionsHolder {
@@ -28,10 +28,11 @@ class Author : OptionsHolder {
     var avatar: String = ""
         get() {
             if (email.isNotBlank()) {
-                val md5 = MessageDigest.getInstance("MD5")
-                md5.update(email.trim().toLowerCase().toByteArray())
-                val digest = md5.digest()
-                val hash = DatatypeConverter.printHexBinary(digest)
+                val hash = MessageDigest
+                    .getInstance("MD5")
+                    .digest(email.trim().toLowerCase().toByteArray(UTF_8))
+                    .toHex()
+
                 var gravatarUrl = "https://www.gravatar.com/avatar/${hash.toLowerCase()}"
 
                 if (gravatarDefault.isNotBlank()) {
@@ -69,4 +70,6 @@ class Author : OptionsHolder {
         get() {
             return authorPage?.link ?: ""
         }
+
+    private fun ByteArray.toHex() = joinToString(separator = "") { byte -> "%02x".format(byte) }
 }

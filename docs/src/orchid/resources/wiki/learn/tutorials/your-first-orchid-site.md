@@ -102,7 +102,7 @@ dependencies {
 
 // 2. Get Orchid from Jcenter
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 // 3. Use the 'BsDoc' theme, and view the site locally at 'http://localhost:8080'
