@@ -13,7 +13,7 @@ dependencies {
     // Dynamic Component Registration
     api("javax.inject:javax.inject:1")
     api("com.google.inject:guice:5.0.1")
-    api("io.github.classgraph:classgraph:4.8.47")
+    api("io.github.classgraph:classgraph:4.8.102")
 
     // core utilities
     api("com.squareup.okhttp3:okhttp:4.7.2")

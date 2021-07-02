@@ -11,6 +11,4 @@ plugins {
 dependencies {
     implementation(Modules.OrchidCore)
     testImplementation(Modules.OrchidTest)
-
-    implementation("javax.xml.bind:jaxb-api:2.3.1")
 }

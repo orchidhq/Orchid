@@ -11,4 +11,8 @@ class LocalFileResourceSource
 @Inject
 constructor(
     @Named("src") resourcesDir: String
-) : OrchidResourceSource by FileResourceSource(File(resourcesDir).toPath(), Integer.MAX_VALUE - 1, LocalResourceSource)
+) : OrchidResourceSource by FileResourceSource(
+    File(resourcesDir).toPath(),
+    Integer.MAX_VALUE - 2,
+    LocalResourceSource
+)

@@ -4,6 +4,7 @@ import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.utilities.OrchidUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
 import java.util.Arrays;
@@ -28,10 +29,25 @@ public final class DefaultPermalinkStrategy implements PermalinkStrategy {
 
     @Override
     public void applyPermalink(OrchidPage page, String permalink, boolean prettyUrl) {
-        String extension = FilenameUtils.getExtension(permalink);
-        String nameWithoutExtension = FilenameUtils.removeExtension(permalink);
-
-        String[] pieces = OrchidUtils.normalizePath(nameWithoutExtension).split("/");
+        String[] pieces = OrchidUtils.normalizePath(permalink).split("/");
+        String extension = "";
+        if(pieces.length > 0) {
+            int index = pieces.length - 1;
+            String last = pieces[index];
+            boolean startsWithColon = last.startsWith(":");
+            if(startsWithColon) {
+                last = last.substring(1);
+            }
+            extension = FilenameUtils.getExtension(last);
+            if(StringUtils.isNotBlank(extension)) {
+                String nameWithoutExtension = FilenameUtils.removeExtension(last);
+                if(startsWithColon) {
+                    pieces[index] = ":" + nameWithoutExtension;
+                } else {
+                    pieces[index] = nameWithoutExtension;
+                }
+            }
+        }
 
         StringBuffer formattedPath = new StringBuffer();
         StringBuffer formattedFileName = new StringBuffer();

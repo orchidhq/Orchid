@@ -83,7 +83,7 @@ constructor(context: OrchidContext) : Theme(context, "Copper") {
         addCss("assets/css/bulma-tooltip.css")
         addCss("assets/css/bulma-accordion.min.css")
 
-        addJs("https://use.fontawesome.com/releases/v5.4.0/js/all.js") {
+        addJs("@fontAwesome5.js") {
             defer = true
             attrs["data-search-pseudo-elements"] = "true"
         }

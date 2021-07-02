@@ -18,6 +18,7 @@ import com.eden.orchid.api.theme.pages.OrchidPage;
 import com.eden.orchid.api.theme.pages.OrchidReference;
 import kotlin.Unit;
 import kotlin.collections.CollectionsKt;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.inject.Provider;
@@ -92,7 +93,7 @@ public final class OrchidView extends OrchidPage {
     }
 
     @Override
-    public String getLayoutBase() {
+    public @NotNull String getLayoutBase() {
         return "server/" + super.getLayoutBase();
     }
 

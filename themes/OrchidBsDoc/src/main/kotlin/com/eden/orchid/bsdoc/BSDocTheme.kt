@@ -73,14 +73,15 @@ constructor(
 
     override fun loadAssets(delegate: AssetManagerDelegate): Unit = with(delegate) {
         // these assets include relative references to font files, which become invalid if the asset is downloaded locally and so need to stay as external assets even in production
-        addCss("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css") { download = false }
-        addCss("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css") { download = false }
-        addCss("https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.0/gh-fork-ribbon.min.css")
+        addCss("@bootstrap3.css") { download = false }
+        addCss("@fontAwesome4.css") { download = false }
+        addCss("@githubForkRibbon.css")
         addCss("assets/css/bsdoc.scss")
 
-        addJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js")
-        addJs("https://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js")
-        addJs("https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.3.0/bootbox.min.js")
+        addJs("@jquery.js")
+        addJs("@bootstrap3.js")
+        addJs("@bootbox.js")
+
         addJs("assets/js/bsdoc.js")
 
         addCss("assets/css/orchidSearch.scss")

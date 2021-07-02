@@ -9,10 +9,10 @@ import com.eden.orchid.api.publication.AbstractGitPublisher
 import com.eden.orchid.api.util.GitFacade
 import com.eden.orchid.api.util.GitRepoFacade
 import com.eden.orchid.api.util.addFile
+import javax.validation.constraints.NotBlank
 import java.net.URL
 import javax.inject.Inject
 import javax.inject.Named
-import javax.validation.constraints.NotBlank
 
 @Description(
     value = "Commit your site directly to Github Pages. It can even keep old versions of your site for versioning" +
@@ -83,7 +83,7 @@ constructor(
 
     override fun GitRepoFacade.beforeCommit(context: OrchidContext) {
         val hasCnameFile = repoDir.resolve("CNAME").toFile().exists()
-        val domain = URL(context.baseUrl).host ?: ""
+        val domain = context.baseUrl?.let { URL(it).host } ?: ""
         val hasDefaultDomain = domain.endsWith(".github.io", ignoreCase = true)
 
         if (addCnameFile && !hasCnameFile && !hasDefaultDomain) {
