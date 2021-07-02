@@ -1,4 +1,6 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import java.text.SimpleDateFormat
+import java.util.Date
 
 plugins {
     idea
@@ -30,18 +32,19 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 tasks.withType<Jar>() {
     manifest {
-//        attributes(
-//            "Built-By": System.properties["user.name"],
-//            "Build-Timestamp": new java.text.SimpleDateFormat("yyyy-MM-dd"T"HH:mm:ss.SSSZ").format(new Date()),
-//            "Build-Revision": project.version.sha,
-//            "Created-By": "Gradle ${gradle.gradleVersion}",
-//            "Build-Jdk": "${System.properties["java.version"]} (${System.properties["java.vendor"]} ${System.properties["java.vm.version"]})",
-//            "Build-OS": "${System.properties["os.name"]} ${System.properties["os.arch"]} ${System.properties["os.version"]}",
-//            "Name": "${project.name}",
-//            "Plugin-Version": "${project.version}",
-//            "Bundle-License": "LGPL-3.0",
-//            "Bundle-DocURL": "https://orchid.run"
-//        )
+        val projectVersion: ProjectVersion by project.extra
+        attributes(
+            "Built-By" to System.getProperty("user.name"),
+            "Build-Timestamp" to SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(Date()),
+            "Build-Revision" to projectVersion.sha,
+            "Created-By" to "Gradle ${gradle.gradleVersion}",
+            "Build-Jdk" to "${System.getProperty("java.version")} (${System.getProperty("java.vendor")} ${System.getProperty("java.vm.version")})",
+            "Build-OS" to "${System.getProperty("os.name")} ${System.getProperty("os.arch")} ${System.getProperty("os.version")}",
+            "Name" to "${project.name}",
+            "Plugin-Version" to "${project.version}",
+            "Bundle-License" to "LGPL-3.0",
+            "Bundle-DocURL" to "https://orchid.run"
+        )
     }
 }
 
