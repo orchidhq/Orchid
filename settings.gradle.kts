@@ -6,7 +6,7 @@ include(":docs")
 
 include(":bundles:orchid-all-bundle")
 include(":bundles:orchid-blog-bundle")
-include(":bundles:orchid-docs-docs")
+include(":bundles:orchid-docs-bundle")
 include(":bundles:orchid-languages-bundle")
 
 include(":features:orchid-archives-feature")

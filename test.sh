@@ -4,11 +4,11 @@ set -e
 # Test normal Gradle projects
 if [ "$1" = "release" ]; then
   echo "[Orchid] Test Release"
-  ./gradlew build publishToMavenLocal -Prelease
+  ./gradlew build licensee publishToMavenLocal -Prelease
   export GRADLE_PROJECT_RELEASE_NAME=$(./gradlew getReleaseName -Prelease --quiet)
 else
   echo "[Orchid] Test Debug"
-  ./gradlew build publishToMavenLocal
+  ./gradlew build licensee publishToMavenLocal
   export GRADLE_PROJECT_RELEASE_NAME=$(./gradlew getReleaseName --quiet)
 fi
 
