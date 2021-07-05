@@ -33,8 +33,8 @@ class SearchIndicesGeneratorTest : OrchidIntegrationTest(
             """
             |{
             |    "sourceDirs": [
-            |        "./../../OrchidKotlindoc/src/mockKotlin",
-            |        "./../../OrchidJavadoc/src/mockJava",
+            |        "./../../orchid-kotlindoc-feature/src/mockKotlin",
+            |        "./../../orchid-javadoc-feature/src/mockJava",
             |    ]
             |}
             |""".trimMargin()

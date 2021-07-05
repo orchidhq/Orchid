@@ -30,7 +30,7 @@ fun singleModuleGeneratorSetup(
     name: String? = null
 ): String {
     val sourcePaths = (listOf(type) + otherSourceKinds).map {
-        "\"./../../Orchid${it.capitalize()}doc/src/mock${it.capitalize()}\""
+        "\"./../../orchid-${it}doc-feature/src/mock${it.capitalize()}\""
     }.joinToString()
 
     if (name != null) {

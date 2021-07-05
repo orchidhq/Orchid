@@ -52,7 +52,7 @@ fun validateNotBlank(
     else null
 }
 
-fun <T: Any> validateNotNull(
+fun <T : Any> validateNotNull(
     propertyName: String,
     value: T?,
     message: String = "$propertyName cannot be null"
@@ -72,7 +72,7 @@ fun validateNotEmpty(
 
 fun runValidation(
     message: String,
-    block: ()->Boolean,
+    block: () -> Boolean,
 ): ValidationError? {
     val result = runCatching { block() }
     return if (result.isFailure) ValidationError(message)

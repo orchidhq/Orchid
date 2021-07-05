@@ -16,7 +16,7 @@ import javax.inject.Named
 
 @Description(
     value = "Commit your site directly to Gitlab Pages. It can even keep old versions of your site for versioning " +
-            "documentation.",
+        "documentation.",
     name = "Gitlab Pages"
 )
 class GitlabPagesPublisher

@@ -17,7 +17,7 @@ import javax.inject.Named
 
 @Description(
     value = "Commit your site directly to Github Pages. It can even keep old versions of your site for versioning" +
-            " documentation.",
+        " documentation.",
     name = "Github Pages"
 )
 class GithubPagesPublisher

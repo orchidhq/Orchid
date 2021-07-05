@@ -64,9 +64,9 @@ constructor(
     @Option
     @Description(
         "If true, pages selected by this taxonomy will have their parent page be set as the term archive, " +
-                "creating a complete breadcrumb hierarchy. \n\n" +
-                "**WARNING**: This will override the parent page set by the plugin that originally produced the page, " +
-                "effectively replacing its normal hierarchy with this taxonomy's hierarchy."
+            "creating a complete breadcrumb hierarchy. \n\n" +
+            "**WARNING**: This will override the parent page set by the plugin that originally produced the page, " +
+            "effectively replacing its normal hierarchy with this taxonomy's hierarchy."
     )
     var setAsPageParent: Boolean = false
 

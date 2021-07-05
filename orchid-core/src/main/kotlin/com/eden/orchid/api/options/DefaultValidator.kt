@@ -14,7 +14,7 @@ class DefaultValidator(
             try {
                 val errors = optionsHolder.validate(context)
 
-                if(errors.isEmpty()) {
+                if (errors.isEmpty()) {
                     ValidationResult.Passed(optionsHolder)
                 } else {
                     ValidationResult.Failed(optionsHolder, errors)

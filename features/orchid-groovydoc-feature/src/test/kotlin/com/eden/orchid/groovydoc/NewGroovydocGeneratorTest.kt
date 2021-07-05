@@ -20,7 +20,7 @@ class NewGroovydocGeneratorTest : OrchidIntegrationTest(GroovydocModule(), Sourc
             |{
             |    "sourceDirs": [
             |        "mockGroovy",
-            |        "./../../OrchidJavadoc/src/mockJava",
+            |        "./../../orchid-javadoc-feature/src/mockJava",
             |    ]
             |}
             |""".trimMargin()

@@ -20,7 +20,7 @@ class NewKotlindocGeneratorTest : OrchidIntegrationTest(KotlindocModule(), Sourc
             |{
             |    "sourceDirs": [
             |        "mockKotlin",
-            |        "./../../OrchidJavadoc/src/mockJava",
+            |        "./../../orchid-javadoc-feature/src/mockJava",
             |    ]
             |}
             |""".trimMargin()
