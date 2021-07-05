@@ -1,23 +1,22 @@
 package com.eden.orchid.posts.model
 
 import com.eden.common.util.EdenUtils
+import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
+import com.eden.orchid.api.options.ValidationError
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
-import com.eden.orchid.api.options.annotations.Validate
+import com.eden.orchid.api.options.validateNotBlank
 import com.eden.orchid.api.theme.models.Social
 import com.eden.orchid.posts.pages.AuthorPage
 import java.net.URLEncoder
 import java.security.MessageDigest
-import javax.validation.constraints.NotBlank
 import kotlin.text.Charsets.UTF_8
 
-@Validate
 class Author : OptionsHolder {
 
     @Option
     @Description("The author's name. Authors are referenced by this name.")
-    @NotBlank
     lateinit var name: String
 
     @Option
@@ -70,6 +69,12 @@ class Author : OptionsHolder {
         get() {
             return authorPage?.link ?: ""
         }
+
+    override fun validate(context: OrchidContext): List<ValidationError> {
+        return super.validate(context) + listOfNotNull(
+            validateNotBlank("name", name)
+        )
+    }
 
     private fun ByteArray.toHex() = joinToString(separator = "") { byte -> "%02x".format(byte) }
 }

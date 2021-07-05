@@ -2,9 +2,11 @@ package com.eden.orchid.gitlab.wiki
 
 import clog.Clog
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.ValidationError
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.options.validateNotBlank
 import com.eden.orchid.api.resources.resource.FileResource
 import com.eden.orchid.api.resources.resource.OrchidResource
 import com.eden.orchid.api.resources.resource.ResourceTransformation
@@ -23,7 +25,6 @@ import com.eden.orchid.wiki.utils.WikiUtils
 import org.apache.commons.io.FilenameUtils
 import java.io.File
 import javax.inject.Inject
-import javax.validation.constraints.NotBlank
 
 class GitlabWikiAdapter
 @Inject
@@ -34,13 +35,11 @@ constructor(
 
     @Option
     @Description("The repository to push to, as [username/repo].")
-    @NotBlank(message = "Must set the Gitlab repository.")
     lateinit var repo: String
 
     @Option
     @StringDefault("gitlab.com")
     @Description("The URL for a self-hosted Gitlab Enterprise installation.")
-    @NotBlank
     lateinit var gitlabUrl: String
 
     @Option
@@ -48,6 +47,14 @@ constructor(
     lateinit var branch: String
 
     override fun getType(): String = "gitlab"
+
+    override fun validate(context: OrchidContext): List<ValidationError> {
+        return super.validate(context) + listOfNotNull(
+            validateNotBlank("repo", repo),
+            validateNotBlank("gitlabUrl", gitlabUrl),
+            validateNotBlank("branch", branch),
+        )
+    }
 
     private fun createAssetManagerDelegate(context: OrchidContext): AssetManagerDelegate {
         return AssetManagerDelegate(context, this, "wikiAdapter", null)

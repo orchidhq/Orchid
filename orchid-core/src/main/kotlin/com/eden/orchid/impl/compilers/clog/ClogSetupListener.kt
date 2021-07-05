@@ -90,8 +90,7 @@ constructor(
             // add our custom Java Logging handler
             rootLogger.addHandler(ClogJavaLoggingHandler())
 
-            // ignore annoying Hibernate Validator and JSass messages
-            Clog.addTagToBlacklist("org.hibernate.validator.internal.util.Version")
+            // ignore annoying jsass messages
             Clog.addTagToBlacklist("io.bit3.jsass.adapter.NativeLoader")
 
             // Ignore Pebble internal logging

@@ -68,8 +68,7 @@ public final class Orchid {
                 }
             }
             moduleLog += "\n";
-            Clog.d("Using the following modules");
-            Clog.d(moduleLog);
+            Clog.d("Using the following modules:\n{}", moduleLog);
 
             Injector injector = Guice.createInjector(modules);
 
@@ -77,8 +76,7 @@ public final class Orchid {
             flagLog += "\n--------------------\n";
             flagLog += OrchidFlags.getInstance().printFlags();
             flagLog += "\n";
-            Clog.d("Flag values");
-            Clog.d(flagLog);
+            Clog.d("Flag values:\n{}", flagLog);
 
             context = injector.getInstance(OrchidContext.class);
 

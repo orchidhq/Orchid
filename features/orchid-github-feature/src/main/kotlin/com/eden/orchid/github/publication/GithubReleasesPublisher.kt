@@ -2,8 +2,10 @@ package com.eden.orchid.github.publication
 
 import clog.Clog
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.ValidationError
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.options.validateNotNull
 import com.eden.orchid.api.publication.OrchidPublisher
 import com.eden.orchid.changelog.model.ChangelogModel
 import com.eden.orchid.utilities.resolve
@@ -36,18 +38,15 @@ constructor(
     @Description("Whether this is a prerelease.")
     var prerelease: Boolean = false
 
-    override fun validate(context: OrchidContext): Boolean {
-        val valid = super.validate(context)
-        return valid && hasVersion(context, context.resolve())
-    }
-
-    private fun hasVersion(context: OrchidContext, model: ChangelogModel): Boolean {
-        // make sure the current site version has a matching changelog version
-        if (model.getVersion(context.site.version) == null) {
-            Clog.e("Required changelog entry for version '{}' is missing.", context.site.version)
-            return false
-        }
-        return true
+    override fun validate(context: OrchidContext): List<ValidationError> {
+        val model: ChangelogModel = context.resolve()
+        return super.validate(context) + listOfNotNull(
+            validateNotNull(
+                "context.site.version",
+                model.getVersion(context.site.version),
+                message = "Required changelog entry for version '${context.site.version}' is missing."
+            )
+        )
     }
 
     override fun publish(context: OrchidContext) {

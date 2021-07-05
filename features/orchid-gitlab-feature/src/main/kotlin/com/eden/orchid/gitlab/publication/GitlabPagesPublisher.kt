@@ -1,21 +1,22 @@
 package com.eden.orchid.gitlab.publication
 
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.ValidationError
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.options.validateNotBlank
 import com.eden.orchid.api.publication.AbstractGitPublisher
 import com.eden.orchid.api.util.GitFacade
 import com.eden.orchid.api.util.GitRepoFacade
 import com.eden.orchid.api.util.addFile
 import javax.inject.Inject
 import javax.inject.Named
-import javax.validation.constraints.NotBlank
 
 @Description(
     value = "Commit your site directly to Gitlab Pages. It can even keep old versions of your site for versioning " +
-        "documentation.",
+            "documentation.",
     name = "Gitlab Pages"
 )
 class GitlabPagesPublisher
@@ -27,24 +28,20 @@ constructor(
     destinationDir: String,
 
     @Named("gitlabToken")
-    @NotBlank(message = "A Gitlab Personal Access Token is required for deploys, set as \'gitlabToken\' flag.")
     private val gitlabToken: String
 ) : AbstractGitPublisher(git, destinationDir, "gitlab-pages", "gitlabPages") {
 
     @Option
     @Description("The user or organization with push access to your repo, used for authenticating with Gitlab.")
-    @NotBlank(message = "Must set the Gitlab user or organization.")
     lateinit var username: String
 
     @Option
     @Description("The repository to push to, as [username/repo], or just [repo] to use the authenticating username.")
-    @NotBlank(message = "Must set the Gitlab repository.")
     lateinit var repo: String
 
     @Option
     @StringDefault("gitlab.com")
     @Description("The URL for a self-hosted Gitlab Enterprise installation.")
-    @NotBlank
     lateinit var gitlabUrl: String
 
     @Option
@@ -54,8 +51,20 @@ constructor(
             "repositories that host project sources and the docs website, it is advises to make this false and create" +
             "your own `.gitlab-ci.yml` to suite your needs."
     )
-    @NotBlank
     var addPipelineFile: Boolean = true
+
+    override fun validate(context: OrchidContext): List<ValidationError> {
+        return super.validate(context) + listOfNotNull(
+            validateNotBlank(
+                "gitlabToken",
+                gitlabToken,
+                message = "A Gitlab Personal Access Token is required for deploys, set as 'gitlabToken' flag."
+            ),
+            validateNotBlank("username", username),
+            validateNotBlank("repo", repo),
+            validateNotBlank("gitlabUrl", gitlabUrl),
+        )
+    }
 
     private fun getGitlabRepo(): Pair<String, String> {
         val repoParts = repo.split("/".toRegex())

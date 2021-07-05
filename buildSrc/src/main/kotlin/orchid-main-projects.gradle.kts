@@ -63,14 +63,14 @@ tasks.withType<Test> {
         exceptionFormat = TestExceptionFormat.FULL
     }
     reports {
-        junitXml.isEnabled = true
-        html.isEnabled = true
+        junitXml.required.set(true)
+        html.required.set(true)
     }
 }
 tasks.withType<JacocoReport> {
     reports {
-        xml.isEnabled = true
-        html.isEnabled = true
+        xml.required.set(true)
+        html.required.set(true)
     }
 }
 val check by tasks

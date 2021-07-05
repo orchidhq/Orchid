@@ -1,22 +1,23 @@
 package com.eden.orchid.github.publication
 
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.ValidationError
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.options.validateNotBlank
 import com.eden.orchid.api.publication.AbstractGitPublisher
 import com.eden.orchid.api.util.GitFacade
 import com.eden.orchid.api.util.GitRepoFacade
 import com.eden.orchid.api.util.addFile
-import javax.validation.constraints.NotBlank
 import java.net.URL
 import javax.inject.Inject
 import javax.inject.Named
 
 @Description(
     value = "Commit your site directly to Github Pages. It can even keep old versions of your site for versioning" +
-        " documentation.",
+            " documentation.",
     name = "Github Pages"
 )
 class GithubPagesPublisher
@@ -28,24 +29,20 @@ constructor(
     destinationDir: String,
 
     @Named("githubToken")
-    @NotBlank(message = "A GitHub Personal Access Token is required for deploys, set as \'githubToken\' flag.")
     private val githubToken: String
 ) : AbstractGitPublisher(git, destinationDir, "gh-pages", "githubPages") {
 
     @Option
     @Description("The user or organization with push access to your repo, used for authenticating with GitHub.")
-    @NotBlank(message = "Must set the GitHub user or organization.")
     lateinit var username: String
 
     @Option
     @Description("The repository to push to, as [username/repo], or just [repo] to use the authenticating username.")
-    @NotBlank(message = "Must set the GitHub repository.")
     lateinit var repo: String
 
     @Option
     @StringDefault("github.com")
     @Description("The URL for a self-hosted Github Enterprise installation.")
-    @NotBlank
     lateinit var githubUrl: String
 
     @Option
@@ -58,6 +55,19 @@ constructor(
             "  3) The site's base URL is not a `.github.io` URL\n"
     )
     var addCnameFile: Boolean = true
+
+    override fun validate(context: OrchidContext): List<ValidationError> {
+        return super.validate(context) + listOfNotNull(
+            validateNotBlank(
+                "githubToken",
+                githubToken,
+                message = "A GitHub Personal Access Token is required for deploys, set as 'githubToken' flag."
+            ),
+            validateNotBlank("username", username),
+            validateNotBlank("repo", repo),
+            validateNotBlank("githubUrl", githubUrl),
+        )
+    }
 
     private fun getGithubRepo(): Pair<String, String> {
         val repoParts = repo.split("/".toRegex())

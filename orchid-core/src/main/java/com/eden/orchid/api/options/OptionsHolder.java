@@ -2,6 +2,7 @@ package com.eden.orchid.api.options;
 
 import com.eden.orchid.api.OrchidContext;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,9 +19,8 @@ public interface OptionsHolder extends Descriptive, Extractable {
         onPostExtraction();
     }
 
-    default boolean validate(OrchidContext context) {
-        OptionsExtractor extractor = context.resolve(OptionsExtractor.class);
-        return extractor.validate(this);
+    default List<ValidationError> validate(OrchidContext context) {
+        return new ArrayList<>();
     }
 
     default void onPostExtraction() {

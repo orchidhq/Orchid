@@ -3,8 +3,11 @@ package com.eden.orchid.netlify.publication
 import clog.Clog
 import clog.dsl.format
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.ValidationError
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.options.runValidation
+import com.eden.orchid.api.options.validateNotBlank
 import com.eden.orchid.api.publication.OrchidPublisher
 import com.eden.orchid.utilities.OrchidUtils
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -24,8 +27,6 @@ import java.time.Instant
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Named
-import javax.validation.ValidationException
-import javax.validation.constraints.NotBlank
 import kotlin.time.ExperimentalTime
 import kotlin.time.milliseconds
 import kotlin.time.toDuration
@@ -40,7 +41,6 @@ constructor(
     private val destinationDir: String,
 
     @Named("netlifyToken")
-    @NotBlank(message = "A Netlify Personal Access Token is required for deploys, set as \'netlifyToken\' flag")
     val netlifyToken: String
 ) : OrchidPublisher("netlify") {
 
@@ -51,9 +51,7 @@ constructor(
     )
     lateinit var siteId: String
 
-    override fun validate(context: OrchidContext): Boolean {
-        var valid = super.validate(context)
-
+    override fun validate(context: OrchidContext): List<ValidationError> {
         if (siteId.isBlank()) {
             // siteId not provided, use the baseUrl instead
             try {
@@ -62,17 +60,15 @@ constructor(
             }
         }
 
-        if (siteId.isBlank()) {
-            throw ValidationException("A valid siteId must be provided.")
-        }
-
-        // make sure the site exists
-        val site = getFrom("sites/$siteId").call(client)
-        if (!site.first) {
-            Clog.e("A Netlify site at {} does not exist or it cannot be accessed.", siteId)
-            valid = false
-        }
-        return valid
+        return super.validate(context) + listOfNotNull(
+            validateNotBlank("netlifyToken", netlifyToken, message = "A Netlify Personal Access Token is required for deploys, set as 'netlifyToken' flag"),
+            validateNotBlank("siteId", siteId),
+            runValidation("A Netlify site at $siteId does not exist or it cannot be accessed.") {
+                // make sure the site exists
+                val site = getFrom("sites/$siteId").call(client)
+                site.first
+            }
+        )
     }
 
     override fun publish(context: OrchidContext) {

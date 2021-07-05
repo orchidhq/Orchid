@@ -36,6 +36,7 @@ licensee {
     allowUrl("http://www.opensource.org/licenses/mit-license.php") // toml4j, slf4j
     allowUrl("http://www.opensource.org/licenses/mit-license.html") // thumbnailator
     allowUrl("https://raw.githubusercontent.com/bit3/jsass/master/LICENSE") // jsass
+    allowUrl("https://github.com/mockito/mockito/blob/main/LICENSE") // mockito
     allowUrl("http://json.org/license.html") // org.json
     allowUrl("https://jsoup.org/license") // jsoup
 
@@ -51,4 +52,10 @@ licensee {
     // EPL
     allow("EPL-1.0")
     allowUrl("https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt")
+    allowUrl("https://www.eclipse.org/legal/epl-v20.html") // junit
+
+    // public domain (no license)
+    ignoreDependencies("aopalliance") {
+        because("aopalliance (a transitive dependency of Guice) is public domain and has no license.")
+    }
 }

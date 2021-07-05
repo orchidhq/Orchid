@@ -1,9 +1,11 @@
 package com.eden.orchid.api.publication
 
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.ValidationError
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
+import com.eden.orchid.api.options.validateNotBlank
 import com.eden.orchid.api.util.GitFacade
 import com.eden.orchid.api.util.GitRepoFacade
 import com.eden.orchid.api.util.copy
@@ -13,9 +15,6 @@ import com.eden.orchid.utilities.OrchidUtils.DEFAULT_PRIORITY
 import com.eden.orchid.utilities.SuppressedWarnings
 import javax.inject.Inject
 import javax.inject.Named
-import javax.validation.constraints.Email
-import javax.validation.constraints.NotBlank
-import javax.validation.constraints.NotNull
 
 abstract class AbstractGitPublisher
 @Inject
@@ -34,25 +33,20 @@ constructor(
     @Option
     @StringDefault("Orchid")
     @Description("The username on the commit.")
-    @NotBlank
     lateinit var commitUsername: String
 
     @Option
     @StringDefault("orchid@orchid")
     @Description("The email on the commit.")
-    @NotBlank
-    @Email
     lateinit var commitEmail: String
 
     @Option
     @StringDefault("Deploy to GitHub Pages from Orchid.")
     @Description("The commit message to attach to this deploy.")
-    @NotBlank
     lateinit var commitMessage: String
 
     @Option
     @Description("The branch to push to.")
-    @NotBlank(message = "Must set the repository branch.")
     lateinit var branch: String
 
     @Option
@@ -69,21 +63,25 @@ constructor(
             "versioned subfolder, then force-push to the remote. Maintains history and all prior versions\' " +
             "content."
     )
-    @NotNull(message = "Must set a valid publish type.")
     lateinit var publishType: PublishType
 
     @Option
     @StringDefault("latest")
     @Description("The name of the \'latest\' directory used for the VersionedBranchWithLatest publish type.")
-    @NotBlank
     lateinit var latestDirName: String
 
     protected abstract val displayedRemoteUrl: String
     protected abstract val remoteUrl: String
 
-    override fun validate(context: OrchidContext): Boolean {
+    override fun validate(context: OrchidContext): List<ValidationError> {
         if (branch.isBlank()) branch = defaultBranch
-        return super.validate(context)
+        return super.validate(context) + listOfNotNull(
+            validateNotBlank("commitUsername", commitUsername),
+            validateNotBlank("commitEmail", commitEmail),
+            validateNotBlank("commitMessage", commitMessage),
+            validateNotBlank("branch", branch),
+            validateNotBlank("latestDirName", latestDirName),
+        )
     }
 
     override fun publish(context: OrchidContext) {

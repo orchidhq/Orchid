@@ -1,6 +1,5 @@
 package com.eden.orchid.api.options;
 
-import clog.Clog;
 import com.eden.common.util.EdenPair;
 import com.eden.common.util.EdenUtils;
 import com.eden.orchid.api.OrchidContext;
@@ -22,29 +21,13 @@ import java.util.Set;
 @Singleton
 public class OptionsExtractor extends Extractor {
 
-    private final OrchidContext context;
-    private final OptionsValidator validator;
-
     @Inject
-    public OptionsExtractor(OrchidContext context, Set<OptionExtractor> extractors, OptionsValidator validator) {
-        super(new ArrayList<>(extractors), new AnnotatedValidatorWrapper(validator), context::resolve);
-        this.context = context;
-        this.validator = validator;
+    public OptionsExtractor(OrchidContext context, Set<OptionExtractor> extractors) {
+        super(new ArrayList<>(extractors), new DefaultValidator(context), context::resolve);
     }
 
     public void extractOptions(OptionsHolder optionsHolder, Map<String, Object> options) {
         super.extractOptions(optionsHolder, options);
-    }
-
-    public boolean validate(OptionsHolder optionsHolder) {
-        try {
-            validator.validate(optionsHolder);
-            return true;
-        }
-        catch (Exception e) {
-            Clog.e("{} did not pass validation", e, optionsHolder);
-            return false;
-        }
     }
 
     public boolean hasOptions(Object possibleObjectHolder) {

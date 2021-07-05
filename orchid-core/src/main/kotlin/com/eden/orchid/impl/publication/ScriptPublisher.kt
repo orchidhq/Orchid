@@ -4,25 +4,31 @@ import clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.common.util.IOStreamUtils
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.ValidationError
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.options.validateNotEmpty
 import com.eden.orchid.api.publication.OrchidPublisher
 import java.io.File
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
-import javax.validation.constraints.NotEmpty
 
 @Description(value = "Run arbitrary shell scripts.", name = "Script")
 class ScriptPublisher : OrchidPublisher("script") {
 
     @Option
     @Description("The executable name")
-    @NotEmpty(message = "Must set the command to run.")
     lateinit var command: List<String>
 
     @Option
     @Description("The working directory of the script to run")
     lateinit var cwd: String
+
+    override fun validate(context: OrchidContext): List<ValidationError> {
+        return super.validate(context) + listOfNotNull(
+            validateNotEmpty("command", command)
+        )
+    }
 
     override fun publish(context: OrchidContext) {
         val builder = ProcessBuilder()

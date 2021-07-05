@@ -3,12 +3,14 @@ package com.eden.orchid.api.publication;
 import clog.Clog;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.options.OptionsExtractor;
+import com.eden.orchid.api.options.ValidationError;
 import com.eden.orchid.testhelpers.OrchidUnitTest;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -266,8 +268,8 @@ public final class PublicationPipelineTest implements OrchidUnitTest {
         }
 
         @Override
-        public boolean validate(OrchidContext context) {
-            return isValid;
+        public List<ValidationError> validate(OrchidContext context) {
+            if(isValid) return new ArrayList<>(); else return Arrays.asList(new ValidationError(""));
         }
 
         @Override
@@ -276,7 +278,6 @@ public final class PublicationPipelineTest implements OrchidUnitTest {
                 throw new RuntimeException("This MockPublisher throws an exception during publishing");
             }
         }
-
     }
 
     public static class ValidPublisher extends MockPublisher {

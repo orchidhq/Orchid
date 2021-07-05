@@ -5,18 +5,18 @@ import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.generators.OrchidGenerator
 import com.eden.orchid.api.generators.modelOf
 import com.eden.orchid.api.options.OptionsHolder
+import com.eden.orchid.api.options.ValidationError
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.ImpliedKey
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-import com.eden.orchid.api.options.annotations.Validate
+import com.eden.orchid.api.options.validateNotBlank
 import com.eden.orchid.api.resources.resourcesource.LocalResourceSource
 import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.assets.AssetPage
 import java.util.Arrays
 import javax.inject.Singleton
-import javax.validation.constraints.NotBlank
 
 @Singleton
 @Description(
@@ -65,11 +65,9 @@ class AssetsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, St
     // Helpers
 // ---------------------------------------------------------------------------------------------------------------------
 
-    @Validate
     class AssetDirectory : OptionsHolder {
 
         @Option
-        @NotBlank
         @Description("Set which local resource directories you want to copy static assets from.")
         lateinit var sourceDir: String
 
@@ -81,6 +79,12 @@ class AssetsGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, St
         @BooleanDefault(true)
         @Description("Whether to include subdirectories of this directory")
         var recursive: Boolean = true
+
+        override fun validate(context: OrchidContext): List<ValidationError> {
+            return super.validate(context) + listOfNotNull(
+                validateNotBlank("sourceDir", sourceDir)
+            )
+        }
 
         override fun toString(): String {
             return "AssetDirectory(sourceDir='$sourceDir', assetFileExtensions=${Arrays.toString(assetFileExtensions)}, isRecursive=$recursive)"

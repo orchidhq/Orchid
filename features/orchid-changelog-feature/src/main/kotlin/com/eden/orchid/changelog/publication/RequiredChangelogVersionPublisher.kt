@@ -1,8 +1,9 @@
 package com.eden.orchid.changelog.publication
 
-import clog.Clog
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.ValidationError
 import com.eden.orchid.api.options.annotations.Description
+import com.eden.orchid.api.options.validateNotNull
 import com.eden.orchid.api.publication.OrchidPublisher
 import com.eden.orchid.changelog.model.ChangelogModel
 import com.eden.orchid.utilities.resolve
@@ -13,17 +14,15 @@ import com.eden.orchid.utilities.resolve
 )
 class RequiredChangelogVersionPublisher : OrchidPublisher("requireChangelogVersion") {
 
-    override fun validate(context: OrchidContext): Boolean {
-        var valid = super.validate(context)
+    override fun validate(context: OrchidContext): List<ValidationError> {
         val model: ChangelogModel = context.resolve()
-
-        // make sure the current site version has a matching changelog version
-        if (model.getVersion(context.site.version) == null) {
-            Clog.e("Required changelog entry for version '{}' is missing.", context.site.version)
-            valid = false
-        }
-
-        return valid
+        return super.validate(context) + listOfNotNull(
+            validateNotNull(
+                "context.site.version",
+                model.getVersion(context.site.version),
+                message = "Required changelog entry for version '${context.site.version}' is missing."
+            )
+        )
     }
 
     override fun publish(context: OrchidContext) {

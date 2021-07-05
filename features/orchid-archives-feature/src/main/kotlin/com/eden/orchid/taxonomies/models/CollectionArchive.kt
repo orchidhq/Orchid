@@ -3,12 +3,13 @@ package com.eden.orchid.taxonomies.models
 import com.eden.common.json.JSONElement
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OptionsHolder
+import com.eden.orchid.api.options.ValidationError
 import com.eden.orchid.api.options.annotations.AllOptions
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.IntDefault
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-import com.eden.orchid.api.options.annotations.Validate
+import com.eden.orchid.api.options.validateNotBlank
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.taxonomies.utils.getSingleTermValue
 import com.eden.orchid.utilities.camelCase
@@ -17,20 +18,17 @@ import com.eden.orchid.utilities.titleCase
 import com.eden.orchid.utilities.to
 import org.json.JSONObject
 import javax.inject.Inject
-import javax.validation.constraints.NotBlank
 
-@Validate
 class CollectionArchive
 @Inject
 constructor(
     val context: OrchidContext
 ) : OptionsHolder {
 
-    public var pages = listOf<OrchidPage>()
+    var pages = listOf<OrchidPage>()
     lateinit var archivePages: List<OrchidPage>
 
     @Option
-    @get:NotBlank
     var key: String = ""
         get() {
             return when {
@@ -66,9 +64,9 @@ constructor(
     @Option
     @Description(
         "If true, pages selected by this taxonomy will have their parent page be set as the term archive, " +
-            "creating a complete breadcrumb hierarchy. \n\n" +
-            "**WARNING**: This will override the parent page set by the plugin that originally produced the page, " +
-            "effectively replacing its normal hierarchy with this taxonomy's hierarchy."
+                "creating a complete breadcrumb hierarchy. \n\n" +
+                "**WARNING**: This will override the parent page set by the plugin that originally produced the page, " +
+                "effectively replacing its normal hierarchy with this taxonomy's hierarchy."
     )
     var setAsPageParent: Boolean = false
 
@@ -133,6 +131,12 @@ constructor(
 
     fun query(pointer: String): JSONElement? {
         return JSONElement(JSONObject(allData)).query(pointer)
+    }
+
+    override fun validate(context: OrchidContext): List<ValidationError> {
+        return super.validate(context) + listOfNotNull(
+            validateNotBlank("key", key)
+        )
     }
 
     class CollectionParameters : OptionsHolder {

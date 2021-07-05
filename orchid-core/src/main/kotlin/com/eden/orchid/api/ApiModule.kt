@@ -15,10 +15,8 @@ import com.eden.orchid.api.converters.StringConverterHelper
 import com.eden.orchid.api.converters.TimeConverter
 import com.eden.orchid.api.converters.TypeConverter
 import com.eden.orchid.api.options.Extractor
-import com.eden.orchid.api.options.HibernateValidator
 import com.eden.orchid.api.options.OptionExtractor
 import com.eden.orchid.api.options.OptionsExtractor
-import com.eden.orchid.api.options.OptionsValidator
 import com.eden.orchid.api.options.TemplateGlobal
 import com.eden.orchid.api.options.extractors.AnyOptionExtractor
 import com.eden.orchid.api.options.extractors.BooleanOptionExtractor
@@ -61,7 +59,6 @@ class ApiModule : OrchidModule() {
 
     override fun configure() {
         bind(Extractor::class.java).to(OptionsExtractor::class.java)
-        bind(OptionsValidator::class.java).to(HibernateValidator::class.java)
 
         // Type Converters
         addToSet(

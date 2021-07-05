@@ -29,17 +29,12 @@ dependencies {
     api("io.github.copper-leaf:krow-core:1.0.0")
     api("io.github.copper-leaf:thistle-core:1.1.0")
 
-    // validation
-    api("javax.validation:validation-api:2.0.1.Final")
-    implementation("org.hibernate.validator:hibernate-validator:6.1.5.Final")
-    implementation("org.glassfish:javax.el:3.0.1-b11")
-
     // Included parsers: JSON, YAML, TOML, CSV, Pebble, Markdown, Sass
     api("org.json:json:20210307")
     implementation("org.yaml:snakeyaml:1.29")
     implementation("com.moandjiezana.toml:toml4j:0.7.2")
     implementation("io.pebbletemplates:pebble:3.1.5")
-    implementation("io.bit3:jsass:5.10.4")
+    implementation("io.bit3:jsass:5.10.3")
     implementation("com.univocity:univocity-parsers:2.9.1")
 
     // Flexmark extensions

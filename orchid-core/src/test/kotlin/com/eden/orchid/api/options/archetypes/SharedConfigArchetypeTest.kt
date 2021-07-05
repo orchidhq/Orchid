@@ -48,7 +48,7 @@ class SharedConfigArchetypeTest : OrchidUnitTest {
             ListOptionExtractor({ extractor }, iterableConverter, mapConverter, converters),
             StringArrayOptionExtractor(iterableConverter, converters)
         )
-        extractor = OptionsExtractor(context, extractors, null)
+        extractor = OptionsExtractor(context, extractors)
 
         `when`(context.getEmbeddedData(anyString(), anyString())).thenReturn(EdenPair("", emptyMap()))
         `when`(context.resolve(OptionsExtractor::class.java)).thenReturn(extractor)

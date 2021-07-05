@@ -58,8 +58,7 @@ public class ClasspathModuleInstaller extends OrchidModule {
         );
 
         moduleLog.append("\n");
-        Clog.d("Auto-loaded modules");
-        Clog.d(moduleLog.toString());
+        Clog.d("Auto-loaded modules:\n{}", moduleLog.toString());
     }
 
     private boolean isInstantiable(Class<?> matchingClass) {

@@ -2,10 +2,11 @@ package com.eden.orchid.github.wiki
 
 import clog.Clog
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.options.ValidationError
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.options.annotations.StringDefault
-import com.eden.orchid.api.options.annotations.Validate
+import com.eden.orchid.api.options.validateNotBlank
 import com.eden.orchid.api.resources.resource.FileResource
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.pages.OrchidReference
@@ -21,9 +22,7 @@ import com.eden.orchid.wiki.utils.WikiUtils
 import org.apache.commons.io.FilenameUtils
 import java.io.File
 import javax.inject.Inject
-import javax.validation.constraints.NotBlank
 
-@Validate
 @Suppress(SuppressedWarnings.UNUSED_PARAMETER)
 class GithubWikiAdapter
 @Inject
@@ -34,18 +33,24 @@ constructor(
 
     @Option
     @Description("The repository to push to, as [username/repo].")
-    @NotBlank(message = "Must set the GitHub repository.")
     lateinit var repo: String
 
     @Option
     @StringDefault("github.com")
     @Description("The URL for a self-hosted Github Enterprise installation.")
-    @NotBlank
     lateinit var githubUrl: String
 
     @Option
     @StringDefault("master")
     lateinit var branch: String
+
+    override fun validate(context: OrchidContext): List<ValidationError> {
+        return super.validate(context) + listOfNotNull(
+            validateNotBlank("repo", repo),
+            validateNotBlank("githubUrl", githubUrl),
+            validateNotBlank("branch", branch),
+        )
+    }
 
     override fun getType(): String = "github"
 
