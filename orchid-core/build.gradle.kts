@@ -13,11 +13,11 @@ dependencies {
     // Dynamic Component Registration
     api("javax.inject:javax.inject:1")
     api("com.google.inject:guice:5.0.1")
-    api("io.github.classgraph:classgraph:4.8.102")
+    api("io.github.classgraph:classgraph:4.8.109")
 
     // core utilities
-    api("com.squareup.okhttp3:okhttp:4.7.2")
-    api("commons-io:commons-io:2.9.0")
+    api("com.squareup.okhttp3:okhttp:4.9.1")
+    api("commons-io:commons-io:2.10.0")
     api("org.apache.commons:commons-lang3:3.12.0")
     api("org.apache.commons:commons-text:1.9")
     api("net.coobird:thumbnailator:0.4.14")
@@ -35,11 +35,11 @@ dependencies {
     implementation("org.glassfish:javax.el:3.0.1-b11")
 
     // Included parsers: JSON, YAML, TOML, CSV, Pebble, Markdown, Sass
-    api("org.json:json:20180813")
-    implementation("org.yaml:snakeyaml:1.28")
+    api("org.json:json:20210307")
+    implementation("org.yaml:snakeyaml:1.29")
     implementation("com.moandjiezana.toml:toml4j:0.7.2")
     implementation("io.pebbletemplates:pebble:3.1.5")
-    implementation("io.bit3:jsass:5.10.3")
+    implementation("io.bit3:jsass:5.10.4")
     implementation("com.univocity:univocity-parsers:2.9.1")
 
     // Flexmark extensions
