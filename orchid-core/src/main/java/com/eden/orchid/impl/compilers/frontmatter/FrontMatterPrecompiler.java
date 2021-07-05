@@ -148,7 +148,7 @@ public final class FrontMatterPrecompiler extends OrchidPrecompiler {
                         header.parser = context.parserFor(delimiter.parser);
 
                         if(header.parser == null) {
-                            Clog.w("#{$1} is not a valid parser extension, perhaps you are missing a #{$1} Parser extension?", delimiter.parser);
+                            Clog.w("{} is not a valid parser extension, perhaps you are missing a {} Parser extension?", delimiter.parser, delimiter.parser);
                         }
                         else {
                             header.delimiter = "";

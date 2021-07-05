@@ -13,8 +13,8 @@ dependencies {
     testImplementation(Modules.OrchidTest)
 
     // for PDF wiki generation
-    implementation("com.openhtmltopdf:openhtmltopdf-core:1.0.8")
-    implementation("com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.8")
-    implementation("com.openhtmltopdf:openhtmltopdf-slf4j:1.0.8")
-    implementation("com.openhtmltopdf:openhtmltopdf-svg-support:1.0.8")
+    implementation("com.openhtmltopdf:openhtmltopdf-core:1.0.9")
+    implementation("com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.9")
+    implementation("com.openhtmltopdf:openhtmltopdf-slf4j:1.0.9")
+    implementation("com.openhtmltopdf:openhtmltopdf-svg-support:1.0.9")
 }

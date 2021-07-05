@@ -17,7 +17,7 @@ final class NotFound404Response {
 
     static OrchidResponse getResponse(OrchidContext context, String targetPath) {
         String content = "";
-        Clog.i("Rendering 404: #{$1}", targetPath);
+        Clog.i("Rendering 404: {}", targetPath);
 
         OrchidResource resource = context
                 .getFlexibleResourceSource(LocalResourceSource.INSTANCE, null)

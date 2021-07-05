@@ -2,6 +2,7 @@ plugins {
     `copper-leaf-base`
     `copper-leaf-version`
     jacoco
+    id("com.github.ben-manes.versions") version "0.39.0"
 }
 
 // Add check to make sure every release version has a Changelog file

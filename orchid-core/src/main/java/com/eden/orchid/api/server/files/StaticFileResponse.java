@@ -30,7 +30,7 @@ final class StaticFileResponse {
     static OrchidResponse getResponse(OrchidContext context, File targetFile, String targetPath) {
         String mimeType = mimeTypes.getOrDefault(FilenameUtils.getExtension(targetFile.getName()), NanoHTTPD.getMimeTypeForFile(targetFile.getName()));
 
-        Clog.i("Rendering File: #{$1}", targetPath);
+        Clog.i("Rendering File: {}", targetPath);
         try {
             return new OrchidResponse(context)
                     .contentStream(new FileInputStream(targetFile), targetFile.length())
