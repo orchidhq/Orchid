@@ -31,6 +31,7 @@ object ModuleGroups {
 
     object Plugins {
         val all: Array<Module> = arrayOf(
+            Modules.OrchidArchives,
             Modules.OrchidChangelog,
             Modules.OrchidForms,
             Modules.OrchidGroovydoc,
@@ -47,8 +48,7 @@ object ModuleGroups {
             Modules.OrchidSourceDoc,
             Modules.OrchidSwagger,
             Modules.OrchidSwiftdoc,
-            Modules.OrchidTaxonomies,
-            Modules.OrchidWiki
+            Modules.OrchidWiki,
         )
     }
 

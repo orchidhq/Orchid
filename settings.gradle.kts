@@ -1,59 +1,44 @@
-rootProject.name = "Orchid"
+rootProject.name = "orchid"
 
-include(
-    ":OrchidCore",
-    ":OrchidTest"
-)
-
-include(
-    ":bundles:OrchidAll",
-    ":bundles:OrchidBlog",
-    ":bundles:OrchidDocs",
-    ":bundles:OrchidLanguagePack"
-)
-
-include(
-    ":integrations:OrchidAzure",
-    ":integrations:OrchidBitbucket",
-    ":integrations:OrchidGithub",
-    ":integrations:OrchidGitlab",
-    ":integrations:OrchidNetlify"
-)
-
-include(
-    ":languageExtensions:OrchidAsciidoc",
-    ":languageExtensions:OrchidBible",
-    ":languageExtensions:OrchidDiagrams",
-    ":languageExtensions:OrchidSyntaxHighlighter",
-    ":languageExtensions:OrchidWritersBlocks"
-)
-
-include(
-    ":plugins:OrchidChangelog",
-    ":plugins:OrchidForms",
-    ":plugins:OrchidGroovydoc",
-    ":plugins:OrchidJavadoc",
-    ":plugins:OrchidKotlindoc",
-    ":plugins:OrchidKSS",
-    ":plugins:OrchidNetlifyCMS",
-    ":plugins:OrchidPages",
-    ":plugins:OrchidPluginDocs",
-    ":plugins:OrchidPosts",
-    ":plugins:OrchidPresentations",
-    ":plugins:OrchidSearch",
-    ":plugins:OrchidSnippets",
-    ":plugins:OrchidSourceDoc",
-    ":plugins:OrchidSwagger",
-    ":plugins:OrchidSwiftdoc",
-    ":plugins:OrchidTaxonomies",
-    ":plugins:OrchidWiki"
-)
-
-include(
-    ":themes:OrchidBsDoc",
-    ":themes:OrchidCopper",
-    ":themes:OrchidEditorial",
-    ":themes:OrchidFutureImperfect"
-)
-
+include(":orchid-core")
+include(":orchid-test")
 include(":docs")
+
+include(":bundles:orchid-all-bundle")
+include(":bundles:orchid-blog-bundle")
+include(":bundles:orchid-docs-docs")
+include(":bundles:orchid-languages-bundle")
+
+include(":features:orchid-archives-feature")
+include(":features:orchid-asciidoc-feature")
+include(":features:orchid-azure-feature")
+include(":features:orchid-bible-feature")
+include(":features:orchid-bitbucket-feature")
+include(":features:orchid-changelog-feature")
+include(":features:orchid-diagrams-feature")
+include(":features:orchid-forms-feature")
+include(":features:orchid-github-feature")
+include(":features:orchid-gitlab-feature")
+include(":features:orchid-groovydoc-feature")
+include(":features:orchid-javadoc-feature")
+include(":features:orchid-kotlindoc-feature")
+include(":features:orchid-kss-feature")
+include(":features:orchid-netlify-feature")
+include(":features:orchid-netlify-cms-feature")
+include(":features:orchid-pages-feature")
+include(":features:orchid-plugin-docs-feature")
+include(":features:orchid-posts-feature")
+include(":features:orchid-presentations-feature")
+include(":features:orchid-search-feature")
+include(":features:orchid-snippets-feature")
+include(":features:orchid-sourcedoc-feature")
+include(":features:orchid-swagger-feature")
+include(":features:orchid-swiftdoc-feature")
+include(":features:orchid-syntax-highlighter-feature")
+include(":features:orchid-wiki-feature")
+include(":features:orchid-writers-blocks-feature")
+
+include(":themes:orchid-bsdoc-theme")
+include(":themes:orchid-copper-theme")
+include(":themes:orchid-editorial-theme")
+include(":themes:orchid-future-imperfect-theme")

@@ -15,7 +15,7 @@ dependencies {
     implementation(Modules.OrchidPosts)
     implementation(Modules.OrchidPages)
     implementation(Modules.OrchidForms)
-    implementation(Modules.OrchidTaxonomies)
+    implementation(Modules.OrchidArchives)
 
     implementation(*ModuleGroups.LanguageExtensions.all)
 }
