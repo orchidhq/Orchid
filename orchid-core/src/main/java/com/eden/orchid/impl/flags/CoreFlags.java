@@ -70,7 +70,7 @@ public final class CoreFlags extends OrchidFlag {
     @Description("Whether to deploy dry")
     public boolean dryDeploy;
 
-    @Option @StringDefault("VERBOSE")
+    @Option @StringDefault("DEBUG")
     @Description("The level of logging statements to show. One of: [VERBOSE, DEBUG, INFO, DEFAULT, WARNING, ERROR, FATAL]")
     public Clog.Priority logLevel;
 

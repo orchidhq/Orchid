@@ -46,6 +46,11 @@ dependencies {
     implementation("com.vladsch.flexmark:flexmark-ext-toc:0.62.2")
     implementation("com.vladsch.flexmark:flexmark-ext-anchorlink:0.62.2")
 
+    // for PDF wiki generation
+    implementation("com.openhtmltopdf:openhtmltopdf-core:1.0.9")
+    implementation("com.openhtmltopdf:openhtmltopdf-pdfbox:1.0.9")
+    implementation("com.openhtmltopdf:openhtmltopdf-svg-support:1.0.9")
+
     // server
     implementation("org.nanohttpd:nanohttpd:2.3.1")
     implementation("org.nanohttpd:nanohttpd-websocket:2.3.1")

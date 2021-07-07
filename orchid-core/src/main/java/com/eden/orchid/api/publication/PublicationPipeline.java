@@ -64,13 +64,13 @@ public final class PublicationPipeline extends ModularList<PublicationPipeline, 
                 }
             }
             moduleLog.append("\n");
-            Clog.log("Some publishing stages failed validation, cannot deploy:\n{}", moduleLog.toString());
+            Clog.e("Some publishing stages failed validation, cannot deploy:\n{}", moduleLog.toString());
             success = false;
         }
         else {
             for (OrchidPublisher publisher : allPublishers) {
                 boolean publisherIsDry = dryDeploy || publisher.isDry();
-                Clog.d("{}Publishing [{}: {}]", (publisherIsDry) ? "Dry " : "", publisher.getPriority(), publisher.getType());
+                Clog.i("{}Publishing [{}: {}]", (publisherIsDry) ? "Dry " : "", publisher.getPriority(), publisher.getType());
 
                 boolean publisherSuccess = true;
                 if (!publisherIsDry) {

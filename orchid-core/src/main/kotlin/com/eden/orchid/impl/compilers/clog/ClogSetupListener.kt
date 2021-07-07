@@ -97,6 +97,9 @@ constructor(
             Clog.addTagToBlacklist("com.mitchellbosecke.pebble.lexer.LexerImpl")
             Clog.addTagToBlacklist("com.mitchellbosecke.pebble.lexer.TemplateSource")
             Clog.addTagToBlacklist("com.mitchellbosecke.pebble.PebbleEngine")
+
+            // OpenHtmlToPdf
+            Clog.addTagToBlacklist("org.apache.pdfbox.pdmodel.font.FileSystemFontProvider")
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.eden.orchid.api.render;
 
+import com.eden.orchid.api.KotlinRenderServiceHelpers;
 import com.eden.orchid.api.OrchidContext;
 import com.eden.orchid.api.generators.OrchidGenerator;
 import com.eden.orchid.api.options.annotations.Archetype;
@@ -7,7 +8,6 @@ import com.eden.orchid.api.options.annotations.BooleanDefault;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.Option;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
-import com.eden.orchid.api.resources.resource.InlineResource;
 import com.eden.orchid.api.theme.AbstractTheme;
 import com.eden.orchid.api.theme.AdminTheme;
 import com.eden.orchid.api.theme.Theme;
@@ -20,7 +20,6 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 @Description(value = "How Orchid renders pages and writes them to disk.", name = "Render")
@@ -93,8 +92,11 @@ public class RenderServiceImpl implements RenderService {
                 case BINARY:
                     return getRenderedBinary(page);
 
+                case PDF:
+                    return getRenderedPdf(page);
+
                 default:
-                    throw new IllegalArgumentException("Dynamic RenderMode rendering must be one of [TEMPLATE, RAW, BINARY]");
+                    throw new IllegalArgumentException("Dynamic RenderMode rendering must be one of [TEMPLATE, RAW, BINARY, PDF]");
             }
         });
     }
@@ -143,6 +145,10 @@ public class RenderServiceImpl implements RenderService {
         InputStream is = page.getResource().getContentStream();
         page.setCurrent(false);
         return is;
+    }
+
+    private synchronized InputStream getRenderedPdf(OrchidPage page) {
+        return KotlinRenderServiceHelpers.INSTANCE.getRenderedPdf(page);
     }
 
 // Rendering helpers/wrappers

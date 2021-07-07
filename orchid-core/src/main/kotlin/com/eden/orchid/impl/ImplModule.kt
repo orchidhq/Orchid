@@ -53,8 +53,8 @@ import com.eden.orchid.impl.generators.SitemapGenerator
 import com.eden.orchid.impl.publication.ScriptPublisher
 import com.eden.orchid.impl.resources.resourcesource.LocalCommonExternalAliasesResourceSource
 import com.eden.orchid.impl.resources.resourcesource.LocalExternalResourceSource
-import com.eden.orchid.impl.resources.resourcesource.LocalInlineResourceSource
 import com.eden.orchid.impl.resources.resourcesource.LocalFileResourceSource
+import com.eden.orchid.impl.resources.resourcesource.LocalInlineResourceSource
 import com.eden.orchid.impl.tasks.BuildTask
 import com.eden.orchid.impl.tasks.DeployTask
 import com.eden.orchid.impl.tasks.HelpTask
@@ -105,6 +105,7 @@ import com.eden.orchid.impl.themes.tags.TabsTag
 import com.eden.orchid.utilities.OrchidUtils
 import com.eden.orchid.utilities.SuppressedWarnings
 import com.google.inject.Provides
+import com.openhtmltopdf.util.XRLog
 import io.github.classgraph.ClassGraph
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -139,6 +140,8 @@ class ImplModule(
             addToSet(OrchidGenerator::class.java)
         }
         realAndTest {
+            XRLog.setLoggingEnabled(false)
+
             ClogSetupListener.registerJavaLoggingHandler()
 
             // prepare empty sets for binding

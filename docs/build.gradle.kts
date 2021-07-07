@@ -17,6 +17,7 @@ dependencies {
 
 orchid {
     githubToken = project.properties["githubToken"]?.toString() ?: ""
+    diagnose = true
 }
 
 val build by tasks

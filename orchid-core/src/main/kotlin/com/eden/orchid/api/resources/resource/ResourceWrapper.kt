@@ -1,12 +1,18 @@
 package com.eden.orchid.api.resources.resource
 
 import com.eden.orchid.api.OrchidContext
+import com.eden.orchid.api.theme.pages.OrchidReference
 import java.io.InputStream
 
 /**
  * A Resource type that wraps another resource, optionally applying a transformation along the way.
  */
-abstract class ResourceWrapper(private val resource: OrchidResource) : OrchidResource(resource.reference) {
+open class ResourceWrapper
+@JvmOverloads
+constructor(
+    private val resource: OrchidResource,
+    reference: OrchidReference = resource.reference
+) : OrchidResource(reference) {
 
     override fun getContentStream(): InputStream {
         return resource.getContentStream()

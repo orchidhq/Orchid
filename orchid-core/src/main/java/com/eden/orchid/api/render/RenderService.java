@@ -11,7 +11,7 @@ import java.io.InputStream;
 public interface RenderService extends OrchidService {
 
     enum RenderMode {
-        TEMPLATE, RAW, BINARY
+        TEMPLATE, RAW, BINARY, PDF
     }
 
     /**

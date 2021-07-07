@@ -84,8 +84,7 @@ class TestOrchid {
             moduleLog += "\n * " + module.javaClass.name
         }
         moduleLog += "\n"
-        Clog.d("Running test with the following modules")
-        Clog.d(moduleLog)
+        Clog.i("Running test with the following modules:\n$moduleLog")
 
         val injector = Guice.createInjector(modules)
 
@@ -93,8 +92,7 @@ class TestOrchid {
         flagLog += "\n--------------------\n"
         flagLog += OrchidFlags.getInstance().printFlags()
         flagLog += "\n"
-        Clog.d("Flag values")
-        Clog.d(flagLog)
+        Clog.i("Flag values:\n$flagLog")
 
         val context = injector.getInstance(OrchidContext::class.java)
 

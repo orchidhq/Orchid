@@ -4,6 +4,7 @@ import clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.resources.resource.OrchidResource
+import com.eden.orchid.api.resources.resource.ResourceWrapper
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.assets.AssetPage
 import com.eden.orchid.api.theme.pages.OrchidReference
@@ -173,7 +174,16 @@ object WikiUtils {
                 bookReference.isUsePrettyUrl = false
             }
 
-            WikiBookPage(bookReference, section)
+            val wikiBookTemplate = section.summaryPage.reference.context
+                .getTemplateResourceSource(null, section.summaryPage.reference.context.theme)
+                .getResourceEntry(section.summaryPage.reference.context, "wiki/book")!!
+
+            val wikiBookNamedResource = ResourceWrapper(
+                wikiBookTemplate,
+                bookReference
+            )
+
+            WikiBookPage(wikiBookNamedResource, section)
         } else {
             null
         }
