@@ -1,0 +1,18 @@
+# Docs builds should be used from the docs branch for updated the current version's documentation site. It will only
+# push the site to GitHub Pages, but will not create a release.
+
+services:
+  generators:
+    disabled:
+      - 'javadoc'
+      - 'groovydoc'
+      - 'swiftdoc'
+  publications:
+    stages:
+      - type: githubPages
+        username: 'cjbrooks12'
+        repo: 'orchidhq/orchid'
+        commitish: 'master'
+
+kotlindoc:
+  homePageOnly: true

@@ -1,0 +1,25 @@
+name: Docs
+
+on:
+  schedule:
+    - cron: '0 2 * * 0-6'
+  push:
+    branches:
+      - docs
+
+jobs:
+  test:
+    name: 'Deploy docs on macos-latest JDK 8'
+    runs-on: 'macos-latest'
+    steps:
+      - uses: 'actions/checkout@v2'
+      - run: 'git fetch --prune --unshallow --tags'
+      - name: 'Set up JDK'
+        uses: 'actions/setup-java@v2'
+        with:
+          distribution: 'adopt'
+          java-version: ${{ matrix.jdk_version }}
+      - name: 'Build with Gradle'
+        run: './gradlew assemble -PorchidEnvironment=docs -Prelease'
+      - name: 'Publish docs with Orchid'
+        run: './gradlew :docs:orchidDeploy -PorchidEnvironment=docs -Prelease'

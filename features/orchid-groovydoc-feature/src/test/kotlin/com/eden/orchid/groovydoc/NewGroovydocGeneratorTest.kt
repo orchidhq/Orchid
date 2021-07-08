@@ -6,6 +6,8 @@ import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.DisabledForJreRange
+import org.junit.jupiter.api.condition.JRE
 import strikt.api.expectThat
 
 @DisplayName("Tests page-rendering behavior of Groovydoc generator")
@@ -13,6 +15,7 @@ class NewGroovydocGeneratorTest : OrchidIntegrationTest(GroovydocModule(), Sourc
 
     @Test
     @DisplayName("Groovy files are parsed, and pages are generated for each class and package.")
+    @DisabledForJreRange(min = JRE.JAVA_14)
     fun test01() {
         configObject(
             "groovydoc",

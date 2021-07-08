@@ -128,6 +128,7 @@ fun Project.getProjectVersion(
     }
 
     return ProjectVersion(
+        previousVersion = latestTagName,
         major = major,
         minor = minor,
         patch = patch,
@@ -143,6 +144,7 @@ fun Project.getProjectVersion(
 }
 
 data class ProjectVersion(
+    val previousVersion: String,
     val major: Int,
     val minor: Int,
     val patch: Int,
@@ -154,6 +156,11 @@ data class ProjectVersion(
     val shortVersion: String = "$major.$minor"
     val releaseVersion: String = "$major.$minor.$patch"
     val fullVersion: String = "$releaseVersion${if (snapshot) snapshotSuffix else ""}"
+    val documentationVersion: String = if(snapshot) {
+        previousVersion
+    } else {
+        releaseVersion
+    }
 
     override fun toString(): String = fullVersion
 
@@ -170,6 +177,7 @@ data class ProjectVersion(
             |    shortVersion=$shortVersion
             |    releaseVersion=$releaseVersion
             |    fullVersion=$fullVersion
+            |    documentationVersion=$documentationVersion
             |)
         """.trimMargin()
     }

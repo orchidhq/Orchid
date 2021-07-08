@@ -80,6 +80,7 @@ public final class PublicationPipeline extends ModularList<PublicationPipeline, 
                     catch (Exception e) {
                         Clog.e("Something went wrong publishing [{}]", publisher.getType());
                         context.diagnosisMessage(() -> {
+                            e.printStackTrace();
                             StringWriter sw = new StringWriter();
                             PrintWriter pw = new PrintWriter(sw);
                             e.printStackTrace(pw);

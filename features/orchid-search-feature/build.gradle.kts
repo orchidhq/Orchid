@@ -12,8 +12,6 @@ dependencies {
     implementation(Modules.OrchidCore)
     testImplementation(Modules.OrchidTest)
 
-    testImplementation(Modules.OrchidSourceDoc)
-    testImplementation(Modules.OrchidKotlindoc)
     testImplementation(Modules.OrchidPosts)
     testImplementation(Modules.OrchidPages)
     testImplementation(Modules.OrchidWiki)

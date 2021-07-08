@@ -1,5 +1,5 @@
-# These values shouldn't be changed during normal development. Instead, change values in `config-debug.yml` which will
-# not affect production builds
+# Production builds should be used for version releases from the master branch. It will publish a new release on GitHub
+# Releases which will increment the next versions released, and also push the site to GitHub Pages
 
 services:
   generators:
@@ -7,6 +7,16 @@ services:
       - 'javadoc'
       - 'groovydoc'
       - 'swiftdoc'
+  publications:
+    stages:
+      - type: githubReleases
+        username: 'cjbrooks12'
+        repo: 'orchidhq/orchid'
+        commitish: 'master'
+      - type: githubPages
+        username: 'cjbrooks12'
+        repo: 'orchidhq/orchid'
+        commitish: 'master'
 
 kotlindoc:
   homePageOnly: true

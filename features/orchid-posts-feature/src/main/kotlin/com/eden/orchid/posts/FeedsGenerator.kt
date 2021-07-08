@@ -70,7 +70,6 @@ class FeedsGenerator : OrchidGenerator<FeedsModel>(GENERATOR_KEY, Stage.META) {
 
     @Description(value = "A page with an RSS-like feed.", name = "RSS Feed")
     class FeedPage
-
     @Suppress(SuppressedWarnings.UNUSED_PARAMETER)
     constructor(
         resource: OrchidResource,

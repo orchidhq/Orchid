@@ -5,11 +5,10 @@ import com.eden.orchid.api.options.annotations.Archetype;
 import com.eden.orchid.api.options.annotations.Description;
 import com.eden.orchid.api.options.annotations.ImpliedKey;
 import com.eden.orchid.api.options.annotations.Option;
+import com.eden.orchid.api.options.annotations.StringDefault;
 import com.eden.orchid.api.options.archetypes.ConfigArchetype;
 import com.eden.orchid.utilities.OrchidUtils;
 import com.google.inject.name.Named;
-import kotlin.Pair;
-import kotlin.collections.MapsKt;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
@@ -27,6 +26,7 @@ public final class OrchidSiteImpl implements OrchidSite {
     private String version;
     private String environment;
     private String defaultTemplateExtension;
+
     @Option
     @Description("Basic, common information about your site, mostly for display and SEO purposes.")
     private SiteInfo about;
@@ -34,6 +34,9 @@ public final class OrchidSiteImpl implements OrchidSite {
     @Option
     @ImpliedKey(typeKey = "type", valueKey = "value")
     private OrchidSiteBaseUrls baseUrl;
+
+    @Option @StringDefault({"prod", "production"})
+    private List<String> productionEnvironments;
 
     private String resolvedBaseUrl;
 
@@ -67,7 +70,7 @@ public final class OrchidSiteImpl implements OrchidSite {
 
     @Override
     public boolean isProduction() {
-        return this.getEnvironment().equalsIgnoreCase("prod") || this.getEnvironment().equalsIgnoreCase("production");
+        return productionEnvironments.contains(this.getEnvironment());
     }
 
     @Override
@@ -167,5 +170,13 @@ public final class OrchidSiteImpl implements OrchidSite {
 
     public void setBaseUrl(OrchidSiteBaseUrls baseUrl) {
         this.baseUrl = baseUrl;
+    }
+
+    public List<String> getProductionEnvironments() {
+        return productionEnvironments;
+    }
+
+    public void setProductionEnvironments(List<String> productionEnvironments) {
+        this.productionEnvironments = productionEnvironments;
     }
 }

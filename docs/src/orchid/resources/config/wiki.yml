@@ -1,10 +1,10 @@
 sections:
   'user-manual':
     title: 'User Manual'
-    createPdf: true
+    createPdf: false
   'learn':
     title: 'Tutorials'
-    createPdf: true
+    createPdf: false
 
 wikiPages:
   layoutConfig:

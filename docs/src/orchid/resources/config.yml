@@ -1,6 +1,9 @@
 site:
   theme: Copper
-  baseUrl: netlify
+  baseUrl: https://orchid.run
+  productionEnvironments:
+    - prod
+    - docs
   about:
     siteName: Orchid
     siteDescription: Build and deploy beautiful documentation sites that grow with you
@@ -82,9 +85,3 @@ theme:
       apiKey: 'f597b0a7c1080757a60853addd344aaf'
       indexName: 'orchid'
 
-services:
-  publications:
-    stages:
-      - type: githubReleases
-        repo: 'orchidhq/orchid'
-        commitish: 'master'

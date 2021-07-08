@@ -58,6 +58,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
     }
 
     @Test
+    @DisabledForJreRange(min = JRE.JAVA_14)
     fun `Single-module Groovy`() {
         groovydocSetup()
         execute(withGenerator<NewGroovydocGenerator>())
@@ -70,6 +71,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
     }
 
     @Test
+    @DisabledForJreRange(min = JRE.JAVA_14)
     fun `Multi-module Groovy`() {
         groovydocSetup(modules)
         execute(withGenerator<NewGroovydocGenerator>())
@@ -82,6 +84,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
     }
 
     @Test
+    @DisabledForJreRange(min = JRE.JAVA_16)
     fun `Single-module Kotlin`() {
         kotlindocSetup()
         execute(withGenerator<NewKotlindocGenerator>())
@@ -94,6 +97,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
     }
 
     @Test
+    @DisabledForJreRange(min = JRE.JAVA_16)
     fun `Multi-module Kotlin`() {
         kotlindocSetup(modules)
         execute(withGenerator<NewKotlindocGenerator>())
@@ -132,6 +136,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
     }
 
     @Test
+    @DisabledForJreRange(min = JRE.JAVA_14)
     fun `Single-module all kinds`() {
         if (JRE.JAVA_12.isCurrentVersion) {
             javadocSetup()
@@ -166,6 +171,7 @@ class SourcedocTest : OrchidIntegrationTest(SourceDocModule(), PluginDocsModule(
     }
 
     @Test
+    @DisabledForJreRange(min = JRE.JAVA_14)
     fun `Multi-module all kinds`() {
         val generators = mutableListOf(
             withGenerator<NewGroovydocGenerator>(),

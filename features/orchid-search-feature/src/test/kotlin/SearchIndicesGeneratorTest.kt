@@ -1,10 +1,8 @@
 package com.eden.orchid.search
 
 import com.eden.orchid.impl.generators.HomepageGenerator
-import com.eden.orchid.kotlindoc.KotlindocModule
 import com.eden.orchid.pages.PagesModule
 import com.eden.orchid.posts.PostsModule
-import com.eden.orchid.sourcedoc.SourceDocModule
 import com.eden.orchid.strikt.pageWasRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import com.eden.orchid.testhelpers.withGenerator
@@ -17,8 +15,6 @@ import strikt.assertions.contains
 @DisplayName("Tests page-rendering behavior of Kotlindoc generator")
 class SearchIndicesGeneratorTest : OrchidIntegrationTest(
     SearchModule(),
-    KotlindocModule(),
-    SourceDocModule(),
     PostsModule(),
     PagesModule(),
     WikiModule(),
@@ -28,18 +24,6 @@ class SearchIndicesGeneratorTest : OrchidIntegrationTest(
     @Test
     @DisplayName("Kotlin and Java files are parsed, and pages are generated for each class and package.")
     fun test01() {
-        configObject(
-            "kotlindoc",
-            """
-            |{
-            |    "sourceDirs": [
-            |        "./../../orchid-kotlindoc-feature/src/mockKotlin",
-            |        "./../../orchid-javadoc-feature/src/mockJava",
-            |    ]
-            |}
-            |""".trimMargin()
-        )
-
         configObject(
             "theme",
             """
@@ -129,9 +113,6 @@ class SearchIndicesGeneratorTest : OrchidIntegrationTest(
             }
             .pageWasRendered("/meta/wiki.index.json") {
                 get { content }.contains("This is searchable text from the wiki summary").contains("This is searchable text from the wiki entry page")
-            }
-            .pageWasRendered("/meta/kotlindoc.index.json") {
-                get { content }.contains("This class <i>freaking awesome<\\/i> class links to")
             }
     }
 }

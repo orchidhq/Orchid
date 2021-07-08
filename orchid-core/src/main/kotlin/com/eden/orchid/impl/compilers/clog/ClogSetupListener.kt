@@ -41,19 +41,19 @@ constructor(
         Clog.addLogger(
             warningLogger,
             object : ClogFilter {
-                override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean = priority >= Clog.Priority.WARNING
+                override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean = priority == Clog.Priority.WARNING
             }
         )
         Clog.addLogger(
             errorLogger,
             object : ClogFilter {
-                override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean = priority >= Clog.Priority.ERROR
+                override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean = priority == Clog.Priority.ERROR
             }
         )
         Clog.addLogger(
             fatalLogger,
             object : ClogFilter {
-                override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean = priority >= Clog.Priority.FATAL
+                override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean = priority == Clog.Priority.FATAL
             }
         )
     }

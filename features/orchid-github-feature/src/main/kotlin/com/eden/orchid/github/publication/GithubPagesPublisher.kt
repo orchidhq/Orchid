@@ -93,7 +93,7 @@ constructor(
 
     override fun GitRepoFacade.beforeCommit(context: OrchidContext) {
         val hasCnameFile = repoDir.resolve("CNAME").toFile().exists()
-        val domain = context.baseUrl?.let { URL(it).host } ?: ""
+        val domain = runCatching { URL(context.baseUrl).host }.getOrElse { "" }
         val hasDefaultDomain = domain.endsWith(".github.io", ignoreCase = true)
 
         if (addCnameFile && !hasCnameFile && !hasDefaultDomain) {
