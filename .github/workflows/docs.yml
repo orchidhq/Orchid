@@ -18,7 +18,7 @@ jobs:
         uses: 'actions/setup-java@v2'
         with:
           distribution: 'adopt'
-          java-version: ${{ matrix.jdk_version }}
+          java-version: '8'
       - name: 'Build with Gradle'
         run: './gradlew assemble -PorchidEnvironment=docs -Prelease'
       - name: 'Publish docs with Orchid'

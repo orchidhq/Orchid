@@ -18,7 +18,6 @@ val projectVersion: ProjectVersion by project.ext
 
 orchid {
     version = projectVersion.documentationVersion
-    githubToken = project.properties["githubToken"]?.toString() ?: ""
     diagnose = true
 }
 
