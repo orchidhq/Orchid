@@ -42,7 +42,7 @@ tasks.withType<Jar>() {
             "Build-OS" to "${System.getProperty("os.name")} ${System.getProperty("os.arch")} ${System.getProperty("os.version")}",
             "Name" to "${project.name}",
             "Plugin-Version" to "${project.version}",
-            "Bundle-License" to "LGPL-3.0",
+            "Bundle-License" to "GPL-3.0",
             "Bundle-DocURL" to "https://orchid.run"
         )
     }

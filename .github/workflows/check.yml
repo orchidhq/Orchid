@@ -22,6 +22,6 @@ jobs:
           distribution: 'adopt'
           java-version: ${{ matrix.jdk_version }}
       - name: 'Build with Gradle'
-        run: './gradlew assemble'
+        run: './gradlew --no-configuration-cache assemble'
       - name: 'Run checks with Gradle'
-        run: './gradlew check'
+        run: './gradlew --no-configuration-cache check'

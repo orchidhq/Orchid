@@ -34,7 +34,7 @@ ThisBuild / bintrayRepository   := "orchid"
 ThisBuild / version             := BuildVersion
 ThisBuild / resolvers           += Resolver.mavenLocal
 ThisBuild / resolvers           += Resolver.jcenterRepo
-ThisBuild / licenses            += ("LGPL-3.0", url("http://www.opensource.org/licenses/lgpl-3.0.html"))
+ThisBuild / licenses            += ("GPL-3.0", url("http://www.opensource.org/licenses/gpl-3.0.html"))
 
 lazy val root = (project in file(".")).enablePlugins(SbtPlugin).settings (
   name := "sbt-orchid",

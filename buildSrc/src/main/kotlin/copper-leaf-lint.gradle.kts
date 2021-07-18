@@ -24,19 +24,18 @@ ktlint {
 
 @Suppress("HttpUrlsUsage")
 licensee {
+    // GPL
+    allow("GPL-2.0")
+    allow("GPL-3.0")
+    allowUrl("http://www.gnu.org/copyleft/gpl.html") // jnr-posix
+    allowUrl("http://www.gnu.org/licenses/gpl.txt") // plantuml
+    allowUrl("http://www.gnu.org/licenses/gpl-2.0-standalone.html") // jruby
+
     // LGPL
     allow("LGPL-3.0")
     allowUrl("http://www.gnu.org/licenses/lgpl.html") // openhtmltopdf, jnr-posix (transitive dependency of jruby)
     allowUrl("http://www.gnu.org/licenses/lgpl-2.1-standalone.html") // jruby
     allowUrl("http://www.jcraft.com/jzlib/LICENSE.txt") // jzlib (transitive dependency of openhtmltopdf)
-    ignoreDependencies("org.jruby") {
-        because("jruby publishes multiple licenses, including GPL. Orchid can use its LGPL license, but must ignore " +
-                "its GPL license to pass Licensee checks.")
-    }
-    ignoreDependencies("com.github.jnr") {
-        because("a jruby dependency publishes multiple licenses, including GPL. Orchid can use its LGPL license, but " +
-                "must ignore its GPL license to pass Licensee checks.")
-    }
 
     // Apache
     allow("Apache-2.0")
@@ -84,18 +83,4 @@ licensee {
 
     // CDDL
     allowUrl("https://github.com/javaee/javax.annotation/blob/master/LICENSE") // java.annotation-api
-
-    // GPL
-    ignoreDependencies("net.sourceforge.plantuml") {
-        because(
-            """
-            Ignoring to make sure other modules pass validation. PlantUML is GPL which is **NOT** a valid license for
-            Orchid under its LGPL license. THIS NEEDS TO BE FIXED BEFORE 1.0.0 RELEASE!
-            
-            Note that PlantUML also publishes JARs under other licenses (with reduces features that omit its 
-            dependencies on other GPL libraries). Orchid may need to try to bundle the LGPL jar directly with itself 
-            rather than using the GPL-licensed version on MavenCentral, or something similar.
-            """.trimIndent()
-        )
-    }
 }

@@ -10,8 +10,8 @@
   <a href="https://bintray.com/javaeden/Orchid/OrchidCore/_latestVersion">
     <img src="https://api.bintray.com/packages/javaeden/Orchid/OrchidCore/images/download.svg" title="Current Version" alt="Current Version">
   </a>
-  <a href="https://www.gnu.org/licenses/lgpl-3.0">
-    <img src="https://img.shields.io/badge/License-LGPL%20v3-blue.svg" title="License: LGPL-3.0" alt="License: LGPL-3.0">
+  <a href="https://www.gnu.org/licenses/gpl-3.0">
+    <img src="https://img.shields.io/badge/License-GPL%20v3-blue.svg" title="License: GPL-3.0" alt="License: GPL-3.0">
   </a>
   <a href="https://travis-ci.org/orchidhq/orchid">
     <img src="https://travis-ci.org/orchidhq/orchid.svg?branch=dev" title="Linux and Mac Build Status" alt="Linux and Mac Build Status">
@@ -140,7 +140,7 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 
 ### License
 
-Orchid is open-source software licensed under the GNU Lesser General Public License (LGPL-3.0). Please see
+Orchid is open-source software licensed under the GNU General Public License (GPL-3.0). Please see
 [License.md](https://github.com/orchidhq/orchid/blob/dev/License.md)
 
 ### Contact
