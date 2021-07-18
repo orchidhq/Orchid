@@ -133,3 +133,32 @@ Attempts to convert a word to its English plural form.
 {{ pluralize('word', 2) }}
 {%- endverbatim %}
 ```
+
+### Components
+
+#### Google Analytics/Tag Manager
+
+The `googleAnalytics` and `googleTagManager` add the relevant tracking scripts to your pages as a
+{{ anchor(title='meta component', itemId='Components', pageAnchorId='meta-components') }}. By default components are 
+only added in production builds.
+
+Both the `googleAnalytics` and `googleTagManager` meta-components work pretty similarly, and are added to your site 
+as follows:
+
+```yaml
+# config.yml
+theme:
+    metaComponents:
+      - type: 'googleAnalytics'
+        propertyId: 'UA-XXXXX-Y' # Your Google Analytics Property ID
+        productionOnly: true # set to false to add the component in debug builds (for verifying correctness)
+```
+
+```yaml
+# config.yml
+theme:
+    metaComponents:
+      - type: 'googleTagManager'
+        containerId: 'GTM-XXXX' # Your GTM container ID
+        productionOnly: true # set to false to add the component in debug builds (for verifying correctness)
+```

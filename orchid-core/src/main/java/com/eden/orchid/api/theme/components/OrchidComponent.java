@@ -39,7 +39,7 @@ public abstract class OrchidComponent extends Prioritized implements
         ModularPageListItem<ComponentHolder, OrchidComponent>,
         Renderable {
 
-    enum MetaLocation {
+    public enum MetaLocation {
         head, bodyStart, bodyEnd
     }
 

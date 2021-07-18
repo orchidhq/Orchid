@@ -21,10 +21,10 @@ class EnvironmentVariableArchetype : OptionArchetype {
                 val intersection = allEnvironmentVariables.keys.intersect(envAliases)
 
                 val key: String = if (!EdenUtils.isEmpty(it.getAnnotation(Option::class.java).value)) {
-                        it.getAnnotation(Option::class.java).value
-                    } else {
-                        it.name
-                    }
+                    it.getAnnotation(Option::class.java).value
+                } else {
+                    it.name
+                }
 
                 intersection.map { presentEnvAlias ->
                     key to allEnvironmentVariables[presentEnvAlias]!!
