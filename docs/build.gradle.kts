@@ -14,10 +14,8 @@ dependencies {
 
 // Orchid setup
 // ---------------------------------------------------------------------------------------------------------------------
-val projectVersion: ProjectVersion by project.ext
-
 orchid {
-    version = projectVersion.documentationVersion
+    version = Config.projectVersion(project).documentationVersion
     diagnose = true
 }
 

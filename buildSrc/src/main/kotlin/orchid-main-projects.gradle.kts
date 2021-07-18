@@ -32,7 +32,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 tasks.withType<Jar>() {
     manifest {
-        val projectVersion: ProjectVersion by project.extra
+        val projectVersion = Config.projectVersion(project)
         attributes(
             "Built-By" to System.getProperty("user.name"),
             "Build-Timestamp" to SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(Date()),
@@ -42,7 +42,7 @@ tasks.withType<Jar>() {
             "Build-OS" to "${System.getProperty("os.name")} ${System.getProperty("os.arch")} ${System.getProperty("os.version")}",
             "Name" to "${project.name}",
             "Plugin-Version" to "${project.version}",
-            "Bundle-License" to "GPL-3.0",
+            "Bundle-License" to Config.license.spdxIdentifier,
             "Bundle-DocURL" to "https://orchid.run"
         )
     }

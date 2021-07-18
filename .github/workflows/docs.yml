@@ -20,6 +20,10 @@ jobs:
           distribution: 'adopt'
           java-version: '8'
       - name: 'Build with Gradle'
-        run: './gradlew --no-configuration-cache assemble -PorchidEnvironment=docs -Prelease'
+        run: './gradlew assemble -PorchidEnvironment=docs'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: 'Publish docs with Orchid'
-        run: './gradlew --no-configuration-cache :docs:orchidDeploy -PorchidEnvironment=docs -Prelease'
+        run: './gradlew :docs:orchidDeploy -PorchidEnvironment=docs'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

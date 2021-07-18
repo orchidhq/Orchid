@@ -3,6 +3,7 @@ plugins {
     `copper-leaf-version`
     jacoco
     id("com.github.ben-manes.versions") version "0.39.0"
+    `copper-leaf-sonatype`
 }
 
 // Add check to make sure every release version has a Changelog file
@@ -15,7 +16,7 @@ fun ProjectVersion.toFile(): File {
 val checkForChangelogFile by project.tasks.registering {
     doLast {
         if (project.hasProperty("release")) {
-            val version = getProjectVersion(logChanges = false)
+            val version = Config.projectVersion(project)
             val changelogFile = version.toFile()
 
             if (!changelogFile.exists()) {
@@ -27,7 +28,7 @@ val checkForChangelogFile by project.tasks.registering {
 
 val createChangelogFile by project.tasks.registering {
     doLast {
-        val version = getProjectVersion()
+        val version = Config.projectVersion(project)
         val changelogFile = version.toFile()
 
         project.mkdir(changelogFile.parentFile)

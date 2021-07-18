@@ -1,6 +1,3 @@
-import java.io.ByteArrayOutputStream
-import java.util.*
-
 plugins {
     `maven-publish`
     signing
@@ -12,18 +9,7 @@ plugins {
 // taken and modified from https://dev.to/kotlin/how-to-build-and-publish-a-kotlin-multiplatform-library-going-public-4a8k
 
 // Stub secrets to let the project sync and build without the publication values set up
-var signingKeyId: String by project.extra
-var signingKey: String by project.extra
-var signingPassword: String by project.extra
-var ossrhUsername: String by project.extra
-var ossrhPassword: String by project.extra
-
-// Grabbing secrets from project properties or from environment variables, which could be used on CI
-signingKeyId = loadProperty("signing_key_id")
-signingKey = loadFileContents("signing_key")
-signingPassword = loadProperty("signing_password")
-ossrhUsername = loadProperty("ossrh_username")
-ossrhPassword = loadProperty("ossrh_password")
+val publishConfiguration: PublishConfiguration = Config.publishConfiguration(project)
 
 val javadocJar by tasks.registering(Jar::class) {
     archiveClassifier.set("javadoc")
@@ -36,12 +22,25 @@ publishing {
         maven(url = "${project.buildDir}/.m2/repository") {
             name = "project"
         }
-        maven(url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+        maven(url = "${publishConfiguration.mavenRepositoryBaseUrl}/service/local/staging/deployByRepositoryId/${publishConfiguration.stagingRepositoryId}") {
             name = "mavenCentral"
             credentials {
-                username = ossrhUsername
-                password = ossrhPassword
+                username = publishConfiguration.ossrhUsername
+                password = publishConfiguration.ossrhPassword
             }
+        }
+        maven(url = "${publishConfiguration.mavenRepositoryBaseUrl}/content/repositories/snapshots/") {
+            name = "mavenCentralSnapshots"
+            credentials {
+                username = publishConfiguration.ossrhUsername
+                password = publishConfiguration.ossrhPassword
+            }
+        }
+    }
+
+    publications {
+        create("mavenKotlin", MavenPublication::class.java) {
+            from(components.getByName("kotlin"))
         }
     }
 
@@ -59,7 +58,7 @@ publishing {
 
             licenses {
                 license {
-                    name.set(Config.license.name)
+                    name.set(Config.license.spdxIdentifier)
                     url.set(Config.license.url)
                 }
             }
@@ -78,6 +77,10 @@ publishing {
 }
 
 signing {
-    useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+    useInMemoryPgpKeys(
+        publishConfiguration.signingKeyId,
+        publishConfiguration.signingKey,
+        publishConfiguration.signingPassword
+    )
     sign(publishing.publications)
 }
