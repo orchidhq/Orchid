@@ -120,6 +120,7 @@ public class OrchidGenerateMainMojo extends AbstractMojo {
 
     private final String command;
     private final boolean force;
+    private SecurityManager previousSecurityManager;
 
     public OrchidGenerateMainMojo() {
         this("build", false);
@@ -128,6 +129,7 @@ public class OrchidGenerateMainMojo extends AbstractMojo {
     public OrchidGenerateMainMojo(String command, boolean force) {
         this.command = command;
         this.force = force;
+        this.previousSecurityManager = System.getSecurityManager();
     }
 
     @Override
@@ -141,6 +143,8 @@ public class OrchidGenerateMainMojo extends AbstractMojo {
             main.invoke(null, (Object) args);
         } catch (ReflectiveOperationException e) {
             throw new MojoExecutionException("Unable to call " + ORCHID_CLASS, e);
+        } finally {
+            System.setSecurityManager(previousSecurityManager);
         }
     }
 
