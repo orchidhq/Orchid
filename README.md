@@ -7,21 +7,19 @@
 </p>
 <hr/>
 <p align="center">
-  <a href="https://bintray.com/javaeden/Orchid/OrchidCore/_latestVersion">
-    <img src="https://api.bintray.com/packages/javaeden/Orchid/OrchidCore/images/download.svg" title="Current Version" alt="Current Version">
+  <a href="https://search.maven.org/artifact/io.github.copper-leaf.orchid/orchid-core">
+    <img alt="Maven Central (Releases)" src="https://img.shields.io/maven-central/v/io.github.copper-leaf.orchid/orchid-core?label=Release">
   </a>
-  <a href="https://www.gnu.org/licenses/gpl-3.0">
+  <a href="https://s01.oss.sonatype.org/content/repositories/snapshots/io/github/copper-leaf/orchid/orchid-core">
+    <img alt="Sonatype Nexus (Snapshots)" src="https://img.shields.io/nexus/s/io.github.copper-leaf.orchid/orchid-core?label=Snapshot&server=https%3A%2F%2Fs01.oss.sonatype.org">
+  </a>
+  <a href="https://github.com/orchidhq/Orchid/actions/workflows/push_dev.yml">
+    <img src="https://github.com/orchidhq/Orchid/actions/workflows/push_dev.yml/badge.svg?branch=dev" title="Build Status" alt="Build Status">
+  </a>
+  <a href="License.md">
     <img src="https://img.shields.io/badge/License-GPL%20v3-blue.svg" title="License: GPL-3.0" alt="License: GPL-3.0">
   </a>
-  <a href="https://travis-ci.org/orchidhq/orchid">
-    <img src="https://travis-ci.org/orchidhq/orchid.svg?branch=dev" title="Linux and Mac Build Status" alt="Linux and Mac Build Status">
-  </a>
-  <a href="https://ci.appveyor.com/project/cjbrooks12/orchid/branch/dev">
-    <img src="https://ci.appveyor.com/api/projects/status/0358qdkmfhbqedo1/branch/dev?svg=true" title="Windows Build status" alt="Windows Build status">
-  </a>
-  <a href="https://www.codacy.com/app/cjbrooks12/Orchid?utm_source=github.com&utm_medium=referral&utm_content=orchidhq/orchid&utm_campaign=Badge_Coverage">
-    <img src="https://api.codacy.com/project/badge/Coverage/8bca7e84b6094c03ae1316278cf63ae1" title="Code Coverage" alt="Code Coverage">
-  </a>
+  <img src="https://img.shields.io/badge/JDK-8--16-red?style=flat&logo=java" title="JDK: 8-16" alt="JDK: 8-16">
 </p>
 <p align="center">
   <a href="https://orchid.run/wiki/user-manual/getting-started/quickstart">Quick-Start</a>
@@ -37,28 +35,31 @@
 
 ## Quick-Start
 
-<ul>
-  <li>
-    <a href="https://orchid.run/wiki/user-manual/getting-started/quickstart#gradle">
-      <img src="docs/src/orchid/resources/assets/svg/gradle.svg" title="Gradle" alt="Gradle" width="200" height="50">
-    </a>
-  </li>
-  <li>
-    <a href="https://orchid.run/wiki/user-manual/getting-started/quickstart#maven">
-      <img src="docs/src/orchid/resources/assets/svg/maven.svg" title="Maven" alt="Maven" width="200" height="50">
-    </a>
-  </li>
-  <li>
-    <a href="https://orchid.run/wiki/user-manual/getting-started/quickstart#sbt">
-      <img src="docs/src/orchid/resources/assets/svg/sbt.svg" title="SBT" alt="SBT" width="200" height="50">
-    </a>
-  </li>
-  <li>
-    <a href="https://app.netlify.com/start/deploy?repository=https://github.com/orchidhq/OrchidStarter">
-      <img src="https://www.netlify.com/img/deploy/button.svg" title="Deploy to Netlify" alt="Deploy to Netlify" width="200" height="50">
-    </a>
-  </li>
-</ul>
+<a href="https://orchid.run/wiki/user-manual/getting-started/quickstart#gradle">
+  <img src="docs/src/orchid/resources/assets/svg/gradle.svg" title="Gradle" alt="Gradle" width="200" height="50">
+</a>
+<br/>
+  
+<a href="https://orchid.run/wiki/user-manual/getting-started/quickstart#maven">
+  <img src="docs/src/orchid/resources/assets/svg/maven.svg" title="Maven" alt="Maven" width="200" height="50">
+</a>
+<br/>
+  
+<a href="https://orchid.run/wiki/user-manual/getting-started/quickstart#sbt">
+  <img src="docs/src/orchid/resources/assets/svg/sbt.svg" title="SBT" alt="SBT" width="200" height="50">
+</a>
+<br/>
+
+<a href="https://app.netlify.com/start/deploy?repository=https://github.com/orchidhq/OrchidStarter">
+  <img src="https://www.netlify.com/img/deploy/button.svg" title="Deploy to Netlify" alt="Deploy to Netlify" width="200" height="50">
+</a>
+<br/>
+
+Orchid 0.X.X versions are published to [JCenter](https://jcenter.bintray.com/) at artifact coordinates like `io.github.javaeden.orchid:OrchidCore:0.21.1` or `io.github.javaeden.orchid:OrchidWiki:0.21.1`. JCenter is deprecated, and once Orchid 1.0.0 is published, so will all 0.X.X versions.
+
+Starting with version 1.0.0, Orchid will be published to [MavenCentral](https://repo1.maven.org/maven2/) under new artifact coordinates, like `io.github.copper-leaf.orchid:orchid-core:1.0.0` or `io.github.copper-leaf.orchid:orchid-wiki-feature:1.0.0`.
+
+In-development snapshot versions will be available in [Sonatype's new (s01) snapshots repository](https://s01.oss.sonatype.org/content/repositories/snapshots/). Snapshots are published after every successful build on the `dev` branch.
 
 ## Documentation
 
@@ -149,6 +150,5 @@ Orchid is being actively developed by Casey Brooks. You can reach out with quest
 on any of the following:
 
 - [Github Issues](https://github.com/orchidhq/Orchid/issues) 
-- [Gitter Chat](https://gitter.im/JavaEden/Orchid) 
 - [Twitter](https://twitter.com/OrchidSSG)
 - [Email me directly](mailto:cjbrooks12@gmail.com)
