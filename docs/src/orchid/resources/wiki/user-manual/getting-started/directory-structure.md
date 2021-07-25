@@ -62,6 +62,6 @@ or other plugins.
 
 ### Content
 
-Content in Orchid comes from plugins, such as {{anchor('OrchidPages')}}, {{anchor('OrchidPosts')}}, or 
-{{anchor('OrchidWiki')}}. Each plugin is free to use whatever directory structure it wants, so make sure to check out
+Content in Orchid comes from plugins, such as {{anchor('orchid-pages-feature')}}, {{anchor('orchid-posts-feature')}}, or 
+{{anchor('orchid-wiki-feature')}}. Each plugin is free to use whatever directory structure it wants, so make sure to check out
 the documentation for your plugins to know where they get their content from.

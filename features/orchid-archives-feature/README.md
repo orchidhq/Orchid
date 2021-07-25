@@ -36,7 +36,7 @@ makes it easy to create archives for pages produced by another plugin, or create
 
 Orchid's plugins already generate models of relationships among pages with {{anchor('Collections', 'Internal Links')}}
 out-of-the-box, and it's common to simply want an archive of a all the pages in a given collection. For example, the 
-{{anchor('OrchidPosts')}} plugin creates collections for each blog post category, and {{anchor('OrchidSourceDoc')}}
+{{anchor('orchid-posts-feature')}} plugin creates collections for each blog post category, and {{anchor('orchid-sourcedoc-feature')}}
 creates collections for each documented module, and another collection for the READMEs for all modules.
 
 ### Collection Archive Configuration 

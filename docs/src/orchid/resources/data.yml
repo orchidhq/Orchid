@@ -22,10 +22,10 @@ buildCommands:
 
 featuredPlugins:
   - title: 'Static Pages'
-    itemId: 'OrchidPages'
+    itemId: 'orchid-pages-feature'
   - title: 'Blog Posts'
-    itemId: 'OrchidPosts'
+    itemId: 'orchid-posts-feature'
   - title: 'Wikis'
-    itemId: 'OrchidWiki'
+    itemId: 'orchid-wiki-feature'
   - title: 'Code Docs'
-    itemId: 'OrchidSourceDoc'
+    itemId: 'orchid-sourcedoc-feature'

@@ -1,7 +1,5 @@
 title: 'Add To Showcase'
 action: 'thank-you'
-attributes:
-  data-netlify: true
 fields:
   url:
     label: 'Site URL'

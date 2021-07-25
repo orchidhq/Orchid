@@ -37,7 +37,7 @@ Meanwhile, The 31-day period ending March 31st saw more than 2600 downloads! And
 
 ![March downloads](https://thepracticaldev.s3.amazonaws.com/i/pk0bsb0byg2d857xetng.png)
 
-All of these statistics are freely available on Bintray, [go here](https://bintray.com/beta/#/orchidhq/orchid/OrchidCore?tab=statistics) to check it out for yourself.
+All of these statistics are freely available on Bintray, [go here](https://bintray.com/beta/#/orchidhq/orchid/orchid-core?tab=statistics) to check it out for yourself.
 
 # What's New?
 
@@ -72,13 +72,13 @@ However, I am currently looking for more skilled help with a couple specific are
 
 - I'm looking for people who currently use the features of the git platforms I'm imtegrating with, to help build their integrations:
     - GitLab
-        - [Wiki adapter](https://github.com/orchidhq/orchid/blob/features/integrations/integrations/OrchidGitlab/src/main/kotlin/com/eden/orchid/gitlab/wiki/GitlabWikiAdapter.kt)
-        - [GitLab Pages Publisher](https://github.com/orchidhq/orchid/blob/features/integrations/integrations/OrchidGitlab/src/main/kotlin/com/eden/orchid/gitlab/publication/GitlabPagesPublisher.kt)
+        - [Wiki adapter](https://github.com/orchidhq/orchid/blob/features/integrations/integrations/orchid-gitlab-feature/src/main/kotlin/com/eden/orchid/gitlab/wiki/GitlabWikiAdapter.kt)
+        - [GitLab Pages Publisher](https://github.com/orchidhq/orchid/blob/features/integrations/integrations/orchid-gitlab-feature/src/main/kotlin/com/eden/orchid/gitlab/publication/GitlabPagesPublisher.kt)
     - Bitbucket
-        - [Wiki adapter](https://github.com/orchidhq/orchid/blob/features/integrations/integrations/OrchidBitbucket/src/main/kotlin/com/eden/orchid/bitbucket/wiki/BitbucketWikiAdapter.kt)
-        - [Bitbucket Cloud Publisher](https://github.com/orchidhq/orchid/blob/features/integrations/integrations/OrchidBitbucket/src/main/kotlin/com/eden/orchid/bitbucket/publication/BitbucketCloudPublisher.kt)
+        - [Wiki adapter](https://github.com/orchidhq/orchid/blob/features/integrations/integrations/orchid-bitbucket-feature/src/main/kotlin/com/eden/orchid/bitbucket/wiki/BitbucketWikiAdapter.kt)
+        - [Bitbucket Cloud Publisher](https://github.com/orchidhq/orchid/blob/features/integrations/integrations/orchid-bitbucket-feature/src/main/kotlin/com/eden/orchid/bitbucket/publication/BitbucketCloudPublisher.kt)
     - Azure DevOps
-        - [Wiki adapter](https://github.com/orchidhq/orchid/blob/features/integrations/integrations/OrchidAzure/src/main/kotlin/com/eden/orchid/azure/wiki/AzureWikiAdapter.kt)
+        - [Wiki adapter](https://github.com/orchidhq/orchid/blob/features/integrations/integrations/azure/src/main/kotlin/com/eden/orchid/azure/wiki/AzureWikiAdapter.kt)
 
 I would also love the help of a designer to make a really great home page and a new logo for Orchid.
 

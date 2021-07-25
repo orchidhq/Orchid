@@ -35,10 +35,10 @@ plugins {
 
 // 2. Include Orchid dependencies
 dependencies {
-    orchidCompile "io.github.javaeden.orchid:OrchidBlog:{{ site.version }}"
-    orchidCompile "io.github.javaeden.orchid:OrchidFutureImperfect:{{ site.version }}"
-    orchidCompile "io.github.javaeden.orchid:OrchidSearch:{{ site.version }}"
-    orchidCompile "io.github.javaeden.orchid:OrchidPluginDocs:{{ site.version }}"
+    orchidCompile "io.github.copper-leaf.orchid:orchid-blog-bundle:{{ site.version }}"
+    orchidCompile "io.github.copper-leaf.orchid:orchid-future-imperfect-theme:{{ site.version }}"
+    orchidCompile "io.github.copper-leaf.orchid:orchid-search-feature:{{ site.version }}"
+    orchidCompile "io.github.copper-leaf.orchid:OrchidPluginDocs:{{ site.version }}"
 }
 
 // 3. Get dependencies from MavenCentral
@@ -184,7 +184,7 @@ You'll now have a blog post at http://localhost:8080/2019/1/1/post-one that look
 Now that we have some blog posts set up, we can go back and add the latest posts to our homepage. We can do by adding 
 a **component** to the homepage's Front Matter, configured to display the latest posts. Orchid's Components are just a 
 list of "blocks" which are rendered to the page in order. There are many different types of components, and different 
-plugins can add their own. An example is the `recentPosts` component from the OrchidPosts plugin. We can also add the 
+plugins can add their own. An example is the `recentPosts` component from the orchid-posts-feature plugin. We can also add the 
 `pageContent` component, which adds the Markdown content of the `homepage.md`. If you don't define any components this 
 one is added automatically, but if you use any additional components you'll have to add it yourself.
 
@@ -211,7 +211,7 @@ This is a short description of this blog.
 #### Post Archive
 
 Now, while it is nice to show the most recent posts on your site's homepage, if you've got more than a couple posts you 
-simply can't show a complete archive on the homepage. Instead, we can use the OrchidTaxonomies plugin to generate proper
+simply can't show a complete archive on the homepage. Instead, we can use the orchid-archives-feature plugin to generate proper
 archives.
 
 Orchid is designed around a concept of "collections" of pages. When we set up the blog posts, Orchid also created a 

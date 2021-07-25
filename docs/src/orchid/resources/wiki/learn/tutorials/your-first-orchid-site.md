@@ -94,10 +94,10 @@ To do this, add the following lines to at the end of `build.gradle`.
 ```groovy
 // 1. Include desired official Orchid plugins and themes
 dependencies {
-    orchidCompile "io.github.javaeden.orchid:OrchidCore:{{ site.version }}"
-    orchidCompile "io.github.javaeden.orchid:OrchidBsDoc:{{ site.version }}"
-    orchidCompile "io.github.javaeden.orchid:OrchidPages:{{ site.version }}"
-    orchidCompile "io.github.javaeden.orchid:OrchidAsciidoc:{{ site.version }}"
+    orchidCompile "io.github.copper-leaf.orchid:orchid-core:{{ site.version }}"
+    orchidCompile "io.github.copper-leaf.orchid:orchid-bsdoc-theme:{{ site.version }}"
+    orchidCompile "io.github.copper-leaf.orchid:orchid-pages-feature:{{ site.version }}"
+    orchidCompile "io.github.copper-leaf.orchid:orchid-asciidoc-feature:{{ site.version }}"
 }
 
 // 2. Get Orchid from Jcenter

@@ -31,17 +31,17 @@ Visit [caseyjbrooks.com](https://www.caseyjbrooks.com/) for a live demo.
 
 ### New bundle: **Orchid Docs**
 
-After setting up many of my other library projects with Orchid documentation, I've noticed myself adding the same plugins over and over to each project. To make it easier for others to get started with Orchid as a documentation tool, I've created a new Bundle, `OrchidDocs`, which contains the following plugins:
+After setting up many of my other library projects with Orchid documentation, I've noticed myself adding the same plugins over and over to each project. To make it easier for others to get started with Orchid as a documentation tool, I've created a new Bundle, `orchid-docs-bundle`, which contains the following plugins:
 
-- `OrchidCore`: The core Orchid framework
-- `OrchidEditorial`: A default theme (subject to change in a later version)
-- `OrchidPages`: Static pages to hold changelogs, contact forms, project license, etc.
-- `OrchidWiki`: The full wiki documentation for the site
-- `OrchidForms`: Easily add contact or bug report forms
-- `OrchidChangelog`: Manage project verions, and update Github releases automatically on deploy
-- `OrchidSearch`: Enable full-text search of your docs
-- `OrchidDiagrams`: Describe your project with diagrams and flow charts 
-- `OrchidSyntaxHighlighter`: Your choice of either server-side or Javascript-based highlighting
+- `orchid-core`: The core Orchid framework
+- `orchid-editorial-theme`: A default theme (subject to change in a later version)
+- `orchid-pages-feature`: Static pages to hold changelogs, contact forms, project license, etc.
+- `orchid-wiki-feature`: The full wiki documentation for the site
+- `orchid-forms-feature`: Easily add contact or bug report forms
+- `orchid-changelog-feature`: Manage project verions, and update Github releases automatically on deploy
+- `orchid-search-feature`: Enable full-text search of your docs
+- `orchid-diagrams-feature`: Describe your project with diagrams and flow charts 
+- `orchid-syntax-highlighter-feature`: Your choice of either server-side or Javascript-based highlighting
 
 **Current Status**: Waiting for release
 

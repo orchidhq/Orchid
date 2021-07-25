@@ -25,8 +25,8 @@ common plugins needed to create landing pages and wikis with rich content, perfe
 code projects. It also comes with the Editorial theme so you can jump right in and just start documenting without 
 worrying about picking or customizing theme templates. 
 
-This bundle also works well when combined with any of the {{ anchor('OrchidJavadoc') }}, 
-{{ anchor('OrchidKotlindoc') }}, or {{ anchor('OrchidSwiftdoc') }} plugins, or all three!
+This bundle also works well when combined with any of the {{ anchor('orchid-javadoc-feature') }}, 
+{{ anchor('orchid-kotlindoc-feature') }}, or {{ anchor('orchid-swiftdoc-feature') }} plugins, or all three!
 
 ## Installation
 

@@ -12,7 +12,7 @@ tags:
 
 This is the base plugin for documenting source code with Orchid for all supported languages. Orchid supports modular 
 projects, with READMEs and separate doc groups for each module, customizable permalinks, multiple types of menu items,
-and supports full-text search from the {{ anchor('OrchidSearch') }} plugin.
+and supports full-text search from the {{ anchor('orchid-search-feature') }} plugin.
 
 No matter which language you are using, its usage is all identical as it is provided by this base plugin.
 

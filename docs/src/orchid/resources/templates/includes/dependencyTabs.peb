@@ -7,7 +7,7 @@
 {% filter compileAs('md') %}
 ```kotlin
 dependencies {
-    orchidRuntime("io.github.javaeden.orchid:{{- page.title -}}:{{ site.version }}")
+    orchidRuntime("io.github.copper-leaf.orchid:{{- page.title -}}:{{ site.version }}")
 }
 ```
 {% endfilter %}
@@ -20,7 +20,7 @@ dependencies {
 {% filter compileAs('md') %}
 ```xml
 <dependency>
-    <groupId>io.github.javaeden.orchid</groupId>
+    <groupId>io.github.copper-leaf.orchid</groupId>
     <artifactId>{{- page.title -}}</artifactId>
     <version>{{ site.version }}</version>
     <type>pom</type>
@@ -34,7 +34,7 @@ dependencies {
 {# ------------------------------------------------------------------------------------------------------------------ #}
 {% filter compileAs('md') %}
 ```scala
-libraryDependencies += "io.github.javaeden.orchid" % "{{- page.title -}}" % "{{ site.version }}"
+libraryDependencies += "io.github.copper-leaf.orchid" % "{{- page.title -}}" % "{{ site.version }}"
 ```
 {% endfilter %}
 {% endsbt %}
@@ -44,7 +44,7 @@ libraryDependencies += "io.github.javaeden.orchid" % "{{- page.title -}}" % "{{ 
 {# ------------------------------------------------------------------------------------------------------------------ #}
 {% filter compileAs('md') %}
 ```kotlin
-@file:DependsOn("io.github.javaeden.orchid:{{- page.title -}}:{{ site.version }}")
+@file:DependsOn("io.github.copper-leaf.orchid:{{- page.title -}}:{{ site.version }}")
 ```
 {% endfilter %}
 {% endkscript %}

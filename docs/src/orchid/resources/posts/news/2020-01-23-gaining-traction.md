@@ -31,16 +31,16 @@ Now that 0.18.0 is released, I've been able to work on some smaller features I'v
 had to restrain myself from working on them for 0.18.0 to prevent feature-creep, but it's been nice finally getting to
 add the following features:
 
-- The {{ anchor('OrchidBible') }} plugin has been broken for some time, as the APIs driving it had been decommissioned. 
+- The {{ anchor('orchid-bible-feature') }} plugin has been broken for some time, as the APIs driving it had been decommissioned. 
     I have removed the previously-broken `bible()` function, which pre-rendered Bible verses, and replaced it with a new
     [Faithlife Reftagger](https://faithlife.com/products/reftagger) meta-component, which will automatically create 
     popups for all Bible verses it finds on the page!
 - Support for [Mermaid JS](https://mermaid-js.github.io/mermaid) markup has been added to the 
-    {{ anchor('OrchidDiagrams') }} plugin. As Mermaid is a javascript library, support is added through a meta-component
+    {{ anchor('orchid-diagrams-feature') }} plugin. As Mermaid is a javascript library, support is added through a meta-component
     instead of using pre-rendered markup like PlantUML.
-- The `youtube` template tag in {{ anchor('OrchidWritersBlocks') }} can now display videos of a given aspect-ratio, 
+- The `youtube` template tag in {{ anchor('orchid-writers-blocks-feature') }} can now display videos of a given aspect-ratio, 
     making them better-suited for responsive designs.
-- {{ anchor('OrchidChangelog') }} now supports single-file changelogs, such as the 
+- {{ anchor('orchid-changelog-feature') }} now supports single-file changelogs, such as the 
     [Keep A Changelog format](https://keepachangelog.com/en/1.0.0/) format.
     
 # In Progress
@@ -50,7 +50,7 @@ integration, and you can expect more Asciidoctor improvements in the coming week
 target.
 
 In addition to a few more quality-of-life improvements planned for the near-future, I've begun work on a new 
-`OrchidSnippets` plugin! More details will come in a future post, but I'd love to get your feedback and suggestions for
+`orchid-snippets-feature` plugin! More details will come in a future post, but I'd love to get your feedback and suggestions for
 its implementation and usage in [this issue](https://github.com/orchidhq/Orchid/issues/293) on GitHub! 
 
 ---

@@ -47,7 +47,7 @@ What this means for you is that adding a single line to your `build.gradle` is a
 panel. Add the following dependency, and you're good to go!
 
 ```groovy
-orchidCompile "io.github.javaeden.orchid:OrchidPluginDocs:{{ site.version }}"
+orchidCompile "io.github.copper-leaf.orchid:OrchidPluginDocs:{{ site.version }}"
 ```
 
 You'll need to fully restart Orchid in order for the new dependency to be added, but once it's started back up try 

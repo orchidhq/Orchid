@@ -18,7 +18,7 @@ to uniquely identify the page of interest, but in the case that this is not spec
 ### Item Id
 
 The `itemId` is usually the title of a page, but may be another "identifier" set up by specific plugins. Pages can have
-more than one `itemId`, such as a class page from the {{ anchor('OrchidKotlindoc') }} plugin having a title of the 
+more than one `itemId`, such as a class page from the {{ anchor('orchid-kotlindoc-feature') }} plugin having a title of the 
 simple class name, but having an additional ID for the fully-qualified name.
 
 Since 0.18.0, item IDs are no longer determined ad-hoc but are strongly defined for all pages, which means they can be

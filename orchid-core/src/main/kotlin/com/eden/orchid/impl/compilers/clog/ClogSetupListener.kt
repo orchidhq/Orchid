@@ -1,13 +1,15 @@
 package com.eden.orchid.impl.compilers.clog
 
 import clog.Clog
+import clog.ClogPlatform
 import clog.ClogProfile
 import clog.api.ClogFilter
 import clog.api.ClogLogger
-import clog.dsl.addLogger
 import clog.dsl.addTagToBlacklist
 import clog.dsl.tag
+import clog.dsl.updateProfile
 import clog.impl.DefaultTagProvider
+import clog.impl.DelegatingLogger
 import com.eden.orchid.Orchid
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.compilers.TemplateFunction
@@ -38,24 +40,42 @@ constructor(
 
     @On(Orchid.Lifecycle.InitComplete::class)
     fun onInitComplete(event: Orchid.Lifecycle.InitComplete) {
-        Clog.addLogger(
-            warningLogger,
-            object : ClogFilter {
-                override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean = priority == Clog.Priority.WARNING
-            }
-        )
-        Clog.addLogger(
-            errorLogger,
-            object : ClogFilter {
-                override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean = priority == Clog.Priority.ERROR
-            }
-        )
-        Clog.addLogger(
-            fatalLogger,
-            object : ClogFilter {
-                override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean = priority == Clog.Priority.FATAL
-            }
-        )
+        Clog.updateProfile {
+            it.copy(
+                logger = DelegatingLogger(
+                    listOf(
+                        DelegatingLogger.FilteredLogger(
+                            object : ClogFilter {
+                                override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean =
+                                    priority < Clog.Priority.WARNING
+                            },
+                            ClogPlatform.createDefaultLogger()
+                        ),
+                        DelegatingLogger.FilteredLogger(
+                            object : ClogFilter {
+                                override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean =
+                                    priority == Clog.Priority.WARNING
+                            },
+                            warningLogger
+                        ),
+                        DelegatingLogger.FilteredLogger(
+                            object : ClogFilter {
+                                override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean =
+                                    priority == Clog.Priority.ERROR
+                            },
+                            errorLogger
+                        ),
+                        DelegatingLogger.FilteredLogger(
+                            object : ClogFilter {
+                                override fun shouldLog(priority: Clog.Priority, tag: String?): Boolean =
+                                    priority == Clog.Priority.FATAL
+                            },
+                            fatalLogger
+                        )
+                    )
+                )
+            )
+        }
     }
 
     @On(Orchid.Lifecycle.BuildFinish::class)

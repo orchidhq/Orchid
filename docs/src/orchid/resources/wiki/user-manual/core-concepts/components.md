@@ -49,7 +49,7 @@ once and be applied to many pages.
 ```yaml
 # config.yml
 
-# Add additional components to all pages generated from the `OrchidPages` plugin
+# Add additional components to all pages generated from the `orchid-pages-feature` plugin
 pages:
   staticPages: 
     components:
@@ -57,7 +57,7 @@ pages:
       - type: 'form'
         form: 'contact'
 
-# Different components added to all pages generated from the `OrchidWiki` plugin
+# Different components added to all pages generated from the `orchid-wiki-feature` plugin
 wiki:
   wikiPages: 
     components:
@@ -104,7 +104,7 @@ components:
 ### Component Wrappers
 
 Some themes will choose to wrap each component in additional markup, such as the "boxes" for the page content in the 
-{{anchor('OrchidFutureImperfect')}} theme. But in some cases, you may wish that the doesn't 
+{{anchor('orchid-future-imperfect-theme')}} theme. But in some cases, you may wish that the doesn't 
 doesn't apply these wrappers to a particular component, like if it provides its own container markup. For these 
 situations, you may set `noWrapper: true` to render the component without a wrapper.
 
@@ -146,7 +146,7 @@ added to Pages by default, unless the Generator or Page says otherwise. If you s
 Page and want to include the Page content, make sure to add the "pageContent" component.
 
 When rendering Page Content, it is common for the pages produced by different Generators to have different requirements
-in rendering. For example, a Page produces by the OrchidPages may want to show a list of tags and its author, while a
+in rendering. For example, a Page produces by the orchid-pages-feature may want to show a list of tags and its author, while a
 Page produced by the Wiki may want to highlight the Wiki section currently being read. To support this, Page Content
 components load a "page template" in a similar way to how a page Layout template is chosen, but is just for that one, 
 logical block of content within a page, rather than the entire page. 
@@ -161,7 +161,7 @@ theme.
 Components do not need to be declared on a page directly, but they are attached to the page when it is rendered, and is 
 able to provide any kind of scripts or styles to the page in which it is being used. 
 
-Some components, like the {{anchor('Swagger Component', 'OrchidSwagger')}} add their own scripts and styles to the 
+Some components, like the {{anchor('Swagger Component', 'orchid-swagger-feature')}} add their own scripts and styles to the 
 page. You do not need to do anything for this, the component will take care of telling Orchid to render its assets and
 add them to the Page so they end up in the same blocks of scripts and styles that the Theme also provides.
 
@@ -209,7 +209,7 @@ posts:
 ## Meta Components
 
 While many components add blocks of content to the page, another common use-case is attaching global assets to pages 
-without rendering any content. A good example is the `prism` component from the {{ anchor('OrchidSyntaxHighlighter') }}
+without rendering any content. A good example is the `prism` component from the {{ anchor('orchid-syntax-highlighter-feature') }}
 plugin, which configures and adds [Prism.js](https://prismjs.com/) to your site for browser-based syntax highlighting.
 
 Normally, when adding this component to a page you would have to also add the `pageContent` component, since it is not

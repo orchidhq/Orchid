@@ -44,10 +44,10 @@ repositories {
 }
 
 dependencies {
-    // Add an Orchid Bundle. OrchidAll comes with all official themes included.
-    // You must include a theme separately when using the OrchidBlog bundle.
+    // Add an Orchid Bundle. orchid-all-bundle comes with all official themes included.
+    // You must include a theme separately when using the orchid-blog-bundle bundle.
     // Any additional plugins may be added as dependencies here as well.
-    orchidRuntime 'io.github.javaeden.orchid:OrchidAll:{{site.version}}'
+    orchidRuntime 'io.github.copper-leaf.orchid:orchid-all-bundle:{{site.version}}'
 }
 
 orchid {
@@ -98,17 +98,17 @@ To use Orchid from a Maven project, setup your project's pom.xml file like so:
         <plugins>
             <!-- Add the official Orchid Gradle plugin so you can use Orchid with the custom DSL -->
             <plugin>
-                <groupId>io.github.javaeden.orchid</groupId>
+                <groupId>io.github.copper-leaf.orchid</groupId>
                 <artifactId>orchid-maven-plugin</artifactId>
                 <version>${orchid.version}</version>
 
-                <!-- Add an Orchid Bundle. OrchidAll comes with all official themes included.
-                     You must include a theme separately when using the OrchidBlog bundle.
+                <!-- Add an Orchid Bundle. orchid-all-bundle comes with all official themes included.
+                     You must include a theme separately when using the orchid-blog-bundle bundle.
                      Any additional plugins may be added as dependencies here as well. -->
                 <dependencies>
                     <dependency>
-                        <groupId>io.github.javaeden.orchid</groupId>
-                        <artifactId>OrchidAll</artifactId>
+                        <groupId>io.github.copper-leaf.orchid</groupId>
+                        <artifactId>orchid-all-bundle</artifactId>
                         <version>${orchid.version}</version>
                     </dependency>
                 </dependencies>
@@ -168,7 +168,7 @@ tools, or used like a library and started from another application.
 // orchid.kts
 @file:MavenRepository("kotlinx", "https://kotlin.bintray.com/kotlinx")
 
-@file:DependsOn("io.github.javaeden.orchid:OrchidAll:{{site.version}}")
+@file:DependsOn("io.github.copper-leaf.orchid:orchid-all-bundle:{{site.version}}")
 
 import com.eden.orchid.Orchid
 import com.eden.orchid.StandardModule
@@ -238,9 +238,9 @@ in your project, you'll need to ensure that at least the following is included i
 
 ```
 resolvers += Resolver.jcenterRepo // hosts Orchid and its components
-resolvers += Resolver.bintrayRepo("javaeden", "sbt-plugins") // hosts Orchid SBT plugin
+resolvers += Resolver.bintrayRepo("copper-leaf", "sbt-plugins") // hosts Orchid SBT plugin
 
-addSbtPlugin( "io.github.javaeden.orchid" % "sbt-orchid" % "{{site.version}}" )
+addSbtPlugin( "io.github.copper-leaf.orchid" % "sbt-orchid" % "{{site.version}}" )
 ```
 
 (You will usually want to include a bit more than this in `project/plugins.sbt`. The much [richer `project/plugins.sbt` example below](#rich-projectpluginssbt-example) is a better starting point.)
@@ -286,32 +286,32 @@ In order to use these features, you'll want to add them as dependies *of the bui
 The easiest way to do this is just include these dependencies in your `project/plugins.sbt` file.
 [Below](#rich-projectpluginssbt-example) is a very rich example `project/plugins.sbt` file. You can use any of the main Orchid features
 simply by uncommenting the associated dependencies. For the `BsDoc` theme to be made available, for example,
-you'd want to uncomment the line containing `libraryDependencies += orchidComponent( "OrchidBsDoc" )`.
+you'd want to uncomment the line containing `libraryDependencies += orchidComponent( "orchid-bsdoc-theme" )`.
 
 ##### rich `project/plugins.sbt` example
 
 ```scala
 // build.sbt
 resolvers += Resolver.jcenterRepo // hosts Orchid and its components
-resolvers += Resolver.bintrayRepo("javaeden", "sbt-plugins") // hosts Orchid SBT plugin
+resolvers += Resolver.bintrayRepo("copper-leaf", "sbt-plugins") // hosts Orchid SBT plugin
 
 val OrchidVersion = "{{site.version}}"
 
-addSbtPlugin("io.github.javaeden.orchid" % "sbt-orchid" % OrchidVersion)
+addSbtPlugin("io.github.copper-leaf.orchid" % "sbt-orchid" % OrchidVersion)
 
 /*
  *  Add desired Orchid components to the build
  */
  
-def orchidComponent( name : String ) = "io.github.javaeden.orchid" % name % OrchidVersion
+def orchidComponent( name : String ) = "io.github.copper-leaf.orchid" % name % OrchidVersion
 
 /*
- *  The plugin includes OrchidCore already as a dependency,
+ *  The plugin includes orchid-core already as a dependency,
  *  but explicitly specifying it helps ensure version consistency
  *  with other components.
  */
  
-libraryDependencies += orchidComponent( "OrchidCore" )
+libraryDependencies += orchidComponent( "orchid-core" )
 
 /*
  *  Uncomment the components you desire
@@ -320,40 +320,40 @@ libraryDependencies += orchidComponent( "OrchidCore" )
 /* Themes -- see https://orchid.run/themes */
 /* Don't forget to set 'orchidTheme' in build.sbt! */
 
-// libraryDependencies += orchidComponent( "OrchidBsDoc" )
-// libraryDependencies += orchidComponent( "OrchidCopper" )
-// libraryDependencies += orchidComponent( "OrchidEditorial" )
-// libraryDependencies += orchidComponent( "OrchidFutureImperfect" )
+// libraryDependencies += orchidComponent( "orchid-bsdoc-theme" )
+// libraryDependencies += orchidComponent( "orchid-copper-theme" )
+// libraryDependencies += orchidComponent( "orchid-editorial-theme" )
+// libraryDependencies += orchidComponent( "orchid-future-imperfect-theme" )
 
 /* Plugins -- see https://orchid.run/plugins */
 
-// libraryDependencies += orchidComponent( "OrchidPages" )
-// libraryDependencies += orchidComponent( "OrchidPosts" )
+// libraryDependencies += orchidComponent( "orchid-pages-feature" )
+// libraryDependencies += orchidComponent( "orchid-posts-feature" )
 // libraryDependencies += orchidComponent( "OrchidPluginDocs" )
 
-// libraryDependencies += orchidComponent( "OrchidAsciidoc" )
-// libraryDependencies += orchidComponent( "OrchidAzure" )
-// libraryDependencies += orchidComponent( "OrchidBible" )
-// libraryDependencies += orchidComponent( "OrchidBitbucket" )
-// libraryDependencies += orchidComponent( "OrchidChangelog" )
-// libraryDependencies += orchidComponent( "OrchidDiagrams" )
-// libraryDependencies += orchidComponent( "OrchidForms" )
-// libraryDependencies += orchidComponent( "OrchidGithub" )
-// libraryDependencies += orchidComponent( "OrchidGitlab" )
-// libraryDependencies += orchidComponent( "OrchidGroovydoc" )
-// libraryDependencies += orchidComponent( "OrchidJavadoc" )
-// libraryDependencies += orchidComponent( "OrchidKSS" )
-// libraryDependencies += orchidComponent( "OrchidKotlindoc" )
-// libraryDependencies += orchidComponent( "OrchidNetlify" )
-// libraryDependencies += orchidComponent( "OrchidNetlifyCMS" )
-// libraryDependencies += orchidComponent( "OrchidPresentations" )
-// libraryDependencies += orchidComponent( "OrchidSearch" )
-// libraryDependencies += orchidComponent( "OrchidSwagger" )
-// libraryDependencies += orchidComponent( "OrchidSwiftdoc" )
-// libraryDependencies += orchidComponent( "OrchidSyntaxHighlighter" )
-// libraryDependencies += orchidComponent( "OrchidTaxonomies" )
-// libraryDependencies += orchidComponent( "OrchidWiki" )
-// libraryDependencies += orchidComponent( "OrchidWritersBlocks" )
+// libraryDependencies += orchidComponent( "orchid-asciidoc-feature" )
+// libraryDependencies += orchidComponent( "azure" )
+// libraryDependencies += orchidComponent( "orchid-bible-feature" )
+// libraryDependencies += orchidComponent( "orchid-bitbucket-feature" )
+// libraryDependencies += orchidComponent( "orchid-changelog-feature" )
+// libraryDependencies += orchidComponent( "orchid-diagrams-feature" )
+// libraryDependencies += orchidComponent( "orchid-forms-feature" )
+// libraryDependencies += orchidComponent( "orchid-github-feature" )
+// libraryDependencies += orchidComponent( "orchid-gitlab-feature" )
+// libraryDependencies += orchidComponent( "orchid-groovydoc-feature" )
+// libraryDependencies += orchidComponent( "orchid-javadoc-feature" )
+// libraryDependencies += orchidComponent( "orchid-kss-feature" )
+// libraryDependencies += orchidComponent( "orchid-kotlindoc-feature" )
+// libraryDependencies += orchidComponent( "orchid-netlify-feature" )
+// libraryDependencies += orchidComponent( "orchid-netlify-cms-feature" )
+// libraryDependencies += orchidComponent( "orchid-presentations-feature" )
+// libraryDependencies += orchidComponent( "orchid-search-feature" )
+// libraryDependencies += orchidComponent( "orchid-swagger-feature" )
+// libraryDependencies += orchidComponent( "orchid-swiftdoc-feature" )
+// libraryDependencies += orchidComponent( "orchid-syntax-highlighter-feature" )
+// libraryDependencies += orchidComponent( "orchid-archives-feature" )
+// libraryDependencies += orchidComponent( "orchid-wiki-feature" )
+// libraryDependencies += orchidComponent( "orchid-writers-blocks-feature" )
 
 ```
 

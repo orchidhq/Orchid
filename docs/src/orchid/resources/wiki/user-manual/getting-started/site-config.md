@@ -41,7 +41,7 @@ allPages: # (6)
 ```
 
 1) Set the base URL to be prepended to all generated links. Plugins can provide various helpers for generating base 
-    URLs, such as the {{ anchor('OrchidNetlify') }} plugin looking up the proper base URL for Netlify CI branch preview 
+    URLs, such as the {{ anchor('orchid-netlify-feature') }} plugin looking up the proper base URL for Netlify CI branch preview 
     or production builds.
 2) Set the default theme to use for your site.
 3) Theme options come from `theme` or from an object at the theme's `key`. When using multiple themes, you may want to 

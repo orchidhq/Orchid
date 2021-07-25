@@ -51,7 +51,7 @@ categorization for those pages. In Orchid, the first directory a Static Page is 
 Pages can then be located from a Collection, filtering by their Group. 
 
 Page groups are useful for configuring all the pages in a group from a single Archetype. They are also very useful in 
-combination with the {{ anchor('Taxonomies plugin', 'OrchidTaxonomies') }} to generate archive listings for each page
+combination with the {{ anchor('Taxonomies plugin', 'orchid-archives-feature') }} to generate archive listings for each page
 group.
 
 ### Menu Items

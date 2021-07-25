@@ -20,7 +20,7 @@ out to the following individuals for their help improving this project:
 
 - [spind42](https://github.com/spind42) - Fixed an issue running Orchid from Maven
 - [Jean-Michel Fayard](https://github.com/jmfayard) - Added a readme badge for CodeTriage
-- [Steve S](https://github.com/singularsyntax) - Added a new Spotify tag to the {{ anchor('OrchidWritersBlocks') }} plugin
+- [Steve S](https://github.com/singularsyntax) - Added a new Spotify tag to the {{ anchor('orchid-writers-blocks-feature') }} plugin
 - [Steve Waldman](https://github.com/swaldman) - Wrote a plugin to run Orchid from SBT!
 
 ## What's New?

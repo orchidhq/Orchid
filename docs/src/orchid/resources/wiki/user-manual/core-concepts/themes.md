@@ -15,7 +15,7 @@ unless you set the `theme` property in `config.yml` :
 ```groovy
 // build.gradle
 dependencies {
-    orchidRuntime 'io.github.javaeden.orchid:OrchidEditorial:{{ site.version }}'
+    orchidRuntime 'io.github.copper-leaf.orchid:orchid-editorial-theme:{{ site.version }}'
 }
 ```
 

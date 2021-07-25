@@ -11,9 +11,9 @@ components:
     template: 'includes/postPreview_large'
 menu:
   - type: 'page'
-    itemId: 'OrchidFutureImperfect'
+    itemId: 'orchid-future-imperfect-theme'
   - type: 'pageChildren'
-    itemId: 'OrchidFutureImperfect'
+    itemId: 'orchid-future-imperfect-theme'
     asSubmenu: true
     submenuTitle: Docs
 next: 'programming'

@@ -154,9 +154,9 @@ plugins {
 
 // 2. Include Orchid dependencies
 dependencies {
-    orchidRuntime "io.github.javaeden.orchid:OrchidDocs:{{ site.version }}"
-    orchidRuntime "io.github.javaeden.orchid:OrchidKotlindoc:{{ site.version }}"
-    orchidRuntime "io.github.javaeden.orchid:OrchidPluginDocs:{{ site.version }}"
+    orchidRuntime "io.github.copper-leaf.orchid:orchid-docs-bundle:{{ site.version }}"
+    orchidRuntime "io.github.copper-leaf.orchid:orchid-kotlindoc-feature:{{ site.version }}"
+    orchidRuntime "io.github.copper-leaf.orchid:OrchidPluginDocs:{{ site.version }}"
 }
 
 // 3. Get dependencies from JCenter and Kotlinx Bintray repo
@@ -473,7 +473,7 @@ Editorial:
 #### Setting Up The Plugin
 
 Now we're at a point where we could start documenting our Kotlin sources. First, we need to set up the plugin and point 
-it at our other project with Kotlin source files. The Orchid plugin is already installed as the `OrchidKotlindoc` 
+it at our other project with Kotlin source files. The Orchid plugin is already installed as the `orchid-kotlindoc-feature` 
 dependency in `docs/build.gradle`, so we just need to update our `config.yml`.
 
 If we pop back to our admin panel, we can find the config values we need to get going. Specifically, we need to find the

@@ -5,9 +5,9 @@ template: page
 skipTaxonomy: true
 menu:
   - type: 'page'
-    itemId: 'Orchid Bs Doc'
+    itemId: 'orchid-bsdoc-theme'
   - type: 'pageChildren'
-    itemId: 'Orchid Bs Doc'
+    itemId: 'orchid-bsdoc-theme'
     asSubmenu: true
     submenuTitle: Docs
 ---

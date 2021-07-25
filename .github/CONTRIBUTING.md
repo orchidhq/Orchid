@@ -7,7 +7,7 @@ kind are expected to fully comply with the project's [Code of Conduct](.github/C
 ## Overview
 
 This repository is comprised of many individual projects, which are all listed above. You can build and run any project
-with Gradle from the project root, such as `gradle :OrchidCore:assemble` or `gradle :plugins:OrchidWiki:assemble`, or 
+with Gradle from the project root, such as `gradle :orchid-core:assemble` or `gradle :plugins:OrchidWiki:assemble`, or 
 you may navigate to a particular project's subdirectory to run the Gradle commands directly. When contributing code, 
 please indent using 4 spaces.
 
@@ -55,7 +55,7 @@ Orchid is maintained as a multi-project Gradle build. Each sub-project, with the
 run the above commands targeted at their specific repo. For testing functionality of a single plugin or theme, this may
 be faster than testing the functionality in the Core sub-project.
 
-### Core (`:OrchidCore`)
+### Core (`:orchid-core`)
 
 This is the core project, which is required by all other projects. It contains the core APIs which all other 
 sub-projects plug into. It also contains the sources for the main documentation site.

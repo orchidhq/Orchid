@@ -104,10 +104,10 @@ services:
 
 ## Available Publishers
 
-There are several publishers available in `OrchidCore`, but more may be available in plugins, or you may create your own.
+There are several publishers available in `orchid-core`, but more may be available in plugins, or you may create your own.
 
-- {{anchor('Script', 'OrchidCore')}} - Execute arbitrary shell scripts
-- {{anchor('Netlify', 'OrchidNetlify')}} - Upload your site to Netlify
-- {{anchor('GitHub', 'OrchidGithub')}} - Push your site to GitHub Pages or create releases
-- {{anchor('Gitlab', 'OrchidGitlab')}} - Push your site to Gitlab Pages
-- {{anchor('Bitbucket', 'OrchidBitbucket')}} - Push your site to Gitlab Pages
+- {{anchor('Script', 'orchid-core')}} - Execute arbitrary shell scripts
+- {{anchor('Netlify', 'orchid-netlify-feature')}} - Upload your site to Netlify
+- {{anchor('GitHub', 'orchid-github-feature')}} - Push your site to GitHub Pages or create releases
+- {{anchor('Gitlab', 'orchid-gitlab-feature')}} - Push your site to Gitlab Pages
+- {{anchor('Bitbucket', 'orchid-bitbucket-feature')}} - Push your site to Gitlab Pages

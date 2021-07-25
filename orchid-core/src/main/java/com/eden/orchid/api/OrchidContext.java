@@ -1,6 +1,5 @@
 package com.eden.orchid.api;
 
-import clog.Clog;
 import com.eden.orchid.Orchid;
 import com.eden.orchid.api.compilers.CompilerService;
 import com.eden.orchid.api.events.EventService;

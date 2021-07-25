@@ -6,9 +6,9 @@ layout: index
 skipTaxonomy: true
 menu:
   - type: 'page'
-    itemId: 'Orchid Editorial'
+    itemId: 'orchid-editorial-theme'
   - type: 'pageChildren'
-    itemId: 'Orchid Editorial'
+    itemId: 'orchid-editorial-theme'
     asSubmenu: true
     submenuTitle: Docs
 ---

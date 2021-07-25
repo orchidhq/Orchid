@@ -295,7 +295,7 @@ the exact file path and filename. If that doesn't exist, it will look for any fi
 
 Any time that you specify a custom template, it will be preferred to the defaults for that page type. Plugins with 
 special page types may set special formats for looking up page templates without needing to specify it. For example, the 
-OrchidPosts plugin will default to looking for `post-[category].peb` or `post.peb` before falling back to `page.peb`. 
+orchid-posts-feature plugin will default to looking for `post-[category].peb` or `post.peb` before falling back to `page.peb`. 
 All pages, if not specified by the plugin or by the user, fall back to using `page.peb`, which is automatically provided
 for you.
 

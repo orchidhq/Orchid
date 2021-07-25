@@ -8,12 +8,12 @@ Orchid Sourcedocs supports multi-module projects with READMEs and separate doc g
 permalinks, auto-updating menu items, and an ever-improving data model to link to doc pages and display the 
 relationships among different elements. 
 
-It also integrates client-side full-text search from the {{ anchor('OrchidSearch') }} plugin and is set up for easy page
-querying or archive generation with the {{ anchor('OrchidTaxonomies') }} plugin.
+It also integrates client-side full-text search from the {{ anchor('orchid-search-feature') }} plugin and is set up for easy page
+querying or archive generation with the {{ anchor('orchid-archives-feature') }} plugin.
 
 The following languages are currently supported:
 
-- {{ anchor('Java', 'OrchidJavadoc') }}
-- {{ anchor('Kotlin', 'OrchidKotlindoc') }}
-- {{ anchor('Groovy', 'OrchidGroovydoc') }}
-- {{ anchor('Swift', 'OrchidSwiftdoc') }}
+- {{ anchor('Java', 'orchid-javadoc-feature') }}
+- {{ anchor('Kotlin', 'orchid-kotlindoc-feature') }}
+- {{ anchor('Groovy', 'orchid-groovydoc-feature') }}
+- {{ anchor('Swift', 'orchid-swiftdoc-feature') }}

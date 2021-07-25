@@ -65,7 +65,7 @@ You will still need to configure DNS records with your domain registrar to point
 as described in [this help article](https://help.github.com/en/github/working-with-github-pages/managing-a-custom-domain-for-your-github-pages-site).
 
 For versions earlier than 0.19.0, you will need to create the `CNAME` file automatically. As this file needs to be in 
-the _deployed_ site's root, and not your repo root, this will require the {{ anchor('OrchidPages') }} plugin to be able
+the _deployed_ site's root, and not your repo root, this will require the {{ anchor('orchid-pages-feature') }} plugin to be able
 to create the necessary file. Create `pages/CNAME` file in your site resources (with no file extension) and add the 
 following contents to it (replacing the domain with your own). Be sure that it's copied directly, with no extra newlines
 at the top or end, otherwise Github will not read the file properly.
@@ -81,7 +81,7 @@ www.example.com
 ### Github Releases Publisher
 
 The `githubReleases` publisher will create a [release](https://help.github.com/en/categories/releases) on Github release
-notes from the {{anchor('OrchidChangelog')}} plugin's latest changelog version.
+notes from the {{anchor('orchid-changelog-feature')}} plugin's latest changelog version.
 
 ```yaml
 # config.yml
