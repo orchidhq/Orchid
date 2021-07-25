@@ -8,7 +8,10 @@ import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.sourcedoc.model.SourceDocModel
 
-@Description("The module home pages for a given module type..", name = "Source Pages")
+@Description(
+    "The module home pages for a given module type..",
+    name = "Sourcedoc Modules"
+)
 class SourceDocModulesMenuItemType : OrchidMenuFactory("sourcedocModules") {
 
     @Option

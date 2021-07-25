@@ -4,11 +4,16 @@ import com.copperleaf.kodiak.common.RichTextComponent
 import com.copperleaf.kodiak.common.RichTextComponent.Companion.INHERITED
 import com.copperleaf.kodiak.common.RichTextComponent.Companion.TYPE_NAME
 import com.copperleaf.kodiak.common.TopLevel
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.theme.components.ComponentHolder
 import com.eden.orchid.api.theme.components.OrchidComponent
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.sourcedoc.page.SourceDocPage
 
+@Description(
+    "Display the summary portion of a sourcedoc page.",
+    name = "Sourcedoc Page Summary"
+)
 class SourcedocPageSimpleSummary : OrchidComponent("sourceDocSummary") {
 
     override fun canBeUsedOnPage(

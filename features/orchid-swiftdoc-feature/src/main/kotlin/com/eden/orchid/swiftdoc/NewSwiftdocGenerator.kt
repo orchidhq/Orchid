@@ -7,10 +7,13 @@ import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.theme.permalinks.PermalinkStrategy
 import com.eden.orchid.sourcedoc.SourcedocGenerator
-import com.eden.orchid.swiftdoc.NewSwiftdocGenerator.Companion.GENERATOR_KEY
 import com.eden.orchid.swiftdoc.model.SwiftDocModuleConfig
 import javax.inject.Inject
 
+@Description(
+    "Generate SourceDoc content for Seift source files",
+    name = "Swiftdoc"
+)
 class NewSwiftdocGenerator
 @Inject
 constructor(

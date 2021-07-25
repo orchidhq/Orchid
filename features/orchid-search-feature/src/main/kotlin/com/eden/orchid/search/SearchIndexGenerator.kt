@@ -14,7 +14,10 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.api.theme.pages.OrchidReference
 import com.eden.orchid.impl.generators.ExternalIndexGenerator
 
-@Description("Generates index files to connect your site to others.", name = "Indices")
+@Description(
+    "Generates index files to connect your site to others.",
+    name = "Search Indices"
+)
 class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KEY, Stage.META) {
 
     companion object {

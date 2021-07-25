@@ -8,9 +8,8 @@ import com.eden.orchid.api.theme.assets.AssetManagerDelegate
 import com.eden.orchid.api.theme.components.OrchidComponent
 
 @Description(
-    "Add the Kotlin Playground to your pages, to convert Kotlin code snippets into interactive, embedded " +
-        "development playgrounds.",
-    name = "Kotlin Playground"
+    "Add the Faithlife Reftagger script to your page, to automatically find and link Bible verses.",
+    name = "Faithlife Reftagger"
 )
 class ReftaggerComponent : OrchidComponent("reftagger", true) {
 

@@ -10,6 +10,10 @@ import com.eden.orchid.groovydoc.models.GroovyDocModuleConfig
 import com.eden.orchid.sourcedoc.SourcedocGenerator
 import javax.inject.Inject
 
+@Description(
+    "Generate SourceDoc content for Groovy/Java source files",
+    name = "Groovydoc"
+)
 class NewGroovydocGenerator
 @Inject
 constructor(

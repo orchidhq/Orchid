@@ -10,6 +10,10 @@ import com.eden.orchid.snippets.models.Snippet
 import com.eden.orchid.snippets.models.SnippetsModel
 import com.eden.orchid.utilities.resolve
 
+@Description(
+    "Display in tabs the contents of a multiple snippets by tag.",
+    name = "Snippet Tabs"
+)
 class SnippetsTag : TemplateTag("snippets", Type.Simple, true), SnippetsModel.SnippetsQuery {
 
     @Option

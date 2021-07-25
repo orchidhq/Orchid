@@ -10,7 +10,10 @@ import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.sourcedoc.model.SourceDocModel
 import com.eden.orchid.sourcedoc.page.SourceDocPage
 
-@Description("Locate all source pages of a given kind.", name = "Source Pages")
+@Description(
+    "Locate all source pages of a given kind.",
+    name = "Sourcedoc Source Pages"
+)
 class SourceDocPagesMenuItemType : OrchidMenuFactory("sourcedocPages") {
 
     enum class ItemTitleType {

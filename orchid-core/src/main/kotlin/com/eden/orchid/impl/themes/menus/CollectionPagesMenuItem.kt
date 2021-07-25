@@ -9,8 +9,8 @@ import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.pages.OrchidPage
 
 @Description(
-    "A page in your site, referenced from a Collection. If no page query is given, will use the current page.",
-    name = "Page"
+    "All pages in a collection",
+    name = "Collection Pages"
 )
 class CollectionPagesMenuItem : OrchidMenuFactory("collectionPages") {
 

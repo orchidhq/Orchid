@@ -8,6 +8,10 @@ import com.eden.orchid.snippets.models.Snippet
 import com.eden.orchid.snippets.models.SnippetsModel
 import com.eden.orchid.utilities.resolve
 
+@Description(
+    "Display the content of a single snippet.",
+    name = "Snippet"
+)
 class SnippetComponent : OrchidComponent("snippet", true), SnippetsModel.SnippetQuery {
 
     @Option

@@ -10,6 +10,10 @@ import com.eden.orchid.snippets.models.Snippet
 import com.eden.orchid.snippets.models.SnippetsModel
 import com.eden.orchid.utilities.resolve
 
+@Description(
+    "Display the content of a single snippet.",
+    name = "Snippet"
+)
 class SnippetTag : TemplateTag("snippet", Type.Simple, true), SnippetsModel.SnippetQuery {
 
     @Option

@@ -4,6 +4,7 @@ import clog.Clog
 import com.eden.common.util.EdenUtils
 import com.eden.orchid.api.OrchidContext
 import com.eden.orchid.api.options.OrchidFlags
+import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
 import com.eden.orchid.api.resources.resource.StringResource
 import com.eden.orchid.api.theme.menus.MenuItem
@@ -15,6 +16,10 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
 
+@Description(
+    "A link to a Github repo",
+    name = "Github"
+)
 class GithubMenuItem : OrchidMenuFactory("github") {
 
     @Option

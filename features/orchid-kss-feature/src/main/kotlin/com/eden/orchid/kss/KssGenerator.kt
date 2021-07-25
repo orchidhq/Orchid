@@ -12,7 +12,10 @@ import com.eden.orchid.kss.pages.KssPage
 import com.eden.orchid.kss.parser.KssParser
 import com.eden.orchid.utilities.OrchidUtils
 
-@Description("Generate a living styleguide for your CSS using Knyle Style Sheets (KSS).", name = "Living Styleguide")
+@Description(
+    "Generate a living styleguide for your CSS using Knyle Style Sheets (KSS).",
+    name = "Styleguide"
+)
 class KssGenerator : OrchidGenerator<KssModel>(GENERATOR_KEY, Stage.CONTENT) {
 
     companion object {

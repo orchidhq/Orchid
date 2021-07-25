@@ -10,6 +10,10 @@ import com.eden.orchid.sourcedoc.model.SourceDocModel
 import com.eden.orchid.sourcedoc.page.BaseSourceDocPage
 import org.apache.commons.text.StringEscapeUtils
 
+@Description(
+    "Link to a page or element of a Sourcedoc page",
+    name = "Sourcedoc Anchor"
+)
 class SourcedocAnchorFunction : TemplateFunction("sourceDocAnchor", true) {
 
     @Option

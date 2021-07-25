@@ -10,6 +10,10 @@ import com.eden.orchid.javadoc.models.JavaDocModuleConfig
 import com.eden.orchid.sourcedoc.SourcedocGenerator
 import javax.inject.Inject
 
+@Description(
+    "Generate SourceDoc content for Java source files",
+    name = "Javadoc"
+)
 class NewJavadocGenerator
 @Inject
 constructor(

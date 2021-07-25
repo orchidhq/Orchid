@@ -10,12 +10,11 @@ import com.eden.orchid.api.theme.menus.OrchidMenu
 import com.eden.orchid.api.theme.menus.OrchidMenuFactory
 import com.eden.orchid.api.theme.pages.OrchidPage
 import com.eden.orchid.sourcedoc.page.SourceDocPage
-import java.util.ArrayList
 
 @Description(
-    "Links to the different sections within a Javadoc Class page, optionally with their items nested " +
+    "Links to the source elements within a Sourcedoc page, optionally with their items nested " +
         "underneath them.",
-    name = "Javadoc Class Sections"
+    name = "Sourcedoc Page Links"
 )
 class SourceDocPageLinksMenuItemType : OrchidMenuFactory("sourcedocPageLinks") {
 
