@@ -12,5 +12,5 @@ dependencies {
     implementation(Modules.OrchidCore)
     testImplementation(Modules.OrchidTest)
 
-    implementation("org.atteo:evo-inflector:1.2.2")
+    implementation(libs.evo.inflector)
 }

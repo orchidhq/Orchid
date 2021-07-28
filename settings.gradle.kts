@@ -42,3 +42,15 @@ include(":themes:orchid-bsdoc-theme")
 include(":themes:orchid-copper-theme")
 include(":themes:orchid-editorial-theme")
 include(":themes:orchid-future-imperfect-theme")
+
+enableFeaturePreview("VERSION_CATALOGS")
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("libs") {
+            from(files("./libs.versions.toml"))
+        }
+        create("testLibs") {
+            from(files("./test-libs.versions.toml"))
+        }
+    }
+}

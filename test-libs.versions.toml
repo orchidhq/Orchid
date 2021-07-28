@@ -1,0 +1,21 @@
+[versions]
+junit = "5.7.2"
+
+[libraries]
+hamcrest =             { group = "org.hamcrest",          name = "hamcrest-library"    , version = "2.2" }
+strikt =               { group = "io.strikt",             name = "strikt-core"         , version = "0.31.0" }
+mockito =              { group = "org.mockito",           name = "mockito-core"        , version = "3.11.2" }
+junit-jupiter-api =    { group = "org.junit.jupiter",     name = "junit-jupiter-api"   , version.ref = "junit" }
+junit-jupiter-params = { group = "org.junit.jupiter",     name = "junit-jupiter-params", version.ref = "junit" }
+junit-jupiter-engine = { group = "org.junit.jupiter",     name = "junit-jupiter-engine", version.ref = "junit" }
+kotlinx-html =         { group = "org.jetbrains.kotlinx", name = "kotlinx-html-jvm"    , version = "0.7.3" }
+
+[bundles]
+all = [
+    "hamcrest",
+    "strikt",
+    "mockito",
+    "junit-jupiter-api",
+    "junit-jupiter-params",
+    "kotlinx-html",
+]

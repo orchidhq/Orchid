@@ -12,5 +12,5 @@ dependencies {
     implementation(Modules.OrchidCore)
     testImplementation(Modules.OrchidTest)
 
-    implementation("net.sourceforge.plantuml:plantuml:1.2021.7")
+    implementation(libs.lang.plantuml)
 }

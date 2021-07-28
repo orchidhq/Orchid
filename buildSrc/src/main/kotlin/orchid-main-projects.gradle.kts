@@ -1,6 +1,7 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import java.text.SimpleDateFormat
 import java.util.Date
+import org.gradle.accessors.dm.LibrariesForTestLibs
 
 plugins {
     idea
@@ -9,13 +10,10 @@ plugins {
     jacoco
 }
 
+val testLibs = the<LibrariesForTestLibs>()
 dependencies {
-    testImplementation("org.hamcrest:hamcrest-library:2.2") // remove this
-    testImplementation("io.strikt:strikt-core:0.31.0")
-    testImplementation("org.mockito:mockito-core:3.11.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.7.2")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
+    testImplementation(testLibs.bundles.all)
+    testRuntimeOnly(testLibs.junit.jupiter.engine)
 }
 
 tasks.withType<JavaCompile> {

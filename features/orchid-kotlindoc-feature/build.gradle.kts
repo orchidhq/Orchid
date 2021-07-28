@@ -13,5 +13,5 @@ dependencies {
     testImplementation(Modules.OrchidTest)
 
     implementation(Modules.OrchidSourceDoc)
-    implementation("io.github.copper-leaf:dokka-runner:1.0.0")
+    implementation(libs.kodiak.kotlin.runner)
 }

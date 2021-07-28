@@ -1,0 +1,4 @@
+[libraries]
+kotlin =   { group = "org.jetbrains.kotlin",   name = "kotlin-gradle-plugin"   , version = "1.4.32" }
+ktlint =   { group = "org.jlleitschuh.gradle", name = "ktlint-gradle"          , version = "10.1.0" }
+licensee = { group = "app.cash.licensee",      name = "licensee-gradle-plugin" , version = "1.1.0" }

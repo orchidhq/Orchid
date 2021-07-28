@@ -1,0 +1,68 @@
+[versions]
+flexmark = "0.62.2"
+kodiak = "1.0.0"
+
+[libraries]
+flexmark-core =                     { group = "com.vladsch.flexmark",     name = "flexmark",                          version.ref = "flexmark" }
+flexmark-ext-aside =                { group = "com.vladsch.flexmark",     name = "flexmark-ext-aside",                version.ref = "flexmark" }
+flexmark-ext-attributes =           { group = "com.vladsch.flexmark",     name = "flexmark-ext-attributes",           version.ref = "flexmark" }
+flexmark-ext-enumerated-reference = { group = "com.vladsch.flexmark",     name = "flexmark-ext-enumerated-reference", version.ref = "flexmark" }
+flexmark-ext-gfm-tasklist =         { group = "com.vladsch.flexmark",     name = "flexmark-ext-gfm-tasklist",         version.ref = "flexmark" }
+flexmark-ext-toc =                  { group = "com.vladsch.flexmark",     name = "flexmark-ext-toc",                  version.ref = "flexmark" }
+flexmark-ext-anchorlink =           { group = "com.vladsch.flexmark",     name = "flexmark-ext-anchorlink",           version.ref = "flexmark" }
+javax-inject =                      { group = "javax.inject",             name = "javax.inject",                      version = "1" }
+guice =                             { group = "com.google.inject",        name = "guice",                             version = "5.0.1" }
+classgraph =                        { group = "io.github.classgraph",     name = "classgraph",                        version = "4.8.109" }
+okhttp =                            { group = "com.squareup.okhttp3",     name = "okhttp",                            version = "4.9.1" }
+commons-io =                        { group = "commons-io",               name = "commons-io",                        version = "2.10.0" }
+commons-lang3 =                     { group = "org.apache.commons",       name = "commons-lang3",                     version = "3.12.0" }
+commons-text =                      { group = "org.apache.commons",       name = "commons-text",                      version = "1.9" }
+thumbnailator =                     { group = "net.coobird",              name = "thumbnailator",                     version = "0.4.14" }
+jsoup =                             { group = "org.jsoup",                name = "jsoup",                             version = "1.13.1" }
+copperleaf-common =                 { group = "io.github.copper-leaf",    name = "common-core",                       version = "3.0.0" }
+copperleaf-clog =                   { group = "io.github.copper-leaf",    name = "clog-core",                         version = "4.1.1" }
+copperleaf-krow =                   { group = "io.github.copper-leaf",    name = "krow-core",                         version = "1.0.0" }
+copperleaf-thistle =                { group = "io.github.copper-leaf",    name = "thistle-core",                      version = "1.1.0" }
+kodiak-common-models =              { group = "io.github.copper-leaf",    name = "common-models",                     version.ref = "kodiak" }
+kodiak-common-formatter =           { group = "io.github.copper-leaf",    name = "common-formatter",                  version.ref = "kodiak" }
+kodiak-common-runner =              { group = "io.github.copper-leaf",    name = "common-runner",                     version.ref = "kodiak" }
+kodiak-java-runner =                { group = "io.github.copper-leaf",    name = "javadoc-runner",                    version.ref = "kodiak" }
+kodiak-groovy-runner =              { group = "io.github.copper-leaf",    name = "groovydoc-runner",                  version.ref = "kodiak" }
+kodiak-kotlin-runner =              { group = "io.github.copper-leaf",    name = "dokka-runner",                      version.ref = "kodiak" }
+kodiak-swift-runner =               { group = "io.github.copper-leaf",    name = "swiftdoc-runner",                   version.ref = "kodiak" }
+lang-json =                         { group = "org.json",                 name = "json",                              version = "20210307" }
+lang-yaml =                         { group = "org.yaml",                 name = "snakeyaml",                         version = "1.29" }
+lang-toml =                         { group = "com.moandjiezana.toml",    name = "toml4j",                            version = "0.7.2" }
+lang-pebble =                       { group = "io.pebbletemplates",       name = "pebble",                            version = "3.1.5" }
+lang-scss =                         { group = "io.bit3",                  name = "jsass",                             version = "5.10.3" }
+lang-csv =                          { group = "com.univocity",            name = "univocity-parsers",                 version = "2.9.1" }
+lang-asciidoc =                     { group = "org.asciidoctor",          name = "asciidoctorj",                      version = "2.3.0" }
+lang-plantuml =                     { group = "net.sourceforge.plantuml", name = "plantuml",                          version = "1.2021.7" }
+openhtmltopdf-core =                { group = "com.openhtmltopdf",        name = "openhtmltopdf-core",                version = "1.0.9" }
+openhtmltopdf-pdfbox =              { group = "com.openhtmltopdf",        name = "openhtmltopdf-pdfbox",              version = "1.0.9" }
+openhtmltopdf-svg =                 { group = "com.openhtmltopdf",        name = "openhtmltopdf-svg-support",         version = "1.0.9" }
+nanohttpd-core =                    { group = "org.nanohttpd",            name = "nanohttpd",                         version = "2.3.1" }
+nanohttpd-websocket =               { group = "org.nanohttpd",            name = "nanohttpd-websocket",               version = "2.3.1" }
+jython =                            { group = "org.python",               name = "jython-standalone",                 version = "2.7.2" }
+pygments =                          { group = "org.pygments",             name = "pygments",                          version = "2.5.2" }
+evo-inflector =                     { group = "org.atteo",                name = "evo-inflector",                     version = "1.2.2" }
+
+[bundles]
+
+flexmark = [
+    "flexmark-ext-aside",
+    "flexmark-ext-attributes",
+    "flexmark-ext-enumerated-reference",
+    "flexmark-ext-gfm-tasklist",
+    "flexmark-ext-toc",
+    "flexmark-ext-anchorlink",
+]
+openhtmltopdf = [
+    "openhtmltopdf-core",
+    "openhtmltopdf-pdfbox",
+    "openhtmltopdf-svg",
+]
+nanohttpd = [
+    "nanohttpd-core",
+    "nanohttpd-websocket",
+]

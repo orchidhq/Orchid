@@ -12,5 +12,5 @@ dependencies {
     implementation(Modules.OrchidCore)
     testImplementation(Modules.OrchidTest)
 
-    implementation("org.asciidoctor:asciidoctorj:2.3.0")
+    implementation(libs.lang.asciidoc)
 }

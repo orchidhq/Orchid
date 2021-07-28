@@ -16,10 +16,15 @@ repositories {
 dependencies {
     runtimeOnly(project(":orchidPlugin"))
 
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32")
-    implementation("org.jlleitschuh.gradle:ktlint-gradle:10.1.0")
-    implementation("app.cash.licensee:licensee-gradle-plugin:1.1.0")
-    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation(buildscriptLibs.kotlin)
+    implementation(buildscriptLibs.ktlint)
+    implementation(buildscriptLibs.licensee)
+    implementation(libs.okhttp)
+
+    // small hack from https://github.com/gradle/gradle/issues/15383#issuecomment-779893192 to access these catalogs in
+    // precompiled script plugins
+    implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
+    implementation(files(testLibs.javaClass.superclass.protectionDomain.codeSource.location))
 }
 
 kotlinDslPluginOptions {

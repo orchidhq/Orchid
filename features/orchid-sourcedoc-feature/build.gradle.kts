@@ -12,9 +12,9 @@ dependencies {
     implementation(Modules.OrchidCore)
     testImplementation(Modules.OrchidTest)
 
-    implementation("io.github.copper-leaf:common-models:1.0.0")
-    implementation("io.github.copper-leaf:common-formatter:1.0.0")
-    implementation("io.github.copper-leaf:common-runner:1.0.0")
+    implementation(libs.kodiak.common.models)
+    implementation(libs.kodiak.common.formatter)
+    implementation(libs.kodiak.common.runner)
 
     testImplementation(Modules.OrchidJavadoc)
     testImplementation(Modules.OrchidGroovydoc)
