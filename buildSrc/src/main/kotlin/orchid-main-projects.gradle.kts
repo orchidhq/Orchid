@@ -16,6 +16,23 @@ dependencies {
     testRuntimeOnly(testLibs.junit.jupiter.engine)
 }
 
+// Dependency Locking
+// ---------------------------------------------------------------------------------------------------------------------
+val resolveAndLockAll by tasks.registering {
+    doFirst {
+        require(gradle.startParameter.isWriteDependencyLocks)
+    }
+    doLast {
+        configurations.filter {
+            // Add any custom filtering on the configurations to be resolved
+            it.isCanBeResolved
+        }.forEach { it.resolve() }
+    }
+}
+dependencyLocking {
+    lockAllConfigurations()
+}
+
 tasks.withType<JavaCompile> {
     sourceCompatibility = Config.javaVersion
     targetCompatibility = Config.javaVersion
