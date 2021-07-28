@@ -1,34 +1,34 @@
 package com.eden.orchid.impl.publication
 
-import clog.Clog
-import clog.api.ClogLogger
-import clog.dsl.addLogger
-import clog.dsl.removeLogger
 import com.eden.orchid.strikt.nothingElseRendered
 import com.eden.orchid.testhelpers.OrchidIntegrationTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
-import strikt.assertions.isTrue
+import strikt.assertions.contains
+import java.io.ByteArrayOutputStream
+import java.io.PrintStream
 
-class ScriptPublisherTest : OrchidIntegrationTest(), ClogLogger {
+class ScriptPublisherTest : OrchidIntegrationTest() {
 
-    var scriptPublisherLogged = false
+    var originalOutputStream: PrintStream? = null
+    var testOutputStreamContent: ByteArrayOutputStream? = null
 
     @BeforeEach
     internal fun setUp() {
-        scriptPublisherLogged = false
-
         enableLogging()
-        Clog.addLogger(this)
+        originalOutputStream = System.out
+        testOutputStreamContent = ByteArrayOutputStream()
+        System.setOut(PrintStream(testOutputStreamContent!!))
     }
 
     @AfterEach
     internal fun tearDown() {
         disableLogging()
-        // restore current Clog profile
-        Clog.removeLogger(this)
+        System.setOut(originalOutputStream)
+        originalOutputStream = null
+        testOutputStreamContent = null
     }
 
     @Test
@@ -57,21 +57,8 @@ class ScriptPublisherTest : OrchidIntegrationTest(), ClogLogger {
         expectThat(execute())
             .nothingElseRendered()
 
-        expectThat(scriptPublisherLogged).isTrue()
-    }
-
-// Clog Logger implementation
-// ---------------------------------------------------------------------------------------------------------------------
-
-    override fun log(priority: Clog.Priority, tag: String?, message: String) {
-        if (tag == "Script Publisher") {
-            scriptPublisherLogged = true
-        }
-    }
-
-    override fun logException(priority: Clog.Priority, tag: String?, throwable: Throwable) {
-        if (tag == "Script Publisher") {
-            scriptPublisherLogged = true
-        }
+        expectThat(
+            testOutputStreamContent.toString().lines()
+        ).contains("Script Publisher: 'script publisher message'")
     }
 }
