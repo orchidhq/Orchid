@@ -9,7 +9,7 @@ plugins {
 }
 
 dependencies {
-    api(Modules.OrchidCore)
+    api(moduleLibs.core)
     api(testLibs.bundles.all)
-    testImplementation(Modules.OrchidPages)
+    testImplementation(moduleLibs.features.pages)
 }

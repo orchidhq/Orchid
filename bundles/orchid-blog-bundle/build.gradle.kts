@@ -9,13 +9,12 @@ plugins {
 }
 
 dependencies {
-    implementation(Modules.OrchidCore)
-    testImplementation(Modules.OrchidTest)
+    implementation(moduleLibs.core)
+    testImplementation(moduleLibs.test)
 
-    implementation(Modules.OrchidPosts)
-    implementation(Modules.OrchidPages)
-    implementation(Modules.OrchidForms)
-    implementation(Modules.OrchidArchives)
-
-    implementation(*ModuleGroups.LanguageExtensions.all)
+    implementation(moduleLibs.features.archives)
+    implementation(moduleLibs.features.forms)
+    implementation(moduleLibs.features.pages)
+    implementation(moduleLibs.features.posts)
+    moduleLibs.bundles.languages.forEach { implementation(it) }
 }

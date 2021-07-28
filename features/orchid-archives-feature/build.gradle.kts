@@ -9,9 +9,9 @@ plugins {
 }
 
 dependencies {
-    implementation(Modules.OrchidCore)
-    testImplementation(Modules.OrchidTest)
+    implementation(moduleLibs.core)
+    testImplementation(moduleLibs.test)
 
-    testImplementation(Modules.OrchidPages)
-    testImplementation(Modules.OrchidPosts)
+    testImplementation(moduleLibs.features.pages)
+    testImplementation(moduleLibs.features.posts)
 }

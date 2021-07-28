@@ -9,16 +9,16 @@ plugins {
 }
 
 dependencies {
-    implementation(Modules.OrchidCore)
-    testImplementation(Modules.OrchidTest)
+    implementation(moduleLibs.core)
+    testImplementation(moduleLibs.test)
 
     implementation(libs.kodiak.common.models)
     implementation(libs.kodiak.common.formatter)
     implementation(libs.kodiak.common.runner)
 
-    testImplementation(Modules.OrchidJavadoc)
-    testImplementation(Modules.OrchidGroovydoc)
-    testImplementation(Modules.OrchidKotlindoc)
-    testImplementation(Modules.OrchidSwiftdoc)
-    testImplementation(Modules.OrchidPluginDocs)
+    testImplementation(moduleLibs.features.javadoc)
+    testImplementation(moduleLibs.features.groovydoc)
+    testImplementation(moduleLibs.features.kotlindoc)
+    testImplementation(moduleLibs.features.swiftdoc)
+    testImplementation(moduleLibs.features.pluginDocs)
 }

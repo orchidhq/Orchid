@@ -9,8 +9,8 @@ plugins {
 }
 
 dependencies {
-    implementation(Modules.OrchidCore)
-    testImplementation(Modules.OrchidTest)
+    implementation(moduleLibs.core)
+    testImplementation(moduleLibs.test)
 
-    implementation(*ModuleGroups.LanguageExtensions.all)
+    moduleLibs.bundles.languages.forEach { implementation(it) }
 }

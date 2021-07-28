@@ -47,5 +47,5 @@ dependencies {
     // server
     implementation(libs.bundles.nanohttpd)
 
-    testImplementation(Modules.OrchidTest)
+    testImplementation(moduleLibs.test)
 }

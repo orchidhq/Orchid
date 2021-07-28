@@ -1,44 +1,64 @@
 
-object Modules {
-    val OrchidCore = Module(":orchid-core")
-    val OrchidTest = Module(":orchid-test")
+import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.gradle.kotlin.dsl.project
 
-    val OrchidAll               = Module(":bundles:orchid-all-bundle")
-    val OrchidBlog              = Module(":bundles:orchid-blog-bundle")
-    val OrchidDocs              = Module(":bundles:orchid-docs-bundle")
-    val OrchidLanguagePack      = Module(":bundles:orchid-languages-bundle")
 
-    val OrchidArchives          = Module(":features:orchid-archives-feature")
-    val OrchidAsciidoc          = Module(":features:orchid-asciidoc-feature")
-    val OrchidAzure             = Module(":features:orchid-azure-feature")
-    val OrchidBible             = Module(":features:orchid-bible-feature")
-    val OrchidBitbucket         = Module(":features:orchid-bitbucket-feature")
-    val OrchidChangelog         = Module(":features:orchid-changelog-feature")
-    val OrchidDiagrams          = Module(":features:orchid-diagrams-feature")
-    val OrchidForms             = Module(":features:orchid-forms-feature")
-    val OrchidGithub            = Module(":features:orchid-github-feature")
-    val OrchidGitlab            = Module(":features:orchid-gitlab-feature")
-    val OrchidGroovydoc         = Module(":features:orchid-groovydoc-feature")
-    val OrchidJavadoc           = Module(":features:orchid-javadoc-feature")
-    val OrchidKotlindoc         = Module(":features:orchid-kotlindoc-feature")
-    val OrchidKSS               = Module(":features:orchid-kss-feature")
-    val OrchidNetlify           = Module(":features:orchid-netlify-feature")
-    val OrchidNetlifyCMS        = Module(":features:orchid-netlify-cms-feature")
-    val OrchidPages             = Module(":features:orchid-pages-feature")
-    val OrchidPluginDocs        = Module(":features:orchid-plugin-docs-feature")
-    val OrchidPosts             = Module(":features:orchid-posts-feature")
-    val OrchidPresentations     = Module(":features:orchid-presentations-feature")
-    val OrchidSearch            = Module(":features:orchid-search-feature")
-    val OrchidSnippets          = Module(":features:orchid-snippets-feature")
-    val OrchidSourceDoc         = Module(":features:orchid-sourcedoc-feature")
-    val OrchidSwagger           = Module(":features:orchid-swagger-feature")
-    val OrchidSwiftdoc          = Module(":features:orchid-swiftdoc-feature")
-    val OrchidSyntaxHighlighter = Module(":features:orchid-syntax-highlighter-feature")
-    val OrchidWiki              = Module(":features:orchid-wiki-feature")
-    val OrchidWritersBlocks     = Module(":features:orchid-writers-blocks-feature")
 
-    val OrchidBsDoc           = Module(":themes:orchid-bsdoc-theme")
-    val OrchidCopper          = Module(":themes:orchid-copper-theme")
-    val OrchidEditorial       = Module(":themes:orchid-editorial-theme")
-    val OrchidFutureImperfect = Module(":themes:orchid-future-imperfect-theme")
+class Modules(val dependencyHandler: DependencyHandler) {
+    val core get() = dependencyHandler.project(":orchid-core")
+    val test get() = dependencyHandler.project(":orchid-test")
+
+    inner class Features {
+        val archives          get() = dependencyHandler.project(":features:orchid-archives-feature")
+        val asciidoc          get() = dependencyHandler.project(":features:orchid-asciidoc-feature")
+        val azure             get() = dependencyHandler.project(":features:orchid-azure-feature")
+        val bible             get() = dependencyHandler.project(":features:orchid-bible-feature")
+        val bitbucket         get() = dependencyHandler.project(":features:orchid-bitbucket-feature")
+        val changelog         get() = dependencyHandler.project(":features:orchid-changelog-feature")
+        val diagrams          get() = dependencyHandler.project(":features:orchid-diagrams-feature")
+        val forms             get() = dependencyHandler.project(":features:orchid-forms-feature")
+        val github            get() = dependencyHandler.project(":features:orchid-github-feature")
+        val gitlab            get() = dependencyHandler.project(":features:orchid-gitlab-feature")
+        val groovydoc         get() = dependencyHandler.project(":features:orchid-groovydoc-feature")
+        val javadoc           get() = dependencyHandler.project(":features:orchid-javadoc-feature")
+        val kotlindoc         get() = dependencyHandler.project(":features:orchid-kotlindoc-feature")
+        val kss               get() = dependencyHandler.project(":features:orchid-kss-feature")
+        val netlify           get() = dependencyHandler.project(":features:orchid-netlify-feature")
+        val netlifyCMS        get() = dependencyHandler.project(":features:orchid-netlify-cms-feature")
+        val pages             get() = dependencyHandler.project(":features:orchid-pages-feature")
+        val pluginDocs        get() = dependencyHandler.project(":features:orchid-plugin-docs-feature")
+        val posts             get() = dependencyHandler.project(":features:orchid-posts-feature")
+        val presentations     get() = dependencyHandler.project(":features:orchid-presentations-feature")
+        val search            get() = dependencyHandler.project(":features:orchid-search-feature")
+        val snippets          get() = dependencyHandler.project(":features:orchid-snippets-feature")
+        val sourceDoc         get() = dependencyHandler.project(":features:orchid-sourcedoc-feature")
+        val swagger           get() = dependencyHandler.project(":features:orchid-swagger-feature")
+        val swiftdoc          get() = dependencyHandler.project(":features:orchid-swiftdoc-feature")
+        val syntaxHighlighter get() = dependencyHandler.project(":features:orchid-syntax-highlighter-feature")
+        val wiki              get() = dependencyHandler.project(":features:orchid-wiki-feature")
+        val writersBlocks     get() = dependencyHandler.project(":features:orchid-writers-blocks-feature")
+    }
+
+    inner class Themes {
+        val bsdoc           get() = dependencyHandler.project(":themes:orchid-bsdoc-theme")
+        val copper          get() = dependencyHandler.project(":themes:orchid-copper-theme")
+        val editorial       get() = dependencyHandler.project(":themes:orchid-editorial-theme")
+        val futureImperfect get() = dependencyHandler.project(":themes:orchid-future-imperfect-theme")
+    }
+
+    inner class Bundles {
+        val languages get() = arrayOf(
+            features.asciidoc,
+            features.bible,
+            features.diagrams,
+            features.syntaxHighlighter,
+            features.writersBlocks
+        )
+    }
+
+    val features get() = Features()
+    val themes get() = Themes()
+    val bundles get() = Bundles()
 }
+
+val DependencyHandler.moduleLibs get() = Modules(this)

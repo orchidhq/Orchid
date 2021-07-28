@@ -9,17 +9,15 @@ plugins {
 }
 
 dependencies {
-    implementation(Modules.OrchidCore)
-    testImplementation(Modules.OrchidTest)
+    implementation(moduleLibs.core)
+    testImplementation(moduleLibs.test)
 
-    implementation(Modules.OrchidEditorial)
-
-    implementation(Modules.OrchidPages)
-    implementation(Modules.OrchidWiki)
-    implementation(Modules.OrchidForms)
-    implementation(Modules.OrchidChangelog)
-    implementation(Modules.OrchidSearch)
-
-    implementation(Modules.OrchidDiagrams)
-    implementation(Modules.OrchidSyntaxHighlighter)
+    implementation(moduleLibs.themes.editorial)
+    implementation(moduleLibs.features.pages)
+    implementation(moduleLibs.features.wiki)
+    implementation(moduleLibs.features.forms)
+    implementation(moduleLibs.features.changelog)
+    implementation(moduleLibs.features.search)
+    implementation(moduleLibs.features.diagrams)
+    implementation(moduleLibs.features.syntaxHighlighter)
 }

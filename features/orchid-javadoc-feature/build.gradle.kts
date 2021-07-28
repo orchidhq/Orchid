@@ -9,9 +9,9 @@ plugins {
 }
 
 dependencies {
-    implementation(Modules.OrchidCore)
-    testImplementation(Modules.OrchidTest)
+    implementation(moduleLibs.core)
+    testImplementation(moduleLibs.test)
 
-    implementation(Modules.OrchidSourceDoc)
+    implementation(moduleLibs.features.sourceDoc)
     implementation(libs.kodiak.java.runner)
 }
