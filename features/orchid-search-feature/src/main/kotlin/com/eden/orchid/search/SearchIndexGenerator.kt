@@ -8,6 +8,7 @@ import com.eden.orchid.api.indexing.OrchidIndex
 import com.eden.orchid.api.options.annotations.BooleanDefault
 import com.eden.orchid.api.options.annotations.Description
 import com.eden.orchid.api.options.annotations.Option
+import com.eden.orchid.api.options.annotations.StringDefault
 import com.eden.orchid.api.render.RenderService
 import com.eden.orchid.api.resources.resource.JsonResource
 import com.eden.orchid.api.theme.pages.OrchidPage
@@ -28,7 +29,7 @@ class SearchIndexGenerator : OrchidGenerator<OrchidGenerator.Model>(GENERATOR_KE
     @Description("A list of generator keys whose pages are considered in this taxonomy.")
     lateinit var includeFrom: Array<String>
 
-    @Option
+    @Option @StringDefault("assets")
     @Description("A list of generator keys whose pages are ignored by this taxonomy.")
     lateinit var excludeFrom: Array<String>
 
