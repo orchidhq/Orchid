@@ -6,6 +6,7 @@ import org.apache.commons.io.FileUtils;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.File;
 import java.io.FileDescriptor;
 import java.net.InetAddress;
 import java.net.URL;
@@ -97,6 +98,10 @@ public class OrchidSecurityManagerImpl extends OrchidSecurityManager {
 
             for (String dir : writableDirs) {
                 if (normalizedFilename.startsWith(dir)) {
+                    inWritableDirs = true;
+                    break;
+                } else if (dir.startsWith(normalizedFilename) && !(new File(normalizedFilename).exists())) {
+                    // normalizedFilename is a parent folder of a writable folder, which doesn't currently exist
                     inWritableDirs = true;
                     break;
                 }
