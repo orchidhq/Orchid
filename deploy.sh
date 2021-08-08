@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
+./gradlew writeProjectVersion -Prelease
+export projectVersion=`cat ./build/export/projectVersion`
+
 # Build and deploy normal Gradle projects
 ./gradlew assemble publishToMavenLocal publish :docs:orchidDeploy -PorchidEnvironment=prod -Prelease
-export GRADLE_PROJECT_RELEASE_NAME=$(./gradlew getReleaseName -Prelease --quiet)
 
 # Deploy Gradle plugin
 pushd buildSrc

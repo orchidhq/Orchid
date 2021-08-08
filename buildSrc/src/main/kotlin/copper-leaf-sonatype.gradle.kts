@@ -100,3 +100,18 @@ val closeSonatypeStagingRepository by tasks.registering {
         publishConfiguration.stagingRepositoryIdFile.delete()
     }
 }
+
+val writeProjectVersion by tasks.registering {
+    description = "Write the project version to a file"
+    doLast {
+        val file = project.rootProject.buildDir.resolve("export").resolve("projectVersion")
+        if(!file.parentFile.exists()) {
+            file.parentFile.mkdirs()
+        }
+        if(!file.exists()) {
+            file.createNewFile()
+        }
+
+        file.writeText(Config.projectVersion(project).toString())
+    }
+}

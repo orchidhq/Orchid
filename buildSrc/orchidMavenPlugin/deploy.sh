@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-./mvnw versions:set -DnewVersion=$GRADLE_PROJECT_RELEASE_NAME
+export GPG_TTY=$(tty)
+
+./mvnw versions:set -DnewVersion=$projectVersion
 ./mvnw deploy -s settings.xml

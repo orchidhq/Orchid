@@ -2,11 +2,30 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.github.javaeden.orchid</groupId>
+    <groupId>io.github.copper-leaf.orchid</groupId>
     <artifactId>orchid-maven-plugin</artifactId>
-    <version>0.18.0</version>
+    <version>1.0.0</version>
 
     <name>Orchid Maven plugin</name>
+    <description>A Maven plugin for building and running Orchid sites.</description>
+    <url>https://orchid.run</url>
+    <licenses>
+        <license>
+            <name>GPL-2.0</name>
+            <url>https://opensource.org/licenses/GPL-3.0</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>cjbrooks12</id>
+            <name>Casey Brooks</name>
+            <email>cjbrooks12@gmail.com</email>
+        </developer>
+    </developers>
+    <scm>
+        <url>https://github.com/orchidhq/orchid.git</url>
+    </scm>
+
     <packaging>maven-plugin</packaging>
 
     <properties>
@@ -50,13 +69,75 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <skipStagingRepositoryClose>true</skipStagingRepositoryClose>
+                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
     <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
         <repository>
-            <id>orchid-bintray</id>
-            <url>https://api.bintray.com/maven/javaeden/Orchid/${project.artifactId}/;publish=1;override=1</url>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
 </project>
