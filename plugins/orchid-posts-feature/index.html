@@ -1,0 +1,2092 @@
+
+
+<!DOCTYPE html>
+<html class="">
+<head>
+
+
+
+
+
+
+<meta charset="utf-8"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<meta name="generator" content="Orchid 1.0.0-SNAPSHOT"/>
+<link rel="icon" href="https://orchid.run/favicon.ico">
+
+
+<meta name="robots" content="index, follow">
+
+
+
+<title>orchid-posts-feature</title>
+
+
+<meta name="description" content="Add Jekyll-like blogging functionality to your Orchid site.">
+
+
+
+
+
+<!-- start:inject styles -->
+<link rel="stylesheet" type="text/css" href="https://orchid.run/Copper/50d2a244/assets/css/bulma.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/Copper/50d2a244/assets/css/extraCss.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/Copper/50d2a244/assets/css/bulma-tooltip.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/Copper/50d2a244/assets/css/bulma-accordion.min.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/Copper/50d2a244/assets/css/plugins.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/Copper/50d2a244/assets/css/extras.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/assets/css/prism-duotone.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/npm/docsearch.js@2/dist/cdn/docsearch.min.css"  />
+<!-- end:inject styles -->
+
+
+
+<script>
+    window.site = {"orchidVersion":"1.0.0-SNAPSHOT","baseUrl":"https://orchid.run","environment":"docs","version":"0.21.1"};
+</script>
+
+
+    <!-- start:inject meta-components [head] -->
+    
+
+        
+            
+        
+
+        
+            
+        
+            
+        
+    
+    <!-- end:inject meta-components [head] -->
+
+
+
+    <!-- start:inject meta-components [head] -->
+    
+    <!-- end:inject meta-components [head] -->
+
+
+
+
+
+
+
+</head>
+<body class="">
+
+
+
+
+
+    <!-- start:inject meta-components [bodyStart] -->
+    
+
+        
+            
+        
+
+        
+    
+    <!-- end:inject meta-components [bodyStart] -->
+
+
+
+    <!-- start:inject meta-components [bodyStart] -->
+    
+    <!-- end:inject meta-components [bodyStart] -->
+
+
+
+
+
+<div class="columns is-marginless is-desktop">
+
+  <div class="column is-one-third-desktop is-one-quarter-widescreen is-one-fifth-fullhd is-paddingless column-main-left is-hidden-mobile is-hidden-touch">
+  
+
+
+    
+
+
+<section class="hero is-black is-bold is-fullheight">
+
+
+<!-- Hero header: will stick at the top -->
+<div class="hero-head" style="padding: 0 1.5rem">
+  <a href="https://orchid.run"><img src="https://orchid.run/assets/svg/orchid/logo_top_dark.svg" style="padding: 40px 40px 0 40px;"></a>
+  <p class="subtitle is-4 has-text-centered">Build and deploy beautiful documentation sites that grow with you</p>
+
+  <div class="columns is-mobile has-text-centered">
+  
+
+
+<div class="column">
+
+  <a class="button is-primary is-fullwidth" href="https://orchid.run/wiki/user-manual/getting-started/quickstart">
+    <strong>Quick Start</strong>
+  </a>
+
+</div>
+
+
+
+  
+
+
+<div class="column">
+
+  <a class="button is-light is-fullwidth" href="https://orchid.run/wiki/user-manual/getting-started">
+  Documentation
+  </a>
+
+</div>
+
+
+
+  </div>
+</div>
+
+
+
+
+<!-- Hero content: will be in the middle -->
+<div class="hero-body">
+  <div class="container sidebar-menu">
+    <details class="is-hidden-desktop">
+      <summary>
+        Menu
+      </summary>
+      <div id="mobile-sidebar-menu"></div>
+    </details>
+    <div class="is-hidden-touch">
+      <aside class="menu" id="responsive-menu-content">
+      
+  
+  
+    
+<p class="menu-label">All Plugins</p>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-core 1448428389 -->
+  <a href="https://orchid.run/plugins/orchid-core" class="">
+  
+  orchid-core
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-test 1718293060 -->
+  <a href="https://orchid.run/plugins/orchid-test" class="">
+  
+  orchid-test
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-archives-feature 1712524347 -->
+  <a href="https://orchid.run/plugins/orchid-archives-feature" class="">
+  
+  orchid-archives-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-asciidoc-feature 2023591894 -->
+  <a href="https://orchid.run/plugins/orchid-asciidoc-feature" class="">
+  
+  orchid-asciidoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-azure-feature 70231499 -->
+  <a href="https://orchid.run/plugins/orchid-azure-feature" class="">
+  
+  orchid-azure-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-bible-feature 988315192 -->
+  <a href="https://orchid.run/plugins/orchid-bible-feature" class="">
+  
+  orchid-bible-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-bitbucket-feature 1155846026 -->
+  <a href="https://orchid.run/plugins/orchid-bitbucket-feature" class="">
+  
+  orchid-bitbucket-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-changelog-feature 1351814143 -->
+  <a href="https://orchid.run/plugins/orchid-changelog-feature" class="">
+  
+  orchid-changelog-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <a href="https://orchid.run/plugins/orchid-diagrams-feature" class="">
+  
+  orchid-diagrams-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-forms-feature 1351307120 -->
+  <a href="https://orchid.run/plugins/orchid-forms-feature" class="">
+  
+  orchid-forms-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-github-feature 854671988 -->
+  <a href="https://orchid.run/plugins/orchid-github-feature" class="">
+  
+  orchid-github-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-gitlab-feature 2062904102 -->
+  <a href="https://orchid.run/plugins/orchid-gitlab-feature" class="">
+  
+  orchid-gitlab-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-groovydoc-feature 210158726 -->
+  <a href="https://orchid.run/plugins/orchid-groovydoc-feature" class="">
+  
+  orchid-groovydoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-javadoc-feature 108849833 -->
+  <a href="https://orchid.run/plugins/orchid-javadoc-feature" class="">
+  
+  orchid-javadoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-kotlindoc-feature 1051130608 -->
+  <a href="https://orchid.run/plugins/orchid-kotlindoc-feature" class="">
+  
+  orchid-kotlindoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-kss-feature 1876630105 -->
+  <a href="https://orchid.run/plugins/orchid-kss-feature" class="">
+  
+  orchid-kss-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-netlify-cms-feature 1438859728 -->
+  <a href="https://orchid.run/plugins/orchid-netlify-cms-feature" class="">
+  
+  orchid-netlify-cms-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-netlify-feature 881578083 -->
+  <a href="https://orchid.run/plugins/orchid-netlify-feature" class="">
+  
+  orchid-netlify-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-pages-feature 1030999416 -->
+  <a href="https://orchid.run/plugins/orchid-pages-feature" class="">
+  
+  orchid-pages-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-plugin-docs-feature 181211485 -->
+  <a href="https://orchid.run/plugins/orchid-plugin-docs-feature" class="">
+  
+  orchid-plugin-docs-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <a href="https://orchid.run/plugins/orchid-posts-feature" class="is-active">
+  
+  orchid-posts-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-presentations-feature 791528455 -->
+  <a href="https://orchid.run/plugins/orchid-presentations-feature" class="">
+  
+  orchid-presentations-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-search-feature 211207319 -->
+  <a href="https://orchid.run/plugins/orchid-search-feature" class="">
+  
+  orchid-search-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-snippets-feature 1848867745 -->
+  <a href="https://orchid.run/plugins/orchid-snippets-feature" class="">
+  
+  orchid-snippets-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-sourcedoc-feature 1403088342 -->
+  <a href="https://orchid.run/plugins/orchid-sourcedoc-feature" class="">
+  
+  orchid-sourcedoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-swagger-feature 309167705 -->
+  <a href="https://orchid.run/plugins/orchid-swagger-feature" class="">
+  
+  orchid-swagger-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <a href="https://orchid.run/plugins/orchid-swiftdoc-feature" class="">
+  
+  orchid-swiftdoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-syntax-highlighter-feature 1576976929 -->
+  <a href="https://orchid.run/plugins/orchid-syntax-highlighter-feature" class="">
+  
+  orchid-syntax-highlighter-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-wiki-feature 99208085 -->
+  <a href="https://orchid.run/plugins/orchid-wiki-feature" class="">
+  
+  orchid-wiki-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-writers-blocks-feature 2076760639 -->
+  <a href="https://orchid.run/plugins/orchid-writers-blocks-feature" class="">
+  
+  orchid-writers-blocks-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    
+<p class="menu-label">All Themes</p>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-bsdoc-theme 2037929227 -->
+  <a href="https://orchid.run/themes/orchid-bsdoc-theme" class="">
+  
+  orchid-bsdoc-theme
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-copper-theme 1388081103 -->
+  <a href="https://orchid.run/themes/orchid-copper-theme" class="">
+  
+  orchid-copper-theme
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-editorial-theme 423797614 -->
+  <a href="https://orchid.run/themes/orchid-editorial-theme" class="">
+  
+  orchid-editorial-theme
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-future-imperfect-theme 610700123 -->
+  <a href="https://orchid.run/themes/orchid-future-imperfect-theme" class="">
+  
+  orchid-future-imperfect-theme
+  </a>
+</li>
+
+</ul>
+  
+
+
+      </aside>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function copyElem(fromId, toId) {
+    var fromElementContent = document.getElementById(fromId);
+    var toElementContent = document.getElementById(toId);
+    toElementContent.outerHTML = fromElementContent.outerHTML;
+  }
+
+  document.addEventListener("DOMContentLoaded", function (event) {
+    copyElem('responsive-menu-content', 'mobile-sidebar-menu');
+  });
+</script>
+
+
+</section>
+
+  </div>
+  <div class="column is-one-third-desktop is-one-quarter-widescreen is-one-fifth-fullhd is-paddingless column-main-left is-hidden-desktop">
+  
+
+
+    
+
+
+<section class="hero is-black is-bold ">
+
+
+<!-- Hero header: will stick at the top -->
+<div class="hero-head" style="padding: 0 1.5rem">
+  <a href="https://orchid.run"><img src="https://orchid.run/assets/svg/orchid/logo_top_dark.svg" style="padding: 40px 40px 0 40px;"></a>
+  <p class="subtitle is-4 has-text-centered">Build and deploy beautiful documentation sites that grow with you</p>
+
+  <div class="columns is-mobile has-text-centered">
+  
+
+
+<div class="column">
+
+  <a class="button is-primary is-fullwidth" href="https://orchid.run/wiki/user-manual/getting-started/quickstart">
+    <strong>Quick Start</strong>
+  </a>
+
+</div>
+
+
+
+  
+
+
+<div class="column">
+
+  <a class="button is-light is-fullwidth" href="https://orchid.run/wiki/user-manual/getting-started">
+  Documentation
+  </a>
+
+</div>
+
+
+
+  </div>
+</div>
+
+
+
+
+<!-- Hero content: will be in the middle -->
+<div class="hero-body">
+  <div class="container sidebar-menu">
+    <details class="is-hidden-desktop">
+      <summary>
+        Menu
+      </summary>
+      <div id="mobile-sidebar-menu"></div>
+    </details>
+    <div class="is-hidden-touch">
+      <aside class="menu" id="responsive-menu-content">
+      
+  
+  
+    
+<p class="menu-label">All Plugins</p>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-core 1448428389 -->
+  <a href="https://orchid.run/plugins/orchid-core" class="">
+  
+  orchid-core
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-test 1718293060 -->
+  <a href="https://orchid.run/plugins/orchid-test" class="">
+  
+  orchid-test
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-archives-feature 1712524347 -->
+  <a href="https://orchid.run/plugins/orchid-archives-feature" class="">
+  
+  orchid-archives-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-asciidoc-feature 2023591894 -->
+  <a href="https://orchid.run/plugins/orchid-asciidoc-feature" class="">
+  
+  orchid-asciidoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-azure-feature 70231499 -->
+  <a href="https://orchid.run/plugins/orchid-azure-feature" class="">
+  
+  orchid-azure-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-bible-feature 988315192 -->
+  <a href="https://orchid.run/plugins/orchid-bible-feature" class="">
+  
+  orchid-bible-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-bitbucket-feature 1155846026 -->
+  <a href="https://orchid.run/plugins/orchid-bitbucket-feature" class="">
+  
+  orchid-bitbucket-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-changelog-feature 1351814143 -->
+  <a href="https://orchid.run/plugins/orchid-changelog-feature" class="">
+  
+  orchid-changelog-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <a href="https://orchid.run/plugins/orchid-diagrams-feature" class="">
+  
+  orchid-diagrams-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-forms-feature 1351307120 -->
+  <a href="https://orchid.run/plugins/orchid-forms-feature" class="">
+  
+  orchid-forms-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-github-feature 854671988 -->
+  <a href="https://orchid.run/plugins/orchid-github-feature" class="">
+  
+  orchid-github-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-gitlab-feature 2062904102 -->
+  <a href="https://orchid.run/plugins/orchid-gitlab-feature" class="">
+  
+  orchid-gitlab-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-groovydoc-feature 210158726 -->
+  <a href="https://orchid.run/plugins/orchid-groovydoc-feature" class="">
+  
+  orchid-groovydoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-javadoc-feature 108849833 -->
+  <a href="https://orchid.run/plugins/orchid-javadoc-feature" class="">
+  
+  orchid-javadoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-kotlindoc-feature 1051130608 -->
+  <a href="https://orchid.run/plugins/orchid-kotlindoc-feature" class="">
+  
+  orchid-kotlindoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-kss-feature 1876630105 -->
+  <a href="https://orchid.run/plugins/orchid-kss-feature" class="">
+  
+  orchid-kss-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-netlify-cms-feature 1438859728 -->
+  <a href="https://orchid.run/plugins/orchid-netlify-cms-feature" class="">
+  
+  orchid-netlify-cms-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-netlify-feature 881578083 -->
+  <a href="https://orchid.run/plugins/orchid-netlify-feature" class="">
+  
+  orchid-netlify-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-pages-feature 1030999416 -->
+  <a href="https://orchid.run/plugins/orchid-pages-feature" class="">
+  
+  orchid-pages-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-plugin-docs-feature 181211485 -->
+  <a href="https://orchid.run/plugins/orchid-plugin-docs-feature" class="">
+  
+  orchid-plugin-docs-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <a href="https://orchid.run/plugins/orchid-posts-feature" class="is-active">
+  
+  orchid-posts-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-presentations-feature 791528455 -->
+  <a href="https://orchid.run/plugins/orchid-presentations-feature" class="">
+  
+  orchid-presentations-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-search-feature 211207319 -->
+  <a href="https://orchid.run/plugins/orchid-search-feature" class="">
+  
+  orchid-search-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-snippets-feature 1848867745 -->
+  <a href="https://orchid.run/plugins/orchid-snippets-feature" class="">
+  
+  orchid-snippets-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-sourcedoc-feature 1403088342 -->
+  <a href="https://orchid.run/plugins/orchid-sourcedoc-feature" class="">
+  
+  orchid-sourcedoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-swagger-feature 309167705 -->
+  <a href="https://orchid.run/plugins/orchid-swagger-feature" class="">
+  
+  orchid-swagger-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <a href="https://orchid.run/plugins/orchid-swiftdoc-feature" class="">
+  
+  orchid-swiftdoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-syntax-highlighter-feature 1576976929 -->
+  <a href="https://orchid.run/plugins/orchid-syntax-highlighter-feature" class="">
+  
+  orchid-syntax-highlighter-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-wiki-feature 99208085 -->
+  <a href="https://orchid.run/plugins/orchid-wiki-feature" class="">
+  
+  orchid-wiki-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-writers-blocks-feature 2076760639 -->
+  <a href="https://orchid.run/plugins/orchid-writers-blocks-feature" class="">
+  
+  orchid-writers-blocks-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    
+<p class="menu-label">All Themes</p>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-bsdoc-theme 2037929227 -->
+  <a href="https://orchid.run/themes/orchid-bsdoc-theme" class="">
+  
+  orchid-bsdoc-theme
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-copper-theme 1388081103 -->
+  <a href="https://orchid.run/themes/orchid-copper-theme" class="">
+  
+  orchid-copper-theme
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-editorial-theme 423797614 -->
+  <a href="https://orchid.run/themes/orchid-editorial-theme" class="">
+  
+  orchid-editorial-theme
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-future-imperfect-theme 610700123 -->
+  <a href="https://orchid.run/themes/orchid-future-imperfect-theme" class="">
+  
+  orchid-future-imperfect-theme
+  </a>
+</li>
+
+</ul>
+  
+
+
+      </aside>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function copyElem(fromId, toId) {
+    var fromElementContent = document.getElementById(fromId);
+    var toElementContent = document.getElementById(toId);
+    toElementContent.outerHTML = fromElementContent.outerHTML;
+  }
+
+  document.addEventListener("DOMContentLoaded", function (event) {
+    copyElem('responsive-menu-content', 'mobile-sidebar-menu');
+  });
+</script>
+
+
+</section>
+
+  </div>
+
+  <div class="column is-two-thirds-desktop is-three-quarters-widescreen is-four-fifths-fullhd is-paddingless column-main-right">
+  
+
+<nav
+  class="navbar is-white border-bottom"
+  role="navigation"
+  aria-label="main navigation"
+>
+  <div class="container">
+    <div class="navbar-brand is-marginless">
+
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMain">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div class="navbar-menu is-marginless" id="navbarMain">
+      <div class="navbar-start">
+      
+<div class="navbar-item">
+  <form id="search-input" data-orchid-search>
+    <div class="field is-marginless" id="search">
+      <div class="control has-icons-left input-control">
+        <input class="input" type="text" name="query" placeholder="Search Orchid">
+
+        <span class="icon is-small is-left">
+          <i class="fas fa-search"></i>
+        </span>
+
+        <div id="search-progress" data-orchid-search-progress style="display: none;">
+          <div class="loader">Loading...</div>
+        </div>
+      </div>
+    </div>
+    <div id="search-results" data-orchid-search-results style="display: none;">
+      <div class="carat"></div>
+      <b>
+        Search Results
+        <i class="fa fa-times" aria-hidden="true" onclick="$('[data-orchid-search-results]').hide()"></i>
+      </b>
+      <ul></ul>
+    </div>
+  </form>
+</div>
+
+      
+
+  
+  
+    
+
+<a class="navbar-item " href="https://orchid.run/plugins">
+Plugins
+</a>
+
+
+  
+
+  
+  
+    
+
+<a class="navbar-item " href="https://orchid.run/themes">
+Themes
+</a>
+
+
+  
+
+  
+  
+    
+
+<a class="navbar-item " href="https://orchid.run/wiki/learn">
+Tutorials
+</a>
+
+
+  
+
+  
+  
+    
+
+<a class="navbar-item " href="https://orchid.run/showcase">
+Showcase
+</a>
+
+
+  
+
+
+      </div>
+
+      <div class="navbar-end">
+      
+
+<div class="navbar-item social-item">
+  <a class="icon" href="/" title="Home">
+    <i class="fas fa-home"></i>
+  </a>
+</div>
+
+<div class="navbar-item social-item">
+  <a class="icon" href="https://github.com/orchidhq/orchid" title="Github">
+    <i class="fab fa-github"></i>
+  </a>
+</div>
+
+<div class="navbar-item social-item">
+  <a class="icon" href="https://twitter.com/OrchidSSG" title="Twitter">
+    <i class="fab fa-twitter"></i>
+  </a>
+</div>
+
+<div class="navbar-item social-item">
+  <a class="icon" href="https://gitter.im/JavaEden/Orchid" title="Gitter">
+    <i class="fab fa-gitter"></i>
+  </a>
+</div>
+
+
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+    <div class="textured container" style="width: 100%;">
+    
+    
+    
+    
+      <div class="box">
+      
+<nav class="breadcrumb" aria-label="breadcrumbs">
+<ul>
+
+
+    <li><a href="https://orchid.run/plugins">Plugins</a></li>
+
+
+
+    <li class="is-active"><a href="https://orchid.run/plugins/orchid-posts-feature" aria-current="page">orchid-posts-feature</a></li>
+
+
+</ul>
+</nav>
+
+
+      </div>
+    
+    
+    
+
+    
+    
+      <article style="position: relative; margin-top: 60px; margin-bottom: 60px;" role="main">
+      
+      
+      
+      
+<h2 class="title is-1 is-spaced">orchid-posts-feature</h2>
+<p class="subtitle is-4">Add Jekyll-like blogging functionality to your Orchid site.</p>
+
+        <hr>
+      
+      
+      
+
+<div class="columns">
+  <div class="column is-three-quarters-desktop">
+  
+    <!-- start:inject components -->
+    
+        
+            
+                
+                    
+                        <div class="content is-medium-tablet is-large-fullhd">
+<h2 id="about"><a href="#about" id="about" class="anchor"></a>About</h2>
+<p>Add Jekyll-like blogging functionality to your Orchid site, with dated blog posts and RSS/Atom feeds.</p>
+<p>This plugin only creates the blog posts themselves. To generate archives for your blog posts' tags and categories,
+check out the <a href="https://orchid.run/plugins/orchid-archives-feature">orchid-archives-feature</a> plugin, and refer to the <a href="https://github.com/orchidhq/OrchidStarter/blob/master/src/orchid/resources/config/taxonomies.yml">OrchidStarter repo</a>
+for basic taxonomies setup.</p>
+<h2 id="installation"><a href="#installation" id="installation" class="anchor"></a>Installation</h2>
+<div class="tabs">
+  <ul data-tabs="5ipmrE1AEd">
+  
+    <li class="is-active"><a>Gradle</a></li>
+  
+    <li ><a>Maven</a></li>
+  
+    <li ><a>SBT</a></li>
+  
+    <li ><a>KScript</a></li>
+  
+  </ul>
+</div>
+<div data-panes="5ipmrE1AEd">
+
+  <div class="is-block tab-hidden content is-medium-tablet is-large-fullhd"><pre><code class="language-kotlin">dependencies {
+    orchidRuntime(&quot;io.github.copper-leaf.orchid:orchid-posts-feature:0.21.1&quot;)
+}
+</code></pre></div>
+
+  <div class=" tab-hidden content is-medium-tablet is-large-fullhd"><pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;io.github.copper-leaf.orchid&lt;/groupId&gt;
+    &lt;artifactId&gt;orchid-posts-feature&lt;/artifactId&gt;
+    &lt;version&gt;0.21.1&lt;/version&gt;
+    &lt;type&gt;pom&lt;/type&gt;
+&lt;/dependency&gt;
+</code></pre></div>
+
+  <div class=" tab-hidden content is-medium-tablet is-large-fullhd"><pre><code class="language-scala">libraryDependencies += &quot;io.github.copper-leaf.orchid&quot; % &quot;orchid-posts-feature&quot; % &quot;0.21.1&quot;
+</code></pre></div>
+
+  <div class=" tab-hidden content is-medium-tablet is-large-fullhd"><pre><code class="language-kotlin">@file:DependsOn(&quot;io.github.copper-leaf.orchid:orchid-posts-feature:0.21.1&quot;)
+</code></pre></div>
+
+</div>
+<h2 id="demo"><a href="#demo" id="demo" class="anchor"></a>Demo</h2>
+<ul>
+<li>Try the <a href="https://github.com/orchidhq/OrchidStarter">starter app</a></li>
+<li>Run <a href="https://github.com/orchidhq/orchid/blob/dev/plugins/OrchidPosts/src/test/kotlin/com/eden/orchid/posts/PostsGeneratorTest.kt">PostsGeneratorTest</a> for demo</li>
+</ul>
+<h2 id="usage"><a href="#usage" id="usage" class="anchor"></a>Usage</h2>
+<h3 id="basic-usage"><a href="#basic-usage" id="basic-usage" class="anchor"></a>Basic Usage</h3>
+<p>Orchid supports blogging in a manner similar to Jekyll, but made to be much easier to manage for large blogs. Blog posts
+all have an intrinsic publish date, and can be grouped into hierarchical categories. Blog posts are found as files in
+<code>posts/</code> where the filename matches the pattern of <code>YYYY-MM-DD-post-slug</code>. The file type can be anything that Orchid can
+process, and the date in the filename is automatically set as the post's <code>publishDate</code> and will not be rendered in the
+output site until after that date.</p>
+<pre><code class="language-text">. / (resources root)
+├── homepage.md
+├── config.yml
+└── posts/
+    └── 2019-01-01-blog-post-one.md &lt;-- compiled as Markdown to /2019/1/1/blog-post-one
+</code></pre>
+<p>You may also group your posts by year, month, and day in folders, instead of requiring them all to be in the filename.
+For example, instead of having a post from a file at <code>posts/2018-01-01-post-one.md</code>, you could instead group your posts
+by year (<code>posts/2018/01-01-post-one.md</code>), by year and month (<code>posts/2018/01/01-post-one.md</code>), or by year, month,
+and day (<code>posts/2018/01/01/post-one.md</code>). This is completely optional, and you can mix-and-match individual posts into
+these formats as needed for better organization.</p>
+<pre><code class="language-text">. / (resources root)
+├── homepage.md
+├── config.yml
+└── posts/
+    ├── 2018/ &lt;-- group posts by year
+    |   └── 01 &lt;-- group posts by month 
+    |       └── 02-blog-post-two.md &lt;-- filename includes day, lives at /2018/1/2/blog-post-two
+    └── 2017/ &lt;-- group posts by year
+        └── 02-03-blog-post-three.md &lt;-- filename includes month and day, lives at /2017/2/3/blog-post-three
+</code></pre>
+<p>You can further write posts as index files in a subdirectory, such as <code>YYYY/MM/DD/post-slug/index.md</code>.</p>
+<p>Instead of using the full <code>YYYY-MM-DD</code> date format as the post date, you can also use a year and the day of year, which
+may be easier for generating posts from scripts. Such a format would look like <code>YYYY-DayOfYear-post-slug.md</code> instead.
+For example, <code>posts/2018/001/post-one/index.md</code> resolves to a date of January 1st, 2018, and
+<code>posts/2018/081/post-one/index.md</code> is March 22, 2018.</p>
+<h3 id="post-title"><a href="#post-title" id="post-title" class="anchor"></a>Post Title</h3>
+<p>By default, the title of the blog post is given as the <code>post-slug</code> part of the filename, converted to a human-readable,
+capitalized title, unless a <code>title</code> is set in the post's Front Matter.</p>
+<pre><code class="language-md">// posts/2018-01-01-post-one.md &lt;-- Post title is &quot;Post One&quot;
+---
+---
+</code></pre>
+<pre><code class="language-md">// posts/2018-01-01-post-one.md
+---
+title: First Blog Post &lt;-- Post title is &quot;First Blog Post&quot;, not &quot;Post One&quot;
+---
+</code></pre>
+<h3 id="permalinks"><a href="#permalinks" id="permalinks" class="anchor"></a>Permalinks</h3>
+<p>Posts can customize their permalink by setting the <code>permalink</code> property in their Front Matter. The <code>permalink</code> takes a
+string with certain path segments set up as dynamic parts, such as <code>blog/:year/:month/:slug</code>. Any path segment which
+matches the pattern of <code>:key</code> or <code>{key}</code> will attempt to fill that segment with some dynamic data, such as the post's
+published year, month, or date, its category, or any variable set in its Front Matter.</p>
+<pre><code class="language-md">// posts/2018-01-01-post-one.md
+---
+title: First Blog Post
+permalink: 'blog/:year/:slug' &lt;-- permalink at /blog/2018/post-one
+---
+</code></pre>
+<h3 id="using-categories"><a href="#using-categories" id="using-categories" class="anchor"></a>Using Categories</h3>
+<p>Categories must be set in your <code>config.yml</code>, and posts will only be added if they are in the path within <code>posts/</code>
+corresponding to one of these configured categories. Categories may be nested inside a parent category, but it must
+build a complete hierarchy, where every parent category is also listed as its own category.</p>
+<pre><code class="language-yaml">posts:
+  baseDir: 'blog'  # (1) 
+  categories:
+    - 'personal'  # (2)
+    - 'programming'  # (3)
+    - 'programming/android'  # (4)
+    - 'programming/web'  # (5)
+</code></pre>
+<ol>
+<li>Looks for the blog posts in <code>blog/</code> instead of <code>posts/</code></li>
+<li>Creates a category in <code>{baseDir}/personal</code>, and every post in that folder will be in the <code>personal</code> category</li>
+<li>Creates a category in <code>{baseDir}/programming</code>, and every post in that folder will be in the <code>programming</code> category</li>
+<li>Creates a category in <code>{baseDir}/programming/android</code>, and every post in that folder will be in the <code>android</code> primary
+category, but will also be in the <code>programming</code> category since it is a parent category of <code>android</code>.</li>
+<li>Creates a category in <code>{baseDir}/programming/web</code>, and every post in that folder will be in the <code>web</code> primary
+category, but will also be in the <code>programming</code> category since it is a parent category of <code>web</code>.</li>
+</ol>
+<p><strong>Note:</strong> if no categories are given, all posts in the <code>{baseDir}</code> are simply considered blog posts without any
+category, and is just a generic &quot;blog&quot;. If you <em>do</em> specify categories, then all posts must be in one of the defined
+categories, otherwise they will be ignored; there is no concept of 'uncategorized' posts unless you choose to create a
+category called 'uncategorized' and put uncategorized posts there.</p>
+<h3 id="customizing-categories"><a href="#customizing-categories" id="customizing-categories" class="anchor"></a>Customizing Categories</h3>
+<p>Using the configuration block shown above will set up your categories with all default values, but it is likely that you
+will want to change certain features of the posts in a category based on which category they are in. Currently,
+Categories can customize their own title to be different from their path, and they can set the permalink structure to be
+the same for all posts in that category.</p>
+<p>There are several different ways to set up the category configuration. (1) You can set the category as a String to use
+default values, as shown above; (2) you can set each list item to be a map of config values, where the <code>key</code> property is
+the category path; (3) or you can set each list item to be a map with a single property that is the category path, and
+whose value is a map of configuration values.</p>
+<pre><code class="language-yaml"># Method (1), String as category path
+posts: 
+  categories:
+    - 'personal'
+    - 'programming'
+</code></pre>
+<pre><code class="language-yaml"># Method (2), Map with config values and `key` property as category path
+posts: 
+  categories:
+    - key: 'personal'
+      title: 'Personal Blog'
+    - key: 'programming'
+      title: 'programming Blog'
+</code></pre>
+<pre><code class="language-yaml"># Method (3), Map with only key as category path, and value as config values
+posts: 
+  categories:
+    - personal: 
+        title: 'Personal Blog'
+    - programming:
+        title: 'programming Blog'
+</code></pre>
+<p>Note that there is no difference between Method (2) and Method (3), it is simply a matter of preference.</p>
+<h3 id="post-authors"><a href="#post-authors" id="post-authors" class="anchor"></a>Post Authors</h3>
+<p>Blog posts can have authors assigned to them. Orchid Posts generates Author pages for known authors, but does allow for
+&quot;guest&quot; authors to be defined for a single post. Both known and guest authors accept the same configuration object, but
+where that object is defined is different for each.</p>
+<h4 id="known-authors"><a href="#known-authors" id="known-authors" class="anchor"></a>Known Authors</h4>
+<p>Known authors can be set just in the <code>config.yml</code> under the <code>posts.authors</code> key. These authors will have default pages
+generated for them, and can be linked to directly from the blog post. You can also create a content file under the
+<code>posts/authors/</code> directory to customize the content of that page, such as to show a bio for the author. In this case,
+the same configuration values can be set in the page's Front Matter.</p>
+<p>From any post's Front Matter, you may set the <code>author</code> property to the <code>name</code> of one of these known authors, and that
+Author will then be linked to the post.</p>
+<h4 id="guest-authors"><a href="#guest-authors" id="guest-authors" class="anchor"></a>Guest Authors</h4>
+<p>Guest authors may be set by setting a post's <code>author</code> property to a map of Author config values, instead of as the name
+of a known author. This will display the same information for the author as for a known author, but they will not have
+a landing page generated to link to.</p>
+<h3 id="post-comments"><a href="#post-comments" id="post-comments" class="anchor"></a>Post Comments</h3>
+<p>OrchidPosts supports comments via Disqus with the <code>disqus</code>. Using Archetypes, it is quite simple to set up all
+your blog posts to have a comments section with the <code>disqus</code> component without having to manually add the component to
+each page.</p>
+<h3 id="rss-and-atom-feeds"><a href="#rss-and-atom-feeds" id="rss-and-atom-feeds" class="anchor"></a>RSS and Atom Feeds</h3>
+<p>OrchidPosts will generate feeds for your content automatically, in both the RSS and Atom formats. You can customize the
+feeds from the <code>feeds</code> generator object in your <code>config.yml</code>, such as how many entries to include in the feed, or which
+generators to include pages from (defaults to just the <code>posts</code> generator). Pages included in the feed are sorted by
+their <code>publishDate</code>, and the feed content comes from the <code>feeds/rss.peb</code> and <code>feeds/atom.peb</code> pages, which can be
+overridden and customized if needed.</p>
+<p>Since 0.19.0, after creating feeds, you can use the <code>feedLink</code> meta-component to add <code>&lt;link rel='alternate'&gt;</code> tags to
+the head of the page, pointing to the generated feeds. See example config below to add alternate links to all post
+pages:</p>
+<pre><code class="language-yaml"># config.yml
+
+posts:
+  postPages:
+    metaComponents:
+      - type: 'feedLinks'
+</code></pre>
+
+
+</div>
+
+                    
+                
+            
+        
+    
+    <!-- end:inject components -->
+
+
+  </div>
+  
+    <div class="column is-one-quarter is-hidden-touch">
+      <div class="sticky-menu" style="position: sticky; top: 30px;">
+  
+  
+    
+<p class="menu-label">In This Page</p>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=  -->
+  <a href="#about" class="">
+  
+  About
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=  -->
+  <a href="#installation" class="">
+  
+  Installation
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=  -->
+  <a href="#demo" class="">
+  
+  Demo
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    
+<ul class="menu-list">
+
+  
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=  -->
+  <a href="#usage" class="">
+  
+  Usage
+  </a>
+</li>
+
+
+
+  <li>
+    <ul>
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=  -->
+  <a href="#basic-usage" class="">
+  
+  Basic Usage
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=  -->
+  <a href="#post-title" class="">
+  
+  Post Title
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=  -->
+  <a href="#permalinks" class="">
+  
+  Permalinks
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=  -->
+  <a href="#using-categories" class="">
+  
+  Using Categories
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=  -->
+  <a href="#customizing-categories" class="">
+  
+  Customizing Categories
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=  -->
+  <a href="#post-authors" class="">
+  
+  Post Authors
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=  -->
+  <a href="#post-comments" class="">
+  
+  Post Comments
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <!-- menuItem.page=  -->
+  <a href="#rss-and-atom-feeds" class="">
+  
+  RSS and Atom Feeds
+  </a>
+</li>
+
+
+    
+    </ul>
+  </li>
+</ul>
+
+  
+
+</div>
+    </div>
+  
+</div>
+
+      
+      </article>
+    
+      <div class="grow"></div>
+      <div class="page-footer">
+      
+        <nav class="pagination is-rounded footer-pagination" role="navigation" aria-label="pagination">
+
+  <a class="pagination-previous" disabled>
+    <span class="inner">
+      <span class="icon"><i class="fas fa-chevron-left"></i></span>
+      Previous
+    </span>
+  </a>
+
+
+
+  <a class="pagination-next" disabled>
+    <span class="inner">
+      Next
+      <span class="icon"><i class="fas fa-chevron-right"></i></span>
+    </span>
+  </a>
+
+</nav>
+
+<footer class="footer border-top">
+  <div class="content is-small">
+  <div class="columns is-mobile">
+  <div class="column has-text-left">
+    <p>&copy; 2017-2024 Orchid</p>
+    <p>Site proudly built with <a href="https://orchid.run/">Orchid</a>.<br></p>
+  </div>
+  <div class="column has-text-right is-hidden-mobile">
+    <a href="https://github.com/orchidhq/orchid" style="margin-right: 10px;"><i class="fa fab fa-github"></i>
+      orchidhq/orchid</a>
+    <a href="https://twitter.com/OrchidSSG" style="margin-right: 10px;"><i class="fa fab fa-twitter"></i> @OrchidSSG</a>
+  </div>
+  <div class="column has-text-right is-hidden-tablet">
+    <p>
+      <a href="https://github.com/orchidhq/orchid" style="margin-right: 10px;"><i class="fa fab fa-github"></i>
+        orchidhq/orchid</a>
+    </p>
+    <p>
+      <a href="https://twitter.com/OrchidSSG" style="margin-right: 10px;"><i class="fa fab fa-twitter"></i> @OrchidSSG</a>
+    </p>
+  </div>
+</div>
+
+<p>
+  <b>See Also:</b>
+</p>
+<p>
+  <span class="tag is-light"><a href="https://orchid.run/">Orchid</a></span>
+  <span class="tag is-light"><a href="https://copper-leaf.github.io/clog/">Clog</a></span>
+  <span class="tag is-light"><a href="https://copper-leaf.github.io/krow/">Krow</a></span>
+  <span class="tag is-light"><a href="https://copper-leaf.github.io/kudzu/">Kudzu</a></span>
+  <span class="tag is-light"><a href="https://copper-leaf.github.io/trellis/">Trellis</a></span>
+  <span class="tag is-light"><a href="https://copper-leaf.github.io/kodiak/">Kodiak</a></span>
+</p>
+
+  </div>
+</footer>
+
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+    <!-- start:inject meta-components [bodyEnd] -->
+    
+
+        
+            
+        
+
+        
+    
+    <!-- end:inject meta-components [bodyEnd] -->
+
+
+
+    <!-- start:inject meta-components [bodyEnd] -->
+    
+    <!-- end:inject meta-components [bodyEnd] -->
+
+
+
+
+<!-- start:inject scripts -->
+<script defer data-search-pseudo-elements="true" src="https://orchid.run/Copper/50d2a244/releases/v5.4.0/js/all.js"></script>
+<script  src="https://orchid.run/Copper/50d2a244/assets/js/bulma.js"></script>
+<script  src="https://orchid.run/Copper/50d2a244/assets/js/bulma-accordion.min.js"></script>
+<script  src="https://orchid.run/Copper/50d2a244/assets/js/bulma-tabs.js"></script>
+<script  src="https://orchid.run/Copper/50d2a244/assets/js/simpleFilter.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/prism.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-clike.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-markup-templating.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-kotlin.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-java.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-groovy.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-yaml.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-asciidoc.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-markdown.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-twig.min.js"></script>
+<script  src="https://orchid.run/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script >
+
+docsearch({
+    apiKey: 'f597b0a7c1080757a60853addd344aaf',
+    indexName: 'orchid',
+    
+    inputSelector: 'form[data-orchid-search] input[name=query]',
+    debug: false,
+});
+</script>
+<!-- end:inject scripts -->
+
+
+</body>
+</html>

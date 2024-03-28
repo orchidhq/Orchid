@@ -1,0 +1,2335 @@
+
+
+<!DOCTYPE html>
+<html class="">
+<head>
+
+
+
+
+
+
+<meta charset="utf-8"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<meta name="generator" content="Orchid 1.0.0-SNAPSHOT"/>
+<link rel="icon" href="https://orchid.run/favicon.ico">
+
+
+<meta name="robots" content="index, follow">
+
+
+
+<title>orchid-swiftdoc-feature</title>
+
+
+<meta name="description" content="Create beautiful documentation for your Swift source code within Orchid.">
+
+
+
+
+
+<!-- start:inject styles -->
+<link rel="stylesheet" type="text/css" href="https://orchid.run/Copper/50d2a244/assets/css/bulma.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/Copper/50d2a244/assets/css/extraCss.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/Copper/50d2a244/assets/css/bulma-tooltip.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/Copper/50d2a244/assets/css/bulma-accordion.min.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/Copper/50d2a244/assets/css/plugins.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/Copper/50d2a244/assets/css/extras.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/assets/css/prism-duotone.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/npm/docsearch.js@2/dist/cdn/docsearch.min.css"  />
+<!-- end:inject styles -->
+
+
+
+<script>
+    window.site = {"orchidVersion":"1.0.0-SNAPSHOT","baseUrl":"https://orchid.run","environment":"docs","version":"0.21.1"};
+</script>
+
+
+    <!-- start:inject meta-components [head] -->
+    
+
+        
+            
+        
+
+        
+            
+        
+            
+        
+    
+    <!-- end:inject meta-components [head] -->
+
+
+
+    <!-- start:inject meta-components [head] -->
+    
+    <!-- end:inject meta-components [head] -->
+
+
+
+
+
+
+
+</head>
+<body class="">
+
+
+
+
+
+    <!-- start:inject meta-components [bodyStart] -->
+    
+
+        
+            
+        
+
+        
+    
+    <!-- end:inject meta-components [bodyStart] -->
+
+
+
+    <!-- start:inject meta-components [bodyStart] -->
+    
+    <!-- end:inject meta-components [bodyStart] -->
+
+
+
+
+
+<div class="columns is-marginless is-desktop">
+
+  <div class="column is-one-third-desktop is-one-quarter-widescreen is-one-fifth-fullhd is-paddingless column-main-left is-hidden-mobile is-hidden-touch">
+  
+
+
+    
+
+
+<section class="hero is-black is-bold is-fullheight">
+
+
+<!-- Hero header: will stick at the top -->
+<div class="hero-head" style="padding: 0 1.5rem">
+  <a href="https://orchid.run"><img src="https://orchid.run/assets/svg/orchid/logo_top_dark.svg" style="padding: 40px 40px 0 40px;"></a>
+  <p class="subtitle is-4 has-text-centered">Build and deploy beautiful documentation sites that grow with you</p>
+
+  <div class="columns is-mobile has-text-centered">
+  
+
+
+<div class="column">
+
+  <a class="button is-primary is-fullwidth" href="https://orchid.run/wiki/user-manual/getting-started/quickstart">
+    <strong>Quick Start</strong>
+  </a>
+
+</div>
+
+
+
+  
+
+
+<div class="column">
+
+  <a class="button is-light is-fullwidth" href="https://orchid.run/wiki/user-manual/getting-started">
+  Documentation
+  </a>
+
+</div>
+
+
+
+  </div>
+</div>
+
+
+
+
+<!-- Hero content: will be in the middle -->
+<div class="hero-body">
+  <div class="container sidebar-menu">
+    <details class="is-hidden-desktop">
+      <summary>
+        Menu
+      </summary>
+      <div id="mobile-sidebar-menu"></div>
+    </details>
+    <div class="is-hidden-touch">
+      <aside class="menu" id="responsive-menu-content">
+      
+  
+  
+    
+<p class="menu-label">All Plugins</p>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-core 1448428389 -->
+  <a href="https://orchid.run/plugins/orchid-core" class="">
+  
+  orchid-core
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-test 1718293060 -->
+  <a href="https://orchid.run/plugins/orchid-test" class="">
+  
+  orchid-test
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-archives-feature 1712524347 -->
+  <a href="https://orchid.run/plugins/orchid-archives-feature" class="">
+  
+  orchid-archives-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-asciidoc-feature 2023591894 -->
+  <a href="https://orchid.run/plugins/orchid-asciidoc-feature" class="">
+  
+  orchid-asciidoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-azure-feature 70231499 -->
+  <a href="https://orchid.run/plugins/orchid-azure-feature" class="">
+  
+  orchid-azure-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-bible-feature 988315192 -->
+  <a href="https://orchid.run/plugins/orchid-bible-feature" class="">
+  
+  orchid-bible-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-bitbucket-feature 1155846026 -->
+  <a href="https://orchid.run/plugins/orchid-bitbucket-feature" class="">
+  
+  orchid-bitbucket-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-changelog-feature 1351814143 -->
+  <a href="https://orchid.run/plugins/orchid-changelog-feature" class="">
+  
+  orchid-changelog-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <a href="https://orchid.run/plugins/orchid-diagrams-feature" class="">
+  
+  orchid-diagrams-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-forms-feature 1351307120 -->
+  <a href="https://orchid.run/plugins/orchid-forms-feature" class="">
+  
+  orchid-forms-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-github-feature 854671988 -->
+  <a href="https://orchid.run/plugins/orchid-github-feature" class="">
+  
+  orchid-github-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-gitlab-feature 2062904102 -->
+  <a href="https://orchid.run/plugins/orchid-gitlab-feature" class="">
+  
+  orchid-gitlab-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-groovydoc-feature 210158726 -->
+  <a href="https://orchid.run/plugins/orchid-groovydoc-feature" class="">
+  
+  orchid-groovydoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-javadoc-feature 108849833 -->
+  <a href="https://orchid.run/plugins/orchid-javadoc-feature" class="">
+  
+  orchid-javadoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-kotlindoc-feature 1051130608 -->
+  <a href="https://orchid.run/plugins/orchid-kotlindoc-feature" class="">
+  
+  orchid-kotlindoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-kss-feature 1876630105 -->
+  <a href="https://orchid.run/plugins/orchid-kss-feature" class="">
+  
+  orchid-kss-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-netlify-cms-feature 1438859728 -->
+  <a href="https://orchid.run/plugins/orchid-netlify-cms-feature" class="">
+  
+  orchid-netlify-cms-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-netlify-feature 881578083 -->
+  <a href="https://orchid.run/plugins/orchid-netlify-feature" class="">
+  
+  orchid-netlify-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-pages-feature 1030999416 -->
+  <a href="https://orchid.run/plugins/orchid-pages-feature" class="">
+  
+  orchid-pages-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-plugin-docs-feature 181211485 -->
+  <a href="https://orchid.run/plugins/orchid-plugin-docs-feature" class="">
+  
+  orchid-plugin-docs-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <a href="https://orchid.run/plugins/orchid-posts-feature" class="">
+  
+  orchid-posts-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-presentations-feature 791528455 -->
+  <a href="https://orchid.run/plugins/orchid-presentations-feature" class="">
+  
+  orchid-presentations-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-search-feature 211207319 -->
+  <a href="https://orchid.run/plugins/orchid-search-feature" class="">
+  
+  orchid-search-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-snippets-feature 1848867745 -->
+  <a href="https://orchid.run/plugins/orchid-snippets-feature" class="">
+  
+  orchid-snippets-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-sourcedoc-feature 1403088342 -->
+  <a href="https://orchid.run/plugins/orchid-sourcedoc-feature" class="">
+  
+  orchid-sourcedoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-swagger-feature 309167705 -->
+  <a href="https://orchid.run/plugins/orchid-swagger-feature" class="">
+  
+  orchid-swagger-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <a href="https://orchid.run/plugins/orchid-swiftdoc-feature" class="is-active">
+  
+  orchid-swiftdoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-syntax-highlighter-feature 1576976929 -->
+  <a href="https://orchid.run/plugins/orchid-syntax-highlighter-feature" class="">
+  
+  orchid-syntax-highlighter-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-wiki-feature 99208085 -->
+  <a href="https://orchid.run/plugins/orchid-wiki-feature" class="">
+  
+  orchid-wiki-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-writers-blocks-feature 2076760639 -->
+  <a href="https://orchid.run/plugins/orchid-writers-blocks-feature" class="">
+  
+  orchid-writers-blocks-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    
+<p class="menu-label">All Themes</p>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-bsdoc-theme 2037929227 -->
+  <a href="https://orchid.run/themes/orchid-bsdoc-theme" class="">
+  
+  orchid-bsdoc-theme
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-copper-theme 1388081103 -->
+  <a href="https://orchid.run/themes/orchid-copper-theme" class="">
+  
+  orchid-copper-theme
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-editorial-theme 423797614 -->
+  <a href="https://orchid.run/themes/orchid-editorial-theme" class="">
+  
+  orchid-editorial-theme
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-future-imperfect-theme 610700123 -->
+  <a href="https://orchid.run/themes/orchid-future-imperfect-theme" class="">
+  
+  orchid-future-imperfect-theme
+  </a>
+</li>
+
+</ul>
+  
+
+
+      </aside>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function copyElem(fromId, toId) {
+    var fromElementContent = document.getElementById(fromId);
+    var toElementContent = document.getElementById(toId);
+    toElementContent.outerHTML = fromElementContent.outerHTML;
+  }
+
+  document.addEventListener("DOMContentLoaded", function (event) {
+    copyElem('responsive-menu-content', 'mobile-sidebar-menu');
+  });
+</script>
+
+
+</section>
+
+  </div>
+  <div class="column is-one-third-desktop is-one-quarter-widescreen is-one-fifth-fullhd is-paddingless column-main-left is-hidden-desktop">
+  
+
+
+    
+
+
+<section class="hero is-black is-bold ">
+
+
+<!-- Hero header: will stick at the top -->
+<div class="hero-head" style="padding: 0 1.5rem">
+  <a href="https://orchid.run"><img src="https://orchid.run/assets/svg/orchid/logo_top_dark.svg" style="padding: 40px 40px 0 40px;"></a>
+  <p class="subtitle is-4 has-text-centered">Build and deploy beautiful documentation sites that grow with you</p>
+
+  <div class="columns is-mobile has-text-centered">
+  
+
+
+<div class="column">
+
+  <a class="button is-primary is-fullwidth" href="https://orchid.run/wiki/user-manual/getting-started/quickstart">
+    <strong>Quick Start</strong>
+  </a>
+
+</div>
+
+
+
+  
+
+
+<div class="column">
+
+  <a class="button is-light is-fullwidth" href="https://orchid.run/wiki/user-manual/getting-started">
+  Documentation
+  </a>
+
+</div>
+
+
+
+  </div>
+</div>
+
+
+
+
+<!-- Hero content: will be in the middle -->
+<div class="hero-body">
+  <div class="container sidebar-menu">
+    <details class="is-hidden-desktop">
+      <summary>
+        Menu
+      </summary>
+      <div id="mobile-sidebar-menu"></div>
+    </details>
+    <div class="is-hidden-touch">
+      <aside class="menu" id="responsive-menu-content">
+      
+  
+  
+    
+<p class="menu-label">All Plugins</p>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-core 1448428389 -->
+  <a href="https://orchid.run/plugins/orchid-core" class="">
+  
+  orchid-core
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-test 1718293060 -->
+  <a href="https://orchid.run/plugins/orchid-test" class="">
+  
+  orchid-test
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-archives-feature 1712524347 -->
+  <a href="https://orchid.run/plugins/orchid-archives-feature" class="">
+  
+  orchid-archives-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-asciidoc-feature 2023591894 -->
+  <a href="https://orchid.run/plugins/orchid-asciidoc-feature" class="">
+  
+  orchid-asciidoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-azure-feature 70231499 -->
+  <a href="https://orchid.run/plugins/orchid-azure-feature" class="">
+  
+  orchid-azure-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-bible-feature 988315192 -->
+  <a href="https://orchid.run/plugins/orchid-bible-feature" class="">
+  
+  orchid-bible-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-bitbucket-feature 1155846026 -->
+  <a href="https://orchid.run/plugins/orchid-bitbucket-feature" class="">
+  
+  orchid-bitbucket-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-changelog-feature 1351814143 -->
+  <a href="https://orchid.run/plugins/orchid-changelog-feature" class="">
+  
+  orchid-changelog-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <a href="https://orchid.run/plugins/orchid-diagrams-feature" class="">
+  
+  orchid-diagrams-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-forms-feature 1351307120 -->
+  <a href="https://orchid.run/plugins/orchid-forms-feature" class="">
+  
+  orchid-forms-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-github-feature 854671988 -->
+  <a href="https://orchid.run/plugins/orchid-github-feature" class="">
+  
+  orchid-github-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-gitlab-feature 2062904102 -->
+  <a href="https://orchid.run/plugins/orchid-gitlab-feature" class="">
+  
+  orchid-gitlab-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-groovydoc-feature 210158726 -->
+  <a href="https://orchid.run/plugins/orchid-groovydoc-feature" class="">
+  
+  orchid-groovydoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-javadoc-feature 108849833 -->
+  <a href="https://orchid.run/plugins/orchid-javadoc-feature" class="">
+  
+  orchid-javadoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-kotlindoc-feature 1051130608 -->
+  <a href="https://orchid.run/plugins/orchid-kotlindoc-feature" class="">
+  
+  orchid-kotlindoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-kss-feature 1876630105 -->
+  <a href="https://orchid.run/plugins/orchid-kss-feature" class="">
+  
+  orchid-kss-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-netlify-cms-feature 1438859728 -->
+  <a href="https://orchid.run/plugins/orchid-netlify-cms-feature" class="">
+  
+  orchid-netlify-cms-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-netlify-feature 881578083 -->
+  <a href="https://orchid.run/plugins/orchid-netlify-feature" class="">
+  
+  orchid-netlify-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-pages-feature 1030999416 -->
+  <a href="https://orchid.run/plugins/orchid-pages-feature" class="">
+  
+  orchid-pages-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-plugin-docs-feature 181211485 -->
+  <a href="https://orchid.run/plugins/orchid-plugin-docs-feature" class="">
+  
+  orchid-plugin-docs-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <a href="https://orchid.run/plugins/orchid-posts-feature" class="">
+  
+  orchid-posts-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-presentations-feature 791528455 -->
+  <a href="https://orchid.run/plugins/orchid-presentations-feature" class="">
+  
+  orchid-presentations-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-search-feature 211207319 -->
+  <a href="https://orchid.run/plugins/orchid-search-feature" class="">
+  
+  orchid-search-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-snippets-feature 1848867745 -->
+  <a href="https://orchid.run/plugins/orchid-snippets-feature" class="">
+  
+  orchid-snippets-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-sourcedoc-feature 1403088342 -->
+  <a href="https://orchid.run/plugins/orchid-sourcedoc-feature" class="">
+  
+  orchid-sourcedoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-swagger-feature 309167705 -->
+  <a href="https://orchid.run/plugins/orchid-swagger-feature" class="">
+  
+  orchid-swagger-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <a href="https://orchid.run/plugins/orchid-swiftdoc-feature" class="is-active">
+  
+  orchid-swiftdoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-syntax-highlighter-feature 1576976929 -->
+  <a href="https://orchid.run/plugins/orchid-syntax-highlighter-feature" class="">
+  
+  orchid-syntax-highlighter-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-wiki-feature 99208085 -->
+  <a href="https://orchid.run/plugins/orchid-wiki-feature" class="">
+  
+  orchid-wiki-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-writers-blocks-feature 2076760639 -->
+  <a href="https://orchid.run/plugins/orchid-writers-blocks-feature" class="">
+  
+  orchid-writers-blocks-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    
+<p class="menu-label">All Themes</p>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-bsdoc-theme 2037929227 -->
+  <a href="https://orchid.run/themes/orchid-bsdoc-theme" class="">
+  
+  orchid-bsdoc-theme
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-copper-theme 1388081103 -->
+  <a href="https://orchid.run/themes/orchid-copper-theme" class="">
+  
+  orchid-copper-theme
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-editorial-theme 423797614 -->
+  <a href="https://orchid.run/themes/orchid-editorial-theme" class="">
+  
+  orchid-editorial-theme
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-future-imperfect-theme 610700123 -->
+  <a href="https://orchid.run/themes/orchid-future-imperfect-theme" class="">
+  
+  orchid-future-imperfect-theme
+  </a>
+</li>
+
+</ul>
+  
+
+
+      </aside>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function copyElem(fromId, toId) {
+    var fromElementContent = document.getElementById(fromId);
+    var toElementContent = document.getElementById(toId);
+    toElementContent.outerHTML = fromElementContent.outerHTML;
+  }
+
+  document.addEventListener("DOMContentLoaded", function (event) {
+    copyElem('responsive-menu-content', 'mobile-sidebar-menu');
+  });
+</script>
+
+
+</section>
+
+  </div>
+
+  <div class="column is-two-thirds-desktop is-three-quarters-widescreen is-four-fifths-fullhd is-paddingless column-main-right">
+  
+
+<nav
+  class="navbar is-white border-bottom"
+  role="navigation"
+  aria-label="main navigation"
+>
+  <div class="container">
+    <div class="navbar-brand is-marginless">
+
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMain">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div class="navbar-menu is-marginless" id="navbarMain">
+      <div class="navbar-start">
+      
+<div class="navbar-item">
+  <form id="search-input" data-orchid-search>
+    <div class="field is-marginless" id="search">
+      <div class="control has-icons-left input-control">
+        <input class="input" type="text" name="query" placeholder="Search Orchid">
+
+        <span class="icon is-small is-left">
+          <i class="fas fa-search"></i>
+        </span>
+
+        <div id="search-progress" data-orchid-search-progress style="display: none;">
+          <div class="loader">Loading...</div>
+        </div>
+      </div>
+    </div>
+    <div id="search-results" data-orchid-search-results style="display: none;">
+      <div class="carat"></div>
+      <b>
+        Search Results
+        <i class="fa fa-times" aria-hidden="true" onclick="$('[data-orchid-search-results]').hide()"></i>
+      </b>
+      <ul></ul>
+    </div>
+  </form>
+</div>
+
+      
+
+  
+  
+    
+
+<a class="navbar-item " href="https://orchid.run/plugins">
+Plugins
+</a>
+
+
+  
+
+  
+  
+    
+
+<a class="navbar-item " href="https://orchid.run/themes">
+Themes
+</a>
+
+
+  
+
+  
+  
+    
+
+<a class="navbar-item " href="https://orchid.run/wiki/learn">
+Tutorials
+</a>
+
+
+  
+
+  
+  
+    
+
+<a class="navbar-item " href="https://orchid.run/showcase">
+Showcase
+</a>
+
+
+  
+
+
+      </div>
+
+      <div class="navbar-end">
+      
+
+<div class="navbar-item social-item">
+  <a class="icon" href="/" title="Home">
+    <i class="fas fa-home"></i>
+  </a>
+</div>
+
+<div class="navbar-item social-item">
+  <a class="icon" href="https://github.com/orchidhq/orchid" title="Github">
+    <i class="fab fa-github"></i>
+  </a>
+</div>
+
+<div class="navbar-item social-item">
+  <a class="icon" href="https://twitter.com/OrchidSSG" title="Twitter">
+    <i class="fab fa-twitter"></i>
+  </a>
+</div>
+
+<div class="navbar-item social-item">
+  <a class="icon" href="https://gitter.im/JavaEden/Orchid" title="Gitter">
+    <i class="fab fa-gitter"></i>
+  </a>
+</div>
+
+
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+    <div class="textured container" style="width: 100%;">
+    
+    
+    
+    
+      <div class="box">
+      
+<nav class="breadcrumb" aria-label="breadcrumbs">
+<ul>
+
+
+    <li><a href="https://orchid.run/plugins">Plugins</a></li>
+
+
+
+    <li class="is-active"><a href="https://orchid.run/plugins/orchid-swiftdoc-feature" aria-current="page">orchid-swiftdoc-feature</a></li>
+
+
+</ul>
+</nav>
+
+
+      </div>
+    
+    
+    
+
+    
+    
+      <article style="position: relative; margin-top: 60px; margin-bottom: 60px;" role="main">
+      
+      
+      
+      
+<h2 class="title is-1 is-spaced">orchid-swiftdoc-feature</h2>
+<p class="subtitle is-4">Create beautiful documentation for your Swift source code within Orchid.</p>
+
+        <hr>
+      
+      
+      
+
+<div class="columns">
+  <div class="column is-three-quarters-desktop">
+  
+    <!-- start:inject components -->
+    
+        
+            
+                
+                    
+                        <div class="content is-medium-tablet is-large-fullhd">
+<h2 id="about"><a href="#about" id="about" class="anchor"></a>About</h2>
+<p>The OrchidSwiftdoc plugin integrates with the <a href="https://github.com/jpsim/SourceKitten">SourceKitten</a> tool to embed class
+and source file info from Swift source code directly in your Orchid site.</p>
+<article class="message is-info">
+
+  <div class="message-body">
+  <p>The suite of Orchid Sourcedocs plugins are for designed for merging source code documentation with the rest of your
+project site.</p>
+<p>Orchid Sourcedocs supports multi-module projects with READMEs and separate doc groups for each module, customizable
+permalinks, auto-updating menu items, and an ever-improving data model to link to doc pages and display the
+relationships among different elements.</p>
+<p>It also integrates client-side full-text search from the <a href="https://orchid.run/plugins/orchid-search-feature">orchid-search-feature</a> plugin and is set up for easy page
+querying or archive generation with the <a href="https://orchid.run/plugins/orchid-archives-feature">orchid-archives-feature</a> plugin.</p>
+<p>The following languages are currently supported:</p>
+<ul>
+<li><a href="https://orchid.run/plugins/orchid-javadoc-feature">Java</a></li>
+<li><a href="https://orchid.run/plugins/orchid-kotlindoc-feature">Kotlin</a></li>
+<li><a href="https://orchid.run/plugins/orchid-groovydoc-feature">Groovy</a></li>
+<li><a href="https://orchid.run/plugins/orchid-swiftdoc-feature">Swift</a></li>
+</ul>
+  </div>
+</article>
+<article class="message is-danger">
+
+  <div class="message-body">
+  <p>Support for the legacy swiftdoc plugin will be removed in version 0.22.0. Until version 0.21.0, legacy
+swiftdocs were the default, but now they are end-of-life and must be enabled with the <code>--legacySourceDoc</code>
+CLI flag.</p>
+  </div>
+</article>
+<h2 id="installation"><a href="#installation" id="installation" class="anchor"></a>Installation</h2>
+<div class="tabs">
+  <ul data-tabs="FfThpp0vv6">
+  
+    <li class="is-active"><a>Gradle</a></li>
+  
+    <li ><a>Maven</a></li>
+  
+    <li ><a>SBT</a></li>
+  
+    <li ><a>KScript</a></li>
+  
+  </ul>
+</div>
+<div data-panes="FfThpp0vv6">
+
+  <div class="is-block tab-hidden content is-medium-tablet is-large-fullhd"><pre><code class="language-kotlin">dependencies {
+    orchidRuntime(&quot;io.github.copper-leaf.orchid:orchid-swiftdoc-feature:0.21.1&quot;)
+}
+</code></pre></div>
+
+  <div class=" tab-hidden content is-medium-tablet is-large-fullhd"><pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;io.github.copper-leaf.orchid&lt;/groupId&gt;
+    &lt;artifactId&gt;orchid-swiftdoc-feature&lt;/artifactId&gt;
+    &lt;version&gt;0.21.1&lt;/version&gt;
+    &lt;type&gt;pom&lt;/type&gt;
+&lt;/dependency&gt;
+</code></pre></div>
+
+  <div class=" tab-hidden content is-medium-tablet is-large-fullhd"><pre><code class="language-scala">libraryDependencies += &quot;io.github.copper-leaf.orchid&quot; % &quot;orchid-swiftdoc-feature&quot; % &quot;0.21.1&quot;
+</code></pre></div>
+
+  <div class=" tab-hidden content is-medium-tablet is-large-fullhd"><pre><code class="language-kotlin">@file:DependsOn(&quot;io.github.copper-leaf.orchid:orchid-swiftdoc-feature:0.21.1&quot;)
+</code></pre></div>
+
+</div>
+<h2 id="demo"><a href="#demo" id="demo" class="anchor"></a>Demo</h2>
+<ul>
+<li>Try the <a href="https://github.com/orchidhq/OrchidTutorials/tree/master/swift-site">example app</a></li>
+<li>Run <a href="https://github.com/orchidhq/orchid/blob/dev/plugins/OrchidSwiftdoc/src/test/kotlin/com/eden/orchid/swiftdoc/NewSwiftdocGeneratorTest.kt">SwiftdocGeneratorTest</a> for demo</li>
+</ul>
+<h2 id="single-module-usage"><a href="#single-module-usage" id="single-module-usage" class="anchor"></a>Single-Module Usage</h2>
+<h3 id="configuration"><a href="#configuration" id="configuration" class="anchor"></a>Configuration</h3>
+<p>An example of single-module configuration is below. Most properties are optional.</p>
+<pre><code class="language-yaml">swiftdoc:
+  name: 'Project Name'
+  sourceDirs: ['../module-one/src/main/swift', '../module-one/src/main/java']
+  homePagePermalink: '...'
+  sourcePagePermalink: '...'
+  showRunnerLogs: false
+  homePageOnly: false
+  args: []
+</code></pre>
+<table>
+<thead>
+<tr><th>Description</th><th>Option</th><th>Default Value</th></tr>
+</thead>
+<tbody>
+<tr><td>The name of the module, which becomes the title of the module Homepage.</td><td><code>name</code></td><td><code>false</code></td></tr>
+<tr><td>Relative paths to directories containing Swift or Java source code.</td><td><code>sourceDirs</code></td><td><code>[]</code></td></tr>
+<tr><td>Customize the URL path for the homepage.</td><td><code>homePagePermalink</code></td><td>see below</td></tr>
+<tr><td>Customize the URL path for class and package pages.</td><td><code>sourcePagePermalink</code></td><td>see below</td></tr>
+<tr><td>Whether to print logs from the underlying Sourcekitten CLI</td><td><code>showRunnerLogs</code></td><td><code>false</code></td></tr>
+<tr><td>If true, do not run Sourcekitten. Create docs a module with only a homepage.</td><td><code>homePageOnly</code></td><td><code>false</code></td></tr>
+<tr><td>Additional args to pass-through to the Sourcekitten CLI.</td><td><code>args</code></td><td><code>[]</code></td></tr>
+</tbody>
+</table>
+<h3 id="permalinks"><a href="#permalinks" id="permalinks" class="anchor"></a>Permalinks</h3>
+<p>Permalinks can be customized for all pages generated by this plugin. For each module, you can set <code>homePagePermalink</code> or
+<code>sourcePagePermalink</code> with your desired permalink string. The following dynamic path segments are available for these
+pages (in addition to the standard permalink keys):</p>
+<ul>
+<li><code>:moduleType</code> - The &quot;type&quot; of source code you're documenting (<code>swiftdoc</code>)</li>
+<li><code>:moduleGroup</code> - Not used for single-module docs</li>
+<li><code>:module</code> - Not used for single-module docs</li>
+<li><code>:sourceDocPath</code> - The path for each source code doc page, as defined by the Swiftdoc plugin</li>
+</ul>
+<p>The default permalinks are as follows:</p>
+<table>
+<thead>
+<tr><th>Description</th><th>Permalink pattern</th><th>Example</th></tr>
+</thead>
+<tbody>
+<tr><td>Module home pages</td><td><code>:moduleType/:moduleGroup/:module</code></td><td><code>/swiftdoc</code></td></tr>
+<tr><td>Source code pages</td><td><code>:moduleType/:moduleGroup/:module/:sourceDocPath</code></td><td><code>/swiftdoc/com/app/mainapplication</code></td></tr>
+</tbody>
+</table>
+<h3 id="page-archetypes"><a href="#page-archetypes" id="page-archetypes" class="anchor"></a>Page Archetypes</h3>
+<p>The pages generated have several archetype keys available, for applying options to these pages in varying levels of
+granularity:</p>
+<table>
+<thead>
+<tr><th>Description</th><th>Archetype Pattern</th></tr>
+</thead>
+<tbody>
+<tr><td>Both module home and source code pages for all languages</td><td><code>sourcedoc.pages</code></td></tr>
+<tr><td>Just module home pages for all languages</td><td><code>sourcedoc.moduleHomePages</code></td></tr>
+<tr><td>Just source code pages for all languages</td><td><code>sourcedoc.sourcePages</code></td></tr>
+<tr><td>Swift module home and source code pages</td><td><code>swiftdoc.pages</code></td></tr>
+<tr><td>Just Swift module home pages</td><td><code>swiftdoc.moduleHomePages</code></td></tr>
+<tr><td>Just Swift source code pages</td><td><code>swiftdoc.sourcePages</code></td></tr>
+<tr><td>Just Swift Class source code pages</td><td><code>swiftdoc.classesPages</code></td></tr>
+<tr><td>Just Swift Source File source code pages</td><td><code>swiftdoc.sourceFilesPages</code></td></tr>
+</tbody>
+</table>
+<h3 id="collections"><a href="#collections" id="collections" class="anchor"></a>Collections</h3>
+<p>SourceDocs generate a variety of collections which allow you to precisely query these pages. All collections will have a
+<code>collectionType</code> of the <code>moduleType</code> (<code>swiftdoc</code>).</p>
+<p>For a single module, you will get a collection with collectionId of the moduleType. For each of these collections, it
+will also contain related collections containing the source pages of a specific page types, <code>classes</code> and <code>packages</code>.
+In addition, you will have a <code>modules</code> collection, which contains the READMEs for each module.</p>
+<table>
+<thead>
+<tr><th>Description</th><th>Collection Type</th><th>Collection ID</th></tr>
+</thead>
+<tbody>
+<tr><td>All Swiftdoc pages</td><td><code>swiftdoc</code></td><td><code>swiftdoc</code></td></tr>
+<tr><td>All Swiftdoc class pages</td><td><code>swiftdoc</code></td><td><code>swiftdoc-classes</code></td></tr>
+<tr><td>All Swiftdoc package pages</td><td><code>swiftdoc</code></td><td><code>swiftdoc-packages</code></td></tr>
+<tr><td>The Swiftdoc README page</td><td><code>swiftdoc</code></td><td><code>swiftdoc-modules</code></td></tr>
+</tbody>
+</table>
+<h3 id="menu-items"><a href="#menu-items" id="menu-items" class="anchor"></a>Menu Items</h3>
+<p>There are 3 types of menu items available</p>
+<h4 id="modules"><a href="#modules" id="modules" class="anchor"></a>Modules</h4>
+<p>Create a menu item linking to the module home pages. Typically added to the Theme menu so it is added to all pages.</p>
+<pre><code class="language-yaml">theme:
+  menu:
+    - type: 'sourcedocModules'
+      moduleType: 'swiftdoc'
+</code></pre>
+<h4 id="pages"><a href="#pages" id="pages" class="anchor"></a>Pages</h4>
+<p>Create a menu item linking to all the source pages for a single module. You can optionally filter it by page type,
+or include all source pages for that module. Typically added to the Theme menu so it is added to all pages.</p>
+<pre><code class="language-yaml">theme:
+  menu:
+    - type: 'sourcedocPages'
+      moduleType: 'swiftdoc'
+      node: 'classes' # optional
+</code></pre>
+<p>By default, all menu items will display the title of the linked page, which is typically a human-readable version of the
+documented element. You can set <code>itemTitleType: 'ID'</code> to have it display the actual page element ID.</p>
+<pre><code class="language-yaml">theme:
+  menu:
+    - type: 'sourcedocPages'
+      moduleType: 'swiftdoc'
+      node: 'classes'
+      itemTitleType: 'ID'
+</code></pre>
+<p>In addition, you can provide an inline Pebble template to render/transform the menu item title however you need. You
+have access to the original <code>title</code>, the target <code>page</code>, and the <code>element</code> within that template.</p>
+<pre><code class="language-yaml">theme:
+  menu:
+    - type: 'sourcedocPages'
+      moduleType: 'swiftdoc'
+      node: 'classes'
+      itemTitleType: 'ID'
+      transform: '{{ title|replace({&quot;com.eden.orchid&quot;: &quot;c.e.o&quot;}) }}'
+</code></pre>
+<h4 id="page-links"><a href="#page-links" id="page-links" class="anchor"></a>Page Links</h4>
+<p>Page Links adds menu item links to a single SourceDoc Page. It links to each &quot;section&quot; on that page (such as <code>methods</code>,
+<code>constructors</code>, or <code>fields</code> on a <code>classes</code> page). Setting <code>includeItems: true</code> will optionally include all that items
+for each section. It is typically added to a Page's menu item through one of the above Archetypes.</p>
+<p>Just like <code>sourcedocPages</code>, you can customize how the menu item text is rendered with <code>itemTitleType</code>. It can be <code>NAME</code>
+for the element's human-readable name, <code>ID</code> for the actual element ID, or <code>signature</code> to display the fully-formatted
+element signature.</p>
+<pre><code class="language-yaml">swiftdoc:
+  sourcePages:
+    menu:
+      - type: 'sourcedocPageLinks'
+        itemTitleType: 'signature' # optional, one of [NAME, ID, SIGNATURE]
+        includeItems: true # optional
+</code></pre>
+<h3 id="filtering-docs"><a href="#filtering-docs" id="filtering-docs" class="anchor"></a>Filtering Docs</h3>
+<p>TODO: add docs for filtering Swiftdocs</p>
+<h2 id="multi-module-usage"><a href="#multi-module-usage" id="multi-module-usage" class="anchor"></a>Multi-Module Usage</h2>
+<h3 id="configuration-1"><a href="#configuration-1" id="configuration-1" class="anchor"></a>Configuration</h3>
+<p>An example of multi-module configuration is below. Most properties are optional.</p>
+<pre><code class="language-yaml">swiftdoc:
+  modules:
+    - name: 'project-1-name'
+      slug: 'project-1'
+      moduleGroup: 'group-a'
+      sourceDirs: ['../module-one/src/main/swift']
+      homePagePermalink: '...'
+      sourcePagePermalink: '...'
+      showRunnerLogs: false
+      homePageOnly: false
+      args: []
+      relatedModules: ['project-2-name']
+    - name: 'project-2-name'
+      ...
+</code></pre>
+<table>
+<thead>
+<tr><th>Description</th><th>Option</th><th>Default Value</th></tr>
+</thead>
+<tbody>
+<tr><td>The name of the module, which becomes the title of the module Homepage.</td><td><code>name</code></td><td><code>false</code></td></tr>
+<tr><td>The slug prepended to page URLs from this module.</td><td><code>slug</code></td><td>``</td></tr>
+<tr><td>Group multiple modules together for easier configuration and improved site hierarchy.</td><td><code>moduleGroup</code></td><td><code>[]</code></td></tr>
+<tr><td>Relative paths to directories containing Swift or Java source code.</td><td><code>sourceDirs</code></td><td><code>[]</code></td></tr>
+<tr><td>Customize the URL path for the homepage.</td><td><code>homePagePermalink</code></td><td>see below</td></tr>
+<tr><td>Customize the URL path for class and source file pages.</td><td><code>sourcePagePermalink</code></td><td>see below</td></tr>
+<tr><td>Whether to print logs from the underlying Sourcekitten CLI</td><td><code>showRunnerLogs</code></td><td><code>false</code></td></tr>
+<tr><td>If true, do not run Sourcekitten. Create docs a module with only a homepage.</td><td><code>homePageOnly</code></td><td><code>false</code></td></tr>
+<tr><td>A list of other modules which contain sources that may be linked to by the pages in this module</td><td><code>relatedModules</code></td><td><code>[]</code></td></tr>
+<tr><td>Additional args to pass-through to the Sourcekitten CLI.</td><td><code>args</code></td><td><code>[]</code></td></tr>
+</tbody>
+</table>
+<h3 id="permalinks-1"><a href="#permalinks-1" id="permalinks-1" class="anchor"></a>Permalinks</h3>
+<p>Permalinks can be customized for all pages generated by this plugin. For each module, you can set <code>homePagePermalink</code> or
+<code>sourcePagePermalink</code> with your desired permalink string. The following dynamic path segments are available for these
+pages (in addition to the standard permalink keys):</p>
+<ul>
+<li><code>:moduleType</code> - The &quot;type&quot; of source code you're documenting (<code>swiftdoc</code>)</li>
+<li><code>:moduleGroup</code> - The module group at declared in the module configuration</li>
+<li><code>:module</code> - The name of this specific module</li>
+<li><code>:sourceDocPath</code> - The path for each source code doc page, as defined by the Swiftdoc plugin</li>
+</ul>
+<p>The default permalinks are as follows:</p>
+<table>
+<thead>
+<tr><th>Description</th><th>Permalink pattern</th><th>Example without module group</th><th>Example with module group</th></tr>
+</thead>
+<tbody>
+<tr><td>Module home pages</td><td><code>:moduleType/:moduleGroup/:module</code></td><td><code>/swiftdoc/project-1</code></td><td><code>/swiftdoc/group-a/project-1</code></td></tr>
+<tr><td>Source code pages</td><td><code>:moduleType/:moduleGroup/:module/:sourceDocPath</code></td><td><code>/swiftdoc/project-1/com/app/mainapplication</code></td><td><code>/swiftdoc/group-a/project-1/com/app/mainapplication</code></td></tr>
+</tbody>
+</table>
+<h3 id="page-archetypes-1"><a href="#page-archetypes-1" id="page-archetypes-1" class="anchor"></a>Page Archetypes</h3>
+<p>The pages generated have several archetype keys available, for applying options to these pages in varying levels of
+granularity:</p>
+<table>
+<thead>
+<tr><th>Description</th><th>Archetype Pattern</th></tr>
+</thead>
+<tbody>
+<tr><td>Both module home and source code pages for all languages</td><td><code>sourcedoc.pages</code></td></tr>
+<tr><td>Just module home pages for all languages</td><td><code>sourcedoc.moduleHomePages</code></td></tr>
+<tr><td>Just source code pages for all languages</td><td><code>sourcedoc.sourcePages</code></td></tr>
+<tr><td>Swift module home and source code pages for all modules</td><td><code>swiftdoc.pages</code></td></tr>
+<tr><td>Just Swift module home pages for all modules</td><td><code>swiftdoc.moduleHomePages</code></td></tr>
+<tr><td>Just Swift source code pages for all modules</td><td><code>swiftdoc.sourcePages</code></td></tr>
+<tr><td>Just Swift Class source code pages for all modules</td><td><code>swiftdoc.classesPages</code></td></tr>
+<tr><td>Just Swift source file source code pages for all modules</td><td><code>swiftdoc.sourceFilePages</code></td></tr>
+<tr><td>Swift module home and source code pages for a single module group</td><td><code>swiftdoc.[module group]Pages</code></td></tr>
+<tr><td>Just Swift module home pages for a single module group</td><td><code>swiftdoc.[module group]ModuleHomePages</code></td></tr>
+<tr><td>Just Swift source code pages for a single module group</td><td><code>swiftdoc.[module group]SourcePages</code></td></tr>
+<tr><td>Just Swift Class source code pages for a single module group</td><td><code>swiftdoc.[module group]ClassesPages</code></td></tr>
+<tr><td>Just Swift source file source code pages for a single module group</td><td><code>swiftdoc.[module group]SourceFilesPages</code></td></tr>
+</tbody>
+</table>
+<h3 id="collections-1"><a href="#collections-1" id="collections-1" class="anchor"></a>Collections</h3>
+<p>SourceDocs generate a variety of collections which allow you to precisely query these pages. All collections will have a
+<code>collectionType</code> of the <code>moduleType</code> (<code>swiftdoc</code>).</p>
+<p>For multiple modules, you will get a collection for each module with collectionId of its name. For each of these
+collections, it will also contain related collections containing the source pages of a specific page types, <code>classes</code>
+and <code>sourceFiles</code>. In addition, you will have a single <code>modules</code> collection which contains the READMEs of all modules.</p>
+<table>
+<thead>
+<tr><th>Description</th><th>Collection Type</th><th>Collection ID</th></tr>
+</thead>
+<tbody>
+<tr><td>All Swiftdoc pages</td><td><code>swiftdoc</code></td><td><code>[module name]</code></td></tr>
+<tr><td>All Swiftdoc class pages</td><td><code>swiftdoc</code></td><td><code>[module name]-classes</code></td></tr>
+<tr><td>All Swiftdoc source file pages</td><td><code>swiftdoc</code></td><td><code>[module name]-sourceFiles</code></td></tr>
+<tr><td>The Swiftdoc README page</td><td><code>swiftdoc</code></td><td><code>swiftdoc-modules</code></td></tr>
+</tbody>
+</table>
+<h3 id="menu-items-1"><a href="#menu-items-1" id="menu-items-1" class="anchor"></a>Menu Items</h3>
+<p>There are 3 types of menu items available</p>
+<h4 id="modules-1"><a href="#modules-1" id="modules-1" class="anchor"></a>Modules</h4>
+<p>Create a menu item linking to the module home pages, optionally filtered by module group. Typically added to the Theme
+menu so it is added to all pages.</p>
+<pre><code class="language-yaml">theme:
+  menu:
+    - type: 'sourcedocModules'
+      moduleType: 'swiftdoc'
+      moduleGroup: 'group-a' 
+</code></pre>
+<h4 id="pages-1"><a href="#pages-1" id="pages-1" class="anchor"></a>Pages</h4>
+<p>Create a menu item linking to all the source pages for a single module. You can optionally filter it by page type,
+or include all source pages for that module. Typically added to the Theme menu so it is added to all pages.</p>
+<pre><code class="language-yaml">theme:
+  menu:
+    - type: 'sourcedocPages'
+      moduleType: 'swiftdoc'
+      moduleName: 'project-1-name'
+      node: 'classes' # optional
+</code></pre>
+<p>By default, all menu items will display the title of the linked page, which is typically a human-readable version of the
+documented element. You can set <code>itemTitleType: 'ID'</code> to have it display the actual page element ID.</p>
+<pre><code class="language-yaml">theme:
+  menu:
+    - type: 'sourcedocPages'
+      moduleType: 'swiftdoc'
+      moduleName: 'project-1-name'
+      node: 'classes'
+      itemTitleType: 'ID'
+</code></pre>
+<p>In addition, you can provide an inline Pebble template to render/transform the menu item title however you need. You
+have access to the original <code>title</code>, the target <code>page</code>, and the <code>element</code> within that template.</p>
+<pre><code class="language-yaml">theme:
+  menu:
+    - type: 'sourcedocPages'
+      moduleType: 'swiftdoc'
+      moduleName: 'project-1-name'
+      node: 'classes'
+      itemTitleType: 'ID'
+      transform: '{{ title|replace({&quot;com.eden.orchid&quot;: &quot;c.e.o&quot;}) }}'
+</code></pre>
+<h4 id="page-links-1"><a href="#page-links-1" id="page-links-1" class="anchor"></a>Page Links</h4>
+<p>Page Links adds menu item links to a single SourceDoc Page. It links to each &quot;section&quot; on that page (such as <code>methods</code>,
+<code>constructors</code>, or <code>fields</code> on a <code>classes</code> page). Setting <code>includeItems: true</code> will optionally include all that items
+for each section. It is typically added to a Page's menu item through one of the above Archetypes.</p>
+<p>Just like <code>sourcedocPages</code>, you can customize how the menu item text is rendered with <code>itemTitleType</code>. It can be <code>NAME</code>
+for the element's human-readable name, <code>ID</code> for the actual element ID, or <code>signature</code> to display the fully-formatted
+element signature.</p>
+<pre><code class="language-yaml">swiftdoc:
+  sourcePages:
+    menu:
+      - type: 'sourcedocPageLinks'
+        itemTitleType: 'signature' # optional, one of [NAME, ID, SIGNATURE]
+        includeItems: true # optional
+</code></pre>
+<h3 id="filtering-docs-1"><a href="#filtering-docs-1" id="filtering-docs-1" class="anchor"></a>Filtering Docs</h3>
+<p>TODO: add docs for filtering Swiftdocs</p>
+
+
+</div>
+
+                    
+                
+            
+        
+    
+    <!-- end:inject components -->
+
+
+  </div>
+  
+    <div class="column is-one-quarter is-hidden-touch">
+      <div class="sticky-menu" style="position: sticky; top: 30px;">
+  
+  
+    
+<p class="menu-label">In This Page</p>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=  -->
+  <a href="#about" class="">
+  
+  About
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=  -->
+  <a href="#installation" class="">
+  
+  Installation
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=  -->
+  <a href="#demo" class="">
+  
+  Demo
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    
+<ul class="menu-list">
+
+  
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=  -->
+  <a href="#single-module-usage" class="">
+  
+  Single-Module Usage
+  </a>
+</li>
+
+
+
+  <li>
+    <ul>
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=  -->
+  <a href="#configuration" class="">
+  
+  Configuration
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=  -->
+  <a href="#permalinks" class="">
+  
+  Permalinks
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=  -->
+  <a href="#page-archetypes" class="">
+  
+  Page Archetypes
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=  -->
+  <a href="#collections" class="">
+  
+  Collections
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=  -->
+  <a href="#menu-items" class="">
+  
+  Menu Items
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=  -->
+  <a href="#filtering-docs" class="">
+  
+  Filtering Docs
+  </a>
+</li>
+
+
+    
+    </ul>
+  </li>
+</ul>
+
+  
+
+  
+  
+    
+<ul class="menu-list">
+
+  
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=  -->
+  <a href="#multi-module-usage" class="">
+  
+  Multi-Module Usage
+  </a>
+</li>
+
+
+
+  <li>
+    <ul>
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=  -->
+  <a href="#configuration-1" class="">
+  
+  Configuration
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=  -->
+  <a href="#permalinks-1" class="">
+  
+  Permalinks
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=  -->
+  <a href="#page-archetypes-1" class="">
+  
+  Page Archetypes
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=  -->
+  <a href="#collections-1" class="">
+  
+  Collections
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=  -->
+  <a href="#menu-items-1" class="">
+  
+  Menu Items
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <!-- menuItem.page=  -->
+  <a href="#filtering-docs-1" class="">
+  
+  Filtering Docs
+  </a>
+</li>
+
+
+    
+    </ul>
+  </li>
+</ul>
+
+  
+
+</div>
+    </div>
+  
+</div>
+
+      
+      </article>
+    
+      <div class="grow"></div>
+      <div class="page-footer">
+      
+        <nav class="pagination is-rounded footer-pagination" role="navigation" aria-label="pagination">
+
+  <a class="pagination-previous" disabled>
+    <span class="inner">
+      <span class="icon"><i class="fas fa-chevron-left"></i></span>
+      Previous
+    </span>
+  </a>
+
+
+
+  <a class="pagination-next" disabled>
+    <span class="inner">
+      Next
+      <span class="icon"><i class="fas fa-chevron-right"></i></span>
+    </span>
+  </a>
+
+</nav>
+
+<footer class="footer border-top">
+  <div class="content is-small">
+  <div class="columns is-mobile">
+  <div class="column has-text-left">
+    <p>&copy; 2017-2024 Orchid</p>
+    <p>Site proudly built with <a href="https://orchid.run/">Orchid</a>.<br></p>
+  </div>
+  <div class="column has-text-right is-hidden-mobile">
+    <a href="https://github.com/orchidhq/orchid" style="margin-right: 10px;"><i class="fa fab fa-github"></i>
+      orchidhq/orchid</a>
+    <a href="https://twitter.com/OrchidSSG" style="margin-right: 10px;"><i class="fa fab fa-twitter"></i> @OrchidSSG</a>
+  </div>
+  <div class="column has-text-right is-hidden-tablet">
+    <p>
+      <a href="https://github.com/orchidhq/orchid" style="margin-right: 10px;"><i class="fa fab fa-github"></i>
+        orchidhq/orchid</a>
+    </p>
+    <p>
+      <a href="https://twitter.com/OrchidSSG" style="margin-right: 10px;"><i class="fa fab fa-twitter"></i> @OrchidSSG</a>
+    </p>
+  </div>
+</div>
+
+<p>
+  <b>See Also:</b>
+</p>
+<p>
+  <span class="tag is-light"><a href="https://orchid.run/">Orchid</a></span>
+  <span class="tag is-light"><a href="https://copper-leaf.github.io/clog/">Clog</a></span>
+  <span class="tag is-light"><a href="https://copper-leaf.github.io/krow/">Krow</a></span>
+  <span class="tag is-light"><a href="https://copper-leaf.github.io/kudzu/">Kudzu</a></span>
+  <span class="tag is-light"><a href="https://copper-leaf.github.io/trellis/">Trellis</a></span>
+  <span class="tag is-light"><a href="https://copper-leaf.github.io/kodiak/">Kodiak</a></span>
+</p>
+
+  </div>
+</footer>
+
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+    <!-- start:inject meta-components [bodyEnd] -->
+    
+
+        
+            
+        
+
+        
+    
+    <!-- end:inject meta-components [bodyEnd] -->
+
+
+
+    <!-- start:inject meta-components [bodyEnd] -->
+    
+    <!-- end:inject meta-components [bodyEnd] -->
+
+
+
+
+<!-- start:inject scripts -->
+<script defer data-search-pseudo-elements="true" src="https://orchid.run/Copper/50d2a244/releases/v5.4.0/js/all.js"></script>
+<script  src="https://orchid.run/Copper/50d2a244/assets/js/bulma.js"></script>
+<script  src="https://orchid.run/Copper/50d2a244/assets/js/bulma-accordion.min.js"></script>
+<script  src="https://orchid.run/Copper/50d2a244/assets/js/bulma-tabs.js"></script>
+<script  src="https://orchid.run/Copper/50d2a244/assets/js/simpleFilter.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/prism.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-clike.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-markup-templating.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-kotlin.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-java.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-groovy.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-yaml.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-asciidoc.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-markdown.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-twig.min.js"></script>
+<script  src="https://orchid.run/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script >
+
+docsearch({
+    apiKey: 'f597b0a7c1080757a60853addd344aaf',
+    indexName: 'orchid',
+    
+    inputSelector: 'form[data-orchid-search] input[name=query]',
+    debug: false,
+});
+</script>
+<!-- end:inject scripts -->
+
+
+</body>
+</html>

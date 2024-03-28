@@ -1,0 +1,2137 @@
+
+
+<!DOCTYPE html>
+<html class="">
+<head>
+
+
+
+
+
+
+<meta charset="utf-8"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<meta name="generator" content="Orchid 1.0.0-SNAPSHOT"/>
+<link rel="icon" href="https://orchid.run/favicon.ico">
+
+
+<meta name="robots" content="index, follow">
+
+
+
+<title>orchid-diagrams-feature</title>
+
+
+<meta name="description" content="Create flowcharts and sequence diagrams using the PlantUML markup language.">
+
+
+
+
+
+<!-- start:inject styles -->
+<link rel="stylesheet" type="text/css" href="https://orchid.run/Copper/50d2a244/assets/css/bulma.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/Copper/50d2a244/assets/css/extraCss.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/Copper/50d2a244/assets/css/bulma-tooltip.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/Copper/50d2a244/assets/css/bulma-accordion.min.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/Copper/50d2a244/assets/css/plugins.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/Copper/50d2a244/assets/css/extras.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/assets/css/prism-duotone.css"  />
+<link rel="stylesheet" type="text/css" href="https://orchid.run/npm/docsearch.js@2/dist/cdn/docsearch.min.css"  />
+<!-- end:inject styles -->
+
+
+
+<script>
+    window.site = {"orchidVersion":"1.0.0-SNAPSHOT","baseUrl":"https://orchid.run","environment":"docs","version":"0.21.1"};
+</script>
+
+
+    <!-- start:inject meta-components [head] -->
+    
+
+        
+            
+        
+
+        
+            
+        
+            
+        
+    
+    <!-- end:inject meta-components [head] -->
+
+
+
+    <!-- start:inject meta-components [head] -->
+    
+    <!-- end:inject meta-components [head] -->
+
+
+
+
+
+
+
+</head>
+<body class="">
+
+
+
+
+
+    <!-- start:inject meta-components [bodyStart] -->
+    
+
+        
+            
+        
+
+        
+    
+    <!-- end:inject meta-components [bodyStart] -->
+
+
+
+    <!-- start:inject meta-components [bodyStart] -->
+    
+    <!-- end:inject meta-components [bodyStart] -->
+
+
+
+
+
+<div class="columns is-marginless is-desktop">
+
+  <div class="column is-one-third-desktop is-one-quarter-widescreen is-one-fifth-fullhd is-paddingless column-main-left is-hidden-mobile is-hidden-touch">
+  
+
+
+    
+
+
+<section class="hero is-black is-bold is-fullheight">
+
+
+<!-- Hero header: will stick at the top -->
+<div class="hero-head" style="padding: 0 1.5rem">
+  <a href="https://orchid.run"><img src="https://orchid.run/assets/svg/orchid/logo_top_dark.svg" style="padding: 40px 40px 0 40px;"></a>
+  <p class="subtitle is-4 has-text-centered">Build and deploy beautiful documentation sites that grow with you</p>
+
+  <div class="columns is-mobile has-text-centered">
+  
+
+
+<div class="column">
+
+  <a class="button is-primary is-fullwidth" href="https://orchid.run/wiki/user-manual/getting-started/quickstart">
+    <strong>Quick Start</strong>
+  </a>
+
+</div>
+
+
+
+  
+
+
+<div class="column">
+
+  <a class="button is-light is-fullwidth" href="https://orchid.run/wiki/user-manual/getting-started">
+  Documentation
+  </a>
+
+</div>
+
+
+
+  </div>
+</div>
+
+
+
+
+<!-- Hero content: will be in the middle -->
+<div class="hero-body">
+  <div class="container sidebar-menu">
+    <details class="is-hidden-desktop">
+      <summary>
+        Menu
+      </summary>
+      <div id="mobile-sidebar-menu"></div>
+    </details>
+    <div class="is-hidden-touch">
+      <aside class="menu" id="responsive-menu-content">
+      
+  
+  
+    
+<p class="menu-label">All Plugins</p>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-core 1448428389 -->
+  <a href="https://orchid.run/plugins/orchid-core" class="">
+  
+  orchid-core
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-test 1718293060 -->
+  <a href="https://orchid.run/plugins/orchid-test" class="">
+  
+  orchid-test
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-archives-feature 1712524347 -->
+  <a href="https://orchid.run/plugins/orchid-archives-feature" class="">
+  
+  orchid-archives-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-asciidoc-feature 2023591894 -->
+  <a href="https://orchid.run/plugins/orchid-asciidoc-feature" class="">
+  
+  orchid-asciidoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-azure-feature 70231499 -->
+  <a href="https://orchid.run/plugins/orchid-azure-feature" class="">
+  
+  orchid-azure-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-bible-feature 988315192 -->
+  <a href="https://orchid.run/plugins/orchid-bible-feature" class="">
+  
+  orchid-bible-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-bitbucket-feature 1155846026 -->
+  <a href="https://orchid.run/plugins/orchid-bitbucket-feature" class="">
+  
+  orchid-bitbucket-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-changelog-feature 1351814143 -->
+  <a href="https://orchid.run/plugins/orchid-changelog-feature" class="">
+  
+  orchid-changelog-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <a href="https://orchid.run/plugins/orchid-diagrams-feature" class="is-active">
+  
+  orchid-diagrams-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-forms-feature 1351307120 -->
+  <a href="https://orchid.run/plugins/orchid-forms-feature" class="">
+  
+  orchid-forms-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-github-feature 854671988 -->
+  <a href="https://orchid.run/plugins/orchid-github-feature" class="">
+  
+  orchid-github-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-gitlab-feature 2062904102 -->
+  <a href="https://orchid.run/plugins/orchid-gitlab-feature" class="">
+  
+  orchid-gitlab-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-groovydoc-feature 210158726 -->
+  <a href="https://orchid.run/plugins/orchid-groovydoc-feature" class="">
+  
+  orchid-groovydoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-javadoc-feature 108849833 -->
+  <a href="https://orchid.run/plugins/orchid-javadoc-feature" class="">
+  
+  orchid-javadoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-kotlindoc-feature 1051130608 -->
+  <a href="https://orchid.run/plugins/orchid-kotlindoc-feature" class="">
+  
+  orchid-kotlindoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-kss-feature 1876630105 -->
+  <a href="https://orchid.run/plugins/orchid-kss-feature" class="">
+  
+  orchid-kss-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-netlify-cms-feature 1438859728 -->
+  <a href="https://orchid.run/plugins/orchid-netlify-cms-feature" class="">
+  
+  orchid-netlify-cms-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-netlify-feature 881578083 -->
+  <a href="https://orchid.run/plugins/orchid-netlify-feature" class="">
+  
+  orchid-netlify-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-pages-feature 1030999416 -->
+  <a href="https://orchid.run/plugins/orchid-pages-feature" class="">
+  
+  orchid-pages-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-plugin-docs-feature 181211485 -->
+  <a href="https://orchid.run/plugins/orchid-plugin-docs-feature" class="">
+  
+  orchid-plugin-docs-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <a href="https://orchid.run/plugins/orchid-posts-feature" class="">
+  
+  orchid-posts-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-presentations-feature 791528455 -->
+  <a href="https://orchid.run/plugins/orchid-presentations-feature" class="">
+  
+  orchid-presentations-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-search-feature 211207319 -->
+  <a href="https://orchid.run/plugins/orchid-search-feature" class="">
+  
+  orchid-search-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-snippets-feature 1848867745 -->
+  <a href="https://orchid.run/plugins/orchid-snippets-feature" class="">
+  
+  orchid-snippets-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-sourcedoc-feature 1403088342 -->
+  <a href="https://orchid.run/plugins/orchid-sourcedoc-feature" class="">
+  
+  orchid-sourcedoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-swagger-feature 309167705 -->
+  <a href="https://orchid.run/plugins/orchid-swagger-feature" class="">
+  
+  orchid-swagger-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <a href="https://orchid.run/plugins/orchid-swiftdoc-feature" class="">
+  
+  orchid-swiftdoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-syntax-highlighter-feature 1576976929 -->
+  <a href="https://orchid.run/plugins/orchid-syntax-highlighter-feature" class="">
+  
+  orchid-syntax-highlighter-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-wiki-feature 99208085 -->
+  <a href="https://orchid.run/plugins/orchid-wiki-feature" class="">
+  
+  orchid-wiki-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-writers-blocks-feature 2076760639 -->
+  <a href="https://orchid.run/plugins/orchid-writers-blocks-feature" class="">
+  
+  orchid-writers-blocks-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    
+<p class="menu-label">All Themes</p>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-bsdoc-theme 2037929227 -->
+  <a href="https://orchid.run/themes/orchid-bsdoc-theme" class="">
+  
+  orchid-bsdoc-theme
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-copper-theme 1388081103 -->
+  <a href="https://orchid.run/themes/orchid-copper-theme" class="">
+  
+  orchid-copper-theme
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-editorial-theme 423797614 -->
+  <a href="https://orchid.run/themes/orchid-editorial-theme" class="">
+  
+  orchid-editorial-theme
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-future-imperfect-theme 610700123 -->
+  <a href="https://orchid.run/themes/orchid-future-imperfect-theme" class="">
+  
+  orchid-future-imperfect-theme
+  </a>
+</li>
+
+</ul>
+  
+
+
+      </aside>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function copyElem(fromId, toId) {
+    var fromElementContent = document.getElementById(fromId);
+    var toElementContent = document.getElementById(toId);
+    toElementContent.outerHTML = fromElementContent.outerHTML;
+  }
+
+  document.addEventListener("DOMContentLoaded", function (event) {
+    copyElem('responsive-menu-content', 'mobile-sidebar-menu');
+  });
+</script>
+
+
+</section>
+
+  </div>
+  <div class="column is-one-third-desktop is-one-quarter-widescreen is-one-fifth-fullhd is-paddingless column-main-left is-hidden-desktop">
+  
+
+
+    
+
+
+<section class="hero is-black is-bold ">
+
+
+<!-- Hero header: will stick at the top -->
+<div class="hero-head" style="padding: 0 1.5rem">
+  <a href="https://orchid.run"><img src="https://orchid.run/assets/svg/orchid/logo_top_dark.svg" style="padding: 40px 40px 0 40px;"></a>
+  <p class="subtitle is-4 has-text-centered">Build and deploy beautiful documentation sites that grow with you</p>
+
+  <div class="columns is-mobile has-text-centered">
+  
+
+
+<div class="column">
+
+  <a class="button is-primary is-fullwidth" href="https://orchid.run/wiki/user-manual/getting-started/quickstart">
+    <strong>Quick Start</strong>
+  </a>
+
+</div>
+
+
+
+  
+
+
+<div class="column">
+
+  <a class="button is-light is-fullwidth" href="https://orchid.run/wiki/user-manual/getting-started">
+  Documentation
+  </a>
+
+</div>
+
+
+
+  </div>
+</div>
+
+
+
+
+<!-- Hero content: will be in the middle -->
+<div class="hero-body">
+  <div class="container sidebar-menu">
+    <details class="is-hidden-desktop">
+      <summary>
+        Menu
+      </summary>
+      <div id="mobile-sidebar-menu"></div>
+    </details>
+    <div class="is-hidden-touch">
+      <aside class="menu" id="responsive-menu-content">
+      
+  
+  
+    
+<p class="menu-label">All Plugins</p>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-core 1448428389 -->
+  <a href="https://orchid.run/plugins/orchid-core" class="">
+  
+  orchid-core
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-test 1718293060 -->
+  <a href="https://orchid.run/plugins/orchid-test" class="">
+  
+  orchid-test
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-archives-feature 1712524347 -->
+  <a href="https://orchid.run/plugins/orchid-archives-feature" class="">
+  
+  orchid-archives-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-asciidoc-feature 2023591894 -->
+  <a href="https://orchid.run/plugins/orchid-asciidoc-feature" class="">
+  
+  orchid-asciidoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-azure-feature 70231499 -->
+  <a href="https://orchid.run/plugins/orchid-azure-feature" class="">
+  
+  orchid-azure-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-bible-feature 988315192 -->
+  <a href="https://orchid.run/plugins/orchid-bible-feature" class="">
+  
+  orchid-bible-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-bitbucket-feature 1155846026 -->
+  <a href="https://orchid.run/plugins/orchid-bitbucket-feature" class="">
+  
+  orchid-bitbucket-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-changelog-feature 1351814143 -->
+  <a href="https://orchid.run/plugins/orchid-changelog-feature" class="">
+  
+  orchid-changelog-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <a href="https://orchid.run/plugins/orchid-diagrams-feature" class="is-active">
+  
+  orchid-diagrams-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-forms-feature 1351307120 -->
+  <a href="https://orchid.run/plugins/orchid-forms-feature" class="">
+  
+  orchid-forms-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-github-feature 854671988 -->
+  <a href="https://orchid.run/plugins/orchid-github-feature" class="">
+  
+  orchid-github-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-gitlab-feature 2062904102 -->
+  <a href="https://orchid.run/plugins/orchid-gitlab-feature" class="">
+  
+  orchid-gitlab-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-groovydoc-feature 210158726 -->
+  <a href="https://orchid.run/plugins/orchid-groovydoc-feature" class="">
+  
+  orchid-groovydoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-javadoc-feature 108849833 -->
+  <a href="https://orchid.run/plugins/orchid-javadoc-feature" class="">
+  
+  orchid-javadoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-kotlindoc-feature 1051130608 -->
+  <a href="https://orchid.run/plugins/orchid-kotlindoc-feature" class="">
+  
+  orchid-kotlindoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-kss-feature 1876630105 -->
+  <a href="https://orchid.run/plugins/orchid-kss-feature" class="">
+  
+  orchid-kss-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-netlify-cms-feature 1438859728 -->
+  <a href="https://orchid.run/plugins/orchid-netlify-cms-feature" class="">
+  
+  orchid-netlify-cms-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-netlify-feature 881578083 -->
+  <a href="https://orchid.run/plugins/orchid-netlify-feature" class="">
+  
+  orchid-netlify-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-pages-feature 1030999416 -->
+  <a href="https://orchid.run/plugins/orchid-pages-feature" class="">
+  
+  orchid-pages-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-plugin-docs-feature 181211485 -->
+  <a href="https://orchid.run/plugins/orchid-plugin-docs-feature" class="">
+  
+  orchid-plugin-docs-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-posts-feature 1171196949 -->
+  <a href="https://orchid.run/plugins/orchid-posts-feature" class="">
+  
+  orchid-posts-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-presentations-feature 791528455 -->
+  <a href="https://orchid.run/plugins/orchid-presentations-feature" class="">
+  
+  orchid-presentations-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-search-feature 211207319 -->
+  <a href="https://orchid.run/plugins/orchid-search-feature" class="">
+  
+  orchid-search-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-snippets-feature 1848867745 -->
+  <a href="https://orchid.run/plugins/orchid-snippets-feature" class="">
+  
+  orchid-snippets-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-sourcedoc-feature 1403088342 -->
+  <a href="https://orchid.run/plugins/orchid-sourcedoc-feature" class="">
+  
+  orchid-sourcedoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-swagger-feature 309167705 -->
+  <a href="https://orchid.run/plugins/orchid-swagger-feature" class="">
+  
+  orchid-swagger-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-swiftdoc-feature 677726975 -->
+  <a href="https://orchid.run/plugins/orchid-swiftdoc-feature" class="">
+  
+  orchid-swiftdoc-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-syntax-highlighter-feature 1576976929 -->
+  <a href="https://orchid.run/plugins/orchid-syntax-highlighter-feature" class="">
+  
+  orchid-syntax-highlighter-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-wiki-feature 99208085 -->
+  <a href="https://orchid.run/plugins/orchid-wiki-feature" class="">
+  
+  orchid-wiki-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/plugins/orchid-writers-blocks-feature 2076760639 -->
+  <a href="https://orchid.run/plugins/orchid-writers-blocks-feature" class="">
+  
+  orchid-writers-blocks-feature
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    
+<p class="menu-label">All Themes</p>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-bsdoc-theme 2037929227 -->
+  <a href="https://orchid.run/themes/orchid-bsdoc-theme" class="">
+  
+  orchid-bsdoc-theme
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-copper-theme 1388081103 -->
+  <a href="https://orchid.run/themes/orchid-copper-theme" class="">
+  
+  orchid-copper-theme
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-editorial-theme 423797614 -->
+  <a href="https://orchid.run/themes/orchid-editorial-theme" class="">
+  
+  orchid-editorial-theme
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=https://orchid.run/themes/orchid-future-imperfect-theme 610700123 -->
+  <a href="https://orchid.run/themes/orchid-future-imperfect-theme" class="">
+  
+  orchid-future-imperfect-theme
+  </a>
+</li>
+
+</ul>
+  
+
+
+      </aside>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function copyElem(fromId, toId) {
+    var fromElementContent = document.getElementById(fromId);
+    var toElementContent = document.getElementById(toId);
+    toElementContent.outerHTML = fromElementContent.outerHTML;
+  }
+
+  document.addEventListener("DOMContentLoaded", function (event) {
+    copyElem('responsive-menu-content', 'mobile-sidebar-menu');
+  });
+</script>
+
+
+</section>
+
+  </div>
+
+  <div class="column is-two-thirds-desktop is-three-quarters-widescreen is-four-fifths-fullhd is-paddingless column-main-right">
+  
+
+<nav
+  class="navbar is-white border-bottom"
+  role="navigation"
+  aria-label="main navigation"
+>
+  <div class="container">
+    <div class="navbar-brand is-marginless">
+
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMain">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div class="navbar-menu is-marginless" id="navbarMain">
+      <div class="navbar-start">
+      
+<div class="navbar-item">
+  <form id="search-input" data-orchid-search>
+    <div class="field is-marginless" id="search">
+      <div class="control has-icons-left input-control">
+        <input class="input" type="text" name="query" placeholder="Search Orchid">
+
+        <span class="icon is-small is-left">
+          <i class="fas fa-search"></i>
+        </span>
+
+        <div id="search-progress" data-orchid-search-progress style="display: none;">
+          <div class="loader">Loading...</div>
+        </div>
+      </div>
+    </div>
+    <div id="search-results" data-orchid-search-results style="display: none;">
+      <div class="carat"></div>
+      <b>
+        Search Results
+        <i class="fa fa-times" aria-hidden="true" onclick="$('[data-orchid-search-results]').hide()"></i>
+      </b>
+      <ul></ul>
+    </div>
+  </form>
+</div>
+
+      
+
+  
+  
+    
+
+<a class="navbar-item " href="https://orchid.run/plugins">
+Plugins
+</a>
+
+
+  
+
+  
+  
+    
+
+<a class="navbar-item " href="https://orchid.run/themes">
+Themes
+</a>
+
+
+  
+
+  
+  
+    
+
+<a class="navbar-item " href="https://orchid.run/wiki/learn">
+Tutorials
+</a>
+
+
+  
+
+  
+  
+    
+
+<a class="navbar-item " href="https://orchid.run/showcase">
+Showcase
+</a>
+
+
+  
+
+
+      </div>
+
+      <div class="navbar-end">
+      
+
+<div class="navbar-item social-item">
+  <a class="icon" href="/" title="Home">
+    <i class="fas fa-home"></i>
+  </a>
+</div>
+
+<div class="navbar-item social-item">
+  <a class="icon" href="https://github.com/orchidhq/orchid" title="Github">
+    <i class="fab fa-github"></i>
+  </a>
+</div>
+
+<div class="navbar-item social-item">
+  <a class="icon" href="https://twitter.com/OrchidSSG" title="Twitter">
+    <i class="fab fa-twitter"></i>
+  </a>
+</div>
+
+<div class="navbar-item social-item">
+  <a class="icon" href="https://gitter.im/JavaEden/Orchid" title="Gitter">
+    <i class="fab fa-gitter"></i>
+  </a>
+</div>
+
+
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+    <div class="textured container" style="width: 100%;">
+    
+    
+    
+    
+      <div class="box">
+      
+<nav class="breadcrumb" aria-label="breadcrumbs">
+<ul>
+
+
+    <li><a href="https://orchid.run/plugins">Plugins</a></li>
+
+
+
+    <li class="is-active"><a href="https://orchid.run/plugins/orchid-diagrams-feature" aria-current="page">orchid-diagrams-feature</a></li>
+
+
+</ul>
+</nav>
+
+
+      </div>
+    
+    
+    
+
+    
+    
+      <article style="position: relative; margin-top: 60px; margin-bottom: 60px;" role="main">
+      
+      
+      
+      
+<h2 class="title is-1 is-spaced">orchid-diagrams-feature</h2>
+<p class="subtitle is-4">Create flowcharts and sequence diagrams using the PlantUML markup language.</p>
+
+        <hr>
+      
+      
+      
+
+<div class="columns">
+  <div class="column is-three-quarters-desktop">
+  
+    <!-- start:inject components -->
+    
+        
+            
+                
+                    
+                        <div class="content is-medium-tablet is-large-fullhd">
+<h2 id="about"><a href="#about" id="about" class="anchor"></a>About</h2>
+<p>This plugin adds support for UML diagrams to be created from text, using <a href="https://plantuml.com">PlantUML</a> syntax. Text
+diagrams will be converted to SVG and embedded directly in your page content. Having diagrams described in text makes
+them easy to create and maintain, and enables them to be tracked with Git, ideal for managing diagrams for
+project documentation.</p>
+<p>Note that some diagram types require GraphViz to be installed on your local machine to work properly.</p>
+<h2 id="installation"><a href="#installation" id="installation" class="anchor"></a>Installation</h2>
+<div class="tabs">
+  <ul data-tabs="CDZdSkJAix">
+  
+    <li class="is-active"><a>Gradle</a></li>
+  
+    <li ><a>Maven</a></li>
+  
+    <li ><a>SBT</a></li>
+  
+    <li ><a>KScript</a></li>
+  
+  </ul>
+</div>
+<div data-panes="CDZdSkJAix">
+
+  <div class="is-block tab-hidden content is-medium-tablet is-large-fullhd"><pre><code class="language-kotlin">dependencies {
+    orchidRuntime(&quot;io.github.copper-leaf.orchid:orchid-diagrams-feature:0.21.1&quot;)
+}
+</code></pre></div>
+
+  <div class=" tab-hidden content is-medium-tablet is-large-fullhd"><pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;io.github.copper-leaf.orchid&lt;/groupId&gt;
+    &lt;artifactId&gt;orchid-diagrams-feature&lt;/artifactId&gt;
+    &lt;version&gt;0.21.1&lt;/version&gt;
+    &lt;type&gt;pom&lt;/type&gt;
+&lt;/dependency&gt;
+</code></pre></div>
+
+  <div class=" tab-hidden content is-medium-tablet is-large-fullhd"><pre><code class="language-scala">libraryDependencies += &quot;io.github.copper-leaf.orchid&quot; % &quot;orchid-diagrams-feature&quot; % &quot;0.21.1&quot;
+</code></pre></div>
+
+  <div class=" tab-hidden content is-medium-tablet is-large-fullhd"><pre><code class="language-kotlin">@file:DependsOn(&quot;io.github.copper-leaf.orchid:orchid-diagrams-feature:0.21.1&quot;)
+</code></pre></div>
+
+</div>
+<h2 id="demo"><a href="#demo" id="demo" class="anchor"></a>Demo</h2>
+<details>
+<summary>Examples</summary>
+
+
+<p>The following examples are taken directly from the official <a href="https://plantuml.com/">PlantUML docs</a></p>
+<h3 id="sequence-diagram"><a href="#sequence-diagram" id="sequence-diagram" class="anchor"></a>Sequence Diagram</h3>
+<p><a href="https://plantuml.com/sequence-diagram">source</a></p>
+<pre><code class="language-text">Alice -&gt; Bob: Authentication Request
+Bob --&gt; Alice: Authentication Response
+
+Alice -&gt; Bob: Another authentication Request
+Alice &lt;-- Bob: another authentication Response
+</code></pre>
+<p><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="221px" preserveAspectRatio="none" style="width:293px;height:221px;background:#FFFFFF;" version="1.1" viewBox="0 0 293 221" width="293px" zoomAndPan="magnify"><defs><filter height="300%" id="fbrzg00n1hs25" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="30" x2="30" y1="40.4883" y2="177.7305"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="261.5" x2="261.5" y1="40.4883" y2="177.7305"/><rect fill="#FEFECE" filter="url(#fbrzg00n1hs25)" height="30.4883" style="stroke:#A80036;stroke-width:1.5;" width="47" x="5" y="5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="33" x="12" y="25.5352">Alice</text><rect fill="#FEFECE" filter="url(#fbrzg00n1hs25)" height="30.4883" style="stroke:#A80036;stroke-width:1.5;" width="47" x="5" y="176.7305"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="33" x="12" y="197.2656">Alice</text><rect fill="#FEFECE" filter="url(#fbrzg00n1hs25)" height="30.4883" style="stroke:#A80036;stroke-width:1.5;" width="40" x="239.5" y="5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="26" x="246.5" y="25.5352">Bob</text><rect fill="#FEFECE" filter="url(#fbrzg00n1hs25)" height="30.4883" style="stroke:#A80036;stroke-width:1.5;" width="40" x="239.5" y="176.7305"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="26" x="246.5" y="197.2656">Bob</text><polygon fill="#A80036" points="249.5,67.7988,259.5,71.7988,249.5,75.7988,253.5,71.7988" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="30.5" x2="255.5" y1="71.7988" y2="71.7988"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="147" x="37.5" y="67.0566">Authentication Request</text><polygon fill="#A80036" points="41.5,97.1094,31.5,101.1094,41.5,105.1094,37.5,101.1094" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="35.5" x2="260.5" y1="101.1094" y2="101.1094"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="157" x="47.5" y="96.3672">Authentication Response</text><polygon fill="#A80036" points="249.5,126.4199,259.5,130.4199,249.5,134.4199,253.5,130.4199" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="30.5" x2="255.5" y1="130.4199" y2="130.4199"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="199" x="37.5" y="125.6777">Another authentication Request</text><polygon fill="#A80036" points="41.5,155.7305,31.5,159.7305,41.5,163.7305,37.5,159.7305" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="35.5" x2="260.5" y1="159.7305" y2="159.7305"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="207" x="47.5" y="154.9883">another authentication Response</text></g></svg></p>
+<h3 id="class-description"><a href="#class-description" id="class-description" class="anchor"></a>Class Description</h3>
+<p><a href="https://plantuml.com/class-diagram">source</a></p>
+<pre><code class="language-text">class Dummy {
+ -field1
+ #field2
+ ~method1()
+ +method2()
+}
+</code></pre>
+<p><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="120px" preserveAspectRatio="none" style="width:103px;height:120px;background:#FFFFFF;" version="1.1" viewBox="0 0 103 120" width="103px" zoomAndPan="magnify"><defs><filter height="300%" id="fo6tdyut7ok4p" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[c54ba4f61d01a424743e5a1fa0f9e38e]
+class Dummy--><rect codeLine="1" fill="#FEFECE" filter="url(#fo6tdyut7ok4p)" height="99.8203" id="Dummy" style="stroke:#A80036;stroke-width:1.5;" width="82" x="7" y="7"/><ellipse cx="24.7" cy="23" fill="#ADD1B2" rx="11" ry="11" style="stroke:#A80036;stroke-width:1.0;"/><path d="M27.1731,29.1431 Q26.5921,29.4419 25.9529,29.5913 Q25.3138,29.7407 24.6082,29.7407 Q22.1014,29.7407 20.7815,28.0889 Q19.4617,26.437 19.4617,23.3159 Q19.4617,20.1865 20.7815,18.5347 Q22.1014,16.8828 24.6082,16.8828 Q25.3138,16.8828 25.9612,17.0322 Q26.6087,17.1816 27.1731,17.4805 L27.1731,20.2031 Q26.5423,19.6221 25.9488,19.3523 Q25.3553,19.0825 24.7244,19.0825 Q23.3797,19.0825 22.6949,20.1492 Q22.0101,21.2158 22.0101,23.3159 Q22.0101,25.4077 22.6949,26.4744 Q23.3797,27.541 24.7244,27.541 Q25.3553,27.541 25.9488,27.2712 Q26.5423,27.0015 27.1731,26.4204 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="44" x="39.3" y="27.5352">Dummy</text><line style="stroke:#A80036;stroke-width:1.5;" x1="8" x2="88" y1="39" y2="39"/><rect fill="none" height="6" style="stroke:#C82930;stroke-width:1.0;" width="6" x="15" y="47"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="30" x="27" y="53.6348">field1</text><polygon fill="none" points="18,57.9551,22,61.9551,18,65.9551,14,61.9551" style="stroke:#B38D22;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="30" x="27" y="66.5898">field2</text><line style="stroke:#A80036;stroke-width:1.5;" x1="8" x2="88" y1="72.9102" y2="72.9102"/><polygon fill="#4177AF" points="18,79.9102,14,85.9102,22,85.9102" style="stroke:#1963A0;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="56" x="27" y="87.5449">method1()</text><ellipse cx="18" cy="96.8652" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="56" x="27" y="100.5">method2()</text></g></svg></p>
+<h3 id="activity-diagram"><a href="#activity-diagram" id="activity-diagram" class="anchor"></a>Activity Diagram</h3>
+<p><a href="https://plantuml.com/activity-diagram-beta">source</a></p>
+<pre><code class="language-text">start
+if (condition A) then (yes)
+  :Text 1;
+elseif (condition B) then (yes)
+  :Text 2;
+  stop
+elseif (condition C) then (yes)
+  :Text 3;
+elseif (condition D) then (yes)
+  :Text 4;
+else (nothing)
+  :Text else;
+endif
+stop
+</code></pre>
+<p><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="276px" preserveAspectRatio="none" style="width:532px;height:276px;background:#FFFFFF;" version="1.1" viewBox="0 0 532 276" width="532px" zoomAndPan="magnify"><defs><filter height="300%" id="f6nb99kiye4r7" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><ellipse cx="267.5" cy="20" fill="#000000" filter="url(#f6nb99kiye4r7)" rx="10" ry="10" style="stroke:none;stroke-width:1.0;"/><polygon fill="#FEFECE" filter="url(#f6nb99kiye4r7)" points="32,50,94,50,106,62,94,74,32,74,20,62,32,50" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="18" x="67" y="84.6348">yes</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="62" x="32" y="66.1572">condition A</text><rect fill="#FEFECE" filter="url(#f6nb99kiye4r7)" height="34.1328" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="58" x="34" y="106.1348"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="38" x="44" y="127.7363">Text 1</text><polygon fill="#FEFECE" filter="url(#f6nb99kiye4r7)" points="138,50,198,50,210,62,198,74,138,74,126,62,138,50" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="18" x="172" y="84.6348">yes</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="60" x="138" y="66.1572">condition B</text><rect fill="#FEFECE" filter="url(#f6nb99kiye4r7)" height="34.1328" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="58" x="139" y="106.1348"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="38" x="149" y="127.7363">Text 2</text><ellipse cx="168" cy="186.2676" fill="#FFFFFF" filter="url(#f6nb99kiye4r7)" rx="11" ry="11" style="stroke:#000000;stroke-width:1.0;"/><ellipse cx="168" cy="186.2676" fill="#000000" rx="6" ry="6" style="stroke:#7F7F7F;stroke-width:1.0;"/><polygon fill="#FEFECE" filter="url(#f6nb99kiye4r7)" points="242,50,304,50,316,62,304,74,242,74,230,62,242,50" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="18" x="277" y="84.6348">yes</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="62" x="242" y="66.1572">condition C</text><rect fill="#FEFECE" filter="url(#f6nb99kiye4r7)" height="34.1328" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="58" x="244" y="106.1348"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="38" x="254" y="127.7363">Text 3</text><polygon fill="#FEFECE" filter="url(#f6nb99kiye4r7)" points="348,50,410,50,422,62,410,74,348,74,336,62,348,50" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="18" x="383" y="84.6348">yes</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="62" x="348" y="66.1572">condition D</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="42" x="422" y="59.6797">nothing</text><rect fill="#FEFECE" filter="url(#f6nb99kiye4r7)" height="34.1328" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="58" x="350" y="106.1348"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="38" x="360" y="127.7363">Text 4</text><rect fill="#FEFECE" filter="url(#f6nb99kiye4r7)" height="34.1328" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="73" x="442" y="131.1572"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="53" x="452" y="152.7588">Text else</text><ellipse cx="267.5" cy="248.2676" fill="#FFFFFF" filter="url(#f6nb99kiye4r7)" rx="11" ry="11" style="stroke:#000000;stroke-width:1.0;"/><ellipse cx="267.5" cy="248.2676" fill="#000000" rx="6" ry="6" style="stroke:#7F7F7F;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="168" x2="168" y1="140.2676" y2="175.2676"/><polygon fill="#A80036" points="164,165.2676,168,175.2676,172,165.2676,168,169.2676" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="63" x2="63" y1="74" y2="106.1348"/><polygon fill="#A80036" points="59,96.1348,63,106.1348,67,96.1348,63,100.1348" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="63" x2="63" y1="140.2676" y2="217.2676"/><polygon fill="#A80036" points="59,207.2676,63,217.2676,67,207.2676,63,211.2676" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="168" x2="168" y1="74" y2="106.1348"/><polygon fill="#A80036" points="164,96.1348,168,106.1348,172,96.1348,168,100.1348" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="273" x2="273" y1="74" y2="106.1348"/><polygon fill="#A80036" points="269,96.1348,273,106.1348,277,96.1348,273,100.1348" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="273" x2="273" y1="140.2676" y2="217.2676"/><polygon fill="#A80036" points="269,207.2676,273,217.2676,277,207.2676,273,211.2676" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="379" x2="379" y1="74" y2="106.1348"/><polygon fill="#A80036" points="375,96.1348,379,106.1348,383,96.1348,379,100.1348" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="379" x2="379" y1="140.2676" y2="217.2676"/><polygon fill="#A80036" points="375,207.2676,379,217.2676,383,207.2676,379,211.2676" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="106" x2="126" y1="62" y2="62"/><polygon fill="#A80036" points="116,58,126,62,116,66,120,62" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="210" x2="230" y1="62" y2="62"/><polygon fill="#A80036" points="220,58,230,62,220,66,224,62" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="316" x2="336" y1="62" y2="62"/><polygon fill="#A80036" points="326,58,336,62,326,66,330,62" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="267.5" x2="267.5" y1="30" y2="35"/><line style="stroke:#A80036;stroke-width:1.5;" x1="267.5" x2="63" y1="35" y2="35"/><line style="stroke:#A80036;stroke-width:1.5;" x1="63" x2="63" y1="35" y2="50"/><polygon fill="#A80036" points="59,40,63,50,67,40,63,44" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="422" x2="478.5" y1="62" y2="62"/><line style="stroke:#A80036;stroke-width:1.5;" x1="478.5" x2="478.5" y1="62" y2="131.1572"/><polygon fill="#A80036" points="474.5,121.1572,478.5,131.1572,482.5,121.1572,478.5,125.1572" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="478.5" x2="478.5" y1="165.29" y2="217.2676"/><polygon fill="#A80036" points="474.5,207.2676,478.5,217.2676,482.5,207.2676,478.5,211.2676" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="63" x2="478.5" y1="217.2676" y2="217.2676"/><line style="stroke:#A80036;stroke-width:1.5;" x1="267.5" x2="267.5" y1="217.2676" y2="237.2676"/><polygon fill="#A80036" points="263.5,227.2676,267.5,237.2676,271.5,227.2676,267.5,231.2676" style="stroke:#A80036;stroke-width:1.0;"/></g></svg></p>
+<h3 id="state-diagram"><a href="#state-diagram" id="state-diagram" class="anchor"></a>State Diagram</h3>
+<p><a href="https://plantuml.com/state-diagram">source</a></p>
+<pre><code class="language-text">scale 350 width
+[*] --&gt; NotShooting
+
+state NotShooting {
+  [*] --&gt; Idle
+  Idle --&gt; Configuring : EvConfig
+  Configuring --&gt; Idle : EvConfig
+}
+
+state Configuring {
+  [*] --&gt; NewValueSelection
+  NewValueSelection --&gt; NewValuePreview : EvNewValue
+  NewValuePreview --&gt; NewValueSelection : EvNewValueRejected
+  NewValuePreview --&gt; NewValueSelection : EvNewValueSaved
+  
+  state NewValuePreview {
+    State1 -&gt; State2
+  }  
+}
+</code></pre>
+<p><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="260.9319px" preserveAspectRatio="none" style="width:351px;height:260px;background:#FFFFFF;" version="1.1" viewBox="0 0 351 260" width="351.2545px" zoomAndPan="magnify"><defs/><g><text fill="#33FF02" font-family="sans-serif" font-size="17.5627" font-weight="bold" lengthAdjust="spacing" textLength="316.129" x="6.2724" y="23.8351">Dot Executable: /opt/local/bin/dot</text><text fill="#33FF02" font-family="sans-serif" font-size="17.5627" font-weight="bold" lengthAdjust="spacing" textLength="168.1004" x="6.2724" y="44.5193">File does not exist</text><text fill="#33FF02" font-family="sans-serif" font-size="17.5627" font-weight="bold" lengthAdjust="spacing" textLength="336.2007" x="6.2724" y="65.2036">Cannot find Graphviz. You should try</text><text fill="#33FF02" font-family="sans-serif" font-size="17.5627" font-weight="bold" lengthAdjust="spacing" textLength="0" x="12.5448" y="85.8878"/><text fill="#33FF02" font-family="sans-serif" font-size="17.5627" font-weight="bold" lengthAdjust="spacing" textLength="92.8315" x="6.2724" y="106.572">@startuml</text><text fill="#33FF02" font-family="sans-serif" font-size="17.5627" font-weight="bold" lengthAdjust="spacing" textLength="65.233" x="6.2724" y="127.2562">testdot</text><text fill="#33FF02" font-family="sans-serif" font-size="17.5627" font-weight="bold" lengthAdjust="spacing" textLength="82.7957" x="6.2724" y="147.9405">@enduml</text><text fill="#33FF02" font-family="sans-serif" font-size="17.5627" font-weight="bold" lengthAdjust="spacing" textLength="0" x="12.5448" y="168.6247"/><text fill="#33FF02" font-family="sans-serif" font-size="17.5627" font-weight="bold" lengthAdjust="spacing" textLength="18.8172" x="12.5448" y="189.3089">or</text><text fill="#33FF02" font-family="sans-serif" font-size="17.5627" font-weight="bold" lengthAdjust="spacing" textLength="0" x="12.5448" y="209.9931"/><text fill="#33FF02" font-family="sans-serif" font-size="17.5627" font-weight="bold" lengthAdjust="spacing" textLength="275.9857" x="6.2724" y="230.6774">java -jar plantuml.jar -testdot</text><text fill="#33FF02" font-family="sans-serif" font-size="17.5627" font-weight="bold" lengthAdjust="spacing" textLength="0" x="12.5448" y="251.3616"/></g></svg></p>
+<h3 id="timing-diagram"><a href="#timing-diagram" id="timing-diagram" class="anchor"></a>Timing Diagram</h3>
+<p><a href="https://plantuml.com/timing-diagram">source</a></p>
+<pre><code class="language-text">robust &quot;Web Browser&quot; as WB
+concise &quot;Web User&quot; as WU
+
+WB is Initializing
+WU is Absent
+
+@WB
+0 is idle
++200 is Processing
++100 is Waiting
+WB@0 &lt;-&gt; @50 : {50 ms lag}
+
+@WU
+0 is Waiting
++500 is ok
+@200 &lt;-&gt; @+150 : {150 ms}
+</code></pre>
+<p><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="230px" preserveAspectRatio="none" style="width:438px;height:230px;background:#FFFFFF;" version="1.1" viewBox="0 0 438 230" width="438px" zoomAndPan="magnify"><defs/><g><line style="stroke:#000000;stroke-width:1.7;" x1="10" x2="10" y1="10" y2="199.2422"/><line style="stroke:#000000;stroke-width:1.7;" x1="421" x2="421" y1="10" y2="199.2422"/><line style="stroke:#AAAAAA;stroke-width:0.5;stroke-dasharray:3.0,5.0;" x1="116" x2="116" y1="10" y2="199.2422"/><line style="stroke:#AAAAAA;stroke-width:0.5;stroke-dasharray:3.0,5.0;" x1="166" x2="166" y1="10" y2="199.2422"/><line style="stroke:#AAAAAA;stroke-width:0.5;stroke-dasharray:3.0,5.0;" x1="216" x2="216" y1="10" y2="199.2422"/><line style="stroke:#AAAAAA;stroke-width:0.5;stroke-dasharray:3.0,5.0;" x1="266" x2="266" y1="10" y2="199.2422"/><line style="stroke:#AAAAAA;stroke-width:0.5;stroke-dasharray:3.0,5.0;" x1="316" x2="316" y1="10" y2="199.2422"/><line style="stroke:#AAAAAA;stroke-width:0.5;stroke-dasharray:3.0,5.0;" x1="366" x2="366" y1="10" y2="199.2422"/><line style="stroke:#AAAAAA;stroke-width:0.5;stroke-dasharray:3.0,5.0;" x1="416" x2="416" y1="10" y2="199.2422"/><line style="stroke:#000000;stroke-width:1.7;" x1="10" x2="421" y1="10" y2="10"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="75" x="15" y="21.6016">Web Browser</text><line style="stroke:#000000;stroke-width:1.0;" x1="10" x2="91" y1="25.1328" y2="25.1328"/><line style="stroke:#000000;stroke-width:1.0;" x1="91" x2="101" y1="25.1328" y2="10"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="57" x="15" y="117.1563">Initializing</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="21" x="15" y="97.1563">idle</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="61" x="15" y="77.1563">Processing</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="41" x="15" y="57.1563">Waiting</text><line style="stroke:#038048;stroke-width:1.5;" x1="76" x2="116" y1="111.6211" y2="111.6211"/><line style="stroke:#038048;stroke-width:1.5;" x1="116" x2="216" y1="91.6211" y2="91.6211"/><line style="stroke:#038048;stroke-width:1.5;" x1="216" x2="266" y1="71.6211" y2="71.6211"/><line style="stroke:#038048;stroke-width:1.5;" x1="266" x2="416" y1="51.6211" y2="51.6211"/><line style="stroke:#038048;stroke-width:1.5;" x1="116" x2="116" y1="91.6211" y2="111.6211"/><line style="stroke:#038048;stroke-width:1.5;" x1="216" x2="216" y1="71.6211" y2="91.6211"/><line style="stroke:#038048;stroke-width:1.5;" x1="266" x2="266" y1="51.6211" y2="71.6211"/><line style="stroke:#FF0000;stroke-width:1.5;" x1="116" x2="141" y1="86.6211" y2="86.6211"/><polygon fill="#FF0000" points="123.5175,83.8849,123.5175,89.3573,116,86.6211" style="stroke:#FF0000;stroke-width:1.5;"/><polygon fill="#FF0000" points="133.4825,89.3573,133.4825,83.8849,141,86.6211" style="stroke:#FF0000;stroke-width:1.5;"/><text fill="#000000" font-family="Serif" font-size="14" lengthAdjust="spacing" textLength="77" x="90" y="78.668">{50 ms lag}</text><line style="stroke:#000000;stroke-width:1.7;" x1="10" x2="421" y1="123.6211" y2="123.6211"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="55" x="15" y="135.2227">Web User</text><line style="stroke:#000000;stroke-width:1.0;" x1="10" x2="71" y1="138.7539" y2="138.7539"/><line style="stroke:#000000;stroke-width:1.0;" x1="71" x2="81" y1="138.7539" y2="123.6211"/><polygon fill="#D7E0F2" points="52,165.2422,104,165.2422,116,177.2422,104,189.2422,52,189.2422" style="stroke:#D7E0F2;stroke-width:1.5;"/><path d="M52,165.2422 L104,165.2422 L116,177.2422 L104,189.2422 L52,189.2422 " fill="#D7E0F2" style="stroke:#038048;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="40" x="64" y="181.7773">Absent</text><polygon fill="#D7E0F2" points="128,165.2422,354,165.2422,366,177.2422,354,189.2422,128,189.2422,116,177.2422" style="stroke:#038048;stroke-width:1.5;"/><polygon fill="#D7E0F2" points="378,165.2422,416,165.2422,416,189.2422,378,189.2422,366,177.2422" style="stroke:#D7E0F2;stroke-width:1.5;"/><path d="M416,165.2422 L378,165.2422 L366,177.2422 L378,189.2422 L416,189.2422 " fill="#D7E0F2" style="stroke:#038048;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="41" x="220.5" y="181.7773">Waiting</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="14" x="378" y="181.7773">ok</text><line style="stroke:#FF0000;stroke-width:1.0;" x1="216" x2="291" y1="154.498" y2="154.498"/><polygon fill="#FF0000" points="223.5175,151.7619,223.5175,157.2342,216,154.498" style="stroke:#FF0000;stroke-width:1.0;"/><polygon fill="#FF0000" points="283.4825,157.2342,283.4825,151.7619,291,154.498" style="stroke:#FF0000;stroke-width:1.0;"/><text fill="#000000" font-family="Serif" font-size="14" lengthAdjust="spacing" textLength="61" x="223" y="146.5449">{150 ms}</text><line style="stroke:#000000;stroke-width:2.0;" x1="116" x2="116" y1="199.2422" y2="204.2422"/><line style="stroke:#000000;stroke-width:2.0;" x1="166" x2="166" y1="199.2422" y2="204.2422"/><line style="stroke:#000000;stroke-width:2.0;" x1="216" x2="216" y1="199.2422" y2="204.2422"/><line style="stroke:#000000;stroke-width:2.0;" x1="266" x2="266" y1="199.2422" y2="204.2422"/><line style="stroke:#000000;stroke-width:2.0;" x1="316" x2="316" y1="199.2422" y2="204.2422"/><line style="stroke:#000000;stroke-width:2.0;" x1="366" x2="366" y1="199.2422" y2="204.2422"/><line style="stroke:#000000;stroke-width:2.0;" x1="416" x2="416" y1="199.2422" y2="204.2422"/><line style="stroke:#000000;stroke-width:2.0;" x1="116" x2="416" y1="199.2422" y2="199.2422"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="8" x="112" y="216.8438">0</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="24" x="204" y="216.8438">200</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="24" x="254" y="216.8438">300</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="24" x="354" y="216.8438">500</text></g></svg></p>
+
+
+</details>
+<h2 id="usage"><a href="#usage" id="usage" class="anchor"></a>Usage</h2>
+<h3 id="basic-usage"><a href="#basic-usage" id="basic-usage" class="anchor"></a>Basic Usage</h3>
+<p>Using this plugin adds support for the <code>.uml</code> and <code>.puml</code> file extension to be recognized by Orchid. Any file that
+Orchid reads, such as blogs, static pages, or changelog versions, can use the <code>.uml</code> extension and be compiled as a
+PlantUML diagram.</p>
+<pre><code class="language-text">. / (resources root)
+├── homepage.md
+├── config.yml
+└── pages/
+    └── registration-flow.puml &lt;-- page content will be compiled to an SVG diagram
+</code></pre>
+<p>Alternatively, you may wish to embed diagrams within the content of another page. You can do this inline with the
+<code>compileAs()</code> template function.</p>
+<pre><code class="language-markdown">// homepage.md
+---
+---
+
+{% filter compileAs('md') %}
+Alice -&gt; Bob: Authentication Request
+Bob --&gt; Alice: Authentication Response
+
+Alice -&gt; Bob: Another authentication Request
+Alice &lt;-- Bob: another authentication Response
+{% endfilter %}
+
+</code></pre>
+<p>You may also use the <code>load()</code> function to embed it from another file.</p>
+<pre><code class="language-puml">// diagram.uml
+Alice -&gt; Bob: Authentication Request
+Bob --&gt; Alice: Authentication Response
+
+Alice -&gt; Bob: Another authentication Request
+Alice &lt;-- Bob: another authentication Response
+</code></pre>
+<pre><code class="language-markdown">// homepage.md
+---
+---
+
+{{ load('diagram.uml') | raw }} # loads content of `diagram.uml`, compiles it as PlantUML, and embeds the result 
+ 
+</code></pre>
+<h3 id="compiling-multiple-diagrams-at-once"><a href="#compiling-multiple-diagrams-at-once" id="compiling-multiple-diagrams-at-once" class="anchor"></a>Compiling Multiple Diagrams At Once</h3>
+<p>By default, Orchid does not need the <code>@startuml...@enduml</code> tags to compile diagram content; it will add them if they do
+not exist. However, if you include multiple diagrams in a single file, each with their own <code>@startuml...@enduml</code> tags,
+they will each be compiled as diagrams separately and embedded as separate SVG diagrams.</p>
+<pre><code class="language-puml">// diagram.uml
+@startuml
+Alice -&gt; Bob: Authentication Request
+Bob --&gt; Alice: Authentication Response
+
+Alice -&gt; Bob: Another authentication Request
+Alice &lt;-- Bob: another authentication Response
+@enduml
+
+@startuml
+Charlie -&gt; Dennis: Authentication Request
+Dennis --&gt; Charlie: Authentication Response
+
+Charlie -&gt; Dennis: Another authentication Request
+Charlie &lt;-- Dennis: another authentication Response
+@enduml
+</code></pre>
+<h3 id="other-diagram-types"><a href="#other-diagram-types" id="other-diagram-types" class="anchor"></a>Other Diagram Types</h3>
+<p>If you omit the start/end tags from your diagram source, Orchid will assume it is a &quot;UML&quot; diagram and add
+<code>@startuml...@enduml</code> for you. However, PlantUML supports a variety of diagram formats, using differing start/end tags.
+The following tags are supported by Orchid and PlantUML:</p>
+<ul>
+<li><code>@startuml/@enduml</code></li>
+<li><code>@startsalt/@endsalt</code></li>
+<li><code>@startmath/@endmath</code></li>
+<li><code>@startlatex/@endlatex</code></li>
+<li><code>@startgantt/@endgantt</code></li>
+</ul>
+<h3 id="mermaid-js"><a href="#mermaid-js" id="mermaid-js" class="anchor"></a>Mermaid JS</h3>
+<p>In addition to prerendered diagrams with PlantUML, you can add Mermaid JS diagrams to be rendered directly in the
+browser. Add the <code>mermaid</code> meta-component to your theme to add the necessary scripts to your site. By default, Markdown
+code snippets with the <code>mermaid</code> language are converted to Mermaid diagrams, but you can customize the selector.</p>
+<pre><code class="language-yaml"># config.yml
+theme:
+    metaComponents:
+        - type: mermaid
+          selector: '.mermaid' # optional
+</code></pre>
+
+
+</div>
+
+                    
+                
+            
+        
+    
+    <!-- end:inject components -->
+
+
+  </div>
+  
+    <div class="column is-one-quarter is-hidden-touch">
+      <div class="sticky-menu" style="position: sticky; top: 30px;">
+  
+  
+    
+<p class="menu-label">In This Page</p>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=  -->
+  <a href="#about" class="">
+  
+  About
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    <ul class="menu-list">
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=  -->
+  <a href="#installation" class="">
+  
+  Installation
+  </a>
+</li>
+
+</ul>
+  
+
+  
+  
+    
+<ul class="menu-list">
+
+  
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=  -->
+  <a href="#demo" class="">
+  
+  Demo
+  </a>
+</li>
+
+
+
+  <li>
+    <ul>
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=  -->
+  <a href="#sequence-diagram" class="">
+  
+  Sequence Diagram
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=  -->
+  <a href="#class-description" class="">
+  
+  Class Description
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=  -->
+  <a href="#activity-diagram" class="">
+  
+  Activity Diagram
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=  -->
+  <a href="#state-diagram" class="">
+  
+  State Diagram
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=  -->
+  <a href="#timing-diagram" class="">
+  
+  Timing Diagram
+  </a>
+</li>
+
+
+    
+    </ul>
+  </li>
+</ul>
+
+  
+
+  
+  
+    
+<ul class="menu-list">
+
+  
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=  -->
+  <a href="#usage" class="">
+  
+  Usage
+  </a>
+</li>
+
+
+
+  <li>
+    <ul>
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=  -->
+  <a href="#basic-usage" class="">
+  
+  Basic Usage
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=  -->
+  <a href="#compiling-multiple-diagrams-at-once" class="">
+  
+  Compiling Multiple Diagrams At Once
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=  -->
+  <a href="#other-diagram-types" class="">
+  
+  Other Diagram Types
+  </a>
+</li>
+
+
+    
+      
+
+<li>
+  <!-- page=https://orchid.run/plugins/orchid-diagrams-feature 694943195 -->
+  <!-- menuItem.page=  -->
+  <a href="#mermaid-js" class="">
+  
+  Mermaid JS
+  </a>
+</li>
+
+
+    
+    </ul>
+  </li>
+</ul>
+
+  
+
+</div>
+    </div>
+  
+</div>
+
+      
+      </article>
+    
+      <div class="grow"></div>
+      <div class="page-footer">
+      
+        <nav class="pagination is-rounded footer-pagination" role="navigation" aria-label="pagination">
+
+  <a class="pagination-previous" disabled>
+    <span class="inner">
+      <span class="icon"><i class="fas fa-chevron-left"></i></span>
+      Previous
+    </span>
+  </a>
+
+
+
+  <a class="pagination-next" disabled>
+    <span class="inner">
+      Next
+      <span class="icon"><i class="fas fa-chevron-right"></i></span>
+    </span>
+  </a>
+
+</nav>
+
+<footer class="footer border-top">
+  <div class="content is-small">
+  <div class="columns is-mobile">
+  <div class="column has-text-left">
+    <p>&copy; 2017-2024 Orchid</p>
+    <p>Site proudly built with <a href="https://orchid.run/">Orchid</a>.<br></p>
+  </div>
+  <div class="column has-text-right is-hidden-mobile">
+    <a href="https://github.com/orchidhq/orchid" style="margin-right: 10px;"><i class="fa fab fa-github"></i>
+      orchidhq/orchid</a>
+    <a href="https://twitter.com/OrchidSSG" style="margin-right: 10px;"><i class="fa fab fa-twitter"></i> @OrchidSSG</a>
+  </div>
+  <div class="column has-text-right is-hidden-tablet">
+    <p>
+      <a href="https://github.com/orchidhq/orchid" style="margin-right: 10px;"><i class="fa fab fa-github"></i>
+        orchidhq/orchid</a>
+    </p>
+    <p>
+      <a href="https://twitter.com/OrchidSSG" style="margin-right: 10px;"><i class="fa fab fa-twitter"></i> @OrchidSSG</a>
+    </p>
+  </div>
+</div>
+
+<p>
+  <b>See Also:</b>
+</p>
+<p>
+  <span class="tag is-light"><a href="https://orchid.run/">Orchid</a></span>
+  <span class="tag is-light"><a href="https://copper-leaf.github.io/clog/">Clog</a></span>
+  <span class="tag is-light"><a href="https://copper-leaf.github.io/krow/">Krow</a></span>
+  <span class="tag is-light"><a href="https://copper-leaf.github.io/kudzu/">Kudzu</a></span>
+  <span class="tag is-light"><a href="https://copper-leaf.github.io/trellis/">Trellis</a></span>
+  <span class="tag is-light"><a href="https://copper-leaf.github.io/kodiak/">Kodiak</a></span>
+</p>
+
+  </div>
+</footer>
+
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+    <!-- start:inject meta-components [bodyEnd] -->
+    
+
+        
+            
+        
+
+        
+    
+    <!-- end:inject meta-components [bodyEnd] -->
+
+
+
+    <!-- start:inject meta-components [bodyEnd] -->
+    
+    <!-- end:inject meta-components [bodyEnd] -->
+
+
+
+
+<!-- start:inject scripts -->
+<script defer data-search-pseudo-elements="true" src="https://orchid.run/Copper/50d2a244/releases/v5.4.0/js/all.js"></script>
+<script  src="https://orchid.run/Copper/50d2a244/assets/js/bulma.js"></script>
+<script  src="https://orchid.run/Copper/50d2a244/assets/js/bulma-accordion.min.js"></script>
+<script  src="https://orchid.run/Copper/50d2a244/assets/js/bulma-tabs.js"></script>
+<script  src="https://orchid.run/Copper/50d2a244/assets/js/simpleFilter.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/prism.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-clike.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-markup-templating.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-kotlin.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-java.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-groovy.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-yaml.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-asciidoc.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-markdown.min.js"></script>
+<script  src="https://orchid.run/ajax/libs/prism/1.17.1/components/prism-twig.min.js"></script>
+<script  src="https://orchid.run/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script >
+
+docsearch({
+    apiKey: 'f597b0a7c1080757a60853addd344aaf',
+    indexName: 'orchid',
+    
+    inputSelector: 'form[data-orchid-search] input[name=query]',
+    debug: false,
+});
+</script>
+<!-- end:inject scripts -->
+
+
+</body>
+</html>
