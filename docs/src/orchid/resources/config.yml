@@ -1,6 +1,6 @@
 site:
   theme: Copper
-  baseUrl: https://orchid.run
+  baseUrl: https://orchidhq.github.io/Orchid
   productionEnvironments:
     - prod
     - docs
