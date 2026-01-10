@@ -19,7 +19,7 @@ I'm also seeing more activity on Orchid's [issue tracker](https://github.com/orc
 
 Orchid is now at version [0.15.3](https://github.com/orchidhq/orchid/releases/tag/0.15.0), with most changes being small bugfixes or minor usability improvements.
 
-Most of the month, however, was spent writing new tutorials, to guide you through Orchid's best features. The most up-to-date versions of these tutorials are in [Orchid's documentation site](https://orchid.run/wiki/learn), but you can also find them right here on Dev.to!
+Most of the month, however, was spent writing new tutorials, to guide you through Orchid's best features. The most up-to-date versions of these tutorials are in [Orchid's documentation site](https://orchidhq.github.io/Orchid/wiki/learn), but you can also find them right here on Dev.to!
 
 {{ anchor('What\'s on the Menu?') }}
 

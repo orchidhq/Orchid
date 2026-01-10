@@ -51,7 +51,7 @@ Orchid's docs are getting a reboot! When I started work on Orchid, Bootstrap was
 
 And so, I've been building the "Copper" theme, based on Bulma, to serve as the home for all of Orchid's own documentation, and also of its supplemental libraries. Here's a preview:
 
-[![New Docs](https://thepracticaldev.s3.amazonaws.com/i/svynj5ko32iwvpgfuuo4.png)](https://orchid.run/)
+[![New Docs](https://thepracticaldev.s3.amazonaws.com/i/svynj5ko32iwvpgfuuo4.png)](https://orchidhq.github.io/Orchid/)
 
 Also coming with the new theme will be a major overhaul in the _content_ on the docs site, as I continue to iterate upon the docs and figure out the best way to present the information to you. 
 

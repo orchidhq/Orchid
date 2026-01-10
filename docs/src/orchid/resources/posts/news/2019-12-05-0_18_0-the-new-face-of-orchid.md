@@ -41,7 +41,7 @@ In addition, some of you may have noticed a few changes around the Orchid ecosys
 release, this marks the biggest change in the development and ecosystem of Orchid to help cement it is as the 
 single-best tool for producing documentation websites.
 
-You can help spread the word about this major milestone by sharing [https://orchid.run](https://orchid.run) and tagging
+You can help spread the word about this major milestone by sharing [https://orchidhq.github.io/Orchid/](https://orchidhq.github.io/Orchid/) and tagging
 @OrchidSSG on Twitter!
 
 ## Who's Using Orchid?

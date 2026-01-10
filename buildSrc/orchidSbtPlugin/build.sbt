@@ -14,7 +14,7 @@ val BuildVersion = {
 }
 
 val PomExtraFragment = {
-    <url>https://orchid.run/</url>
+    <url>https://orchidhq.github.io/Orchid</url>
     <scm>
       <url>git@github.com:orchidhq/orchid.git</url>
       <connection>scm:git:git@github.com:orchidhq/orchid.git</connection>
