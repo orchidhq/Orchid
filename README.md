@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://orchid.run/">
-    <img width="460" src="https://orchid.run/assets/svg/orchid/logo_top_light.svg" title="Orchid" alt="Orchid">
+  <a href="https://orchidhq.github.io/Orchid/">
+    <img width="460" src="https://orchidhq.github.io/Orchid/assets/svg/orchid/logo_top_light.svg" title="Orchid" alt="Orchid">
   </a>
   <br>
   <strong>Build and deploy beautiful documentation sites that grow with you</strong>
@@ -22,30 +22,30 @@
   <img src="https://img.shields.io/badge/JDK-8--16-red?style=flat&logo=java" title="JDK: 8-16" alt="JDK: 8-16">
 </p>
 <p align="center">
-  <a href="https://orchid.run/wiki/user-manual/getting-started/quickstart">Quick-Start</a>
+  <a href="https://orchidhq.github.io/Orchid/wiki/user-manual/getting-started/quickstart">Quick-Start</a>
   <span>•</span>
-  <a href="https://orchid.run/wiki/user-manual/getting-started">Documentation</a>
+  <a href="https://orchidhq.github.io/Orchid/wiki/user-manual/getting-started">Documentation</a>
   <span>•</span>
-  <a href="https://orchid.run/wiki/learn">Tutorials</a>
+  <a href="https://orchidhq.github.io/Orchid/wiki/learn">Tutorials</a>
   <span>•</span>
-  <a href="https://orchid.run/showcase">Showcase</a>
+  <a href="https://orchidhq.github.io/Orchid/showcase">Showcase</a>
   <span>•</span>
   <a href="https://gitter.im/JavaEden/Orchid">Support</a>
 </p>
 
 ## Quick-Start
 
-<a href="https://orchid.run/wiki/user-manual/getting-started/quickstart#gradle">
+<a href="https://orchidhq.github.io/Orchid/wiki/user-manual/getting-started/quickstart#gradle">
   <img src="docs/src/orchid/resources/assets/svg/gradle.svg" title="Gradle" alt="Gradle" width="200" height="50">
 </a>
 <br/>
   
-<a href="https://orchid.run/wiki/user-manual/getting-started/quickstart#maven">
+<a href="https://orchidhq.github.io/Orchid/wiki/user-manual/getting-started/quickstart#maven">
   <img src="docs/src/orchid/resources/assets/svg/maven.svg" title="Maven" alt="Maven" width="200" height="50">
 </a>
 <br/>
   
-<a href="https://orchid.run/wiki/user-manual/getting-started/quickstart#sbt">
+<a href="https://orchidhq.github.io/Orchid/wiki/user-manual/getting-started/quickstart#sbt">
   <img src="docs/src/orchid/resources/assets/svg/sbt.svg" title="SBT" alt="SBT" width="200" height="50">
 </a>
 <br/>
@@ -66,20 +66,20 @@ In-development snapshot versions will be available in [Sonatype's new (s01) snap
 Orchid's User Manual will walk you through the main features of Orchid and give you a deeper understanding of each topic
 and feature.
 
-[Documentation](https://orchid.run/wiki/user-manual/getting-started)
+[Documentation](https://orchidhq.github.io/Orchid/wiki/user-manual/getting-started)
 
 ## Tutorials
 
 There are several tutorials designed to walk you through building an Orchid site from scratch. The source for all
 tutorials can also be found in the [OrchidTutorials repository](https://github.com/orchidhq/OrchidTutorials).
 
-[Tutorials](https://orchid.run/wiki/learn)
+[Tutorials](https://orchidhq.github.io/Orchid/wiki/learn)
 
 ## Showcase
 
 View the Showcase to see Orchid in action.
 
-[Showcase](https://orchid.run/showcase)
+[Showcase](https://orchidhq.github.io/Orchid/showcase)
 
 ## Support
 

@@ -152,7 +152,7 @@ You can now run Orchid in the following ways:
     file server in the root of the output directory, or deploy this folder directly to your webserver.
 3) `./mvn orchid:serve` - Sets up a development server and watches files for changes. The site can be viewed at 
     `localhost:8080` (or the closest available port).
-4) `./mvn orchid:deploy` - Runs the Orchid build, then deploys it using Orchid's [deployment pipeline](https://orchid.run/wiki/user-manual/deployment/publication-pipeline)
+4) `./mvn orchid:deploy` - Runs the Orchid build, then deploys it using Orchid's [deployment pipeline](https://orchidhq.github.io/Orchid/wiki/user-manual/deployment/publication-pipeline)
     You can create and run your own deployment scripts, create a release on Github from changelogs, or publish the site 
     directly to Github Pages or Netlify.
     
@@ -201,7 +201,7 @@ You can now start Orchid directly with its CLI, using the following commands:
         HTTP file server in the root of the output directory, or deploy this folder directly to your webserver.
     2) `serve` - Sets up a development server and watches files for changes. The site can be viewed at `localhost:8080` 
         (or the closest available port).
-    3) `deploy` - Runs the Orchid build, then deploys it using Orchid's [deployment pipeline](https://orchid.run/wiki/user-manual/deployment/publication-pipeline)
+    3) `deploy` - Runs the Orchid build, then deploys it using Orchid's [deployment pipeline](https://orchidhq.github.io/Orchid/wiki/user-manual/deployment/publication-pipeline)
         You can create and run your own deployment scripts, create a release on Github from changelogs, or publish the
         site directly to Github Pages or Netlify.
 2) `kscript ./path/to/scriptlet.kts help` - Print out basic usage and all available tasks and command-line options. 
@@ -253,7 +253,7 @@ Now, on the sbt command line you can run:
     HTTP file server in the root of the output directory, or deploy this folder directly to your webserver.
 2. `orchidServe` - Sets up a development server and watches files for changes. The site can be viewed at `localhost:8080` 
    (or the closest available port).
-3. `orchidDeploy` - Runs the Orchid build, then deploys the generated site using Orchid's [deployment pipeline](https://orchid.run/wiki/user-manual/deployment/publication-pipeline)
+3. `orchidDeploy` - Runs the Orchid build, then deploys the generated site using Orchid's [deployment pipeline](https://orchidhq.github.io/Orchid/wiki/user-manual/deployment/publication-pipeline)
     You can create and run your own deployment scripts, create and release on Github from changelogs, or publish the
     site directly to Github Pages or Netlify.
 
@@ -317,7 +317,7 @@ libraryDependencies += orchidComponent( "orchid-core" )
  *  Uncomment the components you desire
  */
 
-/* Themes -- see https://orchid.run/themes */
+/* Themes -- see https://orchidhq.github.io/Orchid/themes */
 /* Don't forget to set 'orchidTheme' in build.sbt! */
 
 // libraryDependencies += orchidComponent( "orchid-bsdoc-theme" )
@@ -325,7 +325,7 @@ libraryDependencies += orchidComponent( "orchid-core" )
 // libraryDependencies += orchidComponent( "orchid-editorial-theme" )
 // libraryDependencies += orchidComponent( "orchid-future-imperfect-theme" )
 
-/* Plugins -- see https://orchid.run/plugins */
+/* Plugins -- see https://orchidhq.github.io/Orchid/plugins */
 
 // libraryDependencies += orchidComponent( "orchid-pages-feature" )
 // libraryDependencies += orchidComponent( "orchid-posts-feature" )

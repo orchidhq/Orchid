@@ -360,6 +360,6 @@ let's recall all the features included in this site:
 
 And everything outlined in this tutorial is really just a sampling of the full functionality available in Orchid! Orchid
 has other plugins for different source code documentation, presentations, wikis, and much more. Check out the full list 
-of plugins [here](https://orchid.run/plugins), or you can even make your own!
+of plugins [here](https://orchidhq.github.io/Orchid/plugins), or you can even make your own!
 
 Thanks for following along, happy blogging!

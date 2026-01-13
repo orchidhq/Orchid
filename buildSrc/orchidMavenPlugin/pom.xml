@@ -8,7 +8,7 @@
 
     <name>Orchid Maven plugin</name>
     <description>A Maven plugin for building and running Orchid sites.</description>
-    <url>https://orchid.run</url>
+    <url>https://orchidhq.github.io/Orchid</url>
     <licenses>
         <license>
             <name>GPL-2.0</name>

@@ -46,7 +46,7 @@ constructor(
 
     @Option
     @Description(
-        "Your Netlify site ID or domain (ie. orchid.netlify.com, orchid.run). If not provided, your site's " +
+        "Your Netlify site ID or domain (ie. orchid.netlify.com, orchidhq.github.io/Orchid). If not provided, your site's " +
             "baseUrl will be used."
     )
     lateinit var siteId: String

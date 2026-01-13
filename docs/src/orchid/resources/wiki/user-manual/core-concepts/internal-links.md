@@ -65,7 +65,7 @@ This function is analogous to the `{{ anchor('page', itemId='Menus', pageAnchorI
 
 ```twig
 {% verbatim %}
-{{ link(['itemId', 'collectionId', 'collectionType']) -> https://orchid.run/... }}
+{{ link(['itemId', 'collectionId', 'collectionType']) -> https://orchidhq.github.io/Orchid/... }}
 {{ link(itemId='itemId', collectionId='collectionId', collectionType='collectionType') }}
 {% endverbatim %}
 ```

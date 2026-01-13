@@ -98,17 +98,17 @@ public final class OrchidUtilsTest implements OrchidUnitTest {
                         }})
                 ),
                 Arguments.of(
-                        new String[] {"build", "https://orchid.run/"},
+                        new String[] {"build", "https://orchidhq.github.io/Orchid/"},
                         Collections.unmodifiableMap(new HashMap<String, Object>() {{
                             put("task", "build");
-                            put("baseUrl", "https://orchid.run/");
+                            put("baseUrl", "https://orchidhq.github.io/Orchid/");
                         }})
                 ),
                 Arguments.of(
-                        new String[] {"build", "https://orchid.run/", "--port", "9000"},
+                        new String[] {"build", "https://orchidhq.github.io/Orchid/", "--port", "9000"},
                         Collections.unmodifiableMap(new HashMap<String, Object>() {{
                             put("task", "build");
-                            put("baseUrl", "https://orchid.run/");
+                            put("baseUrl", "https://orchidhq.github.io/Orchid/");
                             put("port", "9000");
                         }})
                 ),
@@ -126,45 +126,45 @@ public final class OrchidUtilsTest implements OrchidUnitTest {
                         }})
                 ),
                 Arguments.of(
-                        new String[] {"build", "https://orchid.run/", "--port", "9000", "-d", "build/orchid/docs"},
+                        new String[] {"build", "https://orchidhq.github.io/Orchid/", "--port", "9000", "-d", "build/orchid/docs"},
                         Collections.unmodifiableMap(new HashMap<String, Object>() {{
                             put("task", "build");
-                            put("baseUrl", "https://orchid.run/");
+                            put("baseUrl", "https://orchidhq.github.io/Orchid/");
                             put("port", "9000");
                             put("dest", "build/orchid/docs");
                         }})
                 ),
                 Arguments.of(
-                        new String[] {"build", "https://orchid.run/", "--port", "9000", "-d", "build/orchid/docs", "-d", "build/orchid/docs2"},
+                        new String[] {"build", "https://orchidhq.github.io/Orchid/", "--port", "9000", "-d", "build/orchid/docs", "-d", "build/orchid/docs2"},
                         Collections.unmodifiableMap(new HashMap<String, Object>() {{
                             put("task", "build");
-                            put("baseUrl", "https://orchid.run/");
+                            put("baseUrl", "https://orchidhq.github.io/Orchid/");
                             put("port", "9000");
                             put("dest", Arrays.asList("build/orchid/docs", "build/orchid/docs2"));
                         }})
                 ),
                 Arguments.of(
-                        new String[] {"build", "https://orchid.run/", "--port", "9000", "-d", "build/orchid/docs", "--dest", "build/orchid/docs2"},
+                        new String[] {"build", "https://orchidhq.github.io/Orchid/", "--port", "9000", "-d", "build/orchid/docs", "--dest", "build/orchid/docs2"},
                         Collections.unmodifiableMap(new HashMap<String, Object>() {{
                             put("task", "build");
-                            put("baseUrl", "https://orchid.run/");
+                            put("baseUrl", "https://orchidhq.github.io/Orchid/");
                             put("port", "9000");
                             put("dest", Arrays.asList("build/orchid/docs", "build/orchid/docs2"));
                         }})
                 ),
                 Arguments.of(
-                        new String[] {"build", "https://orchid.run/", "--port"},
+                        new String[] {"build", "https://orchidhq.github.io/Orchid/", "--port"},
                         Collections.unmodifiableMap(new HashMap<String, Object>() {{
                             put("task", "build");
-                            put("baseUrl", "https://orchid.run/");
+                            put("baseUrl", "https://orchidhq.github.io/Orchid/");
                             put("port", "true");
                         }})
                 ),
                 Arguments.of(
-                        new String[] {"build", "https://orchid.run/", "--port", "-d", "build/orchid/docs", "--dest", "build/orchid/docs2"},
+                        new String[] {"build", "https://orchidhq.github.io/Orchid/", "--port", "-d", "build/orchid/docs", "--dest", "build/orchid/docs2"},
                         Collections.unmodifiableMap(new HashMap<String, Object>() {{
                             put("task", "build");
-                            put("baseUrl", "https://orchid.run/");
+                            put("baseUrl", "https://orchidhq.github.io/Orchid/");
                             put("port", "true");
                             put("dest", Arrays.asList("build/orchid/docs", "build/orchid/docs2"));
                         }})

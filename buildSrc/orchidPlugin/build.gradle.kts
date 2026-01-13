@@ -12,7 +12,7 @@ group = rootProject.group
 version = rootProject.version
 
 pluginBundle {
-    website = "https://orchid.run/"
+    website = "https://orchidhq.github.io/Orchid"
     vcsUrl = "https://github.com/orchidhq/orchid"
     description = "A convenient DSL for setting up Orchid with your Gradle projects"
     tags = listOf("orchid", "javadoc")

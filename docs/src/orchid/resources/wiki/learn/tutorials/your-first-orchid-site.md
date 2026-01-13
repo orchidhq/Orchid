@@ -4,7 +4,7 @@ description: 'Learn the basics of setting up and building an Orchid site with Gr
 
 ## Introduction
 
-So you've decided to give [Orchid](https://orchid.run/) a try? Great! Follow along with this guide to get your 
+So you've decided to give [Orchid](https://orchidhq.github.io/Orchid/) a try? Great! Follow along with this guide to get your 
 first Orchid site set up, and learn the basics of what you can do with Orchid.
 
 You can follow along with this tutorial on your own, or find the source for this in the 

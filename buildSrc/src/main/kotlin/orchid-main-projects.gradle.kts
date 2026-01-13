@@ -58,7 +58,7 @@ tasks.withType<Jar>() {
             "Name" to "${project.name}",
             "Plugin-Version" to "${project.version}",
             "Bundle-License" to Config.license.spdxIdentifier,
-            "Bundle-DocURL" to "https://orchid.run"
+            "Bundle-DocURL" to "https://orchidhq.github.io/Orchid"
         )
     }
 }

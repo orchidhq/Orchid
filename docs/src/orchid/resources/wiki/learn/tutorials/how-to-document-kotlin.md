@@ -8,7 +8,7 @@ would have never learned how to use them.
 
 So if you're building a library, and you want people to use it, it should also have good documentation. And if that 
 library happens to be written in Kotlin, you're in luck because creating a great documentation website is actually much 
-easier than you might think with the help of a new tool called [Orchid](https://orchid.run/).
+easier than you might think with the help of a new tool called [Orchid](https://orchidhq.github.io/Orchid/).
 
 This tutorial will walk you through how to create a basic documentation site for your Kotlin project with Orchid, 
 including Dokka code docs, a wiki, and changelogs, and get it deployed Github Pages. If you want to jump right into a 
@@ -645,6 +645,6 @@ platform:
 
 And everything outlined in this tutorial is really just a sampling of the full functionality available in Orchid! Orchid
 has other plugins for different source code documentation, presentations, blogs, and much more. Check out the full list 
-of plugins [here](https://orchid.run/plugins), or you can even make your own!
+of plugins [here](https://orchidhq.github.io/Orchid/plugins), or you can even make your own!
 
 Thanks for following along, happy documenting!

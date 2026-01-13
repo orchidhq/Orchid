@@ -26,7 +26,7 @@ Orchid is now at version [0.17.4](https://github.com/orchidhq/orchid/releases/ta
 
 Y'all. Some big things are just up the road for Orchid. Really big. Like, _Texas-sized big_. I'm talking about:
 
-- A completely redesigned documentation site (you can preview it [here](https://orchid.run), I'd greatly appreciate any feedback on it!)
+- A completely redesigned documentation site (you can preview it [here](https://orchidhq.github.io/Orchid/), I'd greatly appreciate any feedback on it!)
 - Mutli-module code documentation
 - Completely decoupling code documentation from Orchid with [Kodiak](https://github.com/copper-leaf/kodiak), to vastly simplify the process of supporting new languages and ensure consistency of usage across all languages
 - Some much-needed refactoring of core Orchid functionality
