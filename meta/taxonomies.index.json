@@ -1,0 +1,141 @@
+{
+  "ownKey": "taxonomies",
+  "childrenPages": {
+    "news": {
+      "ownKey": "news",
+      "ownPages": [{
+        "reference": {
+          "path": "news",
+          "baseUrl": "https://orchidhq.github.io/Orchid",
+          "fileName": "",
+          "extension": "html",
+          "usePrettyUrl": true,
+          "link": "https://orchidhq.github.io/Orchid/news",
+          "title": "News"
+        },
+        "description": "",
+        "title": "News",
+        "content": ""
+      }]
+    },
+    "themes": {
+      "ownKey": "themes",
+      "ownPages": [{
+        "reference": {
+          "path": "themes",
+          "baseUrl": "https://orchidhq.github.io/Orchid",
+          "fileName": "",
+          "extension": "html",
+          "usePrettyUrl": true,
+          "link": "https://orchidhq.github.io/Orchid/themes",
+          "title": "Themes"
+        },
+        "description": "",
+        "title": "Themes",
+        "content": ""
+      }]
+    },
+    "plugins": {
+      "ownKey": "plugins",
+      "ownPages": [{
+        "reference": {
+          "path": "plugins",
+          "baseUrl": "https://orchidhq.github.io/Orchid",
+          "fileName": "",
+          "extension": "html",
+          "usePrettyUrl": true,
+          "link": "https://orchidhq.github.io/Orchid/plugins",
+          "title": "Plugins"
+        },
+        "description": "",
+        "title": "Plugins",
+        "content": ""
+      }]
+    },
+    "bundles": {
+      "ownKey": "bundles",
+      "ownPages": [{
+        "reference": {
+          "path": "bundles",
+          "baseUrl": "https://orchidhq.github.io/Orchid",
+          "fileName": "",
+          "extension": "html",
+          "usePrettyUrl": true,
+          "link": "https://orchidhq.github.io/Orchid/bundles",
+          "title": "Bundles"
+        },
+        "description": "",
+        "title": "Bundles",
+        "content": ""
+      }]
+    },
+    "showcase": {
+      "ownKey": "showcase",
+      "ownPages": [{
+        "reference": {
+          "path": "showcase",
+          "baseUrl": "https://orchidhq.github.io/Orchid",
+          "fileName": "",
+          "extension": "html",
+          "usePrettyUrl": true,
+          "link": "https://orchidhq.github.io/Orchid/showcase",
+          "title": "Showcase"
+        },
+        "description": "",
+        "title": "Showcase",
+        "content": ""
+      }]
+    },
+    "categories": {
+      "ownKey": "categories",
+      "ownPages": [{
+        "reference": {
+          "path": "categories",
+          "baseUrl": "https://orchidhq.github.io/Orchid",
+          "fileName": "",
+          "extension": "html",
+          "usePrettyUrl": true,
+          "link": "https://orchidhq.github.io/Orchid/categories",
+          "title": "Categories"
+        },
+        "description": "",
+        "title": "Categories",
+        "content": ""
+      }]
+    },
+    "tags": {
+      "ownKey": "tags",
+      "childrenPages": {"orchid-news": {
+        "ownKey": "orchid-news",
+        "ownPages": [{
+          "reference": {
+            "path": "tags/orchid-news",
+            "baseUrl": "https://orchidhq.github.io/Orchid",
+            "fileName": "",
+            "extension": "html",
+            "usePrettyUrl": true,
+            "link": "https://orchidhq.github.io/Orchid/tags/orchid-news",
+            "title": "Orchid   News"
+          },
+          "description": "",
+          "title": "Orchid   News",
+          "content": ""
+        }]
+      }},
+      "ownPages": [{
+        "reference": {
+          "path": "tags",
+          "baseUrl": "https://orchidhq.github.io/Orchid",
+          "fileName": "",
+          "extension": "html",
+          "usePrettyUrl": true,
+          "link": "https://orchidhq.github.io/Orchid/tags",
+          "title": "Tags"
+        },
+        "description": "",
+        "title": "Tags",
+        "content": ""
+      }]
+    }
+  }
+}

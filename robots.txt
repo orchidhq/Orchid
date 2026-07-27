@@ -1,0 +1,8 @@
+User-agent: *
+
+Disallow: /meta/
+
+
+
+Sitemap: https://orchidhq.github.io/Orchid/sitemap.xml
+

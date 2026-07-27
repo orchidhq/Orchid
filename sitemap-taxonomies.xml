@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://orchidhq.github.io/Orchid/news</loc>
+        <lastmod>2026-07-27</lastmod>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://orchidhq.github.io/Orchid/categories</loc>
+        <lastmod>2026-07-27</lastmod>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://orchidhq.github.io/Orchid/tags</loc>
+        <lastmod>2026-07-27</lastmod>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://orchidhq.github.io/Orchid/tags/orchid-news</loc>
+        <lastmod>2026-07-27</lastmod>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://orchidhq.github.io/Orchid/bundles</loc>
+        <lastmod>2026-07-27</lastmod>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://orchidhq.github.io/Orchid/showcase</loc>
+        <lastmod>2026-07-27</lastmod>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://orchidhq.github.io/Orchid/plugins</loc>
+        <lastmod>2026-07-27</lastmod>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://orchidhq.github.io/Orchid/themes</loc>
+        <lastmod>2026-07-27</lastmod>
+        <priority>0.5</priority>
+    </url>
+</urlset>
